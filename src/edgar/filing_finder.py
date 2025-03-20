@@ -18,22 +18,40 @@ def get_latest_filing_url(cik, filing_type):
     """Get the URL for the latest filing of the specified type"""
     # Get the filing index page
     index_url = get_filing_index_url(cik, filing_type)
+    logging.info(f"Getting filing index for {filing_type}: {index_url}")
     index_response = sec_request(index_url)
     
     if index_response.status_code != 200:
+        logging.error(f"Failed to get filing index. Status code: {index_response.status_code}")
         return None
+    
+    # Save the page for debug purposes
+    with open(f"debug_{cik}_{filing_type}_index.html", "w", encoding="utf-8") as f:
+        f.write(index_response.text)
+    logging.info(f"Saved index page to debug_{cik}_{filing_type}_index.html")
     
     # Parse the page to find the latest filing
     soup = BeautifulSoup(index_response.text, 'html.parser')
     filing_tables = soup.select('#filingsTable')
     
     if not filing_tables:
+        logging.error(f"No filing table found for {cik} {filing_type}")
         return None
     
     # Find the document link for the first filing
     filing_links = soup.select('a[id="documentsbutton"]')
     if not filing_links:
-        return None
+        logging.error(f"No documents button found for {cik} {filing_type}")
+        # Try alternative selectors
+        filing_links = soup.select('a.documentsbutton')
+        if not filing_links:
+            filing_links = soup.select('a[title="View Documents"]')
+            if not filing_links:
+                return None
+        logging.info(f"Found document links using alternative selector")
+    
+    # Print the found link for debugging
+    logging.info(f"Found document link: {filing_links[0]}")
     
     # Get the documents page URL
     documents_url = SEC_BASE_URL + filing_links[0]['href']
