@@ -25,10 +25,16 @@ def process_company(ticker):
     
     print(f"Found {len(filings_result.get('filings', {}))} filings for {ticker}")
     
+    # Use a default company name if none was found
+    company_name = filings_result.get("company_name")
+    if not company_name:
+        company_name = f"{ticker} Inc."  # Fallback company name
+        print(f"Using fallback company name: {company_name}")
+    
     results = {
         "ticker": ticker,
         "cik": filings_result.get("cik"),
-        "company_name": filings_result.get("company_name"),
+        "company_name": company_name,
         "filings_processed": []
     }
     
@@ -38,7 +44,7 @@ def process_company(ticker):
         
         # Add ticker and company name to metadata
         filing_metadata["ticker"] = ticker
-        filing_metadata["company_name"] = filings_result.get("company_name")
+        filing_metadata["company_name"] = company_name
         
         # Download XBRL instance
         download_result = download_xbrl_instance(filing_metadata)

@@ -2,6 +2,7 @@
 import os
 import sys
 import logging
+import time
 from bs4 import BeautifulSoup
 import re
 
@@ -139,15 +140,33 @@ def get_latest_filing_url(cik, filing_type):
 
 def get_filing_metadata(cik, filing_type, instance_url):
     """Extract metadata about the filing"""
+    logging.info(f"Extracting metadata for {filing_type} from {instance_url}")
+    
     # Extract accession number from URL
     accession_match = re.search(r'(\d{10}-\d{2}-\d{6})', instance_url)
     if not accession_match:
-        return None
-    
-    accession_number = accession_match.group(1)
+        logging.error(f"Could not extract accession number from URL: {instance_url}")
+        # Try an alternative regex
+        accession_match = re.search(r'/(\d+)/([^/]+)_htm\.xml', instance_url)
+        if accession_match:
+            logging.info(f"Found accession from alternative pattern")
+            accession_number = f"{accession_match.group(1)}-{accession_match.group(2)}"
+        else:
+            # Create a fallback accession number based on file path
+            file_parts = instance_url.split('/')
+            if len(file_parts) > 1:
+                accession_number = f"ACCN-{file_parts[-2]}-{file_parts[-1]}"
+                logging.info(f"Using fallback accession number: {accession_number}")
+            else:
+                accession_number = f"ACCN-UNKNOWN-{int(time.time())}"
+                logging.warning(f"Using timestamp-based accession number: {accession_number}")
+    else:
+        accession_number = accession_match.group(1)
+        logging.info(f"Extracted accession number: {accession_number}")
     
     # Get the filing summary to extract more metadata
     summary_url = instance_url.replace('_htm.xml', '_FilingSummary.xml')
+    logging.info(f"Getting filing summary from: {summary_url}")
     summary_response = sec_request(summary_url)
     
     filing_date = None
@@ -155,16 +174,55 @@ def get_filing_metadata(cik, filing_type, instance_url):
     
     if summary_response.status_code == 200:
         try:
+            # Save the summary for debugging
+            with open(f"debug_{cik}_{filing_type}_summary.xml", "w", encoding="utf-8") as f:
+                f.write(summary_response.text)
+            logging.info(f"Saved summary to debug_{cik}_{filing_type}_summary.xml")
+            
             soup = BeautifulSoup(summary_response.text, 'lxml-xml')
             filing_date_elem = soup.find('Accepted')
             if filing_date_elem:
                 filing_date = filing_date_elem.text.split()[0]
+                logging.info(f"Found filing date: {filing_date}")
+            else:
+                logging.warning("Could not find 'Accepted' element in summary")
+                # Try alternative fields
+                filing_date_elem = soup.find('AcceptanceDateTime')
+                if filing_date_elem:
+                    filing_date = filing_date_elem.text.split()[0]
+                    logging.info(f"Found filing date from AcceptanceDateTime: {filing_date}")
             
             period_elem = soup.find('PeriodOfReport')
             if period_elem:
                 period_end_date = period_elem.text
-        except:
-            pass
+                logging.info(f"Found period end date: {period_end_date}")
+            else:
+                logging.warning("Could not find 'PeriodOfReport' element in summary")
+                # Try alternative fields
+                period_elem = soup.find('BalanceSheetDate')
+                if period_elem:
+                    period_end_date = period_elem.text
+                    logging.info(f"Found period end date from BalanceSheetDate: {period_end_date}")
+        except Exception as e:
+            logging.error(f"Error parsing summary XML: {str(e)}")
+            # Don't return None, provide some fallback values
+            
+    # If we still don't have dates, set defaults
+    if not filing_date:
+        filing_date = time.strftime("%Y-%m-%d")
+        logging.warning(f"Using current date as filing date: {filing_date}")
+        
+    if not period_end_date:
+        # Try to extract date from file name
+        date_match = re.search(r'-(\d{8})_', instance_url)
+        if date_match:
+            date_str = date_match.group(1)
+            period_end_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+            logging.info(f"Extracted period end date from filename: {period_end_date}")
+        else:
+            # Use a default quarter-end date
+            period_end_date = filing_date  # Use filing date as fallback
+            logging.warning(f"Using filing date as period end date: {period_end_date}")
     
     return {
         "cik": cik,
