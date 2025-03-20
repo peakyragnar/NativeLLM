@@ -1,6 +1,7 @@
 # src/edgar/filing_finder.py
 import os
 import sys
+import logging
 from bs4 import BeautifulSoup
 import re
 

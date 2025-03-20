@@ -1,9 +1,13 @@
 # src/config.py
 
+# Company information
+COMPANY_NAME = "Exascale Capital"
+COMPANY_EMAIL = "info@exascale.capital"
+
 # SEC EDGAR settings
 SEC_BASE_URL = "https://www.sec.gov"
 SEC_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data"
-USER_AGENT = "Your Company Name user@example.com"  # Replace with your information
+USER_AGENT = f"{COMPANY_NAME} {COMPANY_EMAIL}"  # Formatted user agent for SEC requests
 
 # Output settings
 RAW_DATA_DIR = "data/raw"
