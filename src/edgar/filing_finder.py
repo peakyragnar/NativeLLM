@@ -32,23 +32,37 @@ def get_latest_filing_url(cik, filing_type):
     
     # Parse the page to find the latest filing
     soup = BeautifulSoup(index_response.text, 'html.parser')
-    filing_tables = soup.select('#filingsTable')
+    
+    # The SEC EDGAR page now uses tableFile2 class instead of filingsTable id
+    filing_tables = soup.select('table.tableFile2')
     
     if not filing_tables:
         logging.error(f"No filing table found for {cik} {filing_type}")
-        return None
+        # Try additional selectors as fallback
+        filing_tables = soup.select('.tableFile') 
+        if not filing_tables:
+            filing_tables = soup.select('table[summary="Results"]')
+            if not filing_tables:
+                return None
     
-    # Find the document link for the first filing
+    logging.info(f"Found filing table: {filing_tables[0]['class'] if filing_tables[0].has_attr('class') else 'unknown class'}")
+    
+    # Find the document link for the first filing - still using documentsbutton id
     filing_links = soup.select('a[id="documentsbutton"]')
+    
     if not filing_links:
-        logging.error(f"No documents button found for {cik} {filing_type}")
+        logging.warning(f"No documents button found with id. Trying alternative selectors")
         # Try alternative selectors
         filing_links = soup.select('a.documentsbutton')
         if not filing_links:
-            filing_links = soup.select('a[title="View Documents"]')
+            filing_links = soup.select('a:contains("Documents")')
             if not filing_links:
-                return None
-        logging.info(f"Found document links using alternative selector")
+                filing_links = soup.find_all('a', text=lambda t: t and 'Document' in t)
+                if not filing_links:
+                    logging.error(f"Could not find any document links")
+                    return None
+    
+    logging.info(f"Found {len(filing_links)} document links")
     
     # Print the found link for debugging
     logging.info(f"Found document link: {filing_links[0]}")
@@ -61,24 +75,62 @@ def get_latest_filing_url(cik, filing_type):
     if documents_response.status_code != 200:
         return None
     
+    # Save the documents page for debugging
+    with open(f"debug_{cik}_{filing_type}_documents.html", "w", encoding="utf-8") as f:
+        f.write(documents_response.text)
+    logging.info(f"Saved documents page to debug_{cik}_{filing_type}_documents.html")
+    
     # Parse the documents page to find the XBRL/XML file
     doc_soup = BeautifulSoup(documents_response.text, 'html.parser')
     
     # Look for XBRL or XML instance document
     instance_link = None
     
-    # First, try to find a file with _htm.xml (which is usually the instance document)
-    htm_xml_links = [a for a in doc_soup.select('a') if re.search(r'_htm\.xml$', a.text)]
-    if htm_xml_links:
-        instance_link = htm_xml_links[0]
+    # First, look for the table that contains file listings
+    tables = doc_soup.select('table.tableFile')
+    if not tables:
+        tables = doc_soup.select('table')
+        logging.warning("Could not find tableFile class, trying all tables")
     
-    # If not found, look for any XML or XBRL file
-    if not instance_link:
-        xml_links = [a for a in doc_soup.select('a') if a.text.endswith('.xml') or a.text.endswith('.xbrl')]
-        if xml_links:
-            instance_link = xml_links[0]
+    if tables:
+        logging.info(f"Found {len(tables)} tables in document page")
+        
+        # First, try to find a file with _htm.xml (which is usually the instance document)
+        htm_xml_links = []
+        for table in tables:
+            links = [a for a in table.select('a') if re.search(r'_htm\.xml$', a.text)]
+            htm_xml_links.extend(links)
+        
+        if htm_xml_links:
+            instance_link = htm_xml_links[0]
+            logging.info(f"Found htm.xml link: {instance_link.text}")
+        
+        # If not found, look for any XML or XBRL file
+        if not instance_link:
+            xml_links = []
+            for table in tables:
+                links = [a for a in table.select('a') if a.text.endswith('.xml') or a.text.endswith('.xbrl')]
+                xml_links.extend(links)
+            
+            if xml_links:
+                instance_link = xml_links[0]
+                logging.info(f"Found XML/XBRL link: {instance_link.text}")
+    else:
+        # Fallback to all links in the page
+        htm_xml_links = [a for a in doc_soup.select('a') if re.search(r'_htm\.xml$', a.text)]
+        if htm_xml_links:
+            instance_link = htm_xml_links[0]
+            logging.info(f"Found htm.xml link via fallback: {instance_link.text}")
+        
+        # If not found, look for any XML or XBRL file
+        if not instance_link:
+            xml_links = [a for a in doc_soup.select('a') if a.text.endswith('.xml') or a.text.endswith('.xbrl')]
+            if xml_links:
+                instance_link = xml_links[0]
+                logging.info(f"Found XML/XBRL link via fallback: {instance_link.text}")
     
     if not instance_link:
+        logging.error("Could not find any instance documents (XML/XBRL)")
         return None
     
     # Get the full URL to the instance document

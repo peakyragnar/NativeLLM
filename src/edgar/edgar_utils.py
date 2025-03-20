@@ -49,24 +49,42 @@ def get_cik_from_ticker(ticker):
 
 def get_company_name_from_cik(cik):
     """Get company name from CIK"""
-    headers = {'User-Agent': USER_AGENT}
+    logging.info(f"Looking up company name for CIK: {cik}")
     url = f"{SEC_BASE_URL}/cgi-bin/browse-edgar?CIK={cik}&owner=exclude&action=getcompany"
     
-    response = requests.get(url, headers=headers)
+    response = sec_request(url)
     if response.status_code != 200:
+        logging.error(f"Failed to get company info for CIK {cik}. Status code: {response.status_code}")
         return None
     
     # Parse company name from response
     soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Try different selectors for company name
     company_info = soup.select_one('.companyInfo')
-    if not company_info:
-        return None
+    if company_info:
+        company_name = company_info.select_one('.companyName')
+        if company_name:
+            name = company_name.text.strip()
+            logging.info(f"Found company name for CIK {cik}: {name}")
+            return name
     
-    company_name = company_info.select_one('.companyName')
-    if not company_name:
-        return None
+    # Try alternative selectors
+    company_name = soup.select_one('span.companyName')
+    if company_name:
+        name = company_name.text.strip()
+        logging.info(f"Found company name via alternative selector for CIK {cik}: {name}")
+        return name
     
-    return company_name.text.strip()
+    # Try the page title
+    title = soup.find('title')
+    if title and ' - ' in title.text:
+        name = title.text.split(' - ')[0].strip()
+        logging.info(f"Extracted company name from title for CIK {cik}: {name}")
+        return name
+        
+    logging.error(f"Could not find company name for CIK {cik}")
+    return None
 
 # SEC has rate limits, so add a delay between requests
 def sec_request(url, max_retries=3):
