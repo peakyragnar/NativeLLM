@@ -260,3 +260,198 @@ def find_company_filings(ticker, filing_types):
             results["filings"][filing_type] = metadata
     
     return results
+
+def find_filings_by_cik(cik, filing_type, start_date=None, end_date=None, limit=10):
+    """
+    Find filings for a company by CIK within a date range
+    
+    Args:
+        cik: Company CIK (10-digit string with leading zeros)
+        filing_type: Filing type (10-K, 10-Q, etc.)
+        start_date: Start date in YYYY-MM-DD format (optional)
+        end_date: End date in YYYY-MM-DD format (optional)
+        limit: Maximum number of filings to return
+        
+    Returns:
+        List of filing metadata dictionaries
+    """
+    import re
+    import datetime
+    from bs4 import BeautifulSoup
+    from src.edgar.edgar_utils import sec_request
+    
+    # Ensure CIK is properly formatted (10 digits with leading zeros)
+    cik = cik.zfill(10) if cik.isdigit() else cik
+    
+    # Build the URL for the filing index page
+    base_url = f"{SEC_BASE_URL}/cgi-bin/browse-edgar"
+    params = {
+        "CIK": cik,
+        "type": filing_type,
+        "owner": "exclude",
+        "action": "getcompany",
+        "count": limit
+    }
+    
+    url = f"{base_url}?{'&'.join(f'{k}={v}' for k, v in params.items())}"
+    
+    # Make the request
+    response = sec_request(url)
+    if response.status_code != 200:
+        return []
+    
+    # Parse the page to find filings
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Find the filing table - try different selectors
+    filing_tables = soup.select('.tableFile2') or soup.select('.tableFile') or soup.select('table[summary="Results"]')
+    if not filing_tables:
+        return []
+    
+    filings = []
+    
+    # Parse each filing row
+    filing_rows = filing_tables[0].select('tr')
+    for row in filing_rows[1:]:  # Skip header row
+        cells = row.select('td')
+        if len(cells) < 4:
+            continue
+        
+        # Extract filing date
+        filing_date_text = cells[3].get_text().strip()
+        try:
+            filing_date = datetime.datetime.strptime(filing_date_text, '%Y-%m-%d').date()
+        except ValueError:
+            # Skip if date format is unexpected
+            continue
+        
+        # Apply date filtering if provided
+        if start_date:
+            try:
+                start = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
+                if filing_date < start:
+                    continue
+            except ValueError:
+                pass
+                
+        if end_date:
+            try:
+                end = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
+                if filing_date > end:
+                    continue
+            except ValueError:
+                pass
+        
+        # Get filing type (to confirm it matches what we want)
+        filing_type_text = cells[0].get_text().strip()
+        if filing_type.lower() not in filing_type_text.lower():
+            continue
+        
+        # Get filing links
+        filing_link = None
+        document_link = None
+        
+        # Find the document links - try multiple selectors
+        links = cells[1].select('a')
+        for link in links:
+            if 'filings' in link.get('href', '') or 'Archives' in link.get('href', ''):
+                filing_link = SEC_BASE_URL + link['href']
+            elif 'document' in link.get('id', '') or 'documentsbutton' in link.get('id', ''):
+                document_link = SEC_BASE_URL + link['href']
+        
+        if not document_link:
+            # Try alternative methods to find the document link
+            for link in links:
+                if 'Documents' in link.get_text() or 'Document' in link.get_text():
+                    document_link = SEC_BASE_URL + link['href']
+                    break
+        
+        if not document_link:
+            continue
+        
+        # Try to extract accession number
+        accession_number = None
+        
+        # From document link
+        accession_match = re.search(r'accession_number=(\d{10}-\d{2}-\d{6})', document_link)
+        if accession_match:
+            accession_number = accession_match.group(1)
+        
+        # From filing link if we have it
+        if not accession_number and filing_link:
+            accession_match = re.search(r'accession_number=(\d{10}-\d{2}-\d{6})', filing_link)
+            if accession_match:
+                accession_number = accession_match.group(1)
+                
+        # If still not found, try to extract from document link format
+        if not accession_number:
+            # Format likely: .../Archives/edgar/data/789019/000156459017022434/...
+            parts_match = re.search(r'/data/\d+/(\d+)/', document_link)
+            if parts_match:
+                acc_number = parts_match.group(1)
+                # Format into SEC accession number if possible
+                if len(acc_number) == 12:  # Should be 000XXXXXXXXX format
+                    accession_number = f"{acc_number[:10]}-{acc_number[10:12]}-{acc_number[12:]}"
+                else:
+                    # Use as is
+                    accession_number = acc_number
+        
+        # Get instance URL by visiting the documents page
+        instance_url = None
+        period_end_date = None
+        
+        # Visit the document page to find instance document and more metadata
+        doc_response = sec_request(document_link)
+        if doc_response.status_code == 200:
+            doc_soup = BeautifulSoup(doc_response.text, 'html.parser')
+            
+            # Try to find period of report if not already found
+            if not period_end_date:
+                period_labels = doc_soup.find_all(string=re.compile(r'Period of Report', re.IGNORECASE))
+                if period_labels:
+                    for label in period_labels:
+                        parent = label.parent
+                        if parent:
+                            # Look for a sibling with the date
+                            next_sibling = parent.next_sibling
+                            if next_sibling:
+                                period_text = next_sibling.get_text().strip()
+                                # Try to parse as date
+                                try:
+                                    # Could be in various formats
+                                    for fmt in ['%Y%m%d', '%Y-%m-%d', '%m/%d/%Y']:
+                                        try:
+                                            period_date = datetime.datetime.strptime(period_text, fmt)
+                                            period_end_date = period_date.strftime('%Y-%m-%d')
+                                            break
+                                        except ValueError:
+                                            continue
+                                except:
+                                    pass
+            
+            # Look for XBRL or XML instance document
+            # First try to find a file with _htm.xml (which is usually the instance document)
+            htm_xml_links = [a for a in doc_soup.select('a') if re.search(r'_htm\.xml$', a.text)]
+            if htm_xml_links:
+                instance_url = SEC_BASE_URL + htm_xml_links[0]['href']
+            else:
+                # If not found, look for any XML or XBRL file
+                xml_links = [a for a in doc_soup.select('a') if a.text.endswith('.xml') or a.text.endswith('.xbrl')]
+                if xml_links:
+                    instance_url = SEC_BASE_URL + xml_links[0]['href']
+        
+        # Create filing metadata
+        filing_metadata = {
+            "cik": cik,
+            "accession_number": accession_number,
+            "filing_type": filing_type,
+            "filing_date": filing_date_text,
+            "period_end_date": period_end_date,
+            "instance_url": instance_url,
+            "filing_link": filing_link,
+            "document_link": document_link
+        }
+        
+        filings.append(filing_metadata)
+    
+    return filings

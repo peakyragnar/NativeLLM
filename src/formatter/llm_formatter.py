@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import re
+import logging
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -128,13 +129,19 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
     """Generate LLM-native format from parsed XBRL"""
     output = []
     
+    # Import normalize_special_chars function
+    from src.formatter.normalize_value import normalize_special_chars
+    
     # Add document metadata
     ticker = filing_metadata.get("ticker", "unknown")
     filing_type = filing_metadata.get("filing_type", "unknown")
-    company_name = filing_metadata.get("company_name", "unknown")
+    company_name = filing_metadata.get("company_name", "unknown") 
     cik = filing_metadata.get("cik", "unknown")
     filing_date = filing_metadata.get("filing_date", "unknown")
     period_end = filing_metadata.get("period_end_date", "unknown")
+    
+    # Clean special characters in company name
+    company_name, _ = normalize_special_chars(company_name)
     
     # Document identification
     output.append(f"@DOCUMENT: {ticker.strip()}-{filing_type.strip()}-{period_end.strip()}")
@@ -250,6 +257,9 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
         
         # Normalize whitespace in value (replace multiple spaces with single space)
         value = ' '.join(value.split())
+        
+        # Clean special characters in value
+        value, chars_changed = normalize_special_chars(value)
             
         output.append(f"@CONCEPT: {concept}")
         output.append(f"@VALUE: {value}")
@@ -343,17 +353,148 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
     return formatted_output
 
 def save_llm_format(llm_content, filing_metadata):
-    """Save LLM format to a file"""
+    """Save LLM format to a file using fiscal year naming"""
     ticker = filing_metadata.get("ticker", "unknown")
+    if ticker is None:
+        ticker = "unknown"
+        
     filing_type = filing_metadata.get("filing_type", "unknown")
-    period_end = filing_metadata.get("period_end_date", "unknown").replace("-", "")
+    if filing_type is None:
+        filing_type = "unknown"
+        
+    period_end = filing_metadata.get("period_end_date", "unknown")
+    if period_end is None:
+        period_end = "unknown"
+        
+    company_name = filing_metadata.get("company_name", "unknown")
+    if company_name is None:
+        company_name = f"Company_{ticker}"
+    
+    # Clean company name for filename
+    clean_company = re.sub(r'[^\w\s]', '', company_name)  # Remove punctuation
+    clean_company = re.sub(r'\s+', '_', clean_company.strip())  # Replace spaces with underscores
+    if not clean_company:
+        clean_company = "Unknown_Company"
+    
+    # Extract year from period end date (safely)
+    try:
+        if '-' in period_end:
+            year = period_end.split('-')[0]
+        elif len(period_end) >= 4:
+            year = period_end[:4]
+        else:
+            year = datetime.datetime.now().strftime("%Y")
+    except:
+        year = datetime.datetime.now().strftime("%Y")
+    
+    # Create fiscal year based filename
+    # First check if fiscal year and quarter are provided by batch_download.py
+    if "fiscal_year" in filing_metadata and "fiscal_quarter" in filing_metadata:
+        fiscal_year = filing_metadata.get("fiscal_year")
+        fiscal_quarter = filing_metadata.get("fiscal_quarter")
+        
+        # Use provided fiscal information
+        if filing_type == "10-K":
+            fiscal_suffix = f"{fiscal_year}_FY"
+        else:
+            fiscal_suffix = f"{fiscal_year}_{fiscal_quarter}"
+            
+        logging.info(f"Using provided fiscal information: {fiscal_suffix}")
+    else:
+        # Fallback: Use traditional method to determine fiscal year/quarter
+        if filing_type == "10-K":
+            # For annual reports, use FY designation
+            fiscal_suffix = f"{year}_FY"
+        else:
+            # For quarterly reports, use 1Q, 2Q, 3Q, 4Q format
+            quarter_num = ""
+            
+            # Extract quarter mention from filing text if available
+            if 'filing_text' in filing_metadata and filing_metadata['filing_text']:
+                text = filing_metadata['filing_text'].lower()
+                
+                # Look for explicit quarter statements in the filing
+                # These patterns are common in SEC filings to explicitly state which quarter is being reported
+                quarter_patterns = [
+                    # Pattern for "For the [ordinal] quarter ended [date]"
+                    r"for\s+the\s+(first|1st|second|2nd|third|3rd|fourth|4th)\s+quarter\s+ended",
+                    # Pattern for "Quarter [number]" or "Q[number]"
+                    r"quarter\s+(one|two|three|four|1|2|3|4)|q(1|2|3|4)\s+",
+                    # Pattern for "[ordinal] quarter of fiscal year"
+                    r"(first|1st|second|2nd|third|3rd|fourth|4th)\s+quarter\s+of\s+fiscal\s+year",
+                    # Pattern for "Form 10-Q for Q[number]"
+                    r"form\s+10-q\s+for\s+q(1|2|3|4)",
+                    # Pattern for explicit quarter mentions
+                    r"\bfirst\s+quarter\b|\b1st\s+quarter\b|\bq1\b",
+                    r"\bsecond\s+quarter\b|\b2nd\s+quarter\b|\bq2\b",
+                    r"\bthird\s+quarter\b|\b3rd\s+quarter\b|\bq3\b",
+                    r"\bfourth\s+quarter\b|\b4th\s+quarter\b|\bq4\b"
+                ]
+                
+                # Search for quarter patterns
+                for pattern in quarter_patterns:
+                    match = re.search(pattern, text)
+                    if match:
+                        # Extract the quarter number
+                        quarter_text = match.group(0).lower()
+                        if "first" in quarter_text or "1st" in quarter_text or "one" in quarter_text or "q1" in quarter_text or "quarter 1" in quarter_text:
+                            quarter_num = "1Q"
+                            break
+                        elif "second" in quarter_text or "2nd" in quarter_text or "two" in quarter_text or "q2" in quarter_text or "quarter 2" in quarter_text:
+                            quarter_num = "2Q"
+                            break
+                        elif "third" in quarter_text or "3rd" in quarter_text or "three" in quarter_text or "q3" in quarter_text or "quarter 3" in quarter_text:
+                            quarter_num = "3Q"
+                            break
+                        elif "fourth" in quarter_text or "4th" in quarter_text or "four" in quarter_text or "q4" in quarter_text or "quarter 4" in quarter_text:
+                            quarter_num = "4Q"
+                            break
+            
+            # If not found in text, use the period end date to determine quarter
+            if not quarter_num and period_end and '-' in period_end:
+                try:
+                    month = int(period_end.split('-')[1])
+                    # Rough quarter mapping (this is a fallback, not always accurate due to fiscal calendars)
+                    quarter_map = {1: "1Q", 2: "1Q", 3: "1Q", 4: "2Q", 5: "2Q", 6: "2Q", 
+                                  7: "3Q", 8: "3Q", 9: "3Q", 10: "4Q", 11: "4Q", 12: "4Q"}
+                    quarter_num = quarter_map.get(month, "")
+                except:
+                    # Default to empty if we can't parse the month
+                    pass
+            
+            # If we still don't have a quarter number, check the instance URL
+            if not quarter_num and "instance_url" in filing_metadata:
+                # Look for patterns like q1, q2, q3, q4 in the URL
+                instance_url = filing_metadata["instance_url"].lower()
+                if "q1" in instance_url or "-1q" in instance_url:
+                    quarter_num = "1Q"
+                elif "q2" in instance_url or "-2q" in instance_url:
+                    quarter_num = "2Q"
+                elif "q3" in instance_url or "-3q" in instance_url:
+                    quarter_num = "3Q"
+                elif "q4" in instance_url or "-4q" in instance_url:
+                    quarter_num = "4Q"
+            
+            # If we still couldn't determine quarter, default to plain Q
+            if not quarter_num:
+                quarter_num = "Q"
+                
+            fiscal_suffix = f"{year}_{quarter_num}"
+    
+    # Include original period end date as reference (for debugging and verification)
+    try:
+        period_end_compact = period_end.replace("-", "") if period_end and period_end != "unknown" else "unknown"
+    except:
+        period_end_compact = "unknown"
     
     # Create directory
     dir_path = os.path.join(PROCESSED_DATA_DIR, ticker)
     os.makedirs(dir_path, exist_ok=True)
     
-    # Create filename
-    filename = f"{ticker}_{filing_type}_{period_end}_llm.txt"
+    # Create filename with both naming schemes
+    # Primary: Company_Year_FiscalPeriod
+    # Secondary: Original format (ticker_filing-type_date) for reference
+    filename = f"{clean_company}_{fiscal_suffix}_{ticker}_{filing_type}_{period_end_compact}_llm.txt"
     file_path = os.path.join(dir_path, filename)
     
     # Save file
