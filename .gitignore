@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Local data and logs
+data/
+*.log
+debug_*
+
+# Mac
+.DS_Store
+
+# Google Cloud credentials and sensitive files
+*-e*.json
+nativellmfilings-*.json
+*.json.key
+*credentials*.json
+*service-account*.json
+
+# Backup files
+*.bak
