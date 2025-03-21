@@ -2,10 +2,65 @@
 import os
 import sys
 import json
+import re
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.config import PROCESSED_DATA_DIR
+
+def normalize_concept_name(concept_name):
+    """
+    Normalize XBRL concept names to ensure consistent formatting.
+    
+    Rules:
+    1. Trim leading/trailing whitespace
+    2. Ensure camelCase format (first letter capitalized for each word)
+    3. Replace special characters with standardized alternatives
+    4. Preserve acronyms (sequences of uppercase letters)
+    
+    Returns both the normalized name and whether it was changed
+    """
+    if not concept_name:
+        return concept_name, False
+    
+    original = concept_name.strip()
+    normalized = original
+    
+    # Handle special characters - replace with standardized forms
+    replacements = {
+        '&': 'And',
+        '+': 'Plus',
+        '-': '',  # Remove hyphens between words
+        '_': '',  # Remove underscores between words
+    }
+    
+    for char, replacement in replacements.items():
+        normalized = normalized.replace(char, replacement)
+    
+    # Split on non-alphanumeric characters and capitalize each part
+    # This creates camelCase with first letter capitalized
+    parts = re.findall(r'[A-Za-z0-9]+', normalized)
+    if not parts:
+        return original, False
+    
+    # Capitalize first letter of each part, preserving acronyms
+    processed_parts = []
+    for part in parts:
+        # Check if the part is an acronym (all uppercase)
+        if part.isupper() and len(part) > 1:
+            processed_parts.append(part)  # Preserve acronyms
+        else:
+            processed_parts.append(part.capitalize())  # Capitalize normal words
+    
+    normalized = ''.join(processed_parts)
+    
+    # Ensure first letter is capitalized
+    if normalized and normalized[0].islower():
+        normalized = normalized[0].upper() + normalized[1:]
+    
+    # Return the normalized name and whether it changed
+    was_changed = (normalized != original)
+    return normalized, was_changed
 
 def generate_llm_format(parsed_xbrl, filing_metadata):
     """Generate LLM-native format from parsed XBRL"""
@@ -74,17 +129,28 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
     
     # Add all facts
     sorted_facts = sorted(parsed_xbrl.get("facts", []), key=lambda x: x.get("concept", ""))
+    
+    # Track normalized concepts for reporting
+    normalization_changes = {}
+    
     for fact in sorted_facts:
-        # Get and normalize values, removing extra whitespace
-        concept = fact.get('concept', '').strip()
+        # Get values and normalize whitespace
+        original_concept = fact.get('concept', '').strip()
         value = fact.get('value', '').strip()
+        
+        # Skip empty concepts
+        if not original_concept:
+            continue
+        
+        # Normalize the concept name
+        concept, was_changed = normalize_concept_name(original_concept)
+        
+        # Track changes for reporting
+        if was_changed and original_concept not in normalization_changes:
+            normalization_changes[original_concept] = concept
         
         # Normalize whitespace in value (replace multiple spaces with single space)
         value = ' '.join(value.split())
-        
-        # Skip empty concepts or values
-        if not concept:
-            continue
             
         output.append(f"@CONCEPT: {concept}")
         output.append(f"@VALUE: {value}")
@@ -100,6 +166,14 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
         context_ref = fact.get("context_ref", "").strip()
         output.append(f"@CONTEXT_REF: {context_ref}")
         output.append("")
+    
+    # Add normalization mapping as a comment section at the end if any changes were made
+    if normalization_changes:
+        output.append("@CONCEPT_NORMALIZATION_MAP")
+        for original, normalized in sorted(normalization_changes.items()):
+            output.append(f"@ORIGINAL: {original}")
+            output.append(f"@NORMALIZED: {normalized}")
+            output.append("")
     
     # Join with single newlines and return
     formatted_output = "\n".join(output)
