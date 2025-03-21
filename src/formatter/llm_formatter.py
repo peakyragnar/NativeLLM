@@ -265,6 +265,49 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
             output.append(f"@NORMALIZED: {normalized}")
             output.append("")
     
+    # Create a cross-reference index mapping concepts to all contexts where they appear
+    concept_context_map = {}
+    
+    # First build the mapping
+    for fact in sorted_facts:
+        concept = fact.get('concept', '').strip()
+        context_ref = fact.get('context_ref', '').strip()
+        
+        if not concept or not context_ref:
+            continue
+            
+        if concept not in concept_context_map:
+            concept_context_map[concept] = []
+            
+        if context_ref not in concept_context_map[concept]:
+            concept_context_map[concept].append(context_ref)
+    
+    # Add the cross-reference index to the output if we found any mappings
+    if concept_context_map:
+        output.append("@CONCEPT_CONTEXT_MAP")
+        
+        # Sort concepts alphabetically for consistent output
+        for concept, context_refs in sorted(concept_context_map.items()):
+            output.append(f"@CONCEPT: {concept}")
+            
+            # Sort context references for consistency
+            sorted_context_refs = sorted(context_refs)
+            
+            # Format with comma separation for readability
+            if len(sorted_context_refs) <= 10:
+                # For shorter lists, put them on one line for compact representation
+                contexts_str = ", ".join(sorted_context_refs)
+                output.append(f"@CONTEXTS: {contexts_str}")
+            else:
+                # For longer lists, use multiple lines for better readability
+                output.append("@CONTEXTS:")
+                # Group context references for better readability (5 per line)
+                for i in range(0, len(sorted_context_refs), 5):
+                    group = sorted_context_refs[i:i+5]
+                    output.append(f"  {', '.join(group)}")
+            
+            output.append("")
+    
     # Join with single newlines and return
     formatted_output = "\n".join(output)
     
