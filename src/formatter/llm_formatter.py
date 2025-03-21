@@ -8,6 +8,68 @@ import re
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.config import PROCESSED_DATA_DIR
 
+def normalize_unit(unit):
+    """
+    Standardize unit representations for consistency.
+    
+    Rules:
+    1. Convert currency codes to uppercase (usd → USD)
+    2. Standardize common financial units
+    3. Normalize variations of the same unit
+    
+    Returns both the normalized unit and whether it was changed
+    """
+    if not unit:
+        return unit, False
+    
+    original = unit.strip()
+    
+    # Standard currency codes should be uppercase
+    currency_codes = {
+        'usd': 'USD', 'eur': 'EUR', 'gbp': 'GBP', 'jpy': 'JPY', 'cny': 'CNY',
+        'cad': 'CAD', 'aud': 'AUD', 'chf': 'CHF', 'inr': 'INR'
+    }
+    
+    # Handle common unit variations
+    unit_variations = {
+        # Currency variations
+        'iso4217:usd': 'USD', 'iso4217:USD': 'USD', 'us-gaap:usd': 'USD', 'us-gaap:USD': 'USD',
+        'dollars': 'USD', 'us dollars': 'USD', 'u.s. dollars': 'USD', '$': 'USD',
+        
+        # Share variations
+        'shares': 'Shares', 'share': 'Shares', 'sh': 'Shares', 
+        'iso4217:shares': 'Shares', 'us-gaap:shares': 'Shares',
+        
+        # Percentage variations
+        'percent': 'Percent', '%': 'Percent', 'pct': 'Percent',
+        'pure': 'Pure', 'xbrli:pure': 'Pure',
+        
+        # Rate variations
+        'perShare': 'PerShare', 'per_share': 'PerShare', 'per share': 'PerShare',
+        
+        # Time variations
+        'years': 'Years', 'year': 'Years', 'months': 'Months', 'month': 'Months',
+        'days': 'Days', 'day': 'Days',
+    }
+    
+    # Check for exact matches in unit variations
+    normalized = original.lower()
+    if normalized in unit_variations:
+        return unit_variations[normalized], True
+    
+    # Check if it's a currency code (simple 3-letter code)
+    if len(normalized) == 3 and normalized.isalpha() and normalized in currency_codes:
+        return currency_codes[normalized], True
+    
+    # Handle currency with prefix (like iso4217:USD)
+    if ':' in normalized:
+        prefix, code = normalized.split(':', 1)
+        if code.lower() in currency_codes:
+            return currency_codes[code.lower()], True
+    
+    # If no standardization applied, return original
+    return original, False
+
 def normalize_concept_name(concept_name):
     """
     Normalize XBRL concept names to ensure consistent formatting.
@@ -121,10 +183,22 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
             output.append(f"@CONTEXT_DEF: {context_id.strip()} | INSTANT: {instant_id}")
     output.append("")
     
-    # Add units
+    # Add units with standardization
     output.append("@UNITS")
+    
+    # Track normalized units for reporting
+    unit_normalization_changes = {}
+    
     for unit_id, unit_value in parsed_xbrl.get("units", {}).items():
-        output.append(f"@UNIT_DEF: {unit_id.strip()} | {unit_value.strip()}")
+        # Normalize the unit value
+        original_value = unit_value.strip()
+        normalized_value, was_changed = normalize_unit(original_value)
+        
+        # Track changes for reporting
+        if was_changed and original_value not in unit_normalization_changes:
+            unit_normalization_changes[original_value] = normalized_value
+        
+        output.append(f"@UNIT_DEF: {unit_id.strip()} | {normalized_value}")
     output.append("")
     
     # Add all facts
@@ -157,7 +231,15 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
         
         unit_ref = fact.get("unit_ref")
         if unit_ref:
-            output.append(f"@UNIT_REF: {unit_ref.strip()}")
+            # Standardize unit references
+            original_unit_ref = unit_ref.strip()
+            normalized_unit_ref, was_changed = normalize_unit(original_unit_ref)
+            
+            # Track changes for reporting
+            if was_changed and original_unit_ref not in unit_normalization_changes:
+                unit_normalization_changes[original_unit_ref] = normalized_unit_ref
+                
+            output.append(f"@UNIT_REF: {normalized_unit_ref}")
             
         decimals = fact.get("decimals")
         if decimals:
@@ -171,6 +253,14 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
     if normalization_changes:
         output.append("@CONCEPT_NORMALIZATION_MAP")
         for original, normalized in sorted(normalization_changes.items()):
+            output.append(f"@ORIGINAL: {original}")
+            output.append(f"@NORMALIZED: {normalized}")
+            output.append("")
+    
+    # Add unit normalization mapping if any changes were made
+    if unit_normalization_changes:
+        output.append("@UNIT_NORMALIZATION_MAP")
+        for original, normalized in sorted(unit_normalization_changes.items()):
             output.append(f"@ORIGINAL: {original}")
             output.append(f"@NORMALIZED: {normalized}")
             output.append("")
