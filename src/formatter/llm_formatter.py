@@ -136,10 +136,35 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
     filing_date = filing_metadata.get("filing_date", "unknown")
     period_end = filing_metadata.get("period_end_date", "unknown")
     
+    # Document identification
     output.append(f"@DOCUMENT: {ticker.strip()}-{filing_type.strip()}-{period_end.strip()}")
     output.append(f"@FILING_DATE: {filing_date.strip()}")
     output.append(f"@COMPANY: {company_name.strip()}")
     output.append(f"@CIK: {cik.strip()}")
+    
+    # Add processing metadata for provenance tracking
+    import datetime
+    import pkg_resources
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Get version information - fall back to reasonable defaults if not available
+    try:
+        version = pkg_resources.get_distribution("llm-financial-data").version
+    except pkg_resources.DistributionNotFound:
+        version = "0.1.0"  # Default version if not installed as package
+    
+    output.append("")
+    output.append("@PROCESSING_METADATA")
+    output.append(f"@PROCESSED_AT: {current_time}")
+    output.append(f"@PROCESSOR_VERSION: {version}")
+    output.append(f"@FORMAT_VERSION: 1.0")
+    output.append(f"@SOURCE: SEC EDGAR XBRL")
+    
+    # Get the original filing URL if available
+    instance_url = filing_metadata.get("instance_url", "")
+    if instance_url:
+        output.append(f"@SOURCE_URL: {instance_url}")
+    
     output.append("")
     
     # First collect all unique periods and instants
