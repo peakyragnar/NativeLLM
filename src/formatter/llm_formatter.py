@@ -19,41 +19,96 @@ def generate_llm_format(parsed_xbrl, filing_metadata):
     filing_date = filing_metadata.get("filing_date", "unknown")
     period_end = filing_metadata.get("period_end_date", "unknown")
     
-    output.append(f"@DOCUMENT: {ticker}-{filing_type}-{period_end}")
-    output.append(f"@FILING_DATE: {filing_date}")
-    output.append(f"@COMPANY: {company_name}")
-    output.append(f"@CIK: {cik}")
+    output.append(f"@DOCUMENT: {ticker.strip()}-{filing_type.strip()}-{period_end.strip()}")
+    output.append(f"@FILING_DATE: {filing_date.strip()}")
+    output.append(f"@COMPANY: {company_name.strip()}")
+    output.append(f"@CIK: {cik.strip()}")
     output.append("")
     
-    # Add context definitions
+    # First collect all unique periods and instants
+    periods = {}  # Maps period strings to period IDs
+    instants = {}  # Maps instant strings to instant IDs
+    
+    for context_id, context in parsed_xbrl.get("contexts", {}).items():
+        period_info = context.get("period", {})
+        if "startDate" in period_info and "endDate" in period_info:
+            start_date = period_info['startDate'].strip()
+            end_date = period_info['endDate'].strip()
+            period_str = f"{start_date} to {end_date}"
+            if period_str not in periods:
+                periods[period_str] = f"p-{len(periods) + 1}"
+        elif "instant" in period_info:
+            instant = period_info['instant'].strip()
+            if instant not in instants:
+                instants[instant] = f"i-{len(instants) + 1}"
+    
+    # Add period definitions
+    output.append("@PERIODS")
+    for period_str, period_id in periods.items():
+        output.append(f"@PERIOD_DEF: {period_id} | {period_str}")
+    for instant_str, instant_id in instants.items():
+        output.append(f"@INSTANT_DEF: {instant_id} | {instant_str}")
+    output.append("")
+    
+    # Add context definitions with references to period/instant IDs
     output.append("@CONTEXTS")
     for context_id, context in parsed_xbrl.get("contexts", {}).items():
         period_info = context.get("period", {})
         if "startDate" in period_info and "endDate" in period_info:
-            output.append(f"@CONTEXT_DEF: {context_id} | Period: {period_info['startDate']} to {period_info['endDate']}")
+            start_date = period_info['startDate'].strip()
+            end_date = period_info['endDate'].strip()
+            period_str = f"{start_date} to {end_date}"
+            period_id = periods[period_str]
+            output.append(f"@CONTEXT_DEF: {context_id.strip()} | PERIOD: {period_id}")
         elif "instant" in period_info:
-            output.append(f"@CONTEXT_DEF: {context_id} | Instant: {period_info['instant']}")
+            instant = period_info['instant'].strip()
+            instant_id = instants[instant]
+            output.append(f"@CONTEXT_DEF: {context_id.strip()} | INSTANT: {instant_id}")
     output.append("")
     
     # Add units
     output.append("@UNITS")
     for unit_id, unit_value in parsed_xbrl.get("units", {}).items():
-        output.append(f"@UNIT_DEF: {unit_id} | {unit_value}")
+        output.append(f"@UNIT_DEF: {unit_id.strip()} | {unit_value.strip()}")
     output.append("")
     
     # Add all facts
     sorted_facts = sorted(parsed_xbrl.get("facts", []), key=lambda x: x.get("concept", ""))
     for fact in sorted_facts:
-        output.append(f"@CONCEPT: {fact.get('concept', '')}")
-        output.append(f"@VALUE: {fact.get('value', '')}")
-        if fact.get("unit_ref"):
-            output.append(f"@UNIT_REF: {fact.get('unit_ref', '')}")
-        if fact.get("decimals"):
-            output.append(f"@DECIMALS: {fact.get('decimals', '')}")
-        output.append(f"@CONTEXT_REF: {fact.get('context_ref', '')}")
+        # Get and normalize values, removing extra whitespace
+        concept = fact.get('concept', '').strip()
+        value = fact.get('value', '').strip()
+        
+        # Normalize whitespace in value (replace multiple spaces with single space)
+        value = ' '.join(value.split())
+        
+        # Skip empty concepts or values
+        if not concept:
+            continue
+            
+        output.append(f"@CONCEPT: {concept}")
+        output.append(f"@VALUE: {value}")
+        
+        unit_ref = fact.get("unit_ref")
+        if unit_ref:
+            output.append(f"@UNIT_REF: {unit_ref.strip()}")
+            
+        decimals = fact.get("decimals")
+        if decimals:
+            output.append(f"@DECIMALS: {decimals.strip()}")
+            
+        context_ref = fact.get("context_ref", "").strip()
+        output.append(f"@CONTEXT_REF: {context_ref}")
         output.append("")
     
-    return "\n".join(output)
+    # Join with single newlines and return
+    formatted_output = "\n".join(output)
+    
+    # Remove any triple+ newlines (normalize to double newlines max)
+    while "\n\n\n" in formatted_output:
+        formatted_output = formatted_output.replace("\n\n\n", "\n\n")
+        
+    return formatted_output
 
 def save_llm_format(llm_content, filing_metadata):
     """Save LLM format to a file"""
