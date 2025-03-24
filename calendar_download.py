@@ -12,7 +12,7 @@ import re
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from src.edgar.edgar_utils import get_cik_from_ticker, get_company_name_from_cik
 from src.edgar.filing_finder import find_company_filings
-from src.edgar.company_fiscal import fiscal_registry
+from src.edgar.fiscal_manager import fiscal_manager
 from src.xbrl.xbrl_downloader import download_xbrl_instance
 from src.xbrl.html_text_extractor import process_html_filing
 from src.xbrl.xbrl_parser import parse_xbrl_file
@@ -34,14 +34,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/michael/NativeLLM/nativel
 
 def check_existing_filing(ticker, filing_type, fiscal_year, fiscal_period, db):
     """Check if a filing already exists in Firestore"""
-    # Standardize quarter format for consistency
-    if fiscal_period in ["FY", "annual"]:
-        firestore_period = "annual"
-    elif fiscal_period.startswith("Q"):
-        firestore_period = fiscal_period
-    else:
-        quarter_number = fiscal_period[0]
-        firestore_period = f"Q{quarter_number}"
+    # Use fiscal_manager to standardize the period format for consistency
+    firestore_period = fiscal_manager.standardize_period(fiscal_period, "internal")
     
     filing_id = f"{ticker}-{filing_type}-{fiscal_year}-{firestore_period}"
     filing_ref = db.collection('filings').document(filing_id).get()
@@ -53,16 +47,8 @@ def check_existing_filing(ticker, filing_type, fiscal_year, fiscal_period, db):
 
 def upload_to_gcs(local_file_path, ticker, filing_type, fiscal_year, fiscal_period, file_format, bucket_name="native-llm-filings"):
     """Upload a filing to Google Cloud Storage"""
-    # Determine quarter folder
-    if fiscal_period in ["FY", "annual"]:
-        quarter_folder = "annual"  # For 10-K
-    else:
-        # Convert 1Q, 2Q, 3Q, 4Q to Q1, Q2, Q3, Q4
-        if fiscal_period.startswith("Q"):
-            quarter_folder = fiscal_period  # Already in Q1 format
-        else:
-            quarter_number = fiscal_period[0]
-            quarter_folder = f"Q{quarter_number}"
+    # Use fiscal_manager to standardize the period for folder naming
+    quarter_folder = fiscal_manager.standardize_period(fiscal_period, "folder")
     
     # Construct GCS path
     gcs_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{quarter_folder}/{file_format}.txt"
@@ -109,14 +95,8 @@ def add_filing_metadata(company_ticker, company_name, filing_type, fiscal_year, 
             })
             logging.info(f"Added company to Firestore: {company_ticker} - {company_name}")
         
-        # Create a unique filing ID
-        if fiscal_period in ["FY", "annual"]:
-            firestore_period = "annual"
-        elif fiscal_period.startswith("Q"):
-            firestore_period = fiscal_period
-        else:
-            quarter_number = fiscal_period[0]
-            firestore_period = f"Q{quarter_number}"
+        # Create a unique filing ID with standardized period format
+        firestore_period = fiscal_manager.standardize_period(fiscal_period, "internal")
             
         filing_id = f"{company_ticker}-{filing_type}-{fiscal_year}-{firestore_period}"
         
@@ -176,104 +156,36 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
         fiscal_year = filing_metadata.get("fiscal_year")
         fiscal_period = filing_metadata.get("fiscal_period")
         
-        # Ensure fiscal information is set using company fiscal calendar
+        # Ensure fiscal information is set using our evidence-based fiscal manager
         if (not fiscal_year or not fiscal_period) and period_end_date:
             try:
-                # Extract fiscal year and period based on period_end_date and company-specific logic
-                period_date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                # Use filing content as additional evidence if available
+                if "html_content" in filing_metadata:
+                    # Add the HTML content as an additional signal source
+                    filing_metadata["has_html_content"] = True
                 
-                # Special handling for companies with non-calendar fiscal years
-                if ticker == "AAPL":
-                    # Apple's fiscal year ends in September
-                    # Q1: Oct-Dec, Q2: Jan-Mar, Q3: Apr-Jun, Q4: Jul-Sep
-                    month = period_date.month
-                    
-                    if month in [10, 11, 12]:  # Oct-Dec = Q1 of next calendar year
-                        if not fiscal_year:
-                            fiscal_year = str(period_date.year + 1)
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q1"
-                    elif month in [1, 2, 3]:  # Jan-Mar = Q2
-                        if not fiscal_year:
-                            fiscal_year = str(period_date.year)
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q2"
-                    elif month in [4, 5, 6]:  # Apr-Jun = Q3
-                        if not fiscal_year:
-                            fiscal_year = str(period_date.year)
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q3"
-                    else:  # Jul-Sep
-                        if not fiscal_year:
-                            fiscal_year = str(period_date.year)
-                        # For Apple, there should be no 10-Q for Q4, only a 10-K
-                        # If we find a 10-Q in this period, it's actually Q3
-                        if not fiscal_period:
-                            if filing_type == "10-K":
-                                fiscal_period = "annual"
-                            else:
-                                fiscal_period = "Q3"  # Important: Apple doesn't have Q4 10-Q filings
-                    
-                    logging.info(f"Set Apple fiscal period: FY{fiscal_year} {fiscal_period} for period ending {period_end_date}")
-                elif ticker == "MSFT":
-                    # Microsoft's fiscal year ends in June
-                    # Q1: Jul-Sep, Q2: Oct-Dec, Q3: Jan-Mar, annual (never Q4): Apr-Jun
-                    month = period_date.month
-                    
-                    # For Microsoft, determine fiscal year based on the month
-                    if month >= 7:  # Jul-Dec
-                        if not fiscal_year:
-                            fiscal_year = str(period_date.year + 1)
-                    else:  # Jan-Jun
-                        if not fiscal_year:
-                            fiscal_year = str(period_date.year)
-                    
-                    # Determine fiscal period
-                    if month in [7, 8, 9]:  # Jul-Sep = Q1
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q1"
-                    elif month in [10, 11, 12]:  # Oct-Dec = Q2
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q2"
-                    elif month in [1, 2, 3]:  # Jan-Mar = Q3
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q3"
-                    else:  # Apr-Jun = ALWAYS annual for both 10-K and 10-Q
-                        if not fiscal_period:
-                            fiscal_period = "annual"
-                    
-                    # For 10-K at fiscal year end (June 30), use the current year
-                    if filing_type == "10-K" and month == 6 and period_date.day == 30:
-                        fiscal_year = str(period_date.year)
-                    
-                    # Always set 10-K filings to annual
-                    if filing_type == "10-K" and not fiscal_period:
-                        fiscal_period = "annual"
-                    
-                    logging.info(f"Set Microsoft fiscal period: FY{fiscal_year} {fiscal_period} for period ending {period_end_date}")
-                else:
-                    # Default behavior for other companies - assume calendar fiscal year
-                    if not fiscal_year:
-                        fiscal_year = str(period_date.year)
-                    
-                    if not fiscal_period and filing_type != "10-K":
-                        month = period_date.month
-                        quarter_map = {1: "Q1", 2: "Q1", 3: "Q1", 4: "Q2", 5: "Q2", 6: "Q2", 
-                                      7: "Q3", 8: "Q3", 9: "Q3", 10: "Q4", 11: "Q4", 12: "Q4"}
-                        fiscal_period = quarter_map.get(month, "Q")
+                # Let fiscal_manager determine the fiscal period
+                # This will extract signals, learn from the filing, and return normalized values
+                fiscal_info = fiscal_manager.update_model(ticker, filing_metadata)
                 
-                # Always set 10-K as annual
-                if filing_type == "10-K" and not fiscal_period:
+                # Get standardized values 
+                if not fiscal_year:
+                    fiscal_year = fiscal_info.get("fiscal_year")
+                if not fiscal_period:
+                    fiscal_period = fiscal_info.get("fiscal_period")
+                    
+                # Always set 10-K filings to annual
+                if filing_type == "10-K" and fiscal_period != "annual":
                     fiscal_period = "annual"
                 
                 # Update the metadata
                 filing_metadata["fiscal_year"] = fiscal_year
                 filing_metadata["fiscal_period"] = fiscal_period
                 
-                logging.info(f"Set fiscal info from period_end_date: {fiscal_year}-{fiscal_period}")
+                logging.info(f"Set fiscal info using evidence-based system: {fiscal_year}-{fiscal_period} for {ticker}")
                 
             except Exception as e:
-                logging.warning(f"Error processing period date: {str(e)}, using fallback logic")
+                logging.warning(f"Error using fiscal manager: {str(e)}, using fallback logic")
                 
                 # Extract year from period end date (fallback)
                 if not fiscal_year:
@@ -285,7 +197,6 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                         else:
                             fiscal_year = str(datetime.datetime.now().year)
                         
-                        # Update the metadata
                         filing_metadata["fiscal_year"] = fiscal_year
                         logging.info(f"Set fiscal_year from period_end_date (fallback): {fiscal_year}")
                     except Exception as e:
@@ -293,25 +204,13 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                         filing_metadata["fiscal_year"] = fiscal_year
                         logging.warning(f"Using current year ({fiscal_year}) for fiscal_year due to error: {str(e)}")
                 
-                # If still no fiscal_period, use simple logic (fallback)
+                # If still no fiscal_period, use basic fallback
                 if not fiscal_period:
-                    # Default fiscal period based on filing type
                     if filing_type == "10-K":
                         fiscal_period = "annual"
                     else:
-                        # Try to extract quarter from period_end_date
-                        try:
-                            if period_end_date and '-' in period_end_date:
-                                month = int(period_end_date.split('-')[1])
-                                quarter_map = {1: "Q1", 2: "Q1", 3: "Q1", 4: "Q2", 5: "Q2", 6: "Q2", 
-                                              7: "Q3", 8: "Q3", 9: "Q3", 10: "Q4", 11: "Q4", 12: "Q4"}
-                                fiscal_period = quarter_map.get(month, "Q")
-                            else:
-                                fiscal_period = "Q"
-                        except:
-                            fiscal_period = "Q"  # Default if we can't determine quarter
+                        fiscal_period = "Q"  # Generic quarter if we can't determine which one
                     
-                    # Update the metadata
                     filing_metadata["fiscal_period"] = fiscal_period
                     logging.info(f"Set fiscal_period using fallback logic: {fiscal_period}")
         
@@ -470,14 +369,19 @@ def process_company_calendar_range(ticker, start_date, end_date, filing_types):
         
         # Process 10-K filings first to establish fiscal calendar pattern
         if "10-K" in filing_types:
-            # Find all 10-K filings to analyze fiscal patterns
+            # Find all 10-K filings to establish fiscal pattern
             logging.info(f"Finding 10-K filings first to establish fiscal pattern for {ticker}")
             k_filings_result = find_company_filings(ticker, ["10-K"])
             
             if "filings" in k_filings_result and "10-K" in k_filings_result["filings"]:
-                # Use 10-K filings to update fiscal calendar
-                fiscal_registry.update_calendar(ticker, [k_filings_result["filings"]["10-K"]])
-                logging.info(f"Updated fiscal calendar for {ticker} based on 10-K filings")
+                # Use 10-K filings to update fiscal model
+                filing_metadata = k_filings_result["filings"]["10-K"]
+                filing_metadata["ticker"] = ticker
+                filing_metadata["company_name"] = company_name
+                
+                # Update fiscal model with this 10-K filing
+                fiscal_info = fiscal_manager.update_model(ticker, filing_metadata)
+                logging.info(f"Updated fiscal model for {ticker} based on 10-K filing: {fiscal_info}")
         
         # Find filings for each type
         for filing_type in filing_types:
