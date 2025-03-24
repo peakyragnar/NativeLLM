@@ -12,8 +12,14 @@ class CompanyFiscalCalendar:
     """
     
     # Known fiscal patterns for popular companies
+    # IMPORTANT: The fiscal period is based on when a quarter ENDS, not when it begins
+    # For example, a filing with period_end_date of April 1 is reporting on Q2 (Jan-Mar)
     KNOWN_FISCAL_PATTERNS = {
         # Apple: Fiscal year ends in September
+        # Q1: Oct-Dec (ends Dec)
+        # Q2: Jan-Mar (ends Mar)
+        # Q3: Apr-Jun (ends Jun)
+        # Q4: Jul-Sep (ends Sep)
         "AAPL": {"month": 9, "day": 30, "confidence": 1.0},
         # Microsoft: Fiscal year ends in June
         "MSFT": {"month": 6, "day": 30, "confidence": 1.0},
