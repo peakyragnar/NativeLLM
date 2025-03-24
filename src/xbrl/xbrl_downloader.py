@@ -23,10 +23,10 @@ def download_xbrl_instance(filing_metadata):
     os.makedirs(dir_path, exist_ok=True)
     logging.info(f"Created directory: {dir_path}")
     
-    # Download the instance document
-    instance_url = filing_metadata.get("instance_url")
+    # Download the instance document - check both instance_url and xbrl_url for compatibility
+    instance_url = filing_metadata.get("instance_url") or filing_metadata.get("xbrl_url")
     if not instance_url:
-        logging.error("No instance URL provided in metadata")
+        logging.error("No instance URL or xbrl URL provided in metadata")
         return {"error": "No instance URL provided"}
     
     try:
