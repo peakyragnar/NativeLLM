@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import time
+import logging
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -12,6 +13,7 @@ from src.edgar.filing_finder import find_company_filings
 from src.xbrl.xbrl_downloader import download_xbrl_instance
 from src.xbrl.xbrl_parser import parse_xbrl_file
 from src.formatter.llm_formatter import generate_llm_format, save_llm_format
+from src.xbrl.html_text_extractor import process_html_filing
 from src.config import FILING_TYPES
 
 def process_company(ticker):
@@ -46,39 +48,70 @@ def process_company(ticker):
         filing_metadata["ticker"] = ticker
         filing_metadata["company_name"] = company_name
         
-        # Download XBRL instance
-        download_result = download_xbrl_instance(filing_metadata)
-        if "error" in download_result:
-            print(f"Error downloading XBRL for {ticker} {filing_type}: {download_result['error']}")
-            continue
-        
-        file_path = download_result.get("file_path")
-        
-        # Parse XBRL
-        parsed_result = parse_xbrl_file(file_path)
-        if "error" in parsed_result:
-            print(f"Error parsing XBRL for {ticker} {filing_type}: {parsed_result['error']}")
-            continue
-        
-        # Generate LLM format
-        llm_content = generate_llm_format(parsed_result, filing_metadata)
-        
-        # Save LLM format
-        save_result = save_llm_format(llm_content, filing_metadata)
-        if "error" in save_result:
-            print(f"Error saving LLM format for {ticker} {filing_type}: {save_result['error']}")
-            continue
-        
-        results["filings_processed"].append({
+        # Create a filing result to track both XBRL and HTML processing
+        filing_result = {
             "filing_type": filing_type,
             "filing_date": filing_metadata.get("filing_date"),
             "period_end_date": filing_metadata.get("period_end_date"),
-            "llm_file_path": save_result.get("file_path")
-        })
+            "structured_data": {},
+            "text_data": {}
+        }
         
-        print(f"Successfully processed {ticker} {filing_type}")
+        # Process XBRL data - Structured financial data
+        print(f"Processing XBRL data for {ticker} {filing_type}")
+        try:
+            # Download XBRL instance
+            download_result = download_xbrl_instance(filing_metadata)
+            if "error" in download_result:
+                print(f"Error downloading XBRL for {ticker} {filing_type}: {download_result['error']}")
+                filing_result["structured_data"]["error"] = download_result["error"]
+            else:
+                file_path = download_result.get("file_path")
+                
+                # Parse XBRL
+                parsed_result = parse_xbrl_file(file_path)
+                if "error" in parsed_result:
+                    print(f"Error parsing XBRL for {ticker} {filing_type}: {parsed_result['error']}")
+                    filing_result["structured_data"]["error"] = parsed_result["error"]
+                else:
+                    # Generate LLM format
+                    llm_content = generate_llm_format(parsed_result, filing_metadata)
+                    
+                    # Save LLM format
+                    save_result = save_llm_format(llm_content, filing_metadata)
+                    if "error" in save_result:
+                        print(f"Error saving LLM format for {ticker} {filing_type}: {save_result['error']}")
+                        filing_result["structured_data"]["error"] = save_result["error"]
+                    else:
+                        filing_result["structured_data"]["success"] = True
+                        filing_result["structured_data"]["file_path"] = save_result.get("file_path")
+                        filing_result["structured_data"]["size"] = save_result.get("size")
+                        print(f"Successfully processed XBRL data for {ticker} {filing_type}")
+        except Exception as e:
+            error_msg = f"Exception processing XBRL data for {ticker} {filing_type}: {str(e)}"
+            print(error_msg)
+            filing_result["structured_data"]["error"] = error_msg
         
-        # Rate limiting
+        # Process HTML filing - Raw text data
+        print(f"Processing HTML text for {ticker} {filing_type}")
+        try:
+            html_result = process_html_filing(filing_metadata)
+            if "error" in html_result:
+                print(f"Error processing HTML for {ticker} {filing_type}: {html_result['error']}")
+                filing_result["text_data"]["error"] = html_result["error"]
+            else:
+                filing_result["text_data"]["success"] = True
+                filing_result["text_data"]["files_saved"] = html_result.get("files_saved", {})
+                print(f"Successfully processed HTML text for {ticker} {filing_type}")
+        except Exception as e:
+            error_msg = f"Exception processing HTML for {ticker} {filing_type}: {str(e)}"
+            print(error_msg)
+            filing_result["text_data"]["error"] = error_msg
+        
+        # Add filing result to the overall results
+        results["filings_processed"].append(filing_result)
+        
+        # Rate limiting between filings
         time.sleep(1)
     
     return results

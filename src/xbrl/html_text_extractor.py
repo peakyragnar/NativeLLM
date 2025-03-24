@@ -61,6 +61,7 @@ def fetch_filing_html(filing_metadata):
     accession_number = filing_metadata.get("accession_number")
     cik = filing_metadata.get("cik")
     instance_url = filing_metadata.get("instance_url", "")
+    document_url = filing_metadata.get("document_url", "")  # This should be provided by filing_finder
     filing_type = filing_metadata.get("filing_type", "")
     ticker = filing_metadata.get("ticker", "")
     period_end_date = filing_metadata.get("period_end_date", "").replace("-", "")
@@ -71,7 +72,11 @@ def fetch_filing_html(filing_metadata):
     # Generate a list of possible URLs to try
     urls_to_try = []
     
-    # 1. First try the standard pattern
+    # 0. First check if document_url is provided and use that directly
+    if document_url:
+        urls_to_try.append(document_url)
+    
+    # 1. Try the standard pattern
     html_url = get_html_filing_url(accession_number, cik)
     urls_to_try.append(html_url)
     
@@ -79,6 +84,10 @@ def fetch_filing_html(filing_metadata):
     if instance_url:
         # Extract accession number portion (0000123456-YY-NNNNNN)
         match = re.search(r'data/\d+/(\d{10}-\d{2}-\d{6})', instance_url)
+        formatted_acc = ""
+        cik_no_zeros = ""
+        base_dir = ""
+        
         if match:
             std_accession = match.group(1)
             formatted_acc = std_accession.replace('-', '')
@@ -86,31 +95,76 @@ def fetch_filing_html(filing_metadata):
             # Add standard URLs with this accession
             urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{std_accession}.txt")
             urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{std_accession}-index.htm")
+        
+        # Extract directory from instance URL
+        if '/' in instance_url:
+            parts = instance_url.split('/')
+            if len(parts) >= 7:  # Should be like https://www.sec.gov/Archives/edgar/data/CIK/ACCESSION/file.xml
+                base_dir = '/'.join(parts[:-1])  # Get everything except the filename
+                
+                # Try to extract accession number and CIK from base_dir if not already set
+                if not formatted_acc or not cik_no_zeros:
+                    acc_match = re.search(r'data/(\d+)/(\d{10,})', base_dir)
+                    if acc_match:
+                        cik_no_zeros = acc_match.group(1)
+                        formatted_acc = acc_match.group(2)
             
             # Try html document based on xml filename from instance_url
-            if '/' in instance_url:
-                filename = instance_url.split('/')[-1].replace('_htm.xml', '.htm')
-                urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{filename}")
-    
-    # 3. Try filename patterns based on ticker and period
-    if ticker and period_end_date:
-        # Get the base accession directory from instance URL
-        if instance_url and '/' in instance_url:
-            base_dir = '/'.join(instance_url.split('/')[:-1])
-            urls_to_try.append(f"{base_dir}/{ticker.lower()}-{period_end_date}.htm")
+            filename = instance_url.split('/')[-1]
             
-            # Just try the actual filing document that might be accessible
-            form_name = filing_type.replace('-', '')  # 10-K -> 10K
-            urls_to_try.append(f"{base_dir}/{form_name}.htm")
-            urls_to_try.append(f"{base_dir}/{ticker.lower()}{form_name}.htm")
-            urls_to_try.append(f"{base_dir}/{ticker.lower()}_{period_end_date}.htm")
+            # Handle various XML naming conventions
+            base_filename = None
+            for pattern in ['_htm.xml', '_cal.xml', '_def.xml', '_lab.xml', '_pre.xml']:
+                if pattern in filename:
+                    base_filename = filename.replace(pattern, '.htm')
+                    break
+            
+            # If we found a base filename, try both regular and iXBRL formats
+            if base_filename and base_dir:
+                # Regular HTML path
+                urls_to_try.append(f"{base_dir}/{base_filename}")
+                
+                # iXBRL path
+                urls_to_try.append(f"{SEC_BASE_URL}/ix?doc={base_dir}/{base_filename}")
+    
+    # 3. Try accession and ticker based patterns
+    if accession_number and cik and ticker and period_end_date:
+        formatted_acc = accession_number.replace('-', '')
+        cik_no_zeros = cik.lstrip('0')
+        
+        # Standard patterns
+        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}-{period_end_date}.htm")
+        
+        # iXBRL formats
+        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}-{period_end_date}.htm")
+        
+        # Try with form name (10K instead of 10-K)
+        form_name = filing_type.replace('-', '')  # 10-K -> 10K
+        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{form_name}.htm")
+        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}{form_name}.htm")
+        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}_{period_end_date}.htm")
+        
+        # iXBRL versions of form name patterns
+        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{form_name}.htm")
+        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}{form_name}.htm")
+        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}_{period_end_date}.htm")
     
     # 4. Try the index URL which always exists
+    if accession_number and cik:
+        formatted_acc = accession_number.replace('-', '')
+        cik_no_zeros = cik.lstrip('0')
+        index_url = f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{accession_number}-index.htm"
+        urls_to_try.append(index_url)
+    
+    # 5. Try instance URL directory with index.htm
     if instance_url and '/' in instance_url:
         parts = instance_url.split('/')
         if len(parts) >= 7:  # Should be something like https://www.sec.gov/Archives/edgar/data/CIK/ACCESSION/file.xml
             acc_dir = '/'.join(parts[:-1])  # Get everything except the filename
             urls_to_try.append(f"{acc_dir}/index.htm")
+    
+    # Remove duplicates while maintaining order
+    urls_to_try = list(dict.fromkeys(urls_to_try))
     
     # Log the URLs we're going to try
     logging.info(f"Trying the following URLs to fetch HTML filing:")
@@ -127,24 +181,69 @@ def fetch_filing_html(filing_metadata):
             if response.status_code == 200:
                 # Check if it's really HTML content
                 if '<html' in response.text.lower() or '<body' in response.text.lower():
-                    logging.info(f"Successfully fetched HTML from: {url}")
-                    return {
-                        "success": True,
-                        "html_content": response.text,
-                        "url": url
-                    }
+                    # Check if this is an index page containing document links
+                    if ('tableFile' in response.text and 
+                       ('filing documents' in response.text.lower() or 
+                        'form ' + filing_type.lower() in response.text.lower() or
+                        'edgar filing documents' in response.text.lower())):
+                        
+                        logging.info(f"Found index page with document table at: {url}")
+                        
+                        # Parse the index page to find the actual document link
+                        soup = BeautifulSoup(response.text, 'html.parser')
+                        
+                        # Create a temporary sections dict to use with handle_index_page
+                        sections = {"metadata": {"title": "index page"}}
+                        
+                        # Use handle_index_page to find the main document URL
+                        handle_index_page(soup, sections, filing_type)
+                        
+                        # Check if handle_index_page found a main document URL
+                        main_doc_url = sections.get("metadata", {}).get("main_document_url")
+                        
+                        # If we found a main document link, fetch it
+                        if main_doc_url:
+                            try:
+                                # Convert relative URL to absolute if needed
+                                if main_doc_url.startswith('/'):
+                                    main_doc_url = f"{SEC_BASE_URL}{main_doc_url}"
+                                elif not main_doc_url.startswith('http'):
+                                    base_url = '/'.join(url.split('/')[:-1])
+                                    main_doc_url = f"{base_url}/{main_doc_url}"
+                                
+                                logging.info(f"Fetching main document from: {main_doc_url}")
+                                doc_response = sec_request(main_doc_url)
+                                
+                                if doc_response.status_code == 200:
+                                    logging.info(f"Successfully fetched main document from: {main_doc_url}")
+                                    return {
+                                        "success": True,
+                                        "html_content": doc_response.text,
+                                        "url": main_doc_url
+                                    }
+                            except Exception as doc_error:
+                                logging.error(f"Error fetching main document: {str(doc_error)}")
+                                # Continue with the next URL if this fails
+                    else:
+                        # This appears to be an actual document, not an index
+                        logging.info(f"Successfully fetched HTML from: {url}")
+                        return {
+                            "success": True,
+                            "html_content": response.text,
+                            "url": url
+                        }
                 else:
                     logging.warning(f"URL returned 200 but content doesn't appear to be HTML: {url}")
                     last_error = "Content doesn't appear to be HTML"
             else:
                 logging.warning(f"Failed to fetch from {url}: HTTP {response.status_code}")
-                last_error = f"HTTP error {response.status_code} for all URLs"
+                last_error = f"HTTP error {response.status_code}"
         except Exception as e:
             logging.error(f"Exception fetching from {url}: {str(e)}")
             last_error = str(e)
     
     # If we've tried all URLs and none worked, return error
-    return {"error": f"Failed to download HTML filing: {last_error}"}
+    return {"error": f"Failed to download HTML filing: {last_error} for all URLs"}
 
 
 def extract_clean_text(html_content, filing_type):
@@ -581,33 +680,176 @@ def handle_index_page(soup, sections, filing_type):
     is_index = False
     if "title" in sections.get("metadata", {}):
         title = sections["metadata"]["title"].lower()
-        is_index = "index" in title or "index.htm" in title
+        is_index = "index" in title or "index.htm" in title or "filing documents" in title
+    
+    # Additional checks for index page patterns in case title doesn't have "index"
+    if not is_index:
+        # Check for typical SEC index page patterns
+        if soup.find('table', {'class': ['tableFile', 'tableFile2']}):
+            is_index = True
+        elif soup.find('table', {'summary': 'Document Format Files'}) or soup.find('table', {'summary': 'Data Files'}):
+            is_index = True
+        elif "EDGAR Filing Documents" in str(soup):
+            is_index = True
     
     if is_index:
         logging.info("This appears to be an index page. Looking for main document link.")
         
-        # Look for a table with document links
-        tables = soup.find_all('table')
+        # Look for a table with document links - try all formats SEC uses
+        tables = soup.find_all('table', {'class': ['tableFile', 'tableFile2']})
+        
+        # Also check for tables with specific summaries (older format)
+        if not tables:
+            tables = soup.find_all('table', {'summary': ['Document Format Files', 'Data Files']})
+        
         main_doc_url = None
         
+        # First priority: Look for iXBRL link with filing type in description
         for table in tables:
             rows = table.find_all('tr')
             for row in rows:
                 cells = row.find_all(['td', 'th'])
-                for i, cell in enumerate(cells):
-                    text = cell.get_text().lower().strip()
-                    if text == filing_type.lower() or text == filing_type.lower().replace('-', ''):
-                        # Found the filing type, look for a link in this row
-                        links = row.find_all('a')
-                        for link in links:
-                            href = link.get('href')
-                            if href and (href.endswith('.htm') or href.endswith('.html')):
-                                main_doc_url = href
-                                break
+                # Need at least 3 cells for Seq, Description, Document
+                if len(cells) >= 3:
+                    # Check description column (usually 2nd column)
+                    description_cell = cells[1] if len(cells) > 1 else None
+                    if description_cell:
+                        description_text = description_cell.get_text().lower().strip()
+                        # Match exact filing type (10-K or 10-Q)
+                        if description_text == filing_type.lower() or description_text == filing_type.lower().replace('-', ''):
+                            # Get document cell (3rd column)
+                            document_cell = cells[2] if len(cells) > 2 else None
+                            if document_cell:
+                                # Look for links and iXBRL indicators
+                                links = document_cell.find_all('a')
+                                is_ixbrl = 'ixbrl' in document_cell.get_text().lower()
+                                
+                                for link in links:
+                                    href = link.get('href')
+                                    if href:
+                                        if '/ix?doc=' in href:
+                                            # This is definitely an iXBRL document - highest priority
+                                            main_doc_url = href
+                                            logging.info(f"Found iXBRL document link with exact filing type match: {main_doc_url}")
+                                            sections["metadata"]["main_document_url"] = main_doc_url
+                                            sections["metadata"]["document_format"] = "iXBRL"
+                                            return  # Exit immediately as we found the best match
+                                        
+                                        # Regular HTML but marked as iXBRL - need to add the ix?doc= prefix
+                                        elif is_ixbrl and (href.endswith('.htm') or href.endswith('.html')):
+                                            if href.startswith('/Archives/'):
+                                                main_doc_url = f"/ix?doc={href}"
+                                            else:
+                                                main_doc_url = f"/ix?doc=/{href}" if not href.startswith('/') else f"/ix?doc={href}"
+                                            logging.info(f"Found HTML marked as iXBRL, converting to: {main_doc_url}")
+                                            sections["metadata"]["main_document_url"] = main_doc_url
+                                            sections["metadata"]["document_format"] = "iXBRL"
+                                            return  # Found best match
+                                        
+                                        # Regular HTML document (not marked as iXBRL)
+                                        elif href.endswith('.htm') or href.endswith('.html'):
+                                            main_doc_url = href
+                                            logging.info(f"Found HTML document with exact filing type match: {main_doc_url}")
+                                            sections["metadata"]["main_document_url"] = main_doc_url
+                                            sections["metadata"]["document_format"] = "HTML"
+                                            # Continue looking for better matches
+        
+        # Second priority: Look for any link with iXBRL in the document
+        if not main_doc_url or "document_format" not in sections.get("metadata", {}) or sections["metadata"]["document_format"] != "iXBRL":
+            for table in tables:
+                rows = table.find_all('tr')
+                for row in rows:
+                    cells = row.find_all(['td', 'th'])
+                    if len(cells) >= 3:
+                        document_cell = cells[2] if len(cells) > 2 else None
+                        if document_cell:
+                            # Check if cell has iXBRL indicator
+                            cell_text = document_cell.get_text().lower()
+                            if 'ixbrl' in cell_text:
+                                links = document_cell.find_all('a')
+                                for link in links:
+                                    href = link.get('href')
+                                    if href:
+                                        if '/ix?doc=' in href:
+                                            main_doc_url = href
+                                            logging.info(f"Found iXBRL document link: {main_doc_url}")
+                                            sections["metadata"]["main_document_url"] = main_doc_url
+                                            sections["metadata"]["document_format"] = "iXBRL"
+                                            return  # Exit after finding iXBRL
+                                        
+                                        # HTML with iXBRL indicator
+                                        elif href.endswith('.htm') or href.endswith('.html'):
+                                            if href.startswith('/Archives/'):
+                                                main_doc_url = f"/ix?doc={href}"
+                                            else:
+                                                main_doc_url = f"/ix?doc=/{href}" if not href.startswith('/') else f"/ix?doc={href}"
+                                            logging.info(f"Found HTML with iXBRL indicator, converting to: {main_doc_url}")
+                                            sections["metadata"]["main_document_url"] = main_doc_url
+                                            sections["metadata"]["document_format"] = "iXBRL"
+                                            return  # Found best match
+        
+        # Third priority: Look for any filing type match 
+        if not main_doc_url:
+            for table in tables:
+                rows = table.find_all('tr')
+                for row in rows:
+                    row_text = row.get_text().lower()
+                    if filing_type.lower() in row_text:
+                        # This row contains our filing type
+                        cells = row.find_all(['td', 'th'])
+                        document_cell = cells[2] if len(cells) > 2 else None
+                        if document_cell:
+                            links = document_cell.find_all('a')
+                            for link in links:
+                                href = link.get('href')
+                                if href:
+                                    if '/ix?doc=' in href:
+                                        main_doc_url = href
+                                        logging.info(f"Found iXBRL document with filing type in row: {main_doc_url}")
+                                        sections["metadata"]["main_document_url"] = main_doc_url
+                                        sections["metadata"]["document_format"] = "iXBRL"
+                                        return  # Exit after finding iXBRL with filing type
+                                    elif href.endswith('.htm') or href.endswith('.html'):
+                                        main_doc_url = href
+                                        logging.info(f"Found HTML document with filing type in row: {main_doc_url}")
+                                        sections["metadata"]["main_document_url"] = main_doc_url
+                                        sections["metadata"]["document_format"] = "HTML"
+                                        # Continue looking for better matches
+        
+        # Fourth priority: Look for any .htm or .html document link
+        if not main_doc_url:
+            for table in tables:
+                rows = table.find_all('tr')
+                for row in rows:
+                    cells = row.find_all(['td', 'th'])
+                    if len(cells) >= 3:
+                        document_cell = cells[2] if len(cells) > 2 else None
+                        if document_cell:
+                            links = document_cell.find_all('a')
+                            for link in links:
+                                href = link.get('href')
+                                if href and (href.endswith('.htm') or href.endswith('.html')):
+                                    # Filter out auxiliary files (like _def, _cal, etc.)
+                                    if not any(x in href.lower() for x in ['_def.', '_cal.', '_lab.', '_pre.', 'index.', 'exhibit']):
+                                        main_doc_url = href
+                                        logging.info(f"Found likely main document: {main_doc_url}")
+                                        sections["metadata"]["main_document_url"] = main_doc_url
+                                        sections["metadata"]["document_format"] = "HTML"
+                                        # Continue looking for better matches
         
         if main_doc_url:
-            logging.info(f"Found main document link: {main_doc_url}")
-            sections["metadata"]["main_document_url"] = main_doc_url
+            # Ensure URL is properly formatted
+            if not main_doc_url.startswith('http') and not main_doc_url.startswith('/'):
+                main_doc_url = f"/{main_doc_url}"
+            
+            # Make sure we store the final result if it wasn't already set
+            if "main_document_url" not in sections["metadata"]:
+                sections["metadata"]["main_document_url"] = main_doc_url
+                
+            logging.info(f"Final main document link: {sections['metadata'].get('main_document_url')}")
+        else:
+            logging.warning(f"Could not find any document links in index page for {filing_type}")
+            sections["metadata"]["document_error"] = "No document links found in index page"
 
 def filter_xbrl_identifiers(text):
     """

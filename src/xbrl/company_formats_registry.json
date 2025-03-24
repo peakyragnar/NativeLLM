@@ -1,0 +1,36 @@
+{
+  "AAPL": {
+    "default_format": "cal_xml",
+    "format_patterns": {
+      "_cal.xml": "cal_xml",
+      "_htm.xml": "htm_xml"
+    }
+  },
+  "MSFT": {
+    "default_format": "cal_xml",
+    "format_patterns": {
+      "_cal.xml": "cal_xml", 
+      "_htm.xml": "htm_xml",
+      "_pre.xml": "htm_xml" 
+    }
+  },
+  "GOOGL": {
+    "default_format": "cal_xml",
+    "format_patterns": {
+      "_cal.xml": "cal_xml",
+      "_htm.xml": "htm_xml"
+    }
+  },
+  "META": {
+    "default_format": "htm_xml",
+    "format_patterns": {
+      "_htm.xml": "htm_xml"
+    }
+  },
+  "AMZN": {
+    "default_format": "htm_xml",
+    "format_patterns": {
+      "_htm.xml": "htm_xml"
+    }
+  }
+}

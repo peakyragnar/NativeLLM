@@ -410,8 +410,9 @@ def save_llm_format(llm_content, filing_metadata):
             quarter_num = ""
             
             # Extract quarter mention from filing text if available
-            if 'filing_text' in filing_metadata and filing_metadata['filing_text']:
-                text = filing_metadata['filing_text'].lower()
+            filing_text = filing_metadata.get('filing_text', '')
+            if filing_text and isinstance(filing_text, str):
+                text = filing_text.lower()
                 
                 # Look for explicit quarter statements in the filing
                 # These patterns are common in SEC filings to explicitly state which quarter is being reported
@@ -463,16 +464,17 @@ def save_llm_format(llm_content, filing_metadata):
                     pass
             
             # If we still don't have a quarter number, check the instance URL
-            if not quarter_num and "instance_url" in filing_metadata:
+            instance_url = filing_metadata.get("instance_url", "")
+            if not quarter_num and instance_url and isinstance(instance_url, str):
                 # Look for patterns like q1, q2, q3, q4 in the URL
-                instance_url = filing_metadata["instance_url"].lower()
-                if "q1" in instance_url or "-1q" in instance_url:
+                instance_url_lower = instance_url.lower()
+                if "q1" in instance_url_lower or "-1q" in instance_url_lower:
                     quarter_num = "1Q"
-                elif "q2" in instance_url or "-2q" in instance_url:
+                elif "q2" in instance_url_lower or "-2q" in instance_url_lower:
                     quarter_num = "2Q"
-                elif "q3" in instance_url or "-3q" in instance_url:
+                elif "q3" in instance_url_lower or "-3q" in instance_url_lower:
                     quarter_num = "3Q"
-                elif "q4" in instance_url or "-4q" in instance_url:
+                elif "q4" in instance_url_lower or "-4q" in instance_url_lower:
                     quarter_num = "4Q"
             
             # If we still couldn't determine quarter, default to plain Q
