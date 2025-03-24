@@ -203,11 +203,16 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                             fiscal_year = str(period_date.year)
                         if not fiscal_period and filing_type != "10-K":
                             fiscal_period = "Q3"
-                    else:  # Jul-Sep = Q4
+                    else:  # Jul-Sep
                         if not fiscal_year:
                             fiscal_year = str(period_date.year)
-                        if not fiscal_period and filing_type != "10-K":
-                            fiscal_period = "Q4"
+                        # For Apple, there should be no 10-Q for Q4, only a 10-K
+                        # If we find a 10-Q in this period, it's actually Q3
+                        if not fiscal_period:
+                            if filing_type == "10-K":
+                                fiscal_period = "annual"
+                            else:
+                                fiscal_period = "Q3"  # Important: Apple doesn't have Q4 10-Q filings
                     
                     logging.info(f"Set Apple fiscal period: FY{fiscal_year} {fiscal_period} for period ending {period_end_date}")
                 else:

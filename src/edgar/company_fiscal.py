@@ -81,12 +81,13 @@ class CompanyFiscalCalendar:
         
         logging.info(f"Fiscal calendar for {self.ticker}: Year ends on month {self.fiscal_year_end_month}, day {self.fiscal_year_end_day}")
     
-    def determine_fiscal_period(self, period_end_date_str):
+    def determine_fiscal_period(self, period_end_date_str, filing_type="10-Q"):
         """
         Determine the fiscal quarter and year for a given period end date
         
         Args:
             period_end_date_str: Period end date as string (YYYY-MM-DD)
+            filing_type: Type of filing (10-Q or 10-K)
             
         Returns:
             Dict with fiscal_year and fiscal_period
@@ -101,6 +102,36 @@ class CompanyFiscalCalendar:
             logging.warning(f"Invalid period end date: {period_end_date_str}")
             return {"fiscal_year": None, "fiscal_period": None}
         
+        # Special handling for Apple
+        if self.ticker == "AAPL":
+            # Apple's fiscal year ends in September
+            # Q1: Oct-Dec, Q2: Jan-Mar, Q3: Apr-Jun, Q4: Jul-Sep
+            month = period_end.month
+            
+            if month in [10, 11, 12]:  # Oct-Dec = Q1 of next calendar year
+                fiscal_year = str(period_end.year + 1)
+                fiscal_period = "Q1" if filing_type != "10-K" else "annual"
+            elif month in [1, 2, 3]:  # Jan-Mar = Q2
+                fiscal_year = str(period_end.year)
+                fiscal_period = "Q2" if filing_type != "10-K" else "annual"
+            elif month in [4, 5, 6]:  # Apr-Jun = Q3
+                fiscal_year = str(period_end.year)
+                fiscal_period = "Q3" if filing_type != "10-K" else "annual"
+            else:  # Jul-Sep
+                fiscal_year = str(period_end.year)
+                if filing_type == "10-K":
+                    fiscal_period = "annual"
+                else:
+                    # Apple has no Q4 10-Q filings, as they're covered by 10-K
+                    # If we find a 10-Q in this period, it must be Q3
+                    fiscal_period = "Q3"
+            
+            return {
+                "fiscal_year": fiscal_year,
+                "fiscal_period": fiscal_period
+            }
+            
+        # Standard handling for other companies
         # Calculate months from fiscal year end
         month_diff = (period_end.month - self.fiscal_year_end_month) % 12
         
@@ -110,18 +141,24 @@ class CompanyFiscalCalendar:
             # Same month as fiscal year end
             if period_end.day >= self.fiscal_year_end_day:
                 fiscal_year = period_end.year
-                fiscal_period = "Q4"
+                fiscal_period = "Q4" if filing_type != "10-K" else "annual"
             else:
                 fiscal_year = period_end.year
                 fiscal_period = self._get_quarter_by_month_diff((month_diff - 1) % 12)
+                if filing_type == "10-K":
+                    fiscal_period = "annual"
         elif month_diff > 0:
             # Month is after fiscal year end month in the same calendar year
             fiscal_year = period_end.year
             fiscal_period = self._get_quarter_by_month_diff(month_diff)
+            if filing_type == "10-K":
+                fiscal_period = "annual"
         else:
             # Month is before fiscal year end month in the next calendar year
             fiscal_year = period_end.year - 1
             fiscal_period = self._get_quarter_by_month_diff(month_diff)
+            if filing_type == "10-K":
+                fiscal_period = "annual"
         
         return {
             "fiscal_year": str(fiscal_year),
@@ -239,10 +276,10 @@ class FiscalCalendarRegistry:
         self.save_registry()
         return calendar
     
-    def determine_fiscal_period(self, ticker, period_end_date):
+    def determine_fiscal_period(self, ticker, period_end_date, filing_type="10-Q"):
         """Determine fiscal period for a company and date"""
         calendar = self.get_calendar(ticker)
-        return calendar.determine_fiscal_period(period_end_date)
+        return calendar.determine_fiscal_period(period_end_date, filing_type)
 
 
 # Initialize global registry
