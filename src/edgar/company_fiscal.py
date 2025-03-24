@@ -136,6 +136,43 @@ class CompanyFiscalCalendar:
                 "fiscal_year": fiscal_year,
                 "fiscal_period": fiscal_period
             }
+        
+        # Special handling for Microsoft
+        if self.ticker == "MSFT":
+            # Microsoft's fiscal year ends in June
+            # Fiscal year 20XX runs from July 1, 20XX-1 to June 30, 20XX
+            # Q1: Jul-Sep, Q2: Oct-Dec, Q3: Jan-Mar, annual (never Q4): Apr-Jun
+            month = period_end.month
+            
+            # For Microsoft, determine the fiscal year based on the month
+            # If the date is between Jul-Dec, it's in the next fiscal year
+            # If the date is between Jan-Jun, it's in the current fiscal year
+            if month >= 7:  # Jul-Dec
+                base_fiscal_year = period_end.year + 1
+            else:  # Jan-Jun
+                base_fiscal_year = period_end.year
+                
+            # Determine quarter
+            if month in [7, 8, 9]:  # Jul-Sep = Q1
+                fiscal_period = "Q1" if filing_type != "10-K" else "annual"
+            elif month in [10, 11, 12]:  # Oct-Dec = Q2
+                fiscal_period = "Q2" if filing_type != "10-K" else "annual"
+            elif month in [1, 2, 3]:  # Jan-Mar = Q3
+                fiscal_period = "Q3" if filing_type != "10-K" else "annual"
+            else:  # Apr-Jun = ALWAYS annual for both 10-K and 10-Q
+                fiscal_period = "annual"
+                
+            # For annual reports (10-K), if it's at fiscal year end (June 30),
+            # it should represent the fiscal year that's ending
+            if filing_type == "10-K" and month == 6 and period_end.day == 30:
+                fiscal_year = str(period_end.year)
+            else:
+                fiscal_year = str(base_fiscal_year)
+            
+            return {
+                "fiscal_year": fiscal_year,
+                "fiscal_period": fiscal_period
+            }
             
         # Standard handling for other companies
         # Calculate months from fiscal year end

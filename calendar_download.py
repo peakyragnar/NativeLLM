@@ -215,6 +215,42 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                                 fiscal_period = "Q3"  # Important: Apple doesn't have Q4 10-Q filings
                     
                     logging.info(f"Set Apple fiscal period: FY{fiscal_year} {fiscal_period} for period ending {period_end_date}")
+                elif ticker == "MSFT":
+                    # Microsoft's fiscal year ends in June
+                    # Q1: Jul-Sep, Q2: Oct-Dec, Q3: Jan-Mar, annual (never Q4): Apr-Jun
+                    month = period_date.month
+                    
+                    # For Microsoft, determine fiscal year based on the month
+                    if month >= 7:  # Jul-Dec
+                        if not fiscal_year:
+                            fiscal_year = str(period_date.year + 1)
+                    else:  # Jan-Jun
+                        if not fiscal_year:
+                            fiscal_year = str(period_date.year)
+                    
+                    # Determine fiscal period
+                    if month in [7, 8, 9]:  # Jul-Sep = Q1
+                        if not fiscal_period and filing_type != "10-K":
+                            fiscal_period = "Q1"
+                    elif month in [10, 11, 12]:  # Oct-Dec = Q2
+                        if not fiscal_period and filing_type != "10-K":
+                            fiscal_period = "Q2"
+                    elif month in [1, 2, 3]:  # Jan-Mar = Q3
+                        if not fiscal_period and filing_type != "10-K":
+                            fiscal_period = "Q3"
+                    else:  # Apr-Jun = ALWAYS annual for both 10-K and 10-Q
+                        if not fiscal_period:
+                            fiscal_period = "annual"
+                    
+                    # For 10-K at fiscal year end (June 30), use the current year
+                    if filing_type == "10-K" and month == 6 and period_date.day == 30:
+                        fiscal_year = str(period_date.year)
+                    
+                    # Always set 10-K filings to annual
+                    if filing_type == "10-K" and not fiscal_period:
+                        fiscal_period = "annual"
+                    
+                    logging.info(f"Set Microsoft fiscal period: FY{fiscal_year} {fiscal_period} for period ending {period_end_date}")
                 else:
                     # Default behavior for other companies - assume calendar fiscal year
                     if not fiscal_year:
