@@ -233,9 +233,19 @@ def get_filing_metadata(cik, filing_type, instance_url):
         "instance_url": instance_url
     }
 
-def find_company_filings(ticker, filing_types):
-    """Find filings for a company"""
+def find_company_filings(ticker, filing_types, specific_url=None):
+    """Find filings for a company
+    
+    Args:
+        ticker: Company ticker symbol
+        filing_types: List of filing types to look for
+        specific_url: Optional URL to a specific filing document page
+        
+    Returns:
+        Dictionary with filing information
+    """
     from src.edgar.edgar_utils import get_cik_from_ticker, get_company_name_from_cik
+    import logging
     
     # Get CIK from ticker
     cik = get_cik_from_ticker(ticker)
@@ -252,12 +262,57 @@ def find_company_filings(ticker, filing_types):
         "filings": {}
     }
     
-    # Find filings for each type
-    for filing_type in filing_types:
-        instance_url = get_latest_filing_url(cik, filing_type)
-        if instance_url:
-            metadata = get_filing_metadata(cik, filing_type, instance_url)
-            results["filings"][filing_type] = metadata
+    # If a specific URL is provided, process just that filing
+    if specific_url:
+        logging.info(f"Processing specific filing URL: {specific_url}")
+        # Extract filing type from URL or use the first one in the list
+        filing_type = filing_types[0] if filing_types else "10-K"
+        
+        # Use the specific URL directly
+        from src.edgar.edgar_utils import sec_request
+        try:
+            response = sec_request(specific_url)
+            if response.status_code == 200:
+                # Save the document page for debugging
+                import os
+                debug_file = f"debug_{cik}_{filing_type}_specific_documents.html"
+                with open(debug_file, "w") as f:
+                    f.write(response.text)
+                
+                # Parse the HTML to find the XBRL instance document
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Look for XML links
+                instance_url = None
+                for link in soup.find_all('a'):
+                    href = link.get('href')
+                    if href and (href.endswith('_htm.xml') or href.endswith('.xml')):
+                        # This is likely an XBRL instance document
+                        instance_url = "https://www.sec.gov" + href
+                        break
+                
+                if instance_url:
+                    logging.info(f"Found XBRL instance at {instance_url}")
+                    metadata = get_filing_metadata(cik, filing_type, instance_url)
+                    
+                    # Include the document URL for HTML extraction
+                    metadata["document_url"] = specific_url
+                    
+                    results["filings"][filing_type] = metadata
+                else:
+                    logging.warning(f"Could not find instance document in {specific_url}")
+            else:
+                logging.warning(f"Failed to access {specific_url}: {response.status_code}")
+        except Exception as e:
+            logging.error(f"Error processing specific URL: {str(e)}")
+    else:
+        # Find filings for each type (standard behavior)
+        for filing_type in filing_types:
+            instance_url = get_latest_filing_url(cik, filing_type)
+            if instance_url:
+                metadata = get_filing_metadata(cik, filing_type, instance_url)
+                results["filings"][filing_type] = metadata
     
     return results
 
