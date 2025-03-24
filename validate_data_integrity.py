@@ -213,8 +213,15 @@ class DataIntegrityValidator:
             expected_fiscal_period = expected.get('fiscal_period')
             
             # Compare current with expected
-            is_valid = (current_fiscal_year == expected_fiscal_year and 
-                        current_fiscal_period == expected_fiscal_period)
+            # Special handling for custom fiscal periods like "Q3_early"
+            if "_" in current_fiscal_period:
+                # Extract the base period (e.g., "Q3" from "Q3_early")
+                base_period = current_fiscal_period.split("_")[0]
+                is_valid = (current_fiscal_year == expected_fiscal_year and 
+                            base_period == expected_fiscal_period)
+            else:
+                is_valid = (current_fiscal_year == expected_fiscal_year and 
+                            current_fiscal_period == expected_fiscal_period)
             
             result = {
                 'filing_id': filing_id,
