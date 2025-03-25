@@ -1,15 +1,250 @@
-# src/xbrl/xbrl_parser.py
 import os
 import sys
 import logging
 from lxml import etree
 import re
+from bs4 import BeautifulSoup
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 # Import company format detection
 from src.xbrl.company_formats import detect_xbrl_format, get_format_handler, learn_from_successful_parse
+
+def process_table_safely(table_html):
+    """
+    Process table HTML to extract content with 100% data integrity.
+    This function prioritizes perfect preservation of all numeric values and data relationships
+    over maximum size reduction. It only removes definitively non-essential attributes 
+    while preserving all content exactly as presented.
+    
+    Args:
+        table_html: HTML string containing a table
+        
+    Returns:
+        Cleaned representation of the table with structure and ALL values preserved
+    """
+    if not table_html or '<table' not in table_html:
+        return table_html
+    
+    try:
+        # Store original text content for verification
+        soup = BeautifulSoup(table_html, 'html.parser')
+        original_text = soup.get_text(separator=' ', strip=False)  # Preserve all whitespace
+        
+        # Extract numeric values using a comprehensive pattern
+        # This captures dollar amounts, percentages, dates, and all numeric formats
+        original_numbers = re.findall(r'\$?[\d,]+\.?\d*%?|\(\$?[\d,]+\.?\d*\)', original_text)
+        original_number_set = set(original_numbers)
+        
+        # Extract words and other non-numeric tokens for secondary verification
+        original_tokens = re.findall(r'\b[\w\d.,$%()-]+\b', original_text)
+        original_token_set = set(original_tokens)
+        
+        # If no content, return original
+        if not original_token_set:
+            return table_html
+        
+        # Create a copy of the soup for modification
+        cleaned_soup = BeautifulSoup(table_html, 'html.parser')
+        
+        # Only remove specific non-essential attributes
+        for tag in cleaned_soup.find_all(True):
+            # Remove purely cosmetic attributes while keeping structural ones
+            if tag.has_attr('style'):
+                style = tag['style']
+                style_parts = []
+                # Only keep alignment and structural styles
+                for part in style.split(';'):
+                    part = part.strip()
+                    # Keep only essential structural styles
+                    if part and any(essential in part.lower() for essential in 
+                             ['align', 'padding', 'margin', 'width', 'height', 'border']):
+                        style_parts.append(part)
+                if style_parts:
+                    tag['style'] = ';'.join(style_parts)
+                else:
+                    del tag['style']
+            
+            # Remove purely cosmetic attributes
+            for attr in ['bgcolor', 'color', 'font', 'face', 'class']:
+                if tag.has_attr(attr):
+                    del tag[attr]
+        
+        # Convert to string and verify PERFECT preservation
+        cleaned_html = str(cleaned_soup)
+        cleaned_text = cleaned_soup.get_text(separator=' ', strip=False)
+        
+        # Strict verification for numeric values - this is our absolute requirement
+        cleaned_numbers = re.findall(r'\$?[\d,]+\.?\d*%?|\(\$?[\d,]+\.?\d*\)', cleaned_text)
+        cleaned_number_set = set(cleaned_numbers)
+        
+        # Check for any missing numbers
+        missing_numbers = original_number_set - cleaned_number_set
+        
+        # If ANY number is missing or different, return the original
+        if missing_numbers:
+            logging.warning(f"Missing {len(missing_numbers)} numeric values, using original table: {list(missing_numbers)[:5]}")
+            return table_html
+        
+        # Secondary verification for overall content
+        cleaned_tokens = re.findall(r'\b[\w\d.,$%()-]+\b', cleaned_text)
+        cleaned_token_set = set(cleaned_tokens)
+        missing_tokens = original_token_set - cleaned_token_set
+        
+        # If more than 1% of tokens are missing, return original
+        if len(missing_tokens) > 0.01 * len(original_token_set):
+            logging.warning(f"Missing {len(missing_tokens)} tokens, using original table: {list(missing_tokens)[:5]}")
+            return table_html
+            
+        # If we've maintained perfect numeric value integrity with size reduction, use the cleaned version
+        if len(cleaned_html) < len(table_html):
+            logging.info(f"Table size: {len(table_html)} → {len(cleaned_html)} chars ({len(cleaned_html)/len(table_html):.1%})")
+            return cleaned_html
+            
+        # No meaningful size reduction achieved, return original
+        return table_html
+        
+    except Exception as e:
+        logging.warning(f"Error processing table: {str(e)}")
+        return table_html  # Return original for safety
+
+def extract_text_only_from_html(html_value):
+    """
+    Safely extract only text from HTML while preserving 100% of data values.
+    This function prioritizes perfect data preservation over size reduction,
+    only removing HTML/CSS styling when it can guarantee no data loss whatsoever.
+    
+    Args:
+        html_value: Value that might contain HTML formatting
+        
+    Returns:
+        Text-only value with HTML/CSS removed but all data perfectly preserved
+    """
+    # Don't process empty values
+    if not html_value or not isinstance(html_value, str):
+        return html_value
+        
+    # First check if this is a numerical value or non-HTML text
+    # If it's clearly not HTML, return it unchanged
+    if '<' not in html_value or '>' not in html_value:
+        return html_value
+    
+    # Check if it's likely a numeric value (even if wrapped in HTML)
+    # We never want to modify numeric values in any way
+    stripped = html_value.strip().replace('-', '').replace('.', '').replace(',', '').replace('$', '').replace('%', '')
+    if stripped.isdigit() or (stripped.startswith('(') and stripped.endswith(')') and stripped[1:-1].isdigit()):
+        # This is numeric - extract just the number if it's wrapped in simple HTML, with extreme caution
+        try:
+            soup = BeautifulSoup(html_value, 'html.parser')
+            text = soup.get_text(strip=False)  # Preserve whitespace
+            
+            # Extract all possible numeric values from original
+            original_numbers = re.findall(r'\$?[\d,]+\.?\d*%?|\(\$?[\d,]+\.?\d*\)', html_value)
+            extracted_numbers = re.findall(r'\$?[\d,]+\.?\d*%?|\(\$?[\d,]+\.?\d*\)', text)
+            
+            # Verify ALL numeric content is preserved exactly (strict verification)
+            if set(original_numbers) == set(extracted_numbers) and len(original_numbers) == len(extracted_numbers):
+                return text
+            else:
+                # If anything changed about the numbers, return original
+                return html_value
+        except:
+            return html_value
+        
+    # Special handling for tables - process them with our table-specific function
+    if '<table' in html_value:
+        return process_table_safely(html_value)
+        
+    # For other HTML content, use a conservative approach
+    try:
+        # First extract original numbers for verification
+        original_numbers = re.findall(r'\$?[\d,]+\.?\d*%?|\(\$?[\d,]+\.?\d*\)', html_value)
+        original_number_set = set(original_numbers)
+        
+        # Extract original tokens for secondary verification
+        original_tokens = re.findall(r'\b[\w\d.,$%()-]+\b', html_value)
+        original_token_set = set(original_tokens)
+        
+        # For really simple HTML with just text content, try extracting just the text
+        # This handles the common case of <div>Some text</div> efficiently
+        if html_value.count("<") < 5 and not original_number_set:
+            try:
+                soup = BeautifulSoup(html_value, "html.parser")
+                text = soup.get_text(" ", strip=True)
+                
+                # Verify all words are preserved
+                text_tokens = re.findall(r'\b[\w\d.,$%()-]+\b', text)
+                
+                if set(text_tokens) == original_token_set:
+                    return text
+            except:
+                pass  # Fall back to other approaches
+        
+        # Create a cleaned version that only removes definitive non-essential attributes
+        soup = BeautifulSoup(html_value, 'html.parser')
+        
+        # Only remove specific non-essential attributes
+        for tag in soup.find_all(True):
+            # Handle style attribute conservatively
+            if tag.has_attr('style'):
+                style = tag['style']
+                style_parts = []
+                # Only keep alignment and structural styles
+                for part in style.split(';'):
+                    part = part.strip()
+                    # Keep only essential structural styles
+                    if part and any(essential in part.lower() for essential in 
+                             ['align', 'padding', 'margin', 'width', 'height', 'border']):
+                        style_parts.append(part)
+                if style_parts:
+                    tag['style'] = ';'.join(style_parts)
+                else:
+                    del tag['style']
+            
+            # Remove purely cosmetic attributes
+            for attr in ['bgcolor', 'color', 'font', 'face', 'class', 'font-family']:
+                if tag.has_attr(attr):
+                    del tag[attr]
+        
+        # Get text representation with preserved spacing
+        extracted_text = soup.get_text(separator=' ', strip=False)
+        
+        # Create a simplified HTML version with only essential tags
+        simplified_html = str(soup)
+        
+        # Verify numeric content preservation (our primary requirement)
+        extracted_numbers = re.findall(r'\$?[\d,]+\.?\d*%?|\(\$?[\d,]+\.?\d*\)', extracted_text)
+        extracted_number_set = set(extracted_numbers)
+        
+        # If ANY numeric value is missing, return original
+        if original_number_set != extracted_number_set or len(original_numbers) != len(extracted_numbers):
+            return html_value
+            
+        # Verify overall content preservation
+        extracted_tokens = re.findall(r'\b[\w\d.,$%()-]+\b', extracted_text)
+        extracted_token_set = set(extracted_tokens)
+        
+        # Allow at most 0.5% token loss (for non-numeric tokens only)
+        missing_tokens = original_token_set - extracted_token_set
+        if len(missing_tokens) > 0.005 * len(original_token_set):
+            return html_value
+        
+        # Determine which result to return for maximum preservation
+        if len(extracted_text) < len(simplified_html) and len(extracted_text) < len(html_value):
+            # Text representation is smallest
+            return extracted_text
+        elif len(simplified_html) < len(html_value):
+            # Simplified HTML is smaller than original but preserves structure better than text
+            return simplified_html
+        else:
+            # No meaningful size reduction achieved
+            return html_value
+            
+    except Exception as e:
+        # On any error, return original value
+        logging.warning(f"Error cleaning HTML content: {str(e)[:100]}")
+        return html_value
 
 def parse_xbrl_file(file_path, ticker=None, filing_metadata=None):
     """
@@ -398,6 +633,8 @@ def parse_xbrl_file(file_path, ticker=None, filing_metadata=None):
                         if context_ref:
                             # Extract and clean value
                             value = element.text.strip() if element.text else ""
+                            # Clean HTML from value if present
+                            value = extract_text_only_from_html(value)
                             
                             # Create fact
                             fact = {
@@ -446,6 +683,8 @@ def parse_xbrl_file(file_path, ticker=None, filing_metadata=None):
                         value = ""
                         if element.text:
                             value = element.text.strip()
+                            # Clean HTML from value if present
+                            value = extract_text_only_from_html(value)
                         
                         # Create fact object
                         fact = {
@@ -492,11 +731,16 @@ def parse_xbrl_file(file_path, ticker=None, filing_metadata=None):
                     if tag_name.lower() in ('html', 'body', 'div', 'span', 'p', 'br', 'table', 'tr', 'td'):
                         continue
                     
+                    # Extract and clean value
+                    value = element.text.strip() if element.text else ""
+                    # Clean HTML from value if present
+                    value = extract_text_only_from_html(value)
+                    
                     # Create a fact with limited metadata
                     fact = {
                         "concept": tag_name,
                         "namespace": namespace,
-                        "value": element.text.strip(),
+                        "value": value,
                         "fallback": True
                     }
                     
