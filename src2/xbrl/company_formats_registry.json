@@ -1,0 +1,15 @@
+{
+  "AAPL": {
+    "default_format": "cal_xml",
+    "format_patterns": {
+      ".cal.xml": "cal_xml",
+      "_htm.xml": "htm_xml"
+    }
+  },
+  "MSFT": {
+    "default_format": "standard",
+    "format_patterns": {
+      "_htm.xml": "htm_xml"
+    }
+  }
+}
