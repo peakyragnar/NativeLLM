@@ -20,8 +20,9 @@ from typing import Dict, List, Any, Optional, Tuple
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Import secedgar
-from secedgar.filings import Filing, FilingType
 from secedgar.client import NetworkClient
+from secedgar.core.filings import filings
+from secedgar.core.filing_types import FilingType
 from secedgar.utils import get_cik_mapper
 
 # Import core processing modules
@@ -202,10 +203,10 @@ def process_company_filing_secedgar(ticker: str, filing_type: FilingType, count:
         os.makedirs(temp_dir, exist_ok=True)
         
         # Create the filing object
-        filing = Filing(cik_lookup=ticker,
-                      filing_type=filing_type,
-                      count=count,
-                      client=client)
+        filing = filings(cik_lookup=ticker,
+                       filing_type=filing_type,
+                       count=count,
+                       client=client)
         
         # Download the filing
         logging.info(f"Downloading {filing_type} filing for {ticker}")

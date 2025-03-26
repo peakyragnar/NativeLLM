@@ -23,7 +23,7 @@ logging.basicConfig(
 
 # Import secedgar pipeline
 from secedgar_pipeline import process_ticker, process_company_filing_secedgar
-from secedgar.filings import FilingType
+from secedgar.core.filing_types import FilingType
 
 def test_single_filing(ticker: str, filing_type_str: str) -> Dict[str, Any]:
     """
