@@ -57,11 +57,113 @@ def fetch_filing_html(filing_metadata):
     Returns:
         HTML content of the filing or error
     """
-    # Extract necessary data
+    # IMPORTANT: First check if document_url or primary_doc_url is provided and use that directly
+    # The direct_sec_download.py approach uses primary_doc_url while the old approach used document_url
+    document_url = filing_metadata.get("document_url", "") or filing_metadata.get("primary_doc_url", "")
+    
+    # Ensure both URL fields exist and are synchronized for compatibility with all code paths
+    # This guarantees that both fields will be available regardless of which one is used later
+    if document_url:
+        if not filing_metadata.get("document_url"):
+            filing_metadata["document_url"] = document_url
+            logging.info(f"Added missing document_url: {document_url}")
+        if not filing_metadata.get("primary_doc_url"):
+            filing_metadata["primary_doc_url"] = document_url
+            logging.info(f"Added missing primary_doc_url: {document_url}")
+    
+    # If we still don't have a URL, log this but continue to try fallback methods
+    if not document_url:
+        logging.warning("No document_url or primary_doc_url found in metadata, will try fallback methods")
+    
+    if document_url:
+        logging.info(f"Using document URL provided in metadata: {document_url}")
+        try:
+            response = sec_request(document_url)
+            if response.status_code == 200:
+                # Check if it's really HTML content
+                if '<html' in response.text.lower() or '<body' in response.text.lower():
+                    logging.info(f"Successfully fetched HTML from provided document URL")
+                    # Check if this is a redirect or index page
+                    if ('tableFile' in response.text and ('filing documents' in response.text.lower())):
+                        logging.info(f"Document URL led to an index page, following document links")
+                        
+                        # Parse the index page to find the actual document link
+                        soup = BeautifulSoup(response.text, 'html.parser')
+                        
+                        # Create a temporary sections dict to use with handle_index_page
+                        sections = {"metadata": {"title": "index page"}}
+                        
+                        # Use handle_index_page to find the main document URL
+                        filing_type = filing_metadata.get("filing_type", "")
+                        handle_index_page(soup, sections, filing_type)
+                        
+                        # Check if handle_index_page found a main document URL
+                        main_doc_url = sections.get("metadata", {}).get("main_document_url")
+                        
+                        # If we found a main document link, fetch it
+                        if main_doc_url:
+                            try:
+                                # Convert relative URL to absolute if needed
+                                if main_doc_url.startswith('/'):
+                                    main_doc_url = f"{SEC_BASE_URL}{main_doc_url}"
+                                elif not main_doc_url.startswith('http'):
+                                    base_url = '/'.join(document_url.split('/')[:-1])
+                                    main_doc_url = f"{base_url}/{main_doc_url}"
+                                
+                                logging.info(f"Fetching main document from: {main_doc_url}")
+                                doc_response = sec_request(main_doc_url)
+                                
+                                if doc_response.status_code == 200:
+                                    logging.info(f"Successfully fetched main document from: {main_doc_url}")
+                                    
+                                    # Add this URL to filing_metadata so other systems know about it
+                                    # Always update both URL fields together to maintain synchronization
+                                    filing_metadata["document_url"] = main_doc_url
+                                    filing_metadata["primary_doc_url"] = main_doc_url
+                                    logging.info(f"Updated both document_url and primary_doc_url to: {main_doc_url}")
+                                    
+                                    return {
+                                        "success": True,
+                                        "html_content": doc_response.text,
+                                        "url": main_doc_url
+                                    }
+                            except Exception as doc_error:
+                                logging.error(f"Error fetching main document: {str(doc_error)}")
+                    else:
+                        # This appears to be an actual document, not an index
+                        return {
+                            "success": True,
+                            "html_content": response.text,
+                            "url": document_url
+                        }
+                else:
+                    logging.warning(f"Provided document URL returned non-HTML content: {document_url}")
+                    
+                    # If it's not HTML but some other content, check if it's an XML file that has an HTML equivalent
+                    if document_url.endswith('.xml') and '_htm.xml' in document_url:
+                        # Try to derive an HTML URL from XML
+                        html_url = document_url.replace('_htm.xml', '.htm')
+                        logging.info(f"Trying to convert XML URL to HTML: {html_url}")
+                        try:
+                            html_response = sec_request(html_url)
+                            if html_response.status_code == 200:
+                                logging.info(f"Successfully found HTML from XML URL: {html_url}")
+                                return {
+                                    "success": True,
+                                    "html_content": html_response.text,
+                                    "url": html_url
+                                }
+                        except Exception as xml_e:
+                            logging.error(f"Error fetching derived HTML URL: {str(xml_e)}")
+            else:
+                logging.warning(f"Failed to fetch from provided document URL: HTTP {response.status_code}")
+        except Exception as e:
+            logging.error(f"Exception fetching from provided document URL: {str(e)}")
+    
+    # Extract necessary data for fallback methods
     accession_number = filing_metadata.get("accession_number")
     cik = filing_metadata.get("cik")
     instance_url = filing_metadata.get("instance_url", "")
-    document_url = filing_metadata.get("document_url", "")  # This should be provided by filing_finder
     filing_type = filing_metadata.get("filing_type", "")
     ticker = filing_metadata.get("ticker", "")
     period_end_date = filing_metadata.get("period_end_date", "").replace("-", "")
@@ -71,10 +173,6 @@ def fetch_filing_html(filing_metadata):
     
     # Generate a list of possible URLs to try
     urls_to_try = []
-    
-    # 0. First check if document_url is provided and use that directly
-    if document_url:
-        urls_to_try.append(document_url)
     
     # 1. Try the standard pattern
     html_url = get_html_filing_url(accession_number, cik)
@@ -112,64 +210,120 @@ def fetch_filing_html(filing_metadata):
             # Try html document based on xml filename from instance_url
             filename = instance_url.split('/')[-1]
             
-            # Handle various XML naming conventions
+            # Handle various XML naming conventions - more patterns than before
             base_filename = None
-            for pattern in ['_htm.xml', '_cal.xml', '_def.xml', '_lab.xml', '_pre.xml']:
-                if pattern in filename:
-                    base_filename = filename.replace(pattern, '.htm')
-                    break
+            xml_to_html_patterns = [
+                ('_htm.xml', '.htm'),      # Standard pattern
+                ('_htm.xml', '_htm.htm'),  # Alternative pattern
+                ('_cal.xml', '.htm'),      # Calendar linkbase
+                ('_def.xml', '.htm'),      # Definition linkbase
+                ('_lab.xml', '.htm'),      # Label linkbase
+                ('_pre.xml', '.htm'),      # Presentation linkbase
+                # Add non-standard but common variations
+                ('_htm.xml', '.html'),     # HTML extension
+                ('.xml', '.htm'),          # Generic XML to HTML 
+                ('.xml', '.html'),         # Generic XML to HTML
+            ]
             
-            # If we found a base filename, try both regular and iXBRL formats
-            if base_filename and base_dir:
-                # Regular HTML path
-                urls_to_try.append(f"{base_dir}/{base_filename}")
-                
-                # iXBRL path
-                urls_to_try.append(f"{SEC_BASE_URL}/ix?doc={base_dir}/{base_filename}")
+            for xml_pattern, html_pattern in xml_to_html_patterns:
+                if xml_pattern in filename:
+                    derived_filename = filename.replace(xml_pattern, html_pattern)
+                    if base_dir:
+                        # Regular HTML path
+                        urls_to_try.append(f"{base_dir}/{derived_filename}")
+                        # iXBRL path
+                        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc={base_dir}/{derived_filename}")
     
-    # 3. Try accession and ticker based patterns
-    if accession_number and cik and ticker and period_end_date:
+    # 3. Try accession and ticker based patterns - with more variations
+    if accession_number and cik and ticker:
         formatted_acc = accession_number.replace('-', '')
         cik_no_zeros = cik.lstrip('0')
         
-        # Standard patterns
-        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}-{period_end_date}.htm")
+        # Common naming patterns
+        ticker_variations = [ticker.lower(), ticker.upper()]
         
-        # iXBRL formats
-        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}-{period_end_date}.htm")
+        # Add patterns with period end date if available
+        if period_end_date:
+            base_patterns = [
+                f"{ticker_var}-{period_end_date}.htm", 
+                f"{ticker_var}_{period_end_date}.htm",
+                f"{ticker_var}{period_end_date}.htm"
+            ]
+            
+            for pattern in base_patterns:
+                # Standard HTML URL
+                urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
+                # iXBRL URL
+                urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
         
-        # Try with form name (10K instead of 10-K)
-        form_name = filing_type.replace('-', '')  # 10-K -> 10K
-        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{form_name}.htm")
-        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}{form_name}.htm")
-        urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}_{period_end_date}.htm")
-        
-        # iXBRL versions of form name patterns
-        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{form_name}.htm")
-        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}{form_name}.htm")
-        urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{ticker.lower()}_{period_end_date}.htm")
+        # Try form name patterns with ticker variations
+        if filing_type:
+            form_name = filing_type.replace('-', '')  # 10-K -> 10K
+            form_patterns = [
+                f"{form_name}.htm",
+                f"form{form_name}.htm", 
+                f"Form{form_name}.htm"
+            ]
+            
+            for pattern in form_patterns:
+                urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
+                urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
+            
+            # Ticker + form combinations
+            for ticker_var in ticker_variations:
+                ticker_form_patterns = [
+                    f"{ticker_var}{form_name}.htm",
+                    f"{ticker_var}-{form_name}.htm", 
+                    f"{ticker_var}_{form_name}.htm"
+                ]
+                
+                for pattern in ticker_form_patterns:
+                    urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
+                    urls_to_try.append(f"{SEC_BASE_URL}/ix?doc=/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
     
-    # 4. Try the index URL which always exists
+    # 4. Try the index URL with multiple patterns
     if accession_number and cik:
         formatted_acc = accession_number.replace('-', '')
         cik_no_zeros = cik.lstrip('0')
-        index_url = f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{accession_number}-index.htm"
-        urls_to_try.append(index_url)
+        
+        # Try both standard and alternative index URL formats
+        index_patterns = [
+            f"{accession_number}-index.htm",
+            f"index.htm",
+            f"{formatted_acc}-index.htm"
+        ]
+        
+        for pattern in index_patterns:
+            urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
     
-    # 5. Try instance URL directory with index.htm
-    if instance_url and '/' in instance_url:
-        parts = instance_url.split('/')
-        if len(parts) >= 7:  # Should be something like https://www.sec.gov/Archives/edgar/data/CIK/ACCESSION/file.xml
-            acc_dir = '/'.join(parts[:-1])  # Get everything except the filename
-            urls_to_try.append(f"{acc_dir}/index.htm")
+    # 5. Try generic document names as a last resort
+    if accession_number and cik:
+        formatted_acc = accession_number.replace('-', '')
+        cik_no_zeros = cik.lstrip('0')
+        
+        generic_patterns = [
+            "report.htm", 
+            "filing.htm", 
+            "primary.htm", 
+            "document.htm",
+
+            "primary-document.htm",
+            "full-submission.htm", 
+            "complete-submission.htm"
+        ]
+        
+        for pattern in generic_patterns:
+            urls_to_try.append(f"{SEC_BASE_URL}/Archives/edgar/data/{cik_no_zeros}/{formatted_acc}/{pattern}")
     
     # Remove duplicates while maintaining order
     urls_to_try = list(dict.fromkeys(urls_to_try))
     
     # Log the URLs we're going to try
-    logging.info(f"Trying the following URLs to fetch HTML filing:")
-    for idx, url in enumerate(urls_to_try):
+    logging.info(f"Trying {len(urls_to_try)} URLs to fetch HTML filing:")
+    for idx, url in enumerate(urls_to_try[:5]):  # Log first 5 to avoid flooding logs
         logging.info(f"  URL {idx+1}: {url}")
+    if len(urls_to_try) > 5:
+        logging.info(f"  ... and {len(urls_to_try) - 5} more URLs")
     
     # Try each URL until we find one that works
     last_error = None
@@ -216,6 +370,10 @@ def fetch_filing_html(filing_metadata):
                                 
                                 if doc_response.status_code == 200:
                                     logging.info(f"Successfully fetched main document from: {main_doc_url}")
+                                    
+                                    # Set this URL in the metadata to share with other systems
+                                    filing_metadata["document_url"] = main_doc_url
+                                    
                                     return {
                                         "success": True,
                                         "html_content": doc_response.text,
@@ -227,6 +385,13 @@ def fetch_filing_html(filing_metadata):
                     else:
                         # This appears to be an actual document, not an index
                         logging.info(f"Successfully fetched HTML from: {url}")
+                        
+                        # Set this URL in the metadata to share with other systems
+                        # Always update both URL fields together to maintain synchronization
+                        filing_metadata["document_url"] = url
+                        filing_metadata["primary_doc_url"] = url
+                        logging.info(f"Updated both document_url and primary_doc_url to: {url}")
+                        
                         return {
                             "success": True,
                             "html_content": response.text,
@@ -1127,57 +1292,74 @@ def process_html_filing(filing_metadata):
     Returns:
         Dictionary with processing results
     """
-    # Step 1: Fetch the HTML filing
-    fetch_result = fetch_filing_html(filing_metadata)
-    if "error" in fetch_result:
-        return {"error": fetch_result["error"]}
-    
-    html_content = fetch_result["html_content"]
-    url = fetch_result["url"]
-    
-    # Step 2: Extract text from the HTML
-    filing_type = filing_metadata.get("filing_type")
-    extracted_text = extract_clean_text(html_content, filing_type)
-    
-    # Step 2b: Check if we found a link to the main document (in case this was an index page)
-    main_doc_url = extracted_text.get("metadata", {}).get("main_document_url")
-    if main_doc_url:
-        logging.info(f"Found link to main document: {main_doc_url}")
-        
-        # Convert relative URL to absolute if needed
-        if main_doc_url.startswith('/'):
-            # It's a root-relative URL, need to add domain
-            main_doc_url = f"{SEC_BASE_URL}{main_doc_url}"
-        elif not main_doc_url.startswith('http'):
-            # It's a relative URL, need to add base path
-            base_url = '/'.join(url.split('/')[:-1])
-            main_doc_url = f"{base_url}/{main_doc_url}"
-        
-        logging.info(f"Fetching main document from: {main_doc_url}")
-        
-        try:
-            # Fetch the main document
-            main_doc_response = sec_request(main_doc_url)
+    try:
+        # Ensure document_url and primary_doc_url are synchronized before starting
+        # This prevents KeyError issues later in the process
+        document_url = filing_metadata.get("document_url", "") or filing_metadata.get("primary_doc_url", "")
+        if document_url:
+            filing_metadata["document_url"] = document_url
+            filing_metadata["primary_doc_url"] = document_url
+            logging.info(f"Synchronized document_url and primary_doc_url to: {document_url}")
             
-            if main_doc_response.status_code == 200:
-                # Extract text from the main document
-                main_doc_text = extract_clean_text(main_doc_response.text, filing_type)
+        # Step 1: Fetch the HTML filing
+        fetch_result = fetch_filing_html(filing_metadata)
+        if "error" in fetch_result:
+            return {"error": fetch_result["error"]}
+    
+        html_content = fetch_result["html_content"]
+        url = fetch_result["url"]
+        
+        # Step 2: Extract text from the HTML
+        filing_type = filing_metadata.get("filing_type")
+        extracted_text = extract_clean_text(html_content, filing_type)
+        
+        # Step 2b: Check if we found a link to the main document (in case this was an index page)
+        main_doc_url = extracted_text.get("metadata", {}).get("main_document_url")
+        if main_doc_url:
+            logging.info(f"Found link to main document: {main_doc_url}")
+            
+            # Convert relative URL to absolute if needed
+            if main_doc_url.startswith('/'):
+                # It's a root-relative URL, need to add domain
+                main_doc_url = f"{SEC_BASE_URL}{main_doc_url}"
+            elif not main_doc_url.startswith('http'):
+                # It's a relative URL, need to add base path
+                base_url = '/'.join(url.split('/')[:-1])
+                main_doc_url = f"{base_url}/{main_doc_url}"
+            
+            logging.info(f"Fetching main document from: {main_doc_url}")
+            
+            try:
+                # Fetch the main document
+                main_doc_response = sec_request(main_doc_url)
                 
-                # Only use the main document if it has more content
-                if len(main_doc_text.get("full_text", "")) > len(extracted_text.get("full_text", "")):
-                    logging.info("Main document has more content, using it instead")
-                    extracted_text = main_doc_text
-                else:
-                    logging.info("Main document has less content, keeping original extract")
-        except Exception as e:
-            logging.error(f"Error fetching main document: {str(e)}")
+                if main_doc_response.status_code == 200:
+                    # Extract text from the main document
+                    main_doc_text = extract_clean_text(main_doc_response.text, filing_type)
+                    
+                    # Only use the main document if it has more content
+                    if len(main_doc_text.get("full_text", "")) > len(extracted_text.get("full_text", "")):
+                        logging.info("Main document has more content, using it instead")
+                        extracted_text = main_doc_text
+                    else:
+                        logging.info("Main document has less content, keeping original extract")
+            except Exception as e:
+                logging.error(f"Error fetching main document: {str(e)}")
     
-    # Step 3: Save the extracted text with all section markers in a single file
-    save_result = save_text_file(extracted_text, filing_metadata)
-    
-    return {
-        "success": True,
-        "filing_metadata": filing_metadata,
-        "file_path": save_result.get("file_path", ""),
-        "file_size": save_result.get("size", 0)
-    }
+        # Step 3: Save the extracted text with all section markers in a single file
+        save_result = save_text_file(extracted_text, filing_metadata)
+        
+        return {
+            "success": True,
+            "filing_metadata": filing_metadata,
+            "file_path": save_result.get("file_path", ""),
+            "file_size": save_result.get("size", 0)
+        }
+    except KeyError as e:
+        # Handle the specific document_url KeyError that was causing the issue
+        logging.error(f"KeyError processing HTML filing: {str(e)}")
+        return {"error": f"KeyError: {str(e)} - This is likely due to inconsistent URL fields in the metadata"}
+    except Exception as e:
+        # Handle any other exceptions
+        logging.error(f"Error processing HTML filing: {str(e)}")
+        return {"error": f"Error processing HTML filing: {str(e)}"}

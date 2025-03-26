@@ -545,10 +545,11 @@ def select_filing_documents(documents, filing_type, metadata=None):
                     selected["primary_document"] = doc
                     logging.info(f"Selected primary document (priority 4 - marked as primary): {doc.get('url')}")
                     break
-            if any(indicator in description for indicator in primary_indicators) and (derived_format == "HTML" or derived_format == "iXBRL"):
-                selected["primary_document"] = doc
-                logging.info(f"Selected primary document (priority 4 - description indicates primary): {doc.get('url')}")
-                break
+                
+                if any(indicator in description for indicator in primary_indicators) and (derived_format == "HTML" or derived_format == "iXBRL"):
+                    selected["primary_document"] = doc
+                    logging.info(f"Selected primary document (priority 4 - description indicates primary): {doc.get('url')}")
+                    break
     
         # PRIORITY 5: Sequence 1 HTML document (often the main filing)
         if not selected["primary_document"]:
@@ -686,15 +687,22 @@ def extract_document_url_from_filing_metadata(filing_metadata):
     # Import needed functions
     from src.edgar.edgar_utils import sec_request
     
-    # Step 1: Check if document_url is already provided in metadata
-    if "document_url" in filing_metadata:
-        document_url = filing_metadata["document_url"]
+    # Step 1: Check if document_url or primary_doc_url is already provided in metadata
+    document_url = filing_metadata.get("document_url", "") or filing_metadata.get("primary_doc_url", "")
+    if document_url:
+        # Ensure both fields are set consistently
+        filing_metadata["document_url"] = document_url
+        filing_metadata["primary_doc_url"] = document_url
         logging.info(f"Using document URL from metadata: {document_url}")
         return document_url
     
+    # Fallback to html_url if no document URLs available
     if "html_url" in filing_metadata:
         document_url = filing_metadata["html_url"]
         logging.info(f"Using HTML URL from metadata: {document_url}")
+        # Update both document URL fields for consistency
+        filing_metadata["document_url"] = document_url
+        filing_metadata["primary_doc_url"] = document_url
         return document_url
     
     # Step 2: Get the filing's index page URL
@@ -1203,7 +1211,17 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
             else:
                 logging.warning(f"Document table approach failed to find document URL for {ticker} {filing_type}")
         else:
-            document_url = filing_metadata["document_url"]
+            # Use safe get() with fallback to primary_doc_url for redundancy
+            document_url = filing_metadata.get("document_url", "") or filing_metadata.get("primary_doc_url", "")
+            
+            if not document_url:
+                logging.warning("No document_url or primary_doc_url found in metadata")
+                return None
+                
+            # Ensure both URL fields are set for future use
+            filing_metadata["document_url"] = document_url
+            filing_metadata["primary_doc_url"] = document_url
+            
             attempted_urls.append(document_url)
             logging.info(f"Using existing document URL from metadata: {document_url}")
             
@@ -1263,10 +1281,16 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
                     logging.info(f"Using document URL from enhanced processor: {parsed_result['document_url']}")
                 
                 # Update with any other discovered URLs from XBRL processing
-                for key in ["html_url", "instance_url", "xbrl_url"]:
+                for key in ["html_url", "instance_url", "xbrl_url", "primary_doc_url", "document_url"]:
                     if key in xbrl_metadata and key not in filing_metadata:
                         filing_metadata[key] = xbrl_metadata[key]
                         logging.info(f"Updating {key} from XBRL processing: {xbrl_metadata[key]}")
+                
+                # Ensure both URL formats are synchronized
+                if "document_url" in filing_metadata and "primary_doc_url" not in filing_metadata:
+                    filing_metadata["primary_doc_url"] = filing_metadata["document_url"]
+                elif "primary_doc_url" in filing_metadata and "document_url" not in filing_metadata:
+                    filing_metadata["document_url"] = filing_metadata["primary_doc_url"]
             else:
                 logging.warning(f"Error in enhanced processor: {parsed_result.get('error', 'Unknown error')}")
                 
@@ -1288,20 +1312,41 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
             # Keep track of previously tried document URLs to avoid duplicates
             attempted_document_urls = set(attempted_urls)
             
+            # Support both old and new URL field names
+            if not filing_metadata.get("document_url") and filing_metadata.get("primary_doc_url"):
+                filing_metadata["document_url"] = filing_metadata["primary_doc_url"]
+            elif not filing_metadata.get("primary_doc_url") and filing_metadata.get("document_url"):
+                filing_metadata["primary_doc_url"] = filing_metadata["document_url"]
+            
             while html_attempts < max_html_attempts and not html_processed:
                 html_attempts += 1
                 
                 # Make sure we have a document URL (it might have been found by any of the previous steps)
-                if "document_url" in filing_metadata:
-                    current_url = filing_metadata["document_url"]
+                if "document_url" in filing_metadata or "primary_doc_url" in filing_metadata:
+                    # Ensure both URL fields are set (for compatibility)
+                    doc_url = filing_metadata.get("document_url", "")
+                    primary_url = filing_metadata.get("primary_doc_url", "")
+                    
+                    # Get the most valid URL (prefer primary_doc_url if both exist)
+                    current_url = primary_url or doc_url
+                    
+                    # Always ensure both URL fields are set to the same value
+                    filing_metadata["document_url"] = current_url
+                    filing_metadata["primary_doc_url"] = current_url
                     
                     # If we've already tried this URL, try to find a different one
                     if current_url in attempted_document_urls and html_attempts < max_html_attempts:
                         logging.warning(f"Already tried URL {current_url}, attempting to find a different one")
                         
                         # Force a fresh document table parse with different criteria
-                        if "document_url" in filing_metadata:
-                            del filing_metadata["document_url"]
+                        # Clear both URL fields to ensure consistency - must clear BOTH!
+                        # Create a temporary copy of metadata without these URLs
+                        filing_metadata_copy = filing_metadata.copy()
+                        if "document_url" in filing_metadata_copy:
+                            del filing_metadata_copy["document_url"]
+                        if "primary_doc_url" in filing_metadata_copy:
+                            del filing_metadata_copy["primary_doc_url"]
+                        filing_metadata = filing_metadata_copy
                             
                         # Try finding a document with different criteria based on attempt number
                         if html_attempts == 2:
@@ -1314,14 +1359,27 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
                             document_url = extract_document_url_from_filing_metadata(filing_metadata)
                             
                         if document_url and document_url not in attempted_document_urls:
+                            # Always update both URL fields together for consistency
                             filing_metadata["document_url"] = document_url
+                            filing_metadata["primary_doc_url"] = document_url
+                            logging.info(f"Updated both URL fields to new value: {document_url}")
                             attempted_document_urls.add(document_url)
                             attempted_urls.append(document_url)  # for tracking
                             logging.info(f"HTML attempt {html_attempts}: Found alternative document URL: {document_url}")
                             continue  # Try again with the new URL
                     
+                    # Use either document_url or primary_doc_url, making sure at least one exists
+                    document_url = filing_metadata.get("document_url", "") or filing_metadata.get("primary_doc_url", "")
+                    if not document_url:
+                        logging.error("No document URL available for HTML processing")
+                        continue
+                        
+                    # Ensure both fields are synchronized before processing
+                    filing_metadata["document_url"] = document_url
+                    filing_metadata["primary_doc_url"] = document_url
+                    
                     # Process HTML filing with document URL in metadata
-                    logging.info(f"HTML attempt {html_attempts}: Using document URL: {filing_metadata['document_url']}")
+                    logging.info(f"HTML attempt {html_attempts}: Using document URL: {document_url}")
                     
                     # Make a deep copy of filing_metadata to avoid any reference issues
                     import copy
@@ -1333,13 +1391,21 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
                     
                     # If HTML processing was successful, check if it found a better document URL
                     if "error" not in html_processing_result:
-                        if "document_url" in html_metadata and html_metadata["document_url"] != filing_metadata.get("document_url"):
-                            new_url = html_metadata["document_url"]
-                            if new_url not in attempted_document_urls:
-                                logging.info(f"HTML processing found better document URL: {new_url}")
-                                filing_metadata["document_url"] = new_url
-                                attempted_document_urls.add(new_url)
-                                attempted_urls.append(new_url)  # for tracking
+                        # Check for updated URLs from HTML processing (looking at both fields)
+                        new_document_url = html_metadata.get("document_url", "")
+                        new_primary_url = html_metadata.get("primary_doc_url", "")
+                        
+                        # Get the most reliable URL (prefer new_primary_url if available)
+                        new_url = new_primary_url or new_document_url
+                        
+                        # Check if we found a new URL that we haven't tried before
+                        if new_url and new_url not in attempted_document_urls and new_url != document_url:
+                            logging.info(f"HTML processing found better document URL: {new_url}")
+                            # Update both URL fields consistently
+                            filing_metadata["document_url"] = new_url
+                            filing_metadata["primary_doc_url"] = new_url
+                            attempted_document_urls.add(new_url)
+                            attempted_urls.append(new_url)  # for tracking
                         
                         local_text_path = html_processing_result.get("file_path")
                         
@@ -1427,9 +1493,13 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
                         
                         if html_attempts < max_html_attempts:
                             # Record current URL as attempted
+                            # Clear both URL fields to ensure consistency
                             if "document_url" in filing_metadata:
                                 attempted_document_urls.add(filing_metadata["document_url"])
                                 del filing_metadata["document_url"]  # Force a fresh parse
+                            if "primary_doc_url" in filing_metadata:
+                                attempted_document_urls.add(filing_metadata["primary_doc_url"])
+                                del filing_metadata["primary_doc_url"]  # Force a fresh parse
                             
                             # Try a different method based on attempt number
                             if html_attempts == 1:
@@ -1442,6 +1512,7 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
                             
                             if document_url and document_url not in attempted_document_urls:
                                 filing_metadata["document_url"] = document_url
+                                filing_metadata["primary_doc_url"] = document_url  # Keep both URLs synchronized
                                 attempted_document_urls.add(document_url)
                                 attempted_urls.append(document_url)  # for tracking
                                 logging.info(f"Retrying HTML with new document URL: {document_url}")
@@ -1465,6 +1536,7 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True, use_en
                     
                     if document_url and document_url not in attempted_document_urls:
                         filing_metadata["document_url"] = document_url
+                        filing_metadata["primary_doc_url"] = document_url  # Keep both URLs synchronized
                         attempted_document_urls.add(document_url)
                         attempted_urls.append(document_url)  # for tracking
                         logging.info(f"Found document URL for HTML processing: {document_url}")

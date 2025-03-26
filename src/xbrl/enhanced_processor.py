@@ -81,10 +81,17 @@ def process_filing_ixbrl(filing_metadata, force_download=False):
     
     file_path = download_result.get("file_path")
     
-    # If the download discovered a document URL, add it back to metadata to share
-    if "document_url" in download_result and "document_url" not in filing_metadata:
-        filing_metadata["document_url"] = download_result["document_url"]
-        print(f"Adding discovered document URL to metadata: {download_result['document_url']}")
+    # If the download discovered document URLs, add them back to metadata to share
+    # Ensure both URL fields are set and synchronized
+    if "document_url" in download_result or "primary_doc_url" in download_result:
+        # Get the URL from either field
+        discovered_url = download_result.get("document_url", "") or download_result.get("primary_doc_url", "")
+        
+        if discovered_url:
+            # Update both fields to ensure synchronization
+            filing_metadata["document_url"] = discovered_url
+            filing_metadata["primary_doc_url"] = discovered_url
+            print(f"Adding discovered URL to both document_url and primary_doc_url: {discovered_url}")
     
     # Step 2: Extract data from the iXBRL document
     extracted_data = process_ixbrl_file(file_path, filing_metadata)
@@ -156,16 +163,27 @@ def process_filing_xbrl(filing_metadata, force_download=False):
     filing_type = filing_metadata.get('filing_type', 'UNKNOWN')
     print(f"Processing {ticker} {filing_type} using traditional XBRL approach")
     
-    # If we have a document_url from the enhanced URL detection, make note of it
-    # (It might be useful for deriving the instance URL)
-    if "document_url" in filing_metadata:
-        print(f"Note: document URL is available: {filing_metadata['document_url']}")
+    # Check for either document_url or primary_doc_url from the enhanced URL detection
+    document_url = filing_metadata.get("document_url", "") or filing_metadata.get("primary_doc_url", "")
+    
+    # Make sure both URL fields are present for consistency
+    if document_url:
+        print(f"Note: document URL is available: {document_url}")
+        
+        # Ensure both fields are set consistently
+        if not filing_metadata.get("document_url"):
+            filing_metadata["document_url"] = document_url
+            print(f"Added missing document_url: {document_url}")
+        
+        if not filing_metadata.get("primary_doc_url"):
+            filing_metadata["primary_doc_url"] = document_url
+            print(f"Added missing primary_doc_url: {document_url}")
+        
         # Try to derive instance URL from document URL if not already present
         if "instance_url" not in filing_metadata:
-            doc_url = filing_metadata["document_url"]
             # Common pattern: .htm -> _htm.xml
-            if doc_url.endswith('.htm') or doc_url.endswith('.html'):
-                instance_url = doc_url.rsplit('.', 1)[0] + '_htm.xml'
+            if document_url.endswith('.htm') or document_url.endswith('.html'):
+                instance_url = document_url.rsplit('.', 1)[0] + '_htm.xml'
                 print(f"Derived possible instance URL from document URL: {instance_url}")
                 # Don't overwrite an existing instance_url, just add as alternative
                 filing_metadata["alternative_instance_url"] = instance_url
@@ -178,10 +196,17 @@ def process_filing_xbrl(filing_metadata, force_download=False):
     
     file_path = download_result.get("file_path")
     
-    # If the download discovered a document URL, add it back to metadata to share
-    if "document_url" in download_result and "document_url" not in filing_metadata:
-        filing_metadata["document_url"] = download_result["document_url"]
-        print(f"Adding discovered document URL to metadata: {download_result['document_url']}")
+    # If the download discovered document URLs, add them back to metadata to share
+    # Ensure both URL fields are set and synchronized
+    if "document_url" in download_result or "primary_doc_url" in download_result:
+        # Get the URL from either field
+        discovered_url = download_result.get("document_url", "") or download_result.get("primary_doc_url", "")
+        
+        if discovered_url:
+            # Update both fields to ensure synchronization
+            filing_metadata["document_url"] = discovered_url
+            filing_metadata["primary_doc_url"] = discovered_url
+            print(f"Adding discovered URL to both document_url and primary_doc_url: {discovered_url}")
     
     # Step 2: Parse XBRL
     parsed_result = parse_xbrl_file(file_path)
@@ -209,6 +234,59 @@ def process_company_filing(filing_metadata, force_download=False):
     """
     ticker = filing_metadata.get("ticker", "UNKNOWN")
     filing_type = filing_metadata.get("filing_type", "UNKNOWN")
+    
+    # Handle special case for foreign companies using 20-F instead of 10-K
+    foreign_filing_type = None
+    if filing_type == '10-K':
+        foreign_filing_type = '20-F'
+    
+    # Try with the original filing type first
+    cik = filing_metadata.get("cik")
+    if cik and foreign_filing_type:
+        # First, let's check if we need to use the foreign filing type instead
+        # We'll peek at the xbrl_downloader's get_filing_urls function to see if we can find the document
+        from src.xbrl.xbrl_downloader import get_filing_urls
+        
+        # Try to get URLs for the original filing type first
+        urls = get_filing_urls(cik, filing_type)
+        if 'error' in urls and "No documents found" in urls['error']:
+            print(f"[{ticker} {filing_type}] No documents found, trying foreign filing type {foreign_filing_type}")
+            
+            # Try with the foreign filing type
+            foreign_urls = get_filing_urls(cik, foreign_filing_type) 
+            if 'error' not in foreign_urls:
+                # Update filing type and URLs
+                original_filing_type = filing_type
+                filing_type = foreign_filing_type
+                filing_metadata["filing_type"] = foreign_filing_type
+                filing_metadata["original_filing_type"] = original_filing_type
+                
+                # Update metadata with URL information, ensuring all URL fields are consistent
+                if "xbrl_url" in foreign_urls:
+                    filing_metadata["xbrl_url"] = foreign_urls["xbrl_url"]
+                
+                # Ensure document_url and primary_doc_url stay synchronized
+                if "primary_doc_url" in foreign_urls:
+                    primary_doc_url = foreign_urls["primary_doc_url"]
+                    filing_metadata["primary_doc_url"] = primary_doc_url
+                    filing_metadata["document_url"] = primary_doc_url
+                    print(f"Updated both document_url and primary_doc_url to: {primary_doc_url}")
+                elif "document_url" in foreign_urls:
+                    document_url = foreign_urls["document_url"]
+                    filing_metadata["document_url"] = document_url
+                    filing_metadata["primary_doc_url"] = document_url
+                    print(f"Updated both document_url and primary_doc_url to: {document_url}")
+                
+                if "documents_url" in foreign_urls:
+                    filing_metadata["documents_url"] = foreign_urls["documents_url"]
+                if "accession_number" in foreign_urls:
+                    filing_metadata["accession_number"] = foreign_urls["accession_number"]
+                if "filing_date" in foreign_urls:
+                    filing_metadata["filing_date"] = foreign_urls["filing_date"]
+                if "period_end_date" in foreign_urls:
+                    filing_metadata["period_end_date"] = foreign_urls["period_end_date"]
+                
+                print(f"[{ticker} {filing_type}] Successfully found foreign filing type documents")
     
     # Determine preferred format
     preferred_format = determine_preferred_format(filing_metadata)
