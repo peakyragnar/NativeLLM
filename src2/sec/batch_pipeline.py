@@ -86,6 +86,24 @@ class BatchSECPipeline:
                 fiscal_year_end_month = pattern["fiscal_year_end_month"]
                 fiscal_year_end_day = pattern["fiscal_year_end_day"]
                 logging.info(f"Found {ticker} in KNOWN_FISCAL_PATTERNS: year end {fiscal_year_end_month}-{fiscal_year_end_day}")
+                
+                # CRITICAL: Adjust requested fiscal years based on company's fiscal calendar
+                # For companies with early fiscal year end (Jan-Jun), their fiscal year X
+                # spans parts of calendar years X-1 and X
+                if fiscal_year_end_month <= 6:
+                    logging.info(f"Company {ticker} has fiscal year ending in month {fiscal_year_end_month}")
+                    logging.info(f"Original requested fiscal years: {start_year}-{end_year}")
+                    
+                    # For companies with non-standard fiscal years, create a mapping to standardize
+                    # This ensures that "fiscal year 2022" consistently means the same period
+                    # regardless of company fiscal calendar
+                    adjusted_start_year = start_year
+                    adjusted_end_year = end_year
+                    
+                    # We don't adjust the years at input - instead, we'll make the adjustment
+                    # when calculating calendar dates to ensure consistent fiscal year meaning
+                    logging.info(f"Using consistent fiscal year definition for {ticker}")
+                    logging.info(f"For fiscal year X, period: {(fiscal_year_end_month+1)%12 or 12}/X-1 to {fiscal_year_end_month}/X")
             
             # Use the model directly from registry as fallback
             # This handles companies where we've defined a model but not added to KNOWN_FISCAL_PATTERNS
@@ -346,10 +364,16 @@ class BatchSECPipeline:
                             period_end_month = 12
                             
                         # Calculate calendar year based on mathematical formula
+                        # For consistent handling across all companies:
+                        # 1. A fiscal year X always means the period ending in fiscal year end month of year X
+                        # 2. This applies regardless of fiscal calendar (early or late fiscal year end)
                         if period_end_month <= fiscal_year_end_month:
                             calendar_year = fiscal_year
                         else:
                             calendar_year = fiscal_year - 1
+                            
+                        # Log detailed mapping for debugging and transparency
+                        logging.info(f"Fiscal-to-calendar mapping: {ticker} FY{fiscal_year} Q{q} -> Period end {calendar_year}-{period_end_month}")
                             
                         # Update calendar_months to only include the expected period end month
                         calendar_months = [period_end_month]
