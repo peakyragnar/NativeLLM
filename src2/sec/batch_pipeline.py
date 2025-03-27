@@ -560,11 +560,23 @@ class BatchSECPipeline:
                     download_dir=self.pipeline.downloader.download_dir
                 )
                 
+                # Calculate the appropriate number of filings to fetch based on year range
+                import datetime
+                current_year = datetime.datetime.now().year
+                years_to_search = current_year - min(year, current_year) + 1
+                filings_per_year = 4  # 4 quarters per year for 10-Q
+                filing_count = (years_to_search * filings_per_year) + 4  # Add buffer of 4 filings
+                
+                # Cap at a reasonable maximum to prevent excessive API calls
+                filing_count = min(filing_count, 50)
+                
+                logging.info(f"Calculated search depth of {filing_count} filings to cover {years_to_search} years ({min(year, current_year)}-{current_year})")
+                
                 # Get all filings for the specified year and filing type
                 all_filings = downloader.get_company_filings(
                     ticker=ticker,
                     filing_type=filing_type,
-                    count=10  # Get enough filings to find the right one
+                    count=filing_count  # Dynamically calculated based on year range
                 )
                 
                 logging.info(f"Retrieved {len(all_filings)} {filing_type} filings for {ticker}")
