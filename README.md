@@ -19,84 +19,48 @@ The system creates a pipeline that:
 - **Cross-validation**: Verifies extracted data against expected patterns
 - **Flexible Document Handling**: Adapts to different filing structures across companies
 
-## iXBRL Support
-
-The system now fully supports inline XBRL (iXBRL) documents, which is the modern SEC-mandated format for financial filings. This enables processing of companies like Google (GOOGL/GOOG) that use this format exclusively. Key features of the iXBRL support include:
-
-- **Comprehensive Document Discovery**: Locates HTML documents containing iXBRL data
-- **Context and Unit Extraction**: Extracts hidden XBRL sections containing contexts and units
-- **Fact Extraction**: Identifies and extracts tagged financial facts embedded within HTML
-- **Related Document Handling**: Manages relationships between HTML and linkbase files
-- **Section Recognition**: Identifies standard financial sections like balance sheets and income statements
-
 ## Architecture
 
-The system is built with a hybrid approach:
+The system uses a modular architecture organized into specialized components in the `src2` directory:
 
-- **lxml + BeautifulSoup**: For efficient HTML and XML parsing
-- **Multi-stage Processing Pipeline**: Separates download, parsing, and extraction steps
-- **Graceful Degradation**: Handles edge cases and format variations with fallback mechanisms
-- **Circuit Breakers**: Prevents cascading failures when processing problematic files
-
-## Setup and Installation
-
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
+1. **Downloader Modules** - Retrieve SEC filings with reliable URL construction
+2. **Processor Modules** - Parse XBRL/iXBRL and optimize HTML content
+3. **Formatter Modules** - Convert data to LLM-friendly format
+4. **Storage Modules** - Store documents and metadata in the cloud
 
 ## Usage
 
-### Process a Company
-
 ```bash
-# Process a specific company
-python run_pipeline.py --company GOOGL
+# Process a single company
+python -m src2.sec.batch_pipeline MSFT --start-year 2024 --end-year 2025 --gcp-bucket native-llm-filings --email info@exascale.capital
 
-# Process initial companies from config
-python run_pipeline.py --initial
+# Process multiple companies in parallel
+python -m src2.sec.batch_pipeline AAPL --start-year 2023 --end-year 2024 --workers 3 --gcp-bucket native-llm-filings
 
-# Process top N companies in parallel
-python run_pipeline.py --top 10 --workers 3
+# Skip GCP upload for local processing only
+python -m src2.sec.batch_pipeline GOOGL --start-year 2024 --end-year 2024 --no-10q
 ```
 
-### Test iXBRL Extraction
+## Data Validation
 
 ```bash
-# Test Google extraction
-python test_ixbrl_extraction.py --test-google
+# Validate data integrity for a company
+python verify_file_integrity.py --ticker MSFT --filing-type 10-K --fiscal-year 2024
 
-# Process and format a specific filing
-python test_ixbrl_extraction.py --process-format --ticker GOOGL --filing-type 10-K
-
-# Test multiple companies
-python test_ixbrl_extraction.py --test-multiple
+# Check GCP consistency for a ticker
+python clear_gcp_data.py --ticker MSFT
 ```
 
-### Query a Processed Filing
+## Documentation
 
-```bash
-python query_llm.py --ticker GOOGL --filing_type 10-K --question "What was the revenue for the most recent quarter and how does it compare to the previous quarter?"
-```
+For more detailed information about the system, refer to the [CLAUDE.md](./claude.md) document, which contains:
 
-## Directory Structure
+- Complete architectural overview
+- Detailed module descriptions
+- HTML optimization strategy
+- Best practices for usage
+- Performance considerations
 
-- `/src/edgar/`: SEC EDGAR access modules
-- `/src/xbrl/`: XBRL and iXBRL processing modules
-- `/src/formatter/`: LLM format generators
-- `/data/raw/`: Raw downloaded XBRL/iXBRL files
-- `/data/processed/`: Processed LLM-formatted files
+## License
 
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+This project is proprietary and confidential.
