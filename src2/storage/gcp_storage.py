@@ -8,6 +8,21 @@ import os
 import logging
 import datetime
 
+def estimate_tokens(text_content):
+    """
+    Estimate the number of tokens in text content.
+    Uses a rough approximation of 4 characters per token.
+    
+    Args:
+        text_content: The text content to estimate
+        
+    Returns:
+        Estimated token count
+    """
+    if not text_content:
+        return 0
+    return len(text_content) // 4
+
 class GCPStorage:
     """
     Upload files to Google Cloud Storage
@@ -276,11 +291,34 @@ class GCPStorage:
             
             # Add LLM file metadata if provided
             if 'llm_path' in kwargs:
-                doc_data['llm_file_path'] = kwargs.get('llm_path')
+                llm_path = kwargs.get('llm_path')
+                doc_data['llm_file_path'] = llm_path
                 doc_data['llm_file_size'] = kwargs.get('llm_size', 0)
                 doc_data['has_llm_format'] = True
+                
+                # Estimate token count for LLM file
+                try:
+                    with open(llm_path, 'r', encoding='utf-8') as f:
+                        llm_content = f.read()
+                    llm_token_count = estimate_tokens(llm_content)
+                    doc_data['llm_token_count'] = llm_token_count
+                    logging.info(f"Estimated {llm_token_count:,} tokens for LLM file")
+                except Exception as e:
+                    logging.warning(f"Could not estimate tokens for LLM file: {str(e)}")
             else:
                 doc_data['has_llm_format'] = False
+                
+            # Estimate token count for text file if available
+            text_path = kwargs.get('text_path')
+            if text_path:
+                try:
+                    with open(text_path, 'r', encoding='utf-8') as f:
+                        text_content = f.read()
+                    text_token_count = estimate_tokens(text_content)
+                    doc_data['text_token_count'] = text_token_count
+                    logging.info(f"Estimated {text_token_count:,} tokens for text file")
+                except Exception as e:
+                    logging.warning(f"Could not estimate tokens for text file: {str(e)}")
             
             # Add document to Firestore (overwrite if exists)
             filing_ref.set(doc_data)

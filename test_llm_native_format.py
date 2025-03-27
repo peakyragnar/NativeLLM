@@ -240,10 +240,19 @@ def main():
             size_diff = enhanced_size - original_size
             size_percent = (size_diff / original_size) * 100 if original_size > 0 else 0
             
+            # Estimate token counts (using rough approximation of 4 chars per token)
+            def estimate_tokens(text):
+                return len(text) // 4
+            
+            enhanced_tokens = estimate_tokens(enhanced_content)
+            original_tokens = estimate_tokens(original_content)
+            token_diff = enhanced_tokens - original_tokens
+            token_percent = (token_diff / original_tokens) * 100 if original_tokens > 0 else 0
+            
             logging.info(f"Size comparison:")
-            logging.info(f"  Original: {original_size:,} bytes")
-            logging.info(f"  Enhanced: {enhanced_size:,} bytes")
-            logging.info(f"  Difference: {size_diff:+,} bytes ({size_percent:+.1f}%)")
+            logging.info(f"  Original: {original_size:,} bytes ({original_tokens:,} est. tokens)")
+            logging.info(f"  Enhanced: {enhanced_size:,} bytes ({enhanced_tokens:,} est. tokens)")
+            logging.info(f"  Difference: {size_diff:+,} bytes ({size_percent:+.1f}%) / {token_diff:+,} tokens ({token_percent:+.1f}%)")
     else:
         logging.error("No XBRL data available for formatting")
 
