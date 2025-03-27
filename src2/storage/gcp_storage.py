@@ -176,78 +176,117 @@ class GCPStorage:
             filing_date = filing_metadata.get("filing_date")
             period_end_date = filing_metadata.get("period_end_date")
             
-            # Determine fiscal year and period using fiscal_manager
-            fiscal_year = None
-            fiscal_period = None
+            # First check if fiscal information was already determined and passed in metadata
+            fiscal_year = filing_metadata.get("fiscal_year")
+            fiscal_period = filing_metadata.get("fiscal_period")
             
-            try:
-                # Import fiscal registry from src2
-                from src2.sec.fiscal import fiscal_registry
+            # If fiscal information is already provided, use it
+            if fiscal_year and fiscal_period:
+                logging.info(f"Using provided fiscal information: Year={fiscal_year}, Period={fiscal_period}")
+            # Otherwise, try to determine it from the pipeline
+            else:
+                logging.info(f"No fiscal information provided, determining from filing metadata")
                 
-                if period_end_date and ticker:
-                    # Use fiscal registry consistently for all companies
-                    fiscal_info = fiscal_registry.determine_fiscal_period(
-                        ticker, period_end_date, filing_type
-                    )
-                    fiscal_year = fiscal_info.get("fiscal_year")
-                    fiscal_period = fiscal_info.get("fiscal_period")
+                try:
+                    # Import the pipeline's improved fiscal determination
+                    from src2.sec.pipeline import SECFilingPipeline
                     
-                    logging.info(f"USING src2 FISCAL REGISTRY: {ticker}, period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_period}")
-            except ImportError:
-                logging.warning("Fiscal manager not available, falling back to basic date parsing")
-            except Exception as e:
-                logging.warning(f"Error determining fiscal period: {str(e)}")
-            
-            # If fiscal manager failed or wasn't available, fall back to basic parsing
-            if not fiscal_year and period_end_date:
-                # Extract year from period_end_date
-                import re
-                year_match = re.search(r'(\d{4})', period_end_date)
-                if year_match:
-                    fiscal_year = year_match.group(1)
-            
-            # Determine quarter from filing_type and period_end_date if needed
-            if not fiscal_period:
-                if filing_type == "10-K":
-                    fiscal_period = "annual"
-                elif filing_type == "10-Q" and period_end_date:
-                    # Use simple quarter determination based on month
-                    import re
-                    month_match = re.search(r'\d{4}-(\d{2})-\d{2}', period_end_date)
-                    if month_match:
-                        month = int(month_match.group(1))
-                        # Special case for Microsoft
-                        if ticker == "MSFT":
-                            # For Microsoft's Q3 filing in the 2024 fiscal year (Jan-Mar 2024)
-                            # we need the fiscal year to be 2024
-                            if 7 <= month <= 9:  # Jul-Sep
-                                fiscal_period = "Q1"
-                                # For Q1, the fiscal year is the *next* calendar year
-                                fiscal_year = str(int(fiscal_year if fiscal_year else datetime.datetime.now().year) + 1) 
-                            elif 10 <= month <= 12:  # Oct-Dec
-                                fiscal_period = "Q2"
-                                # For Q2, the fiscal year is the *next* calendar year
-                                fiscal_year = str(int(fiscal_year if fiscal_year else datetime.datetime.now().year) + 1)
-                            elif 1 <= month <= 3:  # Jan-Mar
-                                fiscal_period = "Q3"
-                                # Fiscal year stays the same for Q3
-                            elif 4 <= month <= 6:  # Apr-Jun
-                                fiscal_period = "annual"  # Microsoft uses annual for Q4
-                                # Fiscal year stays the same for annual
+                    if period_end_date and ticker:
+                        # Use our improved fiscal determination with document text if available
+                        document_text = filing_metadata.get("html_content")
+                        fiscal_year, fiscal_period = SECFilingPipeline.determine_fiscal_period_properly(
+                            ticker, period_end_date, filing_type, document_text
+                        )
+                        
+                        logging.info(f"Using improved fiscal determination: {ticker}, period_end_date={period_end_date} -> Year={fiscal_year}, Period={fiscal_period}")
+                except ImportError:
+                    logging.warning("SEC pipeline not available, falling back to fiscal registry")
+                    
+                    try:
+                        # Import fiscal registry as fallback
+                        from src2.sec.fiscal import fiscal_registry
+                        
+                        if period_end_date and ticker:
+                            # Use fiscal registry consistently for all companies
+                            fiscal_info = fiscal_registry.determine_fiscal_period(
+                                ticker, period_end_date, filing_type
+                            )
+                            fiscal_year = fiscal_info.get("fiscal_year")
+                            fiscal_period = fiscal_info.get("fiscal_period")
                             
-                            logging.info(f"Using Microsoft-specific fiscal mapping: Month {month} -> {fiscal_period} {fiscal_year}")
+                            logging.info(f"Using fiscal registry: {ticker}, period_end_date={period_end_date} -> Year={fiscal_year}, Period={fiscal_period}")
+                    except ImportError:
+                        logging.warning("Fiscal manager not available, falling back to basic date parsing")
+                    except Exception as e:
+                        logging.warning(f"Error determining fiscal period: {str(e)}")
+                
+                # Last resort: fall back to basic parsing if everything else failed
+                if not fiscal_year and period_end_date:
+                    # Extract year from period_end_date
+                    import re
+                    year_match = re.search(r'(\d{4})', period_end_date)
+                    if year_match:
+                        fiscal_year = year_match.group(1)
+                
+                if not fiscal_period:
+                    if filing_type == "10-K":
+                        fiscal_period = "annual"
+                    elif filing_type == "10-Q" and period_end_date:
+                        # Check if we're dealing with NVDA which has special fiscal periods
+                        if ticker == "NVDA":
+                            import re
+                            month_match = re.search(r'\d{4}-(\d{2})-\d{2}', period_end_date)
+                            if month_match:
+                                month = int(month_match.group(1))
+                                if month == 4:  # April
+                                    fiscal_period = "Q1"
+                                elif month == 7:  # July
+                                    fiscal_period = "Q2"
+                                elif month == 10:  # October
+                                    fiscal_period = "Q3"
+                                else:
+                                    fiscal_period = "Q4"  # Default fallback
+                                
+                                logging.info(f"Using NVDA-specific fiscal mapping: Month {month} -> {fiscal_period}")
+                        # Special case for Microsoft
+                        elif ticker == "MSFT":
+                            import re
+                            month_match = re.search(r'\d{4}-(\d{2})-\d{2}', period_end_date)
+                            if month_match:
+                                month = int(month_match.group(1))
+                                if 7 <= month <= 9:  # Jul-Sep
+                                    fiscal_period = "Q1"
+                                    # For Q1, the fiscal year is the *next* calendar year
+                                    fiscal_year = str(int(fiscal_year if fiscal_year else datetime.datetime.now().year) + 1) 
+                                elif 10 <= month <= 12:  # Oct-Dec
+                                    fiscal_period = "Q2"
+                                    # For Q2, the fiscal year is the *next* calendar year
+                                    fiscal_year = str(int(fiscal_year if fiscal_year else datetime.datetime.now().year) + 1)
+                                elif 1 <= month <= 3:  # Jan-Mar
+                                    fiscal_period = "Q3"
+                                    # Fiscal year stays the same for Q3
+                                elif 4 <= month <= 6:  # Apr-Jun
+                                    fiscal_period = "annual"  # Microsoft uses annual for Q4
+                                    # Fiscal year stays the same for annual
+                                
+                                logging.info(f"Using Microsoft-specific fiscal mapping: Month {month} -> {fiscal_period} {fiscal_year}")
                         else:
                             # Standard calendar quarters for other companies
-                            if 1 <= month <= 3:
-                                fiscal_period = "Q1"
-                            elif 4 <= month <= 6:
-                                fiscal_period = "Q2"
-                            elif 7 <= month <= 9:
-                                fiscal_period = "Q3"
-                            elif 10 <= month <= 12:
-                                fiscal_period = "Q4"
+                            import re
+                            month_match = re.search(r'\d{4}-(\d{2})-\d{2}', period_end_date)
+                            if month_match:
+                                month = int(month_match.group(1))
+                                if 1 <= month <= 3:
+                                    fiscal_period = "Q1"
+                                elif 4 <= month <= 6:
+                                    fiscal_period = "Q2"
+                                elif 7 <= month <= 9:
+                                    fiscal_period = "Q3"
+                                elif 10 <= month <= 12:
+                                    fiscal_period = "Q4"
             
             # Create document ID using fiscal year and fiscal period for quarterly filings
+            # The document ID should match the GCS path format for consistency
             if fiscal_year:
                 # For 10-Q filings, include the fiscal quarter in the document ID
                 if filing_type == "10-Q" and fiscal_period:

@@ -202,6 +202,21 @@ class CompanyFiscalModel:
                 4: "annual", 5: "annual", 6: "annual",  # Apr-Jun = Annual (never Q4)
             }
         },
+        # NVIDIA: Fiscal year ends in January
+        # Q1: Feb-Apr (ends Apr)
+        # Q2: May-Jul (ends Jul)
+        # Q3: Aug-Oct (ends Oct)
+        # Annual: Nov-Jan (ends Jan)
+        "NVDA": {
+            "fiscal_year_end_month": 1,
+            "fiscal_year_end_day": 26,
+            "quarter_mapping": {
+                2: "Q1", 3: "Q1", 4: "Q1",     # Feb-Apr = Q1
+                5: "Q2", 6: "Q2", 7: "Q2",     # May-Jul = Q2
+                8: "Q3", 9: "Q3", 10: "Q3",    # Aug-Oct = Q3
+                11: "annual", 12: "annual", 1: "annual",  # Nov-Jan = Annual (10-K)
+            }
+        },
         # Google: Calendar year (Dec)
         "GOOGL": {
             "fiscal_year_end_month": 12,
@@ -849,6 +864,80 @@ class FiscalPeriodManager:
             return "annual"
         
         return quarter_mapping.get(month, "Q")
+        
+    def detect_and_confirm_fiscal_pattern(self, ticker, period_end_date, filing_type="10-Q"):
+        """
+        Detect fiscal pattern for new companies and prompt for confirmation
+        
+        Args:
+            ticker (str): Company ticker symbol
+            period_end_date (str): Period end date of the filing (YYYY-MM-DD)
+            filing_type (str): Filing type (10-K or 10-Q)
+            
+        Returns:
+            dict: Fiscal information including fiscal_year and fiscal_period
+        """
+        ticker = ticker.upper()
+        
+        # Skip if company already has a known fiscal pattern
+        if ticker in CompanyFiscalModel.KNOWN_FISCAL_PATTERNS:
+            return self.determine_fiscal_period(ticker, period_end_date, filing_type)
+            
+        # Parse period end date
+        try:
+            period_end = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+        except (ValueError, TypeError):
+            logging.warning(f"Invalid period end date: {period_end_date}")
+            return self.determine_fiscal_period(ticker, period_end_date, filing_type)
+            
+        # For 10-K filings, this likely indicates fiscal year end
+        if filing_type == "10-K":
+            fiscal_year_end_month = period_end.month
+            fiscal_year_end_day = period_end.day
+            
+            # Prepare quarter mapping based on fiscal year end
+            quarter_mapping = {}
+            
+            # First quarter starts after fiscal year end
+            q1_start_month = (fiscal_year_end_month + 1) % 12
+            if q1_start_month == 0:
+                q1_start_month = 12
+                
+            # Map each month to its quarter
+            for i in range(12):
+                month = (q1_start_month + i - 1) % 12 + 1  # Convert to 1-12 range
+                
+                if 0 <= i < 3:  # First 3 months = Q1
+                    quarter_mapping[month] = "Q1"
+                elif 3 <= i < 6:  # Next 3 months = Q2
+                    quarter_mapping[month] = "Q2"
+                elif 6 <= i < 9:  # Next 3 months = Q3
+                    quarter_mapping[month] = "Q3"
+                else:  # Final 3 months = Annual (10-K period)
+                    quarter_mapping[month] = "annual"
+                    
+            # Display pattern for confirmation
+            print("\n" + "=" * 70)
+            print(f"NEW COMPANY DETECTED: {ticker}")
+            print(f"Detected fiscal pattern based on {filing_type} ending {period_end_date}:")
+            print(f"- Q1 months: {', '.join(str(m) for m, q in quarter_mapping.items() if q == 'Q1')}")
+            print(f"- Q2 months: {', '.join(str(m) for m, q in quarter_mapping.items() if q == 'Q2')}")
+            print(f"- Q3 months: {', '.join(str(m) for m, q in quarter_mapping.items() if q == 'Q3')}")
+            print(f"- Annual months: {', '.join(str(m) for m, q in quarter_mapping.items() if q == 'annual')}")
+            print(f"Fiscal year end month: {fiscal_year_end_month}")
+            print(f"Fiscal year end day: {fiscal_year_end_day}")
+            print("=" * 70)
+            
+            # Log this detection for future reference even if user doesn't confirm now
+            logging.info(f"Detected fiscal pattern for {ticker}: FY end {fiscal_year_end_month}-{fiscal_year_end_day}")
+            logging.info(f"Quarter mapping: {quarter_mapping}")
+            
+            # Note: In a non-interactive environment, you might want to always apply this pattern
+            # or have a configuration option to auto-apply detected patterns
+            
+            return self.determine_fiscal_period(ticker, period_end_date, filing_type)
+            
+        return self.determine_fiscal_period(ticker, period_end_date, filing_type)
     
     def convert_period_format(self, period, source_format, target_format):
         """

@@ -31,6 +31,338 @@ class SECFilingPipeline:
     with proper error handling and fallbacks.
     """
     
+    @staticmethod
+    def extract_fiscal_period_from_document(document_text, ticker, period_end_date, filing_type):
+        """
+        Extract fiscal period directly from the filing document text.
+        
+        Args:
+            document_text: The text of the SEC filing document
+            ticker: Company ticker
+            period_end_date: Period end date string (YYYY-MM-DD)
+            filing_type: Filing type (10-K or 10-Q)
+            
+        Returns:
+            tuple: (fiscal_year, fiscal_period)
+        """
+        import re
+        import datetime
+        
+        fiscal_year = None
+        fiscal_period = None
+        
+        # Log what we're doing
+        print(f"Attempting to extract fiscal period directly from document text for {ticker} {filing_type}")
+        
+        try:
+            # For 10-K, it's always annual
+            if filing_type == "10-K":
+                fiscal_period = "annual"
+                
+                # Try to extract fiscal year - look for specific patterns
+                # Pattern 1: "For the fiscal year ended January 28, 2024" (common in 10-K filings)
+                fiscal_year_pattern1 = re.search(r'(?:for|the|fiscal|year).*?(?:ended|ending).*?(?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s+(\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                # Pattern 2: "For the period ended January 28, 2024" (another common pattern)
+                fiscal_year_pattern2 = re.search(r'(?:for|the|period).*?(?:ended|ending).*?(?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s+(\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                # Pattern 3: Just look for fiscal year mentions like "fiscal year 2024"
+                fiscal_year_pattern3 = re.search(r'(?:fiscal|year).*?(\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                if fiscal_year_pattern1:
+                    fiscal_year = fiscal_year_pattern1.group(1)
+                    print(f"Extracted fiscal year {fiscal_year} from 10-K text (pattern 1)")
+                elif fiscal_year_pattern2:
+                    fiscal_year = fiscal_year_pattern2.group(1)
+                    print(f"Extracted fiscal year {fiscal_year} from 10-K text (pattern 2)")
+                elif fiscal_year_pattern3:
+                    fiscal_year = fiscal_year_pattern3.group(1)
+                    print(f"Extracted fiscal year {fiscal_year} from 10-K text (pattern 3)")
+                elif period_end_date:
+                    # Fall back to date-based calculation
+                    date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                    
+                    # For companies with non-calendar fiscal years, like NVDA,
+                    # the fiscal year might be different from the calendar year
+                    if ticker.upper() == "NVDA" and date.month == 1:
+                        # NVDA's fiscal year ending in January is reported as that year
+                        fiscal_year = str(date.year)
+                    else:
+                        fiscal_year = str(date.year)
+                    
+                    print(f"Using period end date year {fiscal_year} for 10-K")
+                
+                return (fiscal_year, fiscal_period)
+            
+            # For 10-Q, we need to determine which quarter it is
+            if filing_type == "10-Q":
+                # Most definitive pattern: "For the quarterly period ended April 28, 2024"
+                quarter_pattern1 = re.search(r'for the\s+(?:quarterly|quarterly report|quarterly period|three months)\s+(?:ended|ending).*?(?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s+(\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                # Look for specific quarter mentions
+                quarter_pattern2 = re.search(r'(?:quarterly report|form 10-q|quarterly period|quarterly).*?(?:first|second|third|fourth|1st|2nd|3rd|4th|\sQ1|\sQ2|\sQ3|\sQ4)', document_text[:10000], re.IGNORECASE)
+                
+                # Another pattern: "For the quarter ended April 28, 2024"
+                quarter_pattern3 = re.search(r'for the\s+(?:quarter|three months)\s+(?:ended|ending).*?(?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s+(\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                # Extract period end date from the document itself if available
+                period_date_pattern = re.search(r'(?:quarterly|quarterly report|quarter|period).*?(?:ended|ending).*?((?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s+\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                # Look for fiscal year mentions
+                fiscal_year_pattern = re.search(r'(?:fiscal|year).*?(\d{4})', document_text[:10000], re.IGNORECASE)
+                
+                # Get the period end date from document if we found one
+                document_period_end = None
+                if period_date_pattern:
+                    try:
+                        date_str = period_date_pattern.group(1)
+                        document_period_end = datetime.datetime.strptime(date_str, '%B %d, %Y')
+                        print(f"Found period end date in document: {document_period_end.strftime('%Y-%m-%d')}")
+                    except Exception:
+                        try:
+                            document_period_end = datetime.datetime.strptime(date_str, '%b %d, %Y')
+                            print(f"Found period end date in document: {document_period_end.strftime('%Y-%m-%d')}")
+                        except Exception as e:
+                            print(f"Could not parse period end date from document: {e}")
+                
+                # First try to extract explicit quarter mention
+                quarter_text = None
+                if quarter_pattern2:
+                    quarter_text = quarter_pattern2.group(0).lower()
+                    print(f"Found quarter mention: {quarter_text}")
+                    
+                    if "first" in quarter_text or "1st" in quarter_text or "q1" in quarter_text:
+                        fiscal_period = "Q1"
+                    elif "second" in quarter_text or "2nd" in quarter_text or "q2" in quarter_text:
+                        fiscal_period = "Q2"
+                    elif "third" in quarter_text or "3rd" in quarter_text or "q3" in quarter_text:
+                        fiscal_period = "Q3"
+                    elif "fourth" in quarter_text or "4th" in quarter_text or "q4" in quarter_text:
+                        fiscal_period = "Q4"
+                    
+                    if fiscal_period:
+                        print(f"Extracted fiscal period {fiscal_period} from 10-Q text")
+                
+                # If couldn't find quarter from text, infer from period end date
+                if not fiscal_period:
+                    # Use the period end date we found in the document, or fall back to the provided one
+                    inference_date = None
+                    
+                    if document_period_end:
+                        inference_date = document_period_end
+                    elif period_end_date:
+                        try:
+                            inference_date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                        except Exception as e:
+                            print(f"Could not parse provided period end date: {e}")
+                    
+                    if inference_date:
+                        month = inference_date.month
+                        
+                        # NVDA-specific quarter mapping based on observed filings
+                        if ticker.upper() == "NVDA":
+                            if month == 4:  # April
+                                fiscal_period = "Q1"
+                            elif month == 7:  # July
+                                fiscal_period = "Q2"
+                            elif month == 10:  # October
+                                fiscal_period = "Q3"
+                            elif month == 1:  # January
+                                fiscal_period = "annual"  # 10-K
+                            
+                            # NVDA fiscal year logic - February to January fiscal year
+                            if 2 <= month <= 12:  # Feb-Dec
+                                fiscal_year = str(inference_date.year + 1)
+                            else:  # January
+                                fiscal_year = str(inference_date.year)
+                                
+                            print(f"Applied NVDA-specific fiscal mapping: month={month} → period={fiscal_period}, year={fiscal_year}")
+                        else:
+                            # Add other company-specific mappings here if needed
+                            pass
+                            
+                        if fiscal_period:
+                            print(f"Inferred fiscal period {fiscal_period} from date (month {month})")
+                
+                # Try to extract fiscal year if we haven't already
+                if not fiscal_year:
+                    # First try patterns that found the period date
+                    if quarter_pattern1:
+                        fiscal_year = quarter_pattern1.group(1)
+                        print(f"Extracted fiscal year {fiscal_year} from 10-Q text (pattern 1)")
+                    elif quarter_pattern3:
+                        fiscal_year = quarter_pattern3.group(1)
+                        print(f"Extracted fiscal year {fiscal_year} from 10-Q text (pattern 3)")
+                    elif fiscal_year_pattern:
+                        fiscal_year = fiscal_year_pattern.group(1)
+                        print(f"Extracted fiscal year {fiscal_year} from 10-Q text (fiscal year pattern)")
+                    elif document_period_end:
+                        # For NVDA with fiscal year ending in January
+                        if ticker.upper() == "NVDA":
+                            month = document_period_end.month
+                            if 2 <= month <= 12:  # Feb-Dec
+                                fiscal_year = str(document_period_end.year + 1)
+                            else:  # January
+                                fiscal_year = str(document_period_end.year)
+                        else:
+                            fiscal_year = str(document_period_end.year)
+                        print(f"Using document period end date year {fiscal_year} for 10-Q")
+                    elif period_end_date:
+                        # Default to provided period end date
+                        try:
+                            date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                            # NVDA specific logic if not already handled
+                            if ticker.upper() == "NVDA" and not fiscal_year:
+                                month = date.month
+                                if 2 <= month <= 12:  # Feb-Dec
+                                    fiscal_year = str(date.year + 1)
+                                else:  # January
+                                    fiscal_year = str(date.year)
+                            else:
+                                fiscal_year = str(date.year)
+                            print(f"Using provided period end date year {fiscal_year} for 10-Q")
+                        except Exception as e:
+                            print(f"Error parsing provided period end date: {e}")
+                
+                return (fiscal_year, fiscal_period)
+            
+        except Exception as e:
+            print(f"Error extracting fiscal period from document: {e}")
+        
+        print(f"Could not extract fiscal period from document, returning: year={fiscal_year}, period={fiscal_period}")
+        return (fiscal_year, fiscal_period)
+        
+    @staticmethod
+    def determine_fiscal_period_properly(ticker, period_end_date, filing_type, document_text=None):
+        """
+        Determine fiscal period correctly for any company with proper handling of NVDA and edge cases.
+        
+        Args:
+            ticker: Company ticker
+            period_end_date: Period end date string (YYYY-MM-DD)
+            filing_type: Filing type (10-K or 10-Q)
+            document_text: Optional document text to extract fiscal period from
+            
+        Returns:
+            tuple: (fiscal_year, fiscal_period)
+        """
+        # Default values
+        fiscal_year = None
+        fiscal_period = None
+        
+        # PRIORITY 1: Try to extract from document text if available
+        if document_text:
+            fiscal_year, fiscal_period = SECFilingPipeline.extract_fiscal_period_from_document(
+                document_text, ticker, period_end_date, filing_type
+            )
+            
+            # If we successfully extracted both fiscal year and period, return them
+            if fiscal_year and fiscal_period:
+                print(f"Successfully extracted fiscal data from document: year={fiscal_year}, period={fiscal_period}")
+                return (fiscal_year, fiscal_period)
+        
+        # PRIORITY 2: Try known fiscal patterns for specific companies
+        if ticker.upper() == "NVDA":
+            try:
+                import datetime
+                
+                # Parse period end date
+                date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                month = date.month
+                
+                # For 10-K, it's always annual
+                if filing_type == "10-K":
+                    fiscal_period = "annual"
+                    
+                    # NVDA's fiscal year ending in January
+                    if month == 1:  # January
+                        fiscal_year = str(date.year)
+                    else:
+                        fiscal_year = str(date.year)
+                    
+                    print(f"Using NVDA 10-K fiscal logic: month={month} → year={fiscal_year}, period={fiscal_period}")
+                    return (fiscal_year, fiscal_period)
+                
+                # For 10-Q, use the correct NVDA quarterly mapping
+                if filing_type == "10-Q":
+                    if month == 4:  # April
+                        fiscal_period = "Q1"
+                    elif month == 7:  # July
+                        fiscal_period = "Q2"
+                    elif month == 10:  # October
+                        fiscal_period = "Q3"
+                    
+                    # NVDA fiscal year is calendar year + 1 for filings in Feb-Dec
+                    if 2 <= month <= 12:  # Feb-Dec
+                        fiscal_year = str(date.year + 1)
+                    else:  # January
+                        fiscal_year = str(date.year)
+                    
+                    print(f"Using NVDA 10-Q fiscal logic: month={month} → year={fiscal_year}, period={fiscal_period}")
+                    
+                    if fiscal_year and fiscal_period:
+                        return (fiscal_year, fiscal_period)
+            except Exception as e:
+                print(f"Error in NVDA-specific fiscal logic: {e}")
+        
+        # PRIORITY 3: Try fiscal registry if available
+        try:
+            from src2.sec.fiscal import fiscal_registry
+            
+            print(f"Using fiscal registry for {ticker}, period_end_date={period_end_date}, filing_type={filing_type}")
+            
+            # Get fiscal info from registry
+            fiscal_info = fiscal_registry.determine_fiscal_period(
+                ticker, period_end_date, filing_type
+            )
+            
+            registry_fiscal_year = fiscal_info.get("fiscal_year")
+            registry_fiscal_period = fiscal_info.get("fiscal_period")
+            
+            # If we got both fiscal year and period, use them
+            if registry_fiscal_year and registry_fiscal_period:
+                fiscal_year = registry_fiscal_year
+                fiscal_period = registry_fiscal_period
+                print(f"Using fiscal registry: year={fiscal_year}, period={fiscal_period}")
+                return (fiscal_year, fiscal_period)
+        except (ImportError, Exception) as e:
+            print(f"Could not use fiscal registry: {e}")
+        
+        # PRIORITY 4: Fall back to default calculation
+        if not fiscal_year or not fiscal_period:
+            print(f"WARNING: Using fallback fiscal calculation for {ticker}")
+            try:
+                import datetime
+                
+                # Parse period end date
+                date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                month = date.month
+                
+                # Default to calendar year
+                fiscal_year = str(date.year)
+                
+                # For 10-K, it's always annual
+                if filing_type == "10-K":
+                    fiscal_period = "annual"
+                else:
+                    # Simple quarter mapping based on calendar
+                    if 1 <= month <= 3:
+                        fiscal_period = "Q1"
+                    elif 4 <= month <= 6:
+                        fiscal_period = "Q2"
+                    elif 7 <= month <= 9:
+                        fiscal_period = "Q3"
+                    else:  # 10-12
+                        fiscal_period = "Q4"
+                
+                print(f"Fallback calculation: month={month} → year={fiscal_year}, period={fiscal_period}")
+            except Exception as e:
+                print(f"Error in fallback fiscal calculation: {e}")
+        
+        # Return whatever we determined, even if incomplete
+        print(f"Final fiscal determination: year={fiscal_year}, period={fiscal_period}")
+        return (fiscal_year, fiscal_period)
+    
     def __init__(self, user_agent=None, contact_email=None, 
                  output_dir="./sec_processed", temp_dir=None,
                  gcp_bucket=None, gcp_project=None):
@@ -152,27 +484,42 @@ class SECFilingPipeline:
             # Define output text path with fiscal period if available
             # Extract fiscal year and quarter information
             fiscal_year = None
-            fiscal_quarter = None
+            fiscal_period = None
             period_end_date = filing_info.get("period_end_date", "")
             
             if ticker and period_end_date:
                 try:
-                    from src2.sec.fiscal import fiscal_registry
-                    fiscal_info = fiscal_registry.determine_fiscal_period(
-                        ticker, period_end_date, filing_type
+                    # Load document text for extraction
+                    document_text = None
+                    try:
+                        # Try to read the document file directly from source
+                        doc_path = download_result.get("doc_path")
+                        if doc_path and os.path.exists(doc_path):
+                            with open(doc_path, 'r', encoding='utf-8', errors='ignore') as f:
+                                document_text = f.read()
+                                logging.info(f"Read {len(document_text)} chars from {doc_path} for fiscal period extraction")
+                    except Exception as e:
+                        logging.warning(f"Could not read document text for extraction: {str(e)}")
+                    
+                    # Use our improved fiscal period determination function with document text
+                    fiscal_year, fiscal_period = self.determine_fiscal_period_properly(
+                        ticker, period_end_date, filing_type, document_text
                     )
-                    fiscal_year = fiscal_info.get("fiscal_year")
-                    fiscal_quarter = fiscal_info.get("fiscal_period")
-                    logging.info(f"Using fiscal info for local path: Year={fiscal_year}, Period={fiscal_quarter}")
+                    
+                    # Store the fiscal information in filing_info for later use
+                    filing_info["fiscal_year"] = fiscal_year
+                    filing_info["fiscal_period"] = fiscal_period
+                    
+                    logging.info(f"Determined fiscal info: Year={fiscal_year}, Period={fiscal_period}")
                 except (ImportError, Exception) as e:
-                    logging.warning(f"Could not use fiscal registry for local path: {str(e)}")
+                    logging.warning(f"Could not determine fiscal period: {str(e)}")
             
             # Use fiscal information in filenames to prevent overwriting
-            if fiscal_year and fiscal_quarter and filing_type == "10-Q":
-                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_text.txt"
-                llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_llm.txt"
-                rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_rendered.html"
-                logging.info(f"Using fiscal period in local filenames: {fiscal_year}_{fiscal_quarter}")
+            if fiscal_year and fiscal_period and filing_type == "10-Q":
+                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"
+                rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_rendered.html"
+                logging.info(f"Using fiscal period in local filenames: {fiscal_year}_{fiscal_period}")
             elif fiscal_year:
                 text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_text.txt"
                 llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
@@ -440,35 +787,50 @@ class SECFilingPipeline:
                 if ticker and period_end_date:
                     # Use the fiscal registry from src2 for consistent fiscal calculations
                     try:
-                        from src2.sec.fiscal import fiscal_registry
+                        # Load document text for extraction if we have a document path
+                        document_text = None
                         
-                        # Get fiscal info from the registry
-                        fiscal_info = fiscal_registry.determine_fiscal_period(
-                            ticker, period_end_date, filing_type
+                        try:
+                            # Find the document path from the download result
+                            doc_path = None
+                            if "stages" in result and "download" in result["stages"]:
+                                download_result = result["stages"]["download"]["result"]
+                                if "doc_path" in download_result:
+                                    doc_path = download_result["doc_path"]
+                            
+                            # Try to read the document file
+                            if doc_path and os.path.exists(doc_path):
+                                with open(doc_path, 'r', encoding='utf-8', errors='ignore') as f:
+                                    document_text = f.read()
+                                    logging.info(f"Read {len(document_text)} chars from {doc_path} for fiscal period extraction")
+                        except Exception as e:
+                            logging.warning(f"Could not read document text for GCS path extraction: {str(e)}")
+                        
+                        # Use our improved fiscal period determination function with document text
+                        fiscal_year_new, fiscal_quarter_new = self.determine_fiscal_period_properly(
+                            ticker, period_end_date, filing_type, document_text
                         )
                         
-                        # Update fiscal year and period from the registry
-                        if fiscal_info:
-                            reg_fiscal_year = fiscal_info.get("fiscal_year")
-                            reg_fiscal_period = fiscal_info.get("fiscal_period")
+                        # Use new values if available
+                        if fiscal_year_new:
+                            fiscal_year = fiscal_year_new
+                        if fiscal_quarter_new:
+                            fiscal_quarter = fiscal_quarter_new
                             
-                            # Use registry values if available
-                            if reg_fiscal_year:
-                                fiscal_year = reg_fiscal_year
-                            if reg_fiscal_period:
-                                fiscal_quarter = reg_fiscal_period
-                            
-                            print(f"Using src2 fiscal registry in pipeline for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
+                            print(f"Using improved fiscal determination for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
                     except (ImportError, Exception) as e:
                         logging.warning(f"Could not use fiscal registry: {str(e)}")
                 
                 # Construct GCS paths using the proper folder structure
-                if filing_type == "10-K" or fiscal_quarter == "annual":
+                # Try to use fiscal_period if it was determined
+                fiscal_period = fiscal_quarter  # For consistency with other code
+                
+                if filing_type == "10-K" or fiscal_period == "annual":
                     gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
-                elif fiscal_quarter:
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/text.txt"
-                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/llm.txt"
+                elif fiscal_period:
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/llm.txt"
                 else:
                     # Fallback to fiscal year only if we can't determine quarter
                     gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
@@ -722,12 +1084,52 @@ class SECFilingPipeline:
             if ticker and period_end_date:
                 try:
                     from src2.sec.fiscal import fiscal_registry
-                    fiscal_info = fiscal_registry.determine_fiscal_period(
-                        ticker, period_end_date, filing_type
-                    )
-                    fiscal_year = fiscal_info.get("fiscal_year")
-                    fiscal_quarter = fiscal_info.get("fiscal_period")
-                    logging.info(f"Using fiscal info for local path: Year={fiscal_year}, Period={fiscal_quarter}")
+                    from src2.sec.fiscal.fiscal_manager import CompanyFiscalModel
+                    
+                    # First check if this is a known company with a specific pattern
+                    found_in_patterns = False
+                    if ticker.upper() in CompanyFiscalModel.KNOWN_FISCAL_PATTERNS:
+                        pattern = CompanyFiscalModel.KNOWN_FISCAL_PATTERNS[ticker.upper()]
+                        quarter_mapping = pattern.get("quarter_mapping", {})
+                        
+                        # Parse the period end date
+                        try:
+                            period_end = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
+                            month = period_end.month
+                            
+                            # Look up fiscal period directly from mapping
+                            if month in quarter_mapping:
+                                fiscal_period = quarter_mapping[month]
+                                
+                                # CRITICAL FIX: For 10-Q filings, never use "annual"
+                                # This fixes the quarter mislabeling issue!
+                                if filing_type == "10-Q" and fiscal_period == "annual":
+                                    # This is a Q3 filing incorrectly mapped to annual
+                                    fiscal_period = "Q3"
+                                    logging.warning(f"Corrected fiscal period for {ticker} 10-Q with period_end month {month}: 'annual' → 'Q3'")
+                                
+                                fiscal_quarter = fiscal_period
+                                
+                                # Determine fiscal year based on month and fiscal year end
+                                fiscal_year_end_month = pattern.get("fiscal_year_end_month", 12)
+                                if month > fiscal_year_end_month:
+                                    fiscal_year = str(period_end.year + 1)
+                                else:
+                                    fiscal_year = str(period_end.year)
+                                    
+                                logging.info(f"Using fiscal info from KNOWN_FISCAL_PATTERNS: Year={fiscal_year}, Period={fiscal_quarter}")
+                                found_in_patterns = True
+                        except (ValueError, TypeError) as e:
+                            logging.warning(f"Error parsing period end date: {e}")
+                    
+                    # Fallback to standard fiscal registry determination
+                    if not found_in_patterns:
+                        fiscal_info = fiscal_registry.determine_fiscal_period(
+                            ticker, period_end_date, filing_type
+                        )
+                        fiscal_year = fiscal_info.get("fiscal_year")
+                        fiscal_quarter = fiscal_info.get("fiscal_period")
+                        logging.info(f"Using fiscal info from registry: Year={fiscal_year}, Period={fiscal_quarter}")
                 except (ImportError, Exception) as e:
                     logging.warning(f"Could not use fiscal registry for local path: {str(e)}")
             
@@ -1006,51 +1408,82 @@ class SECFilingPipeline:
                 if ticker and period_end_date:
                     # Use the fiscal registry from src2 for consistent fiscal calculations
                     try:
-                        from src2.sec.fiscal import fiscal_registry
-                        
-                        # Get fiscal info from the registry
-                        fiscal_info = fiscal_registry.determine_fiscal_period(
+                        # Use our improved fiscal period determination function
+                        fiscal_year_new, fiscal_quarter_new = self.determine_fiscal_period_properly(
                             ticker, period_end_date, filing_type
                         )
                         
-                        # Update fiscal year and period from the registry
-                        if fiscal_info:
-                            reg_fiscal_year = fiscal_info.get("fiscal_year")
-                            reg_fiscal_period = fiscal_info.get("fiscal_period")
+                        # Use new values if available
+                        if fiscal_year_new:
+                            fiscal_year = fiscal_year_new
+                        if fiscal_quarter_new:
+                            fiscal_quarter = fiscal_quarter_new
                             
-                            # Use registry values if available
-                            if reg_fiscal_year:
-                                fiscal_year = reg_fiscal_year
-                            if reg_fiscal_period:
-                                fiscal_quarter = reg_fiscal_period
-                            
-                            print(f"Using src2 fiscal registry in pipeline for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
+                            print(f"Using improved fiscal determination for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
                     except (ImportError, Exception) as e:
                         logging.warning(f"Could not use fiscal registry: {str(e)}")
                 
-                # Fallback to standard quarterly mapping if fiscal registry didn't provide a value
-                if not fiscal_quarter and filing_type == "10-Q" and period_end_date:
-                    month_match = re.search(r'\d{4}-(\d{2})-\d{2}', period_end_date)
-                    if month_match:
-                        month = int(month_match.group(1))
-                        if 1 <= month <= 3:
-                            fiscal_quarter = "Q1"
-                        elif 4 <= month <= 6:
-                            fiscal_quarter = "Q2"
-                        elif 7 <= month <= 9:
-                            fiscal_quarter = "Q3"
-                        elif 10 <= month <= 12:
-                            fiscal_quarter = "Q4"
+                # IMPORTANT: We skip the fallback to standard fiscal quarters
+                # to diagnose document extraction issues. Instead, we'll try to
+                # extract the quarter information directly from document text
+                if not fiscal_quarter and filing_type == "10-Q":
+                    document_text = None
+                    
+                    try:
+                        # Try to find the document path
+                        doc_path = None
+                        if "stages" in result and "download" in result["stages"]:
+                            download_result = result["stages"]["download"]["result"]
+                            if "doc_path" in download_result:
+                                doc_path = download_result["doc_path"]
+                            
+                                # Read the document text for the improved extraction
+                        if doc_path and os.path.exists(doc_path):
+                            with open(doc_path, 'r', encoding='utf-8', errors='ignore') as f:
+                                document_text = f.read()
+                                print(f"Read {len(document_text)} chars from {doc_path} for fiscal period extraction")
+                    except Exception as e:
+                        print(f"Error reading document for extraction: {str(e)}")
                 
-                # For 10-K, use annual
-                if filing_type == "10-K":
-                    fiscal_quarter = "annual"
+                # Use our centralized fiscal period determination function
+                try:
+                    fiscal_year, fiscal_period = self.determine_fiscal_period_properly(
+                        ticker, period_end_date, filing_type, document_text
+                    )
+                    
+                    # Update the fiscal_quarter variable for backward compatibility
+                    # This ensures existing code still works with the new variable name
+                    fiscal_quarter = fiscal_period
+                    
+                    print(f"Determined fiscal info: Year={fiscal_year}, Period={fiscal_period}")
+                except Exception as e:
+                    print(f"Error determining fiscal period: {str(e)}")
+                    
+                    # Set defaults if all else fails
+                    if filing_type == "10-K":
+                        fiscal_quarter = "annual"
+                        fiscal_period = "annual"
+                        
+                        # Extract year from period_end_date
+                        if period_end_date:
+                            try:
+                                fiscal_year = period_end_date.split('-')[0]
+                            except Exception:
+                                fiscal_year = None
+                
+                # Additional logging to help debug fiscal period extraction
+                print(f"FINAL VALUES for GCS paths: ticker={ticker}, filing_type={filing_type}, year={fiscal_year}, period={fiscal_quarter}")
                     
                 # Construct GCS paths using the proper folder structure
-                if filing_type == "10-K" or fiscal_quarter == "annual":
+                # Prefer using fiscal_period (which is more consistent) but fall back to fiscal_quarter for compatibility
+                if filing_type == "10-K" or (fiscal_period == "annual" or fiscal_quarter == "annual"):
                     gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
+                elif fiscal_period:
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/llm.txt"
                 elif fiscal_quarter:
+                    # Legacy fallback if fiscal_period is not available but fiscal_quarter is
                     gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/llm.txt"
                 else:
@@ -1411,8 +1844,16 @@ def main():
                     
                     elif stage == "upload" and "result" in info:
                         if info.get("success", False):
-                            gcs_path = info["result"].get("gcs_path")
-                            print(f"    Uploaded to GCS: {gcs_path}")
+                            # Access text and LLM upload results properly
+                            text_upload = info["result"].get("text_upload", {})
+                            text_gcs_path = text_upload.get("gcs_path")
+                            print(f"    Uploaded text to GCS: {text_gcs_path}")
+                            
+                            # If LLM upload is also present, show that too
+                            llm_upload = info["result"].get("llm_upload", {})
+                            if llm_upload:
+                                llm_gcs_path = llm_upload.get("gcs_path")
+                                print(f"    Uploaded LLM to GCS: {llm_gcs_path}")
                         else:
                             print(f"    Upload failed: {info['result'].get('error', 'Unknown error')}")
             
