@@ -15,6 +15,9 @@ import argparse
 import re
 from pathlib import Path
 
+# Import from config
+from src2.config import RAW_DATA_DIR, PROCESSED_DATA_DIR
+
 # Import from SEC modules
 from .downloader import SECDownloader
 from .renderer import ArelleRenderer
@@ -73,7 +76,7 @@ class SECFilingPipeline:
         self.downloader = SECDownloader(
             user_agent=user_agent or "NativeLLM_SECPipeline/1.0",
             contact_email=contact_email or "user@example.com",
-            download_dir=str(self.temp_dir / "downloads")
+            download_dir=str(self.temp_dir / RAW_DATA_DIR)
         )
         
         self.renderer = ArelleRenderer(

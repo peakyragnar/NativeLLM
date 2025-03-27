@@ -17,8 +17,10 @@ from urllib.parse import urljoin
 import random
 from bs4 import BeautifulSoup
 
+# Import from config
+from src2.config import SEC_BASE_URL, RAW_DATA_DIR
+
 # Constants
-SEC_BASE_URL = "https://www.sec.gov"
 SEC_RATE_LIMIT = 10  # Maximum requests per second allowed
 DEFAULT_TIMEOUT = 30  # Default timeout in seconds
 
@@ -41,7 +43,7 @@ class SECDownloader:
     }
     
     def __init__(self, user_agent=None, contact_email=None, rate_limit=5, 
-                 download_dir="./downloads", enforce_rate_limit=True):
+                 download_dir=None, enforce_rate_limit=True):
         """
         Initialize the downloader with SEC-compliant settings.
         
@@ -49,9 +51,12 @@ class SECDownloader:
             user_agent: User agent identification (org/tool name)
             contact_email: Contact email for identification
             rate_limit: Maximum requests per second (should be <= 10)
-            download_dir: Directory to save downloaded files
+            download_dir: Directory to save downloaded files (defaults to RAW_DATA_DIR from config)
             enforce_rate_limit: Whether to enforce rate limiting
         """
+        # Use RAW_DATA_DIR from config if download_dir is not provided
+        if download_dir is None:
+            download_dir = f"./{RAW_DATA_DIR}"
         # Set up user agent - required by SEC
         if not user_agent:
             user_agent = "NativeLLM_SECDownloader"
