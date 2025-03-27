@@ -74,6 +74,26 @@ def fetch_filing_html(filing_metadata):
     # If we still don't have a URL, log this but continue to try fallback methods
     if not document_url:
         logging.warning("No document_url or primary_doc_url found in metadata, will try fallback methods")
+        
+        # Special handling for older filings (2022-2023) - check potential_html_urls
+        if "potential_html_urls" in filing_metadata and filing_metadata["potential_html_urls"]:
+            potential_urls = filing_metadata["potential_html_urls"]
+            logging.info(f"Found {len(potential_urls)} potential HTML URLs for older filing")
+            
+            # Try each URL until we find one that works
+            for potential_url in potential_urls:
+                try:
+                    logging.info(f"Trying potential HTML URL for older filing: {potential_url}")
+                    test_response = sec_request(potential_url)
+                    
+                    if test_response.status_code == 200 and ("<html" in test_response.text.lower() or "<body" in test_response.text.lower()):
+                        document_url = potential_url
+                        filing_metadata["document_url"] = document_url
+                        filing_metadata["primary_doc_url"] = document_url
+                        logging.info(f"Found working HTML URL for older filing: {document_url}")
+                        break
+                except Exception as e:
+                    logging.warning(f"Error testing potential HTML URL {potential_url}: {str(e)}")
     
     if document_url:
         logging.info(f"Using document URL provided in metadata: {document_url}")
@@ -1349,12 +1369,36 @@ def process_html_filing(filing_metadata):
         # Step 3: Save the extracted text with all section markers in a single file
         save_result = save_text_file(extracted_text, filing_metadata)
         
-        return {
+        result = {
             "success": True,
             "filing_metadata": filing_metadata,
-            "file_path": save_result.get("file_path", ""),
+            "text_file_path": save_result.get("file_path", ""),
             "file_size": save_result.get("size", 0)
         }
+        
+        # Also include document sections for the LLM formatter to use
+        if extracted_text and "document_sections" in extracted_text:
+            # Include document sections with their text content
+            document_sections_with_text = {}
+            for section_id, section_info in extracted_text.get("document_sections", {}).items():
+                # Extract the section text from the full document
+                section_text = ""
+                if "full_text" in extracted_text:
+                    # Look for section markers
+                    section_pattern = f"@SECTION_START: {section_id}(.*?)@SECTION_END: {section_id}"
+                    section_match = re.search(section_pattern, extracted_text["full_text"], re.DOTALL)
+                    if section_match:
+                        section_text = section_match.group(1).strip()
+                
+                document_sections_with_text[section_id] = {
+                    "heading": section_info.get("heading", ""),
+                    "text": section_text
+                }
+            
+            result["document_sections"] = document_sections_with_text
+            logging.info(f"Added {len(document_sections_with_text)} document sections to result")
+        
+        return result
     except KeyError as e:
         # Handle the specific document_url KeyError that was causing the issue
         logging.error(f"KeyError processing HTML filing: {str(e)}")

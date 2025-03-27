@@ -36,7 +36,7 @@ logging.basicConfig(
 
 # Import secedgar for reliable URL handling
 from secedgar.client import NetworkClient
-from secedgar.core.filings import FilingSet, filings
+from secedgar.core.filings import filings
 from secedgar.core.filing_types import FilingType
 
 # Import GCP modules
@@ -52,7 +52,7 @@ from src.edgar.fiscal_manager import fiscal_manager
 from src.xbrl.enhanced_processor import process_company_filing
 from src.xbrl.html_text_extractor import process_html_filing
 from src.formatter.llm_formatter import generate_llm_format, save_llm_format
-from src.config import INITIAL_COMPANIES, PROCESSED_DATA_DIR
+from src.config import INITIAL_COMPANIES, PROCESSED_DATA_DIR, USER_AGENT
 
 # Thresholds for file size warnings
 SIZE_THRESHOLDS = {
@@ -67,7 +67,7 @@ SIZE_THRESHOLDS = {
 }
 
 # GCP settings (override with environment variables)
-GCS_BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "nativellm-filings")
+GCS_BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "native-llm-filings")
 GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "nativellm-sec")
 
 def configure_gcp():
@@ -332,7 +332,8 @@ def process_filing_with_secedgar(ticker, filing_type, count=1, client=None):
     """
     # Create NetworkClient if not provided
     if client is None:
-        client = NetworkClient(retry_count=3, pause=0.5)
+        client = NetworkClient(user_agent=USER_AGENT)
+        logging.info(f"Created NetworkClient with user agent: {USER_AGENT}")
     
     # Map to secedgar filing type
     if filing_type == "10-K":
@@ -415,8 +416,29 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                             logging.error(f"Error parsing XBRL: {parsed_result['error']}")
                             results["xbrl_error"] = parsed_result["error"]
                         else:
-                            # Generate LLM format
-                            llm_content = generate_llm_format(parsed_result, filing_metadata)
+                            # Generate LLM format with enhanced formatter if available
+                            # First, check if we have already processed HTML and add that to metadata
+                            enhanced_metadata = filing_metadata.copy()
+                            
+                            # Try to use the enhanced LLM formatter from src2
+                            try:
+                                from src2.formatter.llm_formatter import llm_formatter as enhanced_formatter
+                                logging.info("Using enhanced LLM formatter from src2")
+                                
+                                # If HTML was already processed, include the text file path
+                                if "text_file" in results:
+                                    text_file_info = results.get("text_file", {})
+                                    if text_file_info and "local_path" in text_file_info:
+                                        enhanced_metadata["text_file_path"] = text_file_info["local_path"]
+                                        logging.info(f"Added text file path to metadata: {text_file_info['local_path']}")
+                                
+                                # Generate enhanced LLM format with narrative sections
+                                llm_content = enhanced_formatter.generate_llm_format(parsed_result, enhanced_metadata)
+                                logging.info("Generated LLM content with enhanced formatter")
+                            except ImportError:
+                                # Fall back to original formatter
+                                logging.warning("Enhanced LLM formatter not found, using original formatter")
+                                llm_content = generate_llm_format(parsed_result, filing_metadata)
                             
                             # Save LLM format
                             local_llm_path = os.path.join(output_dir, f"{ticker}_{filing_type}_llm.txt")
@@ -472,8 +494,29 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                                 logging.error(f"Error parsing XBRL: {parsed_result['error']}")
                                 results["xbrl_error"] = parsed_result["error"]
                             else:
-                                # Generate LLM format
-                                llm_content = generate_llm_format(parsed_result, filing_metadata)
+                                # Generate LLM format with enhanced formatter if available
+                                # First, check if we have already processed HTML and add that to metadata
+                                enhanced_metadata = filing_metadata.copy()
+                                
+                                # Try to use the enhanced LLM formatter from src2
+                                try:
+                                    from src2.formatter.llm_formatter import llm_formatter as enhanced_formatter
+                                    logging.info("Using enhanced LLM formatter from src2")
+                                    
+                                    # If HTML was already processed, include the text file path
+                                    if "text_file" in results:
+                                        text_file_info = results.get("text_file", {})
+                                        if text_file_info and "local_path" in text_file_info:
+                                            enhanced_metadata["text_file_path"] = text_file_info["local_path"]
+                                            logging.info(f"Added text file path to metadata: {text_file_info['local_path']}")
+                                    
+                                    # Generate enhanced LLM format with narrative sections
+                                    llm_content = enhanced_formatter.generate_llm_format(parsed_result, enhanced_metadata)
+                                    logging.info("Generated LLM content with enhanced formatter")
+                                except ImportError:
+                                    # Fall back to original formatter
+                                    logging.warning("Enhanced LLM formatter not found, using original formatter")
+                                    llm_content = generate_llm_format(parsed_result, filing_metadata)
                                 
                                 # Save LLM format
                                 local_llm_path = os.path.join(output_dir, f"{ticker}_{filing_type}_llm.txt")
@@ -562,6 +605,23 @@ def process_filing(filing_metadata, include_html=True, include_xbrl=True):
                         # Check file size
                         text_size = os.path.getsize(local_text_path)
                         
+                        # Store HTML extracted content for LLM formatting
+                        try:
+                            # Extract document sections if they exist
+                            document_sections = html_result.get("document_sections", {})
+                            
+                            # Add HTML content to results for later use in LLM formatting
+                            results["html_content"] = {
+                                "text_file_path": local_text_path,
+                                "document_sections": document_sections
+                            }
+                            
+                            # Also add it to filing_metadata for immediate use
+                            filing_metadata["html_content"] = results["html_content"]
+                            logging.info(f"Added HTML content to metadata with {len(document_sections)} sections")
+                        except Exception as e:
+                            logging.warning(f"Error preparing HTML content for LLM formatter: {str(e)}")
+                        
                         # Upload to GCS
                         text_gcs_path, text_size = upload_to_gcs(
                             local_text_path,
@@ -637,8 +697,9 @@ def process_ticker_by_calendar(ticker, start_year, end_year, include_10k=True, i
         logging.error("No filing types specified")
         return {"error": "No filing types specified"}
     
-    # Create secedgar client
-    client = NetworkClient(retry_count=3, pause=0.5)
+    # Create secedgar client with proper user agent
+    client = NetworkClient(user_agent=USER_AGENT)
+    logging.info(f"Created NetworkClient with user agent: {USER_AGENT}")
     
     # Set up result structure
     results = {
@@ -866,7 +927,8 @@ def process_single_filing(ticker, filing_type, gcp_upload=True):
     logging.info(f"Processing latest {filing_type} filing for {ticker}")
     
     # Create secedgar client
-    client = NetworkClient(retry_count=3, pause=0.5)
+    client = NetworkClient(user_agent=USER_AGENT)
+    logging.info(f"Created NetworkClient with user agent: {USER_AGENT}")
     
     # Process the filing
     filing_results = process_filing_with_secedgar(ticker, filing_type, count=1, client=client)
