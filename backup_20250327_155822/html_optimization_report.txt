@@ -1,0 +1,228 @@
+HTML Optimization Report
+======================
+
+Date: 2025-03-25 11:12:53
+Files processed: 70
+Files optimized: 0
+
+Optimized Files
+==============
+
+
+Skipped Files
+============
+
+
+Error Files
+==========
+
+File: Apple_Inc._2022_Q3_AAPL_10-Q_20220625_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc_2024_3Q_AAPL_10-Q_20240629_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2023_FY_AAPL_10-K_20230930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2024_Q2_AAPL_10-Q_20240330_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2023_Q2_AAPL_10-Q_20230401_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2025_Q1_AAPL_10-Q_20241228_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2022_annual_AAPL_10-K_20220924_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc_2024_4Q_AAPL_10-Q_20241228_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2022_Q1_AAPL_10-Q_20211225_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc_2024_2Q_AAPL_10-Q_20240330_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2022_Q2_AAPL_10-Q_20220326_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2024_Q3_AAPL_10-Q_20240629_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2023_Q3_AAPL_10-Q_20230701_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc_2025_1Q_AAPL_10-Q_20241228_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2024_Q1_AAPL_10-Q_20231230_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2022_Q4_AAPL_10-Q_20221231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc._2023_Q4_AAPL_10-Q_20230701_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: Apple_Inc_2024_FY_AAPL_10-K_20240928_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q2_GOOGL_10-Q_20230630_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: GOOGL_10-K_20231231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q1_GOOGL_10-Q_20230331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q3_GOOGL_10-Q_20220930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_annual_GOOGL_10-K_20241231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_annual_GOOGL_10-K_20221231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q3_GOOGL_10-Q_20240930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q1_GOOGL_10-Q_20240331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_Company_Search_Results_2024_3Q_GOOGL_10-Q_20240930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_annual_GOOGL_10-K_20231231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q2_GOOGL_10-Q_20240630_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_Company_Search_Results_2024_FY_GOOGL_10-K_20241231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q3_GOOGL_10-Q_20230930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: unknown_2023_FY_GOOGL_10-K_20231231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q1_GOOGL_10-Q_20220331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2021_annual_GOOGL_10-K_20211231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q2_GOOGL_10-Q_20220630_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q1_MSFT_10-Q_20220331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q2_MSFT_10-Q_20221231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q1_MSFT_10-Q_20220930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_annual_MSFT_10-K_20230630_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q4_MSFT_10-Q_20221231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q3_MSFT_10-Q_20230331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2025_Q2_MSFT_10-Q_20241231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2025_Q1_MSFT_10-Q_20240930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q4_MSFT_10-Q_20241231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q1_MSFT_10-Q_20240331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q2_MSFT_10-Q_20211231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_annual_MSFT_10-K_20240630_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q3_MSFT_10-Q_20230930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q1_MSFT_10-Q_20230930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q2_MSFT_10-Q_20231231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2021_Q4_MSFT_10-Q_20211231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q3_MSFT_10-Q_20220930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q3_MSFT_10-Q_20240930_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_Q3_MSFT_10-Q_20220331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2022_annual_MSFT_10-K_20220630_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_Company_Search_Results_2024_4Q_MSFT_10-Q_20241231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q1_MSFT_10-Q_20230331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q3_MSFT_10-Q_20240331_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q4_MSFT_10-Q_20231231_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_annual_NVDA_10-K_20240128_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2025_Q1_NVDA_10-Q_20240428_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2025_Q2_NVDA_10-Q_20240728_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2025_annual_NVDA_10-K_20250126_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2025_Q3_NVDA_10-Q_20241027_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q2_NVDA_10-Q_20220731_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q3_NVDA_10-Q_20231029_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q1_NVDA_10-Q_20230430_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2024_Q2_NVDA_10-Q_20230730_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_Q3_NVDA_10-Q_20221030_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+
+File: EDGAR_|_Company_Search_Results_2023_annual_NVDA_10-K_20220130_llm.txt
+  Error: Can't pickle local object 'optimize_files.<locals>.process_file'
+

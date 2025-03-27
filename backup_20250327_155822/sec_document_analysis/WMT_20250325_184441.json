@@ -1,0 +1,237 @@
+[
+  {
+    "ticker": "WMT",
+    "cik": "0000104169",
+    "filing_type": "10-K",
+    "filing_date": "2025-03-14",
+    "document_link": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/0000104169-25-000021-index.htm",
+    "documents_data": {
+      "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/0000104169-25-000021-index.htm",
+      "filing_info": {
+        "page_title": "EDGAR Filing Documents for 0000104169-25-000021",
+        "header": "Filing Detail",
+        "company_name": "Walmart Inc. (Filer)\n CIK: 0000104169 (see all company filings)"
+      },
+      "document_count": 18,
+      "table_count": 2,
+      "documents": [
+        {
+          "seq": 1,
+          "description": "10-K",
+          "type": "10-K",
+          "link_text": "wmt-20250131.htm",
+          "url": "https://www.sec.gov/ix?doc=/Archives/edgar/data/104169/000010416925000021/wmt-20250131.htm",
+          "size": "2335078",
+          "explicit_format": "",
+          "derived_format": "inline XBRL",
+          "is_primary": true,
+          "table_number": 1
+        },
+        {
+          "seq": 2,
+          "description": "EX-19",
+          "type": "EX-19",
+          "link_text": "wmtexhibit19fy25.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit19fy25.htm",
+          "size": "59687",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 3,
+          "description": "EX-21",
+          "type": "EX-21",
+          "link_text": "wmtexhibit21fy25.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit21fy25.htm",
+          "size": "19652",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 4,
+          "description": "EX-23",
+          "type": "EX-23",
+          "link_text": "wmtexhibit23fy25.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit23fy25.htm",
+          "size": "16150",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 5,
+          "description": "EX-31.1",
+          "type": "EX-31.1",
+          "link_text": "wmtexhibit311fy2510-k.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit311fy2510-k.htm",
+          "size": "8026",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 6,
+          "description": "EX-31.2",
+          "type": "EX-31.2",
+          "link_text": "wmtexhibit312fy2510-k.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit312fy2510-k.htm",
+          "size": "8034",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 7,
+          "description": "EX-32.1",
+          "type": "EX-32.1",
+          "link_text": "wmtexhibit321fy2510-k.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit321fy2510-k.htm",
+          "size": "4534",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 8,
+          "description": "EX-32.2",
+          "type": "EX-32.2",
+          "link_text": "wmtexhibit322fy2510-k.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit322fy2510-k.htm",
+          "size": "4558",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 9,
+          "description": "EX-99.1",
+          "type": "EX-99.1",
+          "link_text": "wmtexhibit991fy2510-k.htm",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmtexhibit991fy2510-k.htm",
+          "size": "5623",
+          "explicit_format": "",
+          "derived_format": "HTML",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 10,
+          "description": "",
+          "type": "GRAPHIC",
+          "link_text": "wmt-20250131_g1.gif",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_g1.gif",
+          "size": "9665",
+          "explicit_format": "",
+          "derived_format": "",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 11,
+          "description": "",
+          "type": "GRAPHIC",
+          "link_text": "wmt-20250131_g2.jpg",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_g2.jpg",
+          "size": "94122",
+          "explicit_format": "",
+          "derived_format": "",
+          "is_primary": false,
+          "table_number": 1
+        },
+        {
+          "seq": 12,
+          "description": "Complete submission text file",
+          "type": "",
+          "link_text": "0000104169-25-000021.txt",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/0000104169-25-000021.txt",
+          "size": "12094994",
+          "explicit_format": "",
+          "derived_format": "",
+          "is_primary": true,
+          "table_number": 1
+        },
+        {
+          "seq": 1,
+          "description": "XBRL TAXONOMY EXTENSION SCHEMA DOCUMENT",
+          "type": "EX-101.SCH",
+          "link_text": "wmt-20250131.xsd",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131.xsd",
+          "size": "64550",
+          "explicit_format": "",
+          "derived_format": "",
+          "is_primary": false,
+          "table_number": 2
+        },
+        {
+          "seq": 2,
+          "description": "XBRL TAXONOMY EXTENSION CALCULATION LINKBASE DOCUMENT",
+          "type": "EX-101.CAL",
+          "link_text": "wmt-20250131_cal.xml",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_cal.xml",
+          "size": "103036",
+          "explicit_format": "",
+          "derived_format": "XML",
+          "is_primary": false,
+          "table_number": 2
+        },
+        {
+          "seq": 3,
+          "description": "XBRL TAXONOMY EXTENSION DEFINITION LINKBASE DOCUMENT",
+          "type": "EX-101.DEF",
+          "link_text": "wmt-20250131_def.xml",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_def.xml",
+          "size": "339946",
+          "explicit_format": "",
+          "derived_format": "XML",
+          "is_primary": false,
+          "table_number": 2
+        },
+        {
+          "seq": 4,
+          "description": "XBRL TAXONOMY EXTENSION LABEL LINKBASE DOCUMENT",
+          "type": "EX-101.LAB",
+          "link_text": "wmt-20250131_lab.xml",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_lab.xml",
+          "size": "871500",
+          "explicit_format": "",
+          "derived_format": "XML",
+          "is_primary": false,
+          "table_number": 2
+        },
+        {
+          "seq": 5,
+          "description": "XBRL TAXONOMY EXTENSION PRESENTATION LINKBASE DOCUMENT",
+          "type": "EX-101.PRE",
+          "link_text": "wmt-20250131_pre.xml",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_pre.xml",
+          "size": "623031",
+          "explicit_format": "",
+          "derived_format": "XML",
+          "is_primary": false,
+          "table_number": 2
+        },
+        {
+          "seq": 6,
+          "description": "EXTRACTED XBRL INSTANCE DOCUMENT",
+          "type": "XML",
+          "link_text": "wmt-20250131_htm.xml",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131_htm.xml",
+          "size": "1944567",
+          "explicit_format": "",
+          "derived_format": "XBRL INSTANCE",
+          "is_primary": false,
+          "table_number": 2
+        }
+      ]
+    }
+  }
+]

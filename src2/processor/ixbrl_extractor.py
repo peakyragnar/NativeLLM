@@ -419,3 +419,88 @@ if __name__ == "__main__":
         print("\nFirst 500 characters of extracted text:")
         print("----------------------------------------")
         print(extracted_text[:500] + "...")
+
+def process_ixbrl_file(file_path, filing_metadata=None):
+    """
+    Process an iXBRL file and extract structured data
+    
+    Args:
+        file_path: Path to the iXBRL file
+        filing_metadata: Optional metadata about the filing
+        
+    Returns:
+        dict: Extracted data including contexts, units, and facts
+    """
+    try:
+        # Extract text from the file
+        extractor = IXBRLExtractor()
+        
+        # Check if it's a local file or URL
+        if file_path.startswith('http'):
+            # For URLs, use the async extract method
+            result = asyncio.run(extractor.extract_from_url(file_path))
+        else:
+            # For local files, read the file and use file extraction method
+            try:
+                result = asyncio.run(extractor.extract_from_file(file_path))
+            except Exception as e:
+                return {"error": f"Error extracting from file: {str(e)}"}
+        
+        # Extract structured data from the document
+        text_content = result.get("full_text", "")
+        sections = result.get("sections", {})
+        
+        # Extract facts from text using regex patterns
+        # This is a simplified implementation - production would use proper iXBRL parsing
+        contexts = {}
+        units = {}
+        facts = []
+        
+        # Add document metadata as facts
+        if filing_metadata:
+            # Add filing metadata to the result
+            for key, value in filing_metadata.items():
+                if key not in ['html_content']:  # Skip large content fields
+                    fact = {
+                        "name": f"dei:{key}",
+                        "value": str(value),
+                        "context_ref": "default",
+                        "unit_ref": "",
+                        "decimals": "",
+                        "format": ""
+                    }
+                    facts.append(fact)
+        
+        # Create a default context
+        contexts["default"] = {
+            "entity": {},
+            "period": {},
+            "dimensions": {}
+        }
+        
+        # Extract additional info from section headers
+        for section_id, section_info in sections.items():
+            fact = {
+                "name": f"sec:section_{section_id.lower()}",
+                "value": section_info.get("heading", ""),
+                "context_ref": "default",
+                "unit_ref": "",
+                "decimals": "",
+                "format": ""
+            }
+            facts.append(fact)
+            
+        return {
+            "success": True,
+            "document_info": filing_metadata or {},
+            "contexts": contexts,
+            "units": units,
+            "facts": facts,
+            "fact_count": len(facts),
+            "context_count": len(contexts),
+            "unit_count": len(units),
+            "full_text": text_content,
+            "sections": sections
+        }
+    except Exception as e:
+        return {"error": f"Error processing iXBRL file: {str(e)}"}

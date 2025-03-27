@@ -1,0 +1,102 @@
+{
+  "total_companies": 13,
+  "total_filings": 8,
+  "format_patterns": {
+    "derived: HTML": 69,
+    "derived: XML": 30,
+    "derived: inline XBRL": 8,
+    "derived: XBRL INSTANCE": 8
+  },
+  "column_patterns": {},
+  "document_types": {
+    "GRAPHIC": 63,
+    "EX-101.SCH": 8,
+    "EX-101.LAB": 8,
+    "EX-101.PRE": 8,
+    "XML": 8,
+    "10-K": 7,
+    "EX-101.CAL": 7,
+    "EX-101.DEF": 7,
+    "EX-19": 5,
+    "EX-31.1": 5,
+    "EX-31.2": 5,
+    "EX-32.1": 5,
+    "EX-21": 4,
+    "EX-23": 4,
+    "EX-32.2": 4,
+    "EX-10.19": 2,
+    "EX-32": 2,
+    "EX-97": 2,
+    "EX-10.21": 2,
+    "EX-21.1": 2,
+    "EX-23.1": 2,
+    "EX-4.6": 1,
+    "EX-22.2": 1,
+    "EX-99.1": 1,
+    "EX-10.18": 1,
+    "EX-10.20": 1,
+    "EX-10.27": 1,
+    "EX-19.01": 1,
+    "EX-21.01": 1,
+    "EX-23.01": 1,
+    "EX-31.01": 1,
+    "EX-31.02": 1,
+    "EX-32.01": 1,
+    "EX-32.02": 1,
+    "EX-97.01": 1,
+    "EX-10.3": 1,
+    "EX-10.4": 1,
+    "EX-19.1": 1,
+    "EX-99.2": 1,
+    "EX-99.3": 1,
+    "EX-24": 1,
+    "EX-31.A": 1,
+    "EX-31.B": 1,
+    "EX-4": 1,
+    "10-K/A": 1,
+    "EX-31.3": 1,
+    "EX-31.4": 1
+  },
+  "file_naming_patterns": {
+    "X-X_X.X": {
+      "count": 94,
+      "examples": [
+        "jpm-20241231_g1.jpg",
+        "jpm-20241231_g10.jpg",
+        "jpm-20241231_g11.jpg"
+      ]
+    },
+    "X-X.X": {
+      "count": 42,
+      "examples": [
+        "jpm-20241231.htm",
+        "jpm-20241231.xsd",
+        "wmt-20250131.htm"
+      ]
+    },
+    "X.X": {
+      "count": 36,
+      "examples": [
+        "corp10k2024exhibit46.htm",
+        "corp10k2024exhibit1019.htm",
+        "corp10k2024exhibit19.htm"
+      ]
+    },
+    "X_X.X": {
+      "count": 14,
+      "examples": [
+        "exhibit103_01312025.htm",
+        "exhibit104_01312025.htm",
+        "exhibit191_01312025.htm"
+      ]
+    },
+    "X-X-X.X": {
+      "count": 8,
+      "examples": [
+        "0000019617-25-000270.txt",
+        "0000104169-25-000021.txt",
+        "0001633917-25-000019.txt"
+      ]
+    }
+  }
+}

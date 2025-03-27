@@ -1,125 +1,102 @@
 # LLM-Native Financial Data Project
 
-This project extracts financial data from SEC XBRL filings and converts it to an LLM-optimized format without imposing traditional financial frameworks or biases.
+This project extracts financial data from SEC XBRL filings and converts it to an LLM-optimized format, preserving the original data exactly as reported by companies without imposing traditional financial frameworks or biases.
 
-## Project Overview
+## Overview
 
-The pipeline:
-1. Retrieves raw XBRL data directly from SEC EDGAR
-2. Extracts narrative text from HTML filing documents
-3. Preserves all data exactly as reported by companies
-4. Converts it to a format optimized for LLM consumption
-5. Avoids imposing traditional financial frameworks or interpretations
+The system creates a pipeline that:
 
-## Setup
+1. Retrieves raw XBRL/iXBRL data directly from SEC EDGAR
+2. Preserves all data exactly as reported by companies
+3. Converts it to a format optimized for LLM consumption
+4. Avoids imposing traditional financial frameworks or interpretations
 
-1. Create a virtual environment:
+## Key Features
+
+- **Multi-format Support**: Handles both traditional XBRL and modern iXBRL formats
+- **Company-specific Format Detection**: Adapts automatically to different company filing formats
+- **Robust Error Handling**: Implements fallback strategies for increased resilience
+- **Cross-validation**: Verifies extracted data against expected patterns
+- **Flexible Document Handling**: Adapts to different filing structures across companies
+
+## iXBRL Support
+
+The system now fully supports inline XBRL (iXBRL) documents, which is the modern SEC-mandated format for financial filings. This enables processing of companies like Google (GOOGL/GOOG) that use this format exclusively. Key features of the iXBRL support include:
+
+- **Comprehensive Document Discovery**: Locates HTML documents containing iXBRL data
+- **Context and Unit Extraction**: Extracts hidden XBRL sections containing contexts and units
+- **Fact Extraction**: Identifies and extracts tagged financial facts embedded within HTML
+- **Related Document Handling**: Manages relationships between HTML and linkbase files
+- **Section Recognition**: Identifies standard financial sections like balance sheets and income statements
+
+## Architecture
+
+The system is built with a hybrid approach:
+
+- **lxml + BeautifulSoup**: For efficient HTML and XML parsing
+- **Multi-stage Processing Pipeline**: Separates download, parsing, and extraction steps
+- **Graceful Degradation**: Handles edge cases and format variations with fallback mechanisms
+- **Circuit Breakers**: Prevents cascading failures when processing problematic files
+
+## Setup and Installation
+
 ```bash
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-3. Update the `USER_AGENT` in `src/config.py` with your information.
-
 ## Usage
 
-1. Set up project directories:
-```bash
-python run_pipeline.py --setup
-```
+### Process a Company
 
-2. Process a single company to test:
 ```bash
-python run_pipeline.py --company AAPL
-```
+# Process a specific company
+python run_pipeline.py --company GOOGL
 
-3. Process initial companies from config:
-```bash
+# Process initial companies from config
 python run_pipeline.py --initial
-```
 
-4. Process top N companies in parallel:
-```bash
+# Process top N companies in parallel
 python run_pipeline.py --top 10 --workers 3
 ```
 
-## LLM Queries
-
-You can query processed filings with an LLM using both structured data and narrative text:
+### Test iXBRL Extraction
 
 ```bash
-# Combined query (using both structured data and narrative text)
-python query_llm.py --ticker AAPL --filing_type 10-Q --question "What was the revenue for the most recent quarter and how does it compare to the previous quarter?" --data_type combined
+# Test Google extraction
+python test_ixbrl_extraction.py --test-google
 
-# Structured data only query
-python query_llm.py --ticker AAPL --filing_type 10-Q --question "What was the gross margin for the most recent quarter?" --data_type structured
+# Process and format a specific filing
+python test_ixbrl_extraction.py --process-format --ticker GOOGL --filing-type 10-K
 
-# Narrative text only query
-python query_llm.py --ticker AAPL --filing_type 10-K --question "What are the key risk factors mentioned?" --data_type narrative --narrative_section risk_factors
-
-# MD&A section query
-python query_llm.py --ticker AAPL --filing_type 10-Q --question "How does management explain changes in operating expenses?" --data_type narrative --narrative_section mda
+# Test multiple companies
+python test_ixbrl_extraction.py --test-multiple
 ```
 
-## Testing
+### Query a Processed Filing
 
-Run all tests using the centralized test runner:
 ```bash
-./run_tests.sh
+python query_llm.py --ticker GOOGL --filing_type 10-K --question "What was the revenue for the most recent quarter and how does it compare to the previous quarter?"
 ```
 
-Run specific test categories:
-```bash
-# Run unit tests only
-./run_tests.sh --unit
+## Directory Structure
 
-# Run integration tests only
-./run_tests.sh --integration
+- `/src/edgar/`: SEC EDGAR access modules
+- `/src/xbrl/`: XBRL and iXBRL processing modules
+- `/src/formatter/`: LLM format generators
+- `/data/raw/`: Raw downloaded XBRL/iXBRL files
+- `/data/processed/`: Processed LLM-formatted files
 
-# Run validation and data integrity tests only
-./run_tests.sh --validation
+## Contributing
 
-# Run with verbose output
-./run_tests.sh --verbose
-```
+Contributions are welcome! Please follow these steps:
 
-Run data integrity checks (useful for CI pipelines):
-```bash
-./run_data_integrity_checks.sh
-```
-
-Schedule regular integrity validation (for cron jobs):
-```bash
-./scheduled_integrity_check.sh
-```
-
-For more details on the test framework, see the [tests/README.md](tests/README.md).
-
-## Project Structure
-
-- `src/`: Source code for the project
-  - `edgar/`: SEC EDGAR access modules
-  - `xbrl/`: XBRL processing modules
-    - `xbrl_downloader.py`: Downloads XBRL instance documents
-    - `xbrl_parser.py`: Parses XBRL into structured data
-    - `html_text_extractor.py`: Extracts narrative text from HTML filings
-  - `formatter/`: LLM format generation
-    - `llm_formatter.py`: Formats structured XBRL data
-    - `normalize_value.py`: Normalizes numeric values
-- `data/`: Data storage
-  - `raw/`: Downloaded XBRL files
-  - `processed/`: Generated LLM format files and extracted text
-- `tests/`: Test suite
-  - `validation/`: Data validation and integrity checks
-  - `run_all_tests.py`: Centralized test runner
-- `run_pipeline.py`: Main entry point
-- `run_tests.sh`: Test runner script
-- `run_data_integrity_checks.sh`: Script for CI pipeline validation
-- `scheduled_integrity_check.sh`: Script for scheduled validation
-- `query_llm.py`: Query tool for LLMs
-- `logs/`: Log directory for scheduled validation runs
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request

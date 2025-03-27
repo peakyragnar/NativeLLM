@@ -1,0 +1,81 @@
+# Core src2 directory structure
+src2/
+src2/__init__.py
+src2/config.py
+
+# SEC module and its components
+src2/sec/
+src2/sec/__init__.py
+src2/sec/batch_pipeline.py
+src2/sec/pipeline.py
+src2/sec/downloader.py
+src2/sec/extractor.py
+src2/sec/renderer.py
+src2/sec/company_list.py
+src2/sec/finder.py
+src2/sec/fiscal/
+src2/sec/fiscal/__init__.py
+src2/sec/fiscal/company_fiscal.py
+src2/sec/fiscal/fiscal_manager.py
+
+# Processor module
+src2/processor/
+src2/processor/__init__.py
+src2/processor/html_processor.py
+src2/processor/html_optimizer.py
+src2/processor/xbrl_processor.py
+src2/processor/ixbrl_extractor.py
+src2/processor/enhanced_processor.py
+src2/processor/parallel_processor.py
+
+# Formatter module
+src2/formatter/
+src2/formatter/__init__.py
+src2/formatter/llm_formatter.py
+src2/formatter/normalize_value.py
+
+# XBRL module
+src2/xbrl/
+src2/xbrl/__init__.py
+src2/xbrl/company_formats.py
+src2/xbrl/xbrl_parser.py
+src2/xbrl/html_text_extractor.py
+src2/xbrl/company_formats_registry.json
+
+# Downloader module
+src2/downloader/
+src2/downloader/__init__.py
+src2/downloader/direct_edgar_downloader.py
+
+# Storage module
+src2/storage/
+src2/storage/__init__.py
+src2/storage/gcp_storage.py
+
+# Edgar utilities
+src2/edgar/
+src2/edgar/__init__.py
+src2/edgar/edgar_utils.py
+
+# Tests directory (all test files)
+tests/
+tests/__init__.py
+tests/test_*.py
+tests/run_all_tests.py
+tests/validation/
+tests/validation/__init__.py
+tests/validation/check_*.py
+tests/validation/validate_*.py
+
+# Required supporting files
+clear_gcp_data.py
+requirements.txt
+README.md
+
+# Configuration and documentation
+CLAUDE.md
+.gitignore
+
+# Output directories (keep but clean contents)
+sec_processed/
+sec_downloads/
