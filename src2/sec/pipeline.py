@@ -87,6 +87,497 @@ class SECFilingPipeline:
         
         logging.info(f"Initialized SEC filing pipeline with output dir: {self.output_dir}")
     
+    def process_filing_with_info(self, filing_info, save_intermediate=False):
+        """
+        Process a filing using a pre-fetched filing_info dictionary.
+        
+        Args:
+            filing_info: Dictionary with filing information (from SEC downloader)
+            save_intermediate: Whether to save intermediate files
+            
+        Returns:
+            Dictionary with processing results and file paths
+        """
+        start_time = time.time()
+        ticker = filing_info.get("ticker")
+        cik = filing_info.get("cik")
+        filing_type = filing_info.get("filing_type", "10-K")
+        
+        result = {
+            "ticker": ticker,
+            "cik": cik,
+            "filing_type": filing_type,
+            "start_time": start_time,
+            "stages": {}
+        }
+        
+        try:
+            # Skip the filing lookup since we already have it
+            download_start = time.time()
+            
+            # Download the filing
+            download_result = self.downloader.download_filing(filing_info)
+            
+            # Add download stage to results
+            result["stages"]["download"] = {
+                "success": "error" not in download_result,
+                "time_seconds": time.time() - download_start,
+                "result": download_result
+            }
+            
+            if "error" in download_result:
+                result["error"] = f"Download failed: {download_result['error']}"
+                return result
+            
+            # Continue with downloaded document
+            document_path = download_result.get("doc_path")
+            if not document_path or not os.path.exists(document_path):
+                error_msg = "Downloaded document path not found"
+                logging.error(error_msg)
+                result["error"] = error_msg
+                return result
+            
+            # Continue with the standard processing from here
+            # Stage 2: Render the document
+            logging.info(f"Stage 2: Rendering document")
+            render_start = time.time()
+            
+            # Define output paths
+            company_dir = self.output_dir / ticker
+            os.makedirs(company_dir, exist_ok=True)
+            
+            # Define output text path with fiscal period if available
+            # Extract fiscal year and quarter information
+            fiscal_year = None
+            fiscal_quarter = None
+            period_end_date = filing_info.get("period_end_date", "")
+            
+            if ticker and period_end_date:
+                try:
+                    from src2.sec.fiscal import fiscal_registry
+                    fiscal_info = fiscal_registry.determine_fiscal_period(
+                        ticker, period_end_date, filing_type
+                    )
+                    fiscal_year = fiscal_info.get("fiscal_year")
+                    fiscal_quarter = fiscal_info.get("fiscal_period")
+                    logging.info(f"Using fiscal info for local path: Year={fiscal_year}, Period={fiscal_quarter}")
+                except (ImportError, Exception) as e:
+                    logging.warning(f"Could not use fiscal registry for local path: {str(e)}")
+            
+            # Use fiscal information in filenames to prevent overwriting
+            if fiscal_year and fiscal_quarter and filing_type == "10-Q":
+                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_llm.txt"
+                rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_rendered.html"
+                logging.info(f"Using fiscal period in local filenames: {fiscal_year}_{fiscal_quarter}")
+            elif fiscal_year:
+                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
+                rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_rendered.html"
+                logging.info(f"Using fiscal year in local filenames: {fiscal_year}")
+            else:
+                text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
+                rendered_path = company_dir / f"{ticker}_{filing_type}_rendered.html"
+            
+            # Continue with normal rendering
+            try:
+                # Render to HTML
+                rendered_file = self.renderer.render_ixbrl(
+                    document_path, 
+                    output_format="html",
+                    output_file=rendered_path
+                )
+                
+                render_result = {
+                    "rendered_file": str(rendered_file),
+                    "file_size": os.path.getsize(rendered_file)
+                }
+                
+            except Exception as e:
+                logging.error(f"Rendering failed: {str(e)}")
+                render_result = {"error": str(e)}
+            
+            # Continue with the standard pipeline from here
+            # Add render stage to results
+            result["stages"]["render"] = {
+                "success": "error" not in render_result,
+                "time_seconds": time.time() - render_start,
+                "result": render_result
+            }
+            
+            # Use fallback if rendering failed
+            if "error" in render_result:
+                logging.info(f"Rendering with Arelle failed: {render_result['error']}")
+                logging.info("Using fallback: processing downloaded document directly")
+                rendered_path = document_path
+                
+                # Update render_result to show success for fallback
+                render_result = {
+                    "success": True,
+                    "fallback_used": True,
+                    "original_error": render_result.get("error"),
+                    "file_path": document_path,
+                    "file_size": os.path.getsize(document_path)
+                }
+                
+                # Update stage info
+                result["stages"]["render"] = {
+                    "success": True,
+                    "fallback_used": True,
+                    "time_seconds": time.time() - render_start,
+                    "result": render_result
+                }
+            
+            # Continue with the rest of the pipeline (stages 3+)
+            # (This is to avoid duplicating all the code)
+            return self._continue_processing_after_render(
+                result, rendered_path, text_path, llm_path, 
+                ticker, cik, filing_type, filing_info, 
+                save_intermediate, start_time
+            )
+            
+        except Exception as e:
+            logging.error(f"Pipeline error in process_filing_with_info: {str(e)}")
+            result["error"] = str(e)
+            result["success"] = False
+            result["total_time_seconds"] = time.time() - start_time
+            return result
+    
+    def _continue_processing_after_render(self, result, rendered_path, text_path, llm_path,
+                                         ticker, cik, filing_type, filing_info,
+                                         save_intermediate, start_time):
+        """
+        Continue processing after the rendering stage.
+        
+        Helper method to avoid code duplication between process_filing and process_filing_with_info.
+        """
+        try:
+            # Stage 3: Extract text
+            logging.info(f"Stage 3: Extracting text from document")
+            extract_start = time.time()
+            
+            # Create metadata for the extraction
+            metadata = {
+                "ticker": ticker,
+                "cik": cik,
+                "filing_type": filing_type,
+                "filing_date": filing_info.get("filing_date"),
+                "period_end_date": filing_info.get("period_end_date"),
+                "company_name": filing_info.get("company_name", ticker),
+                "source_url": filing_info.get("primary_doc_url")
+            }
+            
+            # Extract text
+            extract_result = self.extractor.process_filing(
+                rendered_path,
+                output_path=text_path,
+                metadata=metadata
+            )
+            
+            # Add extraction stage to results
+            result["stages"]["extract"] = {
+                "success": extract_result.get("success", False),
+                "time_seconds": time.time() - extract_start,
+                "result": extract_result
+            }
+            
+            # Save document sections to metadata for LLM formatter
+            if 'document_sections' in extract_result:
+                metadata['html_content'] = {
+                    'document_sections': extract_result['document_sections']
+                }
+                logging.info(f"Added {len(extract_result['document_sections'])} document sections to metadata for LLM formatter")
+            
+            if not extract_result.get("success", False):
+                result["error"] = f"Extraction failed: {extract_result.get('error', 'Unknown error')}"
+                return result
+            
+            # Stage 3b: Extract XBRL data and format for LLM
+            logging.info(f"Stage 3b: Extracting XBRL data and formatting for LLM")
+            
+            llm_start = time.time()
+            llm_result = {"success": False}
+            
+            try:
+                # Import LLM formatter
+                from src2.formatter.llm_formatter import llm_formatter
+                
+                # Check for XBRL data in the filing
+                xbrl_path = None
+                doc_path = None
+                
+                # First check for direct XBRL file
+                if "xbrl_path" in result["stages"]["download"]["result"]:
+                    xbrl_path = result["stages"]["download"]["result"]["xbrl_path"]
+                    logging.info(f"Found XBRL file: {xbrl_path}")
+                elif "idx_path" in result["stages"]["download"]["result"]:
+                    # Use index file to find XBRL
+                    xbrl_path = result["stages"]["download"]["result"]["idx_path"]
+                    logging.info(f"Found index file: {xbrl_path}")
+                
+                # Check for main document which might contain inline XBRL
+                if "doc_path" in result["stages"]["download"]["result"]:
+                    doc_path = result["stages"]["download"]["result"]["doc_path"]
+                    logging.info(f"Found document path for XBRL extraction: {doc_path}")
+                
+                # Use either xbrl_path or doc_path
+                if (xbrl_path and os.path.exists(xbrl_path)) or (doc_path and os.path.exists(doc_path)):
+                    # Initialize XBRL data structure
+                    xbrl_data = {
+                        "contexts": {},
+                        "units": {},
+                        "facts": []
+                    }
+                    
+                    # Start with basic document information
+                    xbrl_data["facts"].append({
+                        "concept": "DocumentType",
+                        "value": filing_type,
+                        "context_ref": "AsOf"
+                    })
+                    xbrl_data["facts"].append({
+                        "concept": "EntityRegistrantName",
+                        "value": metadata.get("company_name", ""),
+                        "context_ref": "AsOf"
+                    })
+                    
+                    # Try to extract XBRL data from main document if no dedicated XBRL file
+                    if not xbrl_path and doc_path:
+                        logging.info(f"Extracting inline XBRL from main document: {doc_path}")
+                        try:
+                            # Extract inline XBRL data from HTML document
+                            from bs4 import BeautifulSoup
+                            
+                            with open(doc_path, 'r', encoding='utf-8') as f:
+                                html_content = f.read()
+                            
+                            soup = BeautifulSoup(html_content, 'html.parser')
+                            
+                            # Find all ix:* tags (inline XBRL tags)
+                            ix_tags = soup.find_all(lambda tag: tag.name and tag.name.startswith('ix:'))
+                            logging.info(f"Found {len(ix_tags)} inline XBRL tags")
+                            
+                            # Extract contexts, units, and facts
+                            # (This is the same code as in the original process_filing method)
+                            
+                            # Extract facts from inline XBRL
+                            for ix_tag in ix_tags:
+                                if ix_tag.name == 'ix:nonfraction':
+                                    fact = {
+                                        "concept": ix_tag.get('name', ''),
+                                        "value": ix_tag.text.strip(),
+                                        "context_ref": ix_tag.get('contextref', '')
+                                    }
+                                    
+                                    # Add optional attributes
+                                    if ix_tag.get('unitref'):
+                                        fact["unit_ref"] = ix_tag.get('unitref')
+                                    if ix_tag.get('decimals'):
+                                        fact["decimals"] = ix_tag.get('decimals')
+                                        
+                                    xbrl_data["facts"].append(fact)
+                            
+                        except Exception as e:
+                            logging.error(f"Error extracting inline XBRL: {str(e)}")
+                            # Continue with basic XBRL data
+                    
+                    # Generate LLM format
+                    llm_content = llm_formatter.generate_llm_format(xbrl_data, metadata)
+                    
+                    # Save LLM format
+                    save_result = llm_formatter.save_llm_format(llm_content, metadata, str(llm_path))
+                    
+                    llm_result = {
+                        "success": save_result.get("success", False),
+                        "file_size": save_result.get("size", 0),
+                        "path": save_result.get("path", "")
+                    }
+                else:
+                    llm_result = {
+                        "success": False,
+                        "error": "No XBRL data found in filing"
+                    }
+            except Exception as e:
+                logging.error(f"Error generating LLM format: {str(e)}")
+                llm_result = {
+                    "success": False,
+                    "error": str(e)
+                }
+            
+            # Add LLM formatting stage to results
+            result["stages"]["llm_format"] = {
+                "success": llm_result.get("success", False),
+                "time_seconds": time.time() - llm_start,
+                "result": llm_result
+            }
+            
+            # Don't fail the pipeline if LLM formatting fails
+            if not llm_result.get("success", False):
+                logging.warning(f"LLM formatting failed: {llm_result.get('error', 'Unknown error')}")
+                result["warning"] = f"LLM formatting failed: {llm_result.get('error', 'Unknown error')}"
+            
+            # Stage 4: Upload to GCP (if configured)
+            if self.gcp_storage and self.gcp_storage.is_enabled():
+                logging.info(f"Stage 4: Uploading to GCP")
+                
+                upload_start = time.time()
+                
+                # Extract year and quarter information
+                filing_date = filing_info.get("filing_date", "")
+                period_end_date = filing_info.get("period_end_date", "")
+                
+                # Log for debugging
+                logging.info(f"Period end date: {period_end_date}, Filing date: {filing_date}")
+                
+                # Use the fiscal registry for all companies
+                fiscal_quarter = None
+                
+                # If we have both ticker and period_end_date, use the fiscal registry
+                if ticker and period_end_date:
+                    # Use the fiscal registry from src2 for consistent fiscal calculations
+                    try:
+                        from src2.sec.fiscal import fiscal_registry
+                        
+                        # Get fiscal info from the registry
+                        fiscal_info = fiscal_registry.determine_fiscal_period(
+                            ticker, period_end_date, filing_type
+                        )
+                        
+                        # Update fiscal year and period from the registry
+                        if fiscal_info:
+                            reg_fiscal_year = fiscal_info.get("fiscal_year")
+                            reg_fiscal_period = fiscal_info.get("fiscal_period")
+                            
+                            # Use registry values if available
+                            if reg_fiscal_year:
+                                fiscal_year = reg_fiscal_year
+                            if reg_fiscal_period:
+                                fiscal_quarter = reg_fiscal_period
+                            
+                            print(f"Using src2 fiscal registry in pipeline for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
+                    except (ImportError, Exception) as e:
+                        logging.warning(f"Could not use fiscal registry: {str(e)}")
+                
+                # Construct GCS paths using the proper folder structure
+                if filing_type == "10-K" or fiscal_quarter == "annual":
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
+                elif fiscal_quarter:
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/llm.txt"
+                else:
+                    # Fallback to fiscal year only if we can't determine quarter
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
+                
+                # Log the paths for debugging
+                logging.info(f"Using GCS paths: {gcs_text_path} and {gcs_llm_path}")
+                
+                # Modified logic to handle each file individually
+                # Always upload the text file if it doesn't exist
+                upload_results = {
+                    "text_upload": None,
+                    "llm_upload": None,
+                    "metadata": None
+                }
+                
+                # Get LLM file size if it exists
+                llm_size = 0
+                if llm_result.get("success", False) and os.path.exists(str(llm_path)):
+                    llm_size = os.path.getsize(str(llm_path))
+                
+                # Check if files already exist in GCS
+                files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
+                
+                # Always upload the text file if it doesn't exist
+                if files_exist.get(gcs_text_path, False):
+                    logging.info(f"Text file already exists in GCS: {gcs_text_path}")
+                    text_upload_result = {
+                        "success": True,
+                        "gcs_path": gcs_text_path,
+                        "already_exists": True
+                    }
+                else:
+                    logging.info(f"Uploading text file to GCS: {gcs_text_path}")
+                    text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
+                
+                # Add text upload result
+                upload_results["text_upload"] = text_upload_result
+                
+                # Handle LLM file separately
+                if llm_result.get("success", False) and os.path.exists(str(llm_path)):
+                    if files_exist.get(gcs_llm_path, False):
+                        logging.info(f"LLM file already exists in GCS: {gcs_llm_path}")
+                        llm_upload_result = {
+                            "success": True,
+                            "gcs_path": gcs_llm_path,
+                            "already_exists": True
+                        }
+                    else:
+                        logging.info(f"Uploading LLM file to GCS: {gcs_llm_path}")
+                        llm_upload_result = self.gcp_storage.upload_file(str(llm_path), gcs_llm_path)
+                    
+                    # Add LLM upload result
+                    upload_results["llm_upload"] = llm_upload_result
+                
+                # Update metadata in Firestore if text upload was successful
+                if text_upload_result.get("success", False):
+                    # Add Firestore metadata
+                    metadata_update = {
+                        "text_path": gcs_text_path,
+                        "text_size": os.path.getsize(str(text_path)),
+                        "local_text_path": str(text_path)  # Add local path for token counting
+                    }
+                    
+                    # Add LLM path if it was uploaded successfully
+                    if llm_upload_result and llm_upload_result.get("success", False):
+                        metadata_update["llm_path"] = gcs_llm_path
+                        metadata_update["llm_size"] = llm_size
+                        metadata_update["local_llm_path"] = str(llm_path)  # Add local path for token counting
+                        logging.info(f"Adding local LLM path for token counting: {str(llm_path)}")
+                    
+                    # Update Firestore
+                    metadata_result = self.gcp_storage.add_filing_metadata(
+                        metadata,
+                        **metadata_update
+                    )
+                    
+                    upload_results["metadata"] = metadata_result
+                
+                # Overall success if at least text was uploaded
+                upload_success = text_upload_result.get("success", False)
+                
+                # Add upload stage to results
+                result["stages"]["upload"] = {
+                    "success": upload_success,
+                    "time_seconds": time.time() - upload_start,
+                    "result": upload_results
+                }
+                
+                if not upload_success:
+                    result["warning"] = f"Upload failed: {text_upload_result.get('error', 'Unknown error')}"
+                elif llm_upload_result and not llm_upload_result.get("success", False):
+                    result["warning"] = f"LLM upload failed: {llm_upload_result.get('error', 'Unknown error')}"
+                    # Don't fail the entire process if upload fails
+            else:
+                logging.info("GCP upload skipped (not configured)")
+            
+            # Final result construction
+            result["success"] = "error" not in result
+            result["text_path"] = str(text_path) if os.path.exists(text_path) else None
+            result["llm_path"] = str(llm_path) if os.path.exists(llm_path) else None
+            result["total_time_seconds"] = time.time() - start_time
+            
+            return result
+            
+        except Exception as e:
+            logging.error(f"Pipeline continuation error: {str(e)}")
+            result["error"] = str(e)
+            result["success"] = False
+            result["total_time_seconds"] = time.time() - start_time
+            return result
+    
     def process_filing(self, ticker=None, cik=None, filing_type="10-K", 
                        filing_index=0, save_intermediate=False):
         """
@@ -219,9 +710,36 @@ class SECFilingPipeline:
             
             extract_start = time.time()
             
-            # Define output text path
-            text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
-            llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
+            # Define output text path with fiscal period if available
+            # Extract fiscal year and quarter information
+            fiscal_year = None
+            fiscal_quarter = None
+            period_end_date = filing_info.get("period_end_date", "")
+            
+            if ticker and period_end_date:
+                try:
+                    from src2.sec.fiscal import fiscal_registry
+                    fiscal_info = fiscal_registry.determine_fiscal_period(
+                        ticker, period_end_date, filing_type
+                    )
+                    fiscal_year = fiscal_info.get("fiscal_year")
+                    fiscal_quarter = fiscal_info.get("fiscal_period")
+                    logging.info(f"Using fiscal info for local path: Year={fiscal_year}, Period={fiscal_quarter}")
+                except (ImportError, Exception) as e:
+                    logging.warning(f"Could not use fiscal registry for local path: {str(e)}")
+            
+            # Use fiscal information in filenames to prevent overwriting
+            if fiscal_year and fiscal_quarter and filing_type == "10-Q":
+                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_llm.txt"
+                logging.info(f"Using fiscal period in local filenames: {fiscal_year}_{fiscal_quarter}")
+            elif fiscal_year:
+                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
+                logging.info(f"Using fiscal year in local filenames: {fiscal_year}")
+            else:
+                text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
+                llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
             
             # Create metadata for the extraction
             metadata = {
@@ -247,6 +765,13 @@ class SECFilingPipeline:
                 "time_seconds": time.time() - extract_start,
                 "result": extract_result
             }
+            
+            # Save document sections to metadata for LLM formatter
+            if 'document_sections' in extract_result:
+                metadata['html_content'] = {
+                    'document_sections': extract_result['document_sections']
+                }
+                logging.info(f"Added {len(extract_result['document_sections'])} document sections to metadata for LLM formatter")
             
             if not extract_result.get("success", False):
                 result["error"] = f"Extraction failed: {extract_result.get('error', 'Unknown error')}"
@@ -550,46 +1075,54 @@ class SECFilingPipeline:
                 
                 # Check if files already exist in GCS
                 files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
-                if files_exist.get(gcs_text_path, False) and files_exist.get(gcs_llm_path, False):
-                    logging.info(f"Files already exist in GCS, skipping upload")
-                    
-                    # Create successful upload results
+                
+                # Modified logic to handle each file individually
+                # Always upload the text file if it doesn't exist
+                if files_exist.get(gcs_text_path, False):
+                    logging.info(f"Text file already exists in GCS: {gcs_text_path}")
                     text_upload_result = {
                         "success": True,
                         "gcs_path": gcs_text_path,
                         "already_exists": True
                     }
-                    
-                    llm_upload_result = {
-                        "success": True,
-                        "gcs_path": gcs_llm_path,
-                        "already_exists": True
-                    }
-                    
-                    upload_results["text_upload"] = text_upload_result
-                    upload_results["llm_upload"] = llm_upload_result
                 else:
-                    # Upload text file
+                    logging.info(f"Uploading text file to GCS: {gcs_text_path}")
                     text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
-                    upload_results["text_upload"] = text_upload_result
-                    
-                    # Upload LLM file if it exists
-                    if llm_result.get("success", False) and os.path.exists(str(llm_path)):
+                
+                # Add text upload result
+                upload_results["text_upload"] = text_upload_result
+                
+                # Handle LLM file separately
+                if llm_result.get("success", False) and os.path.exists(str(llm_path)):
+                    if files_exist.get(gcs_llm_path, False):
+                        logging.info(f"LLM file already exists in GCS: {gcs_llm_path}")
+                        llm_upload_result = {
+                            "success": True,
+                            "gcs_path": gcs_llm_path,
+                            "already_exists": True
+                        }
+                    else:
+                        logging.info(f"Uploading LLM file to GCS: {gcs_llm_path}")
                         llm_upload_result = self.gcp_storage.upload_file(str(llm_path), gcs_llm_path)
-                        upload_results["llm_upload"] = llm_upload_result
+                    
+                    # Add LLM upload result
+                    upload_results["llm_upload"] = llm_upload_result
                 
                 # Update metadata in Firestore if text upload was successful
                 if text_upload_result.get("success", False):
                     # Add Firestore metadata
                     metadata_update = {
                         "text_path": gcs_text_path,
-                        "text_size": os.path.getsize(str(text_path))
+                        "text_size": os.path.getsize(str(text_path)),
+                        "local_text_path": str(text_path)  # Add local path for token counting
                     }
                     
                     # Add LLM path if it was uploaded successfully
                     if llm_upload_result and llm_upload_result.get("success", False):
                         metadata_update["llm_path"] = gcs_llm_path
                         metadata_update["llm_size"] = llm_size
+                        metadata_update["local_llm_path"] = str(llm_path)  # Add local path for token counting
+                        logging.info(f"Adding local LLM path for token counting: {str(llm_path)}")
                     
                     # Update Firestore
                     metadata_result = self.gcp_storage.add_filing_metadata(
@@ -641,14 +1174,29 @@ class SECFilingPipeline:
                             ticker, 
                             filing_type, 
                             fiscal_year, 
-                            fiscal_period
+                            fiscal_period  # This is the variable causing the error
                         )
                         
                     except ImportError:
                         # Fallback to a simpler validation if the module isn't available
                         logging.warning("Could not import data_integrity_validator, falling back to basic validation")
                         
-                        # Run basic validation
+                        # Get the fiscal period from the metadata
+                        # (safe way to access it without causing errors)
+                        local_fiscal_year = metadata.get("fiscal_year", str(datetime.datetime.now().year))
+                        local_fiscal_period = metadata.get("fiscal_period", "unknown")
+                        
+                        # Run basic validation and create a result structure
+                        data_integrity_result = {
+                            "status": "UNKNOWN",
+                            "llm_format_valid": False,
+                            "data_consistent": False,
+                            "details": {}
+                        }
+                        
+                        # Log what we're validating
+                        logging.info(f"Running basic validation for {ticker} {filing_type} {local_fiscal_year} {local_fiscal_period}")
+                        
                         if os.path.exists(text_path) and os.path.exists(llm_path):
                             # Check file sizes
                             text_size = os.path.getsize(text_path)
@@ -656,15 +1204,38 @@ class SECFilingPipeline:
                             
                             min_size = 10 * 1024  # 10 KB
                             if text_size < min_size or llm_size < min_size:
-                                logging.warning(f"File size validation failed: text={text_size}, llm={llm_size}")
-                                result["validation_warning"] = "File size is too small"
-                            else:
-                                # Check LLM format
-                                with open(llm_path, 'r') as f:
-                                    llm_content = f.read()
+                                logging.warning(f"File size validation failed: text={text_size/1024:.2f}KB, llm={llm_size/1024:.2f}KB")
+                                data_integrity_result["status"] = "FILE_SIZE_WARNING"
+                                data_integrity_result["details"]["file_size_warning"] = f"File size too small: text={text_size/1024:.2f}KB, llm={llm_size/1024:.2f}KB"
+                            
+                            # Check LLM format
+                            format_valid = True
+                            try:
+                                with open(llm_path, 'r', encoding='utf-8') as f:
+                                    llm_content = f.read(2000)  # Just read the beginning
                                     if not ("@DOCUMENT:" in llm_content and "@COMPANY:" in llm_content):
                                         logging.warning("LLM format validation failed: missing required markers")
-                                        result["validation_warning"] = "LLM format validation failed"
+                                        format_valid = False
+                                        data_integrity_result["status"] = "FORMAT_WARNING"
+                                        data_integrity_result["details"]["format_warning"] = "Missing required markers"
+                            except Exception as e:
+                                logging.warning(f"Error reading LLM file for validation: {str(e)}")
+                                format_valid = False
+                            
+                            # If all checks passed
+                            if data_integrity_result["status"] == "UNKNOWN":
+                                data_integrity_result["status"] = "PASS"
+                                data_integrity_result["llm_format_valid"] = True
+                                data_integrity_result["data_consistent"] = True
+                                logging.info("Basic validation passed")
+                            
+                            # Log validation results
+                            logging.info(f"Validation result: {data_integrity_result['status']}")
+                        else:
+                            # Files not found
+                            logging.warning(f"Validation failed: files not found. Text: {os.path.exists(text_path)}, LLM: {os.path.exists(llm_path)}")
+                            data_integrity_result["status"] = "FILES_NOT_FOUND"
+                            data_integrity_result["details"]["error"] = "One or more files not found"
                     
                     # Add validation result to pipeline result
                     if data_integrity_result:

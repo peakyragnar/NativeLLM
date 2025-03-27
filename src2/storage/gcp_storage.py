@@ -218,14 +218,24 @@ class GCPStorage:
                         month = int(month_match.group(1))
                         # Special case for Microsoft
                         if ticker == "MSFT":
-                            if 7 <= month <= 9:
+                            # For Microsoft's Q3 filing in the 2024 fiscal year (Jan-Mar 2024)
+                            # we need the fiscal year to be 2024
+                            if 7 <= month <= 9:  # Jul-Sep
                                 fiscal_period = "Q1"
-                            elif 10 <= month <= 12:
+                                # For Q1, the fiscal year is the *next* calendar year
+                                fiscal_year = str(int(fiscal_year if fiscal_year else datetime.datetime.now().year) + 1) 
+                            elif 10 <= month <= 12:  # Oct-Dec
                                 fiscal_period = "Q2"
-                            elif 1 <= month <= 3:
+                                # For Q2, the fiscal year is the *next* calendar year
+                                fiscal_year = str(int(fiscal_year if fiscal_year else datetime.datetime.now().year) + 1)
+                            elif 1 <= month <= 3:  # Jan-Mar
                                 fiscal_period = "Q3"
-                            elif 4 <= month <= 6:
+                                # Fiscal year stays the same for Q3
+                            elif 4 <= month <= 6:  # Apr-Jun
                                 fiscal_period = "annual"  # Microsoft uses annual for Q4
+                                # Fiscal year stays the same for annual
+                            
+                            logging.info(f"Using Microsoft-specific fiscal mapping: Month {month} -> {fiscal_period} {fiscal_year}")
                         else:
                             # Standard calendar quarters for other companies
                             if 1 <= month <= 3:
@@ -298,11 +308,29 @@ class GCPStorage:
                 
                 # Estimate token count for LLM file
                 try:
-                    with open(llm_path, 'r', encoding='utf-8') as f:
-                        llm_content = f.read()
-                    llm_token_count = estimate_tokens(llm_content)
-                    doc_data['llm_token_count'] = llm_token_count
-                    logging.info(f"Estimated {llm_token_count:,} tokens for LLM file")
+                    # Check if path is a GCS path or local path
+                    if llm_path.startswith('gs://') or not os.path.exists(llm_path):
+                        # If it's a GCS path, look for a local copy in kwargs
+                        local_llm_path = kwargs.get('local_llm_path')
+                        if local_llm_path and os.path.exists(local_llm_path):
+                            llm_path = local_llm_path
+                            logging.info(f"Using local LLM file for token counting: {local_llm_path}")
+                        else:
+                            # Try to find a local copy based on naming convention
+                            potential_local_path = os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_llm.txt")
+                            if os.path.exists(potential_local_path):
+                                llm_path = potential_local_path
+                                logging.info(f"Found local LLM file for token counting: {potential_local_path}")
+                    
+                    logging.info(f"Attempting to read LLM file for token counting: {llm_path}")
+                    if os.path.exists(llm_path):
+                        with open(llm_path, 'r', encoding='utf-8') as f:
+                            llm_content = f.read()
+                        llm_token_count = estimate_tokens(llm_content)
+                        doc_data['llm_token_count'] = llm_token_count
+                        logging.info(f"SUCCESS: Estimated {llm_token_count:,} tokens for LLM file ({len(llm_content):,} chars)")
+                    else:
+                        logging.warning(f"LLM file not found for token counting: {llm_path}")
                 except Exception as e:
                     logging.warning(f"Could not estimate tokens for LLM file: {str(e)}")
             else:
@@ -312,11 +340,29 @@ class GCPStorage:
             text_path = kwargs.get('text_path')
             if text_path:
                 try:
-                    with open(text_path, 'r', encoding='utf-8') as f:
-                        text_content = f.read()
-                    text_token_count = estimate_tokens(text_content)
-                    doc_data['text_token_count'] = text_token_count
-                    logging.info(f"Estimated {text_token_count:,} tokens for text file")
+                    # Check if path is a GCS path or local path
+                    if text_path.startswith('gs://') or not os.path.exists(text_path):
+                        # If it's a GCS path, look for a local copy in kwargs
+                        local_text_path = kwargs.get('local_text_path')
+                        if local_text_path and os.path.exists(local_text_path):
+                            text_path = local_text_path
+                            logging.info(f"Using local text file for token counting: {local_text_path}")
+                        else:
+                            # Try to find a local copy based on naming convention
+                            potential_local_path = os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_text.txt")
+                            if os.path.exists(potential_local_path):
+                                text_path = potential_local_path
+                                logging.info(f"Found local text file for token counting: {potential_local_path}")
+                    
+                    logging.info(f"Attempting to read text file for token counting: {text_path}")
+                    if os.path.exists(text_path):
+                        with open(text_path, 'r', encoding='utf-8') as f:
+                            text_content = f.read()
+                        text_token_count = estimate_tokens(text_content)
+                        doc_data['text_token_count'] = text_token_count
+                        logging.info(f"SUCCESS: Estimated {text_token_count:,} tokens for text file ({len(text_content):,} chars)")
+                    else:
+                        logging.warning(f"Text file not found for token counting: {text_path}")
                 except Exception as e:
                     logging.warning(f"Could not estimate tokens for text file: {str(e)}")
             
