@@ -329,13 +329,36 @@ class SECDownloader:
                                 # Extract accession number from documents URL
                                 accession_number = None
                                 if documents_url:
-                                    # The format is usually: /Archives/edgar/data/CIK/ACCESSION/...
+                                    # Try different formats of accession numbers
+                                    
+                                    # First try: accession_number parameter in URL (older format)
                                     acc_match = re.search(r'accession_number=(\d+-\d+-\d+)', documents_url)
+                                    
+                                    # Second try: direct pattern in the URL path (newer format)
+                                    if not acc_match:
+                                        acc_match = re.search(r'/(\d+-\d+-\d+)-index', documents_url)
+                                    
+                                    # Third try: extract from directory structure
+                                    if not acc_match:
+                                        # Format like /Archives/edgar/data/789019/000095017025010491/
+                                        dir_match = re.search(r'/data/\d+/(\d+)/', documents_url)
+                                        if dir_match:
+                                            # Format the directory number as an accession number
+                                            acc_dir = dir_match.group(1)
+                                            if len(acc_dir) >= 18:  # Length of standard SEC accession with no dashes
+                                                # Format as SEC standard: 0000950170-25-010491
+                                                fmt_acc = f"{acc_dir[:10]}-{acc_dir[10:12]}-{acc_dir[12:]}"
+                                                accession_number = fmt_acc
+                                                logging.info(f"Extracted accession number {accession_number} from directory {acc_dir}")
+                                    
+                                    # If we found a match in any format
                                     if acc_match:
                                         accession_number = acc_match.group(1)
+                                        logging.info(f"Found accession number: {accession_number}")
                                 
                                 # Only include if we got an accession number
                                 if accession_number:
+                                    # Create base filing object
                                     filing = {
                                         "accession_number": accession_number,
                                         "filing_date": filing_date,
@@ -346,6 +369,34 @@ class SECDownloader:
                                         "cik": cik,
                                         "ticker": ticker
                                     }
+                                    
+                                    # We need to extract period_end_date for proper fiscal year calculation
+                                    # This requires downloading and parsing the filing's index page
+                                    try:
+                                        full_doc_url = f"{SEC_BASE_URL}{documents_url}" if documents_url.startswith('/') else documents_url
+                                        logging.info(f"Fetching details from {full_doc_url} to extract period end date")
+                                        
+                                        # Apply rate limiting
+                                        self._enforce_rate_limit()
+                                        
+                                        # Download the document page
+                                        doc_response = requests.get(
+                                            full_doc_url,
+                                            headers=self._get_request_headers(),
+                                            timeout=DEFAULT_TIMEOUT
+                                        )
+                                        
+                                        # Check if successful
+                                        if doc_response.status_code == 200:
+                                            # Look for period of report
+                                            period_match = re.search(r'Period of Report</div>\s*<div[^>]*>([^<]+)', doc_response.text)
+                                            if period_match:
+                                                period_end_date = period_match.group(1).strip()
+                                                filing["period_end_date"] = period_end_date
+                                                logging.info(f"Extracted period_end_date: {period_end_date} for {accession_number}")
+                                    except Exception as e:
+                                        logging.warning(f"Error getting period_end_date for {accession_number}: {str(e)}")
+                                        # Continue without period_end_date - we'll handle missing dates elsewhere
                                     
                                     # Calculate URLs for downstream use
                                     acc_no_dashes = accession_number.replace('-', '')
@@ -361,24 +412,11 @@ class SECDownloader:
                             continue
             
             if not filings:
-                # If still no filings found, try the SEC directly for Microsoft 10-K
-                # hardcoded as a fallback for testing
-                if ticker == 'MSFT' and filing_type == '10-K':
-                    logging.info("Using hardcoded Microsoft 10-K filing information")
-                    cik_no_zeros = "789019"  # Microsoft's CIK
-                    accession_number = "0000950170-24-087843"
-                    acc_no_dashes = "000095017024087843"
-                    filing = {
-                        "accession_number": accession_number,
-                        "filing_date": "2024-07-30",
-                        "period_end_date": "2024-06-30",  # Add correct period end date
-                        "filing_type": "10-K",
-                        "description": "Annual report for the fiscal year ended June 30, 2024",
-                        "cik": cik,
-                        "ticker": ticker,
-                        "index_url": f"/Archives/edgar/data/{cik_no_zeros}/{acc_no_dashes}/{accession_number}-index.htm"
-                    }
-                    filings.append(filing)
+                # No filings found through the standard method
+                logging.info(f"No {filing_type} filings found for {ticker or cik} using standard method")
+                
+                # We could add alternative search methods here in the future
+                # For example: search by different URL patterns, try alternative APIs, etc.
             
             logging.info(f"Found {len(filings)} {filing_type} filings for {ticker or cik}")
             return filings
@@ -452,29 +490,52 @@ class SECDownloader:
                 # Use BeautifulSoup for more robust parsing
                 soup = BeautifulSoup(index_content, 'html.parser')
                 
-                # Find document tables
-                doc_table = soup.find('table', {'class': 'tableFile'}) or soup.find('table', {'summary': 'Document Format Files'})
+                # Find document tables - look in all tables
+                all_tables = soup.find_all('table', {'class': 'tableFile'})
                 
-                if doc_table:
-                    # Find document links
-                    rows = doc_table.find_all('tr')[1:]  # Skip header row
-                    
-                    # Find the primary document
-                    primary_doc_url = None
-                    primary_doc_name = None
-                    
-                    for row in rows:
-                        cells = row.find_all('td')
-                        if len(cells) >= 3:  # Need document, description, type
-                            # Get document link
-                            doc_link = cells[0].find('a')
-                            if doc_link and doc_link.has_attr('href'):
-                                doc_url = doc_link['href']
-                                doc_name = doc_link.get_text().strip()
+                # Debug output
+                logging.info(f"Found {len(all_tables)} tableFile tables in index file")
+                
+                # Initialize variables
+                primary_doc_url = None
+                primary_doc_name = None
+                
+                # Process all tables
+                for doc_table in all_tables:
+                    if not primary_doc_url:  # Only continue if we haven't found a primary document
+                        # Find document links
+                        rows = doc_table.find_all('tr')[1:]  # Skip header row
+                        
+                        for row in rows:
+                            cells = row.find_all('td')
+                            if len(cells) >= 3:  # Need at least 3 cells
+                                # Look for document link in any cell (usually 3rd cell in newer format)
+                                doc_link = None
+                                doc_cell_idx = 0
                                 
-                                # Get description and type
-                                description = cells[1].get_text().strip() if len(cells) > 1 else ""
-                                doc_type = cells[2].get_text().strip() if len(cells) > 2 else ""
+                                # Find the first cell with a link
+                                for i, cell in enumerate(cells):
+                                    if cell.find('a'):
+                                        doc_link = cell.find('a')
+                                        doc_cell_idx = i
+                                        logging.info(f"Found document link in cell {i}: {doc_link['href']}")
+                                        break
+                                
+                                if doc_link and doc_link.has_attr('href'):
+                                    doc_url = doc_link['href']
+                                    doc_name = doc_link.get_text().strip()
+                                    
+                                    # In newer format, description is in cell before the link, and type is in cell after
+                                    if doc_cell_idx > 0 and doc_cell_idx < len(cells) - 1:
+                                        description = cells[doc_cell_idx - 1].get_text().strip()
+                                        doc_type = cells[doc_cell_idx + 1].get_text().strip()
+                                    else:
+                                        # Fallback to original positions
+                                        description = cells[1].get_text().strip() if len(cells) > 1 else ""
+                                        doc_type = cells[3].get_text().strip() if len(cells) > 3 else ""
+                                        
+                                    # Log document info
+                                    logging.info(f"Found document in table: {doc_name}, type: {doc_type}, description: {description}")
                                 
                                 # Check for primary document indicators
                                 is_primary = False
@@ -495,13 +556,71 @@ class SECDownloader:
                                     primary_doc_name = doc_name
                                     break
                     
-                    if not primary_doc_url and ticker == 'MSFT' and filing_type == '10-K':
-                        # Special case for MSFT 10-K
-                        logging.info("Using known URL for Microsoft 10-K")
-                        primary_doc_url = f"/Archives/edgar/data/{cik}/{acc_no_dashes}/msft-20240630.htm"
-                        primary_doc_name = "msft-20240630.htm"
+                    if not primary_doc_url:
+                        # If we couldn't find a primary document in the table, use document naming patterns
+                        # This is a more robust approach that works for multiple companies and filing types
+                        logging.info(f"No primary document found in tables, trying document naming patterns")
+                        
+                        # Try standard naming patterns
+                        ticker_lower = ticker.lower() if ticker else ""
+                        if acc_no_dashes and ticker_lower:
+                            # Look for possible primary document filenames
+                            possible_filenames = []
+                            
+                            # If we have a period_end_date, include date-based patterns
+                            period_end_date = filing_info.get("period_end_date", "")
+                            if period_end_date:
+                                date_str = period_end_date.replace('-', '')
+                                possible_filenames.extend([
+                                    f"{ticker_lower}-{date_str}.htm",  # msft-20241231.htm
+                                    f"{ticker_lower}_{date_str}.htm",  # msft_20241231.htm
+                                    f"{ticker_lower}-{filing_type.lower()}_{date_str}.htm",  # msft-10k_20241231.htm
+                                ])
+                            
+                            # Also include non-date patterns
+                            possible_filenames.extend([
+                                f"{ticker_lower}-{filing_type.lower()}.htm",  # msft-10k.htm
+                                f"{ticker_lower}_{filing_type.lower()}.htm",  # msft_10k.htm
+                                f"{ticker_lower.upper()}.htm",  # MSFT.htm
+                                f"{ticker_lower}.htm",         # msft.htm
+                                "index.htm",                   # index.htm
+                                "Filing.htm"                   # Filing.htm
+                            ])
+                            
+                            # Try each filename and test if it exists
+                            for filename in possible_filenames:
+                                test_url = f"/Archives/edgar/data/{cik}/{acc_no_dashes}/{filename}"
+                                test_full_url = f"{SEC_BASE_URL}{test_url}"
+                                logging.info(f"Trying potential document URL: {test_url}")
+                                
+                                try:
+                                    # Apply rate limiting
+                                    self._enforce_rate_limit()
+                                    
+                                    # Send a HEAD request to check if the URL exists
+                                    head_response = requests.head(
+                                        test_full_url,
+                                        headers=self._get_request_headers(),
+                                        timeout=DEFAULT_TIMEOUT / 2  # Shorter timeout for HEAD
+                                    )
+                                    
+                                    if head_response.status_code == 200:
+                                        logging.info(f"Found valid document URL: {test_url}")
+                                        primary_doc_url = test_url
+                                        primary_doc_name = filename
+                                        break
+                                except Exception as e:
+                                    logging.debug(f"Error checking URL {test_url}: {str(e)}")
+                                    # Continue with next filename
                     
                     if primary_doc_url:
+                        # Special handling for iXBRL links which start with "/ix?doc="
+                        if primary_doc_url.startswith('/ix?doc='):
+                            # Extract the actual document path from the iXBRL viewer URL
+                            ixbrl_doc_path = primary_doc_url.replace('/ix?doc=', '')
+                            logging.info(f"Converting iXBRL link to direct document link: {ixbrl_doc_path}")
+                            primary_doc_url = ixbrl_doc_path
+                        
                         # Convert relative URL to absolute if needed
                         if not primary_doc_url.startswith(('http://', 'https://')):
                             if primary_doc_url.startswith('/'):
@@ -511,6 +630,8 @@ class SECDownloader:
                                 base_url = '/'.join(index_url.split('/')[:-1])
                                 base_url = f"{SEC_BASE_URL}{base_url}" if not base_url.startswith(('http://', 'https://')) else base_url
                                 primary_doc_url = f"{base_url}/{primary_doc_url}"
+                                
+                        logging.info(f"Final document URL: {primary_doc_url}")
                         
                         # Download primary document
                         primary_doc_path = filing_dir / primary_doc_name
