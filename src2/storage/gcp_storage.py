@@ -222,10 +222,16 @@ class GCPStorage:
                             elif 10 <= month <= 12:
                                 fiscal_period = "Q4"
             
-            # Create document ID using only the fiscal year - simple format
+            # Create document ID using fiscal year and fiscal period for quarterly filings
             if fiscal_year:
-                document_id = f"{ticker}_{filing_type}_{fiscal_year}"
-                logging.info(f"Using fiscal year {fiscal_year} for document ID: {document_id}")
+                # For 10-Q filings, include the fiscal quarter in the document ID
+                if filing_type == "10-Q" and fiscal_period:
+                    document_id = f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}"
+                    logging.info(f"Using fiscal year {fiscal_year} and period {fiscal_period} for document ID: {document_id}")
+                else:
+                    # For 10-K and other filings, just use fiscal year
+                    document_id = f"{ticker}_{filing_type}_{fiscal_year}"
+                    logging.info(f"Using fiscal year {fiscal_year} for document ID: {document_id}")
             else:
                 # Fallback to calendar year from period_end_date or current year
                 year = None
@@ -237,9 +243,14 @@ class GCPStorage:
                 
                 if not year:
                     year = datetime.datetime.now().strftime("%Y")
-                    
-                document_id = f"{ticker}_{filing_type}_{year}"
-                logging.info(f"Using fallback year {year} for document ID: {document_id}")
+                
+                # For 10-Q filings, try to include quarter in document ID even in fallback mode
+                if filing_type == "10-Q" and fiscal_period:
+                    document_id = f"{ticker}_{filing_type}_{year}_{fiscal_period}"
+                    logging.info(f"Using fallback year {year} and period {fiscal_period} for document ID: {document_id}")
+                else:
+                    document_id = f"{ticker}_{filing_type}_{year}"
+                    logging.info(f"Using fallback year {year} for document ID: {document_id}")
             
             # Check if document already exists
             filing_ref = self.firestore_client.collection("filings").document(document_id)
