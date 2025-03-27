@@ -706,6 +706,10 @@ class BatchSECPipeline:
             if result.get("success"):
                 result["year"] = year
                 result["status"] = "success"
+                # Ensure GCS upload worked if GCP is configured
+                if self.pipeline.gcp_storage and "text_gcs_path" not in result and "error" not in result:
+                    result["warning"] = "GCS upload may have failed - no GCS path returned but process marked successful"
+                    logging.warning(f"WARNING: {ticker} {filing_type} for {year} was marked successful but has no GCS path")
                 
                 # Get file sizes from result if available
                 if "stages" in result and "extract" in result["stages"]:
