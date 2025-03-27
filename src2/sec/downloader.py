@@ -30,6 +30,16 @@ class SECDownloader:
     their usage policies, including rate limiting and proper identification.
     """
     
+    # Known fiscal patterns for popular companies
+    COMPANY_FISCAL_YEARS = {
+        "MSFT": {"month": 6, "day": 30, "confidence": 1.0},  # Microsoft: Fiscal year ends June 30
+        "AAPL": {"month": 9, "day": 30, "confidence": 1.0},  # Apple: Fiscal year ends September 30
+        "GOOGL": {"month": 12, "day": 31, "confidence": 1.0},  # Google: Calendar year
+        "AMZN": {"month": 12, "day": 31, "confidence": 1.0},  # Amazon: Calendar year
+        "WMT": {"month": 1, "day": 31, "confidence": 1.0},  # Walmart: Fiscal year ends January 31
+        "TGT": {"month": 1, "day": 31, "confidence": 1.0},  # Target: Fiscal year ends January 31
+    }
+    
     def __init__(self, user_agent=None, contact_email=None, rate_limit=5, 
                  download_dir="./downloads", enforce_rate_limit=True):
         """
@@ -62,6 +72,9 @@ class SECDownloader:
         # Set up download directory
         self.download_dir = Path(download_dir)
         os.makedirs(self.download_dir, exist_ok=True)
+        
+        # Cache for CIK numbers
+        self.cik_cache = {}
         
         logging.info(f"Initialized SEC downloader with user agent: {self.user_agent}")
         logging.info(f"Rate limit set to {self.rate_limit} requests per second")

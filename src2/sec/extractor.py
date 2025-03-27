@@ -244,6 +244,9 @@ class SECExtractor:
             with open(html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
             
+            # Extract sections for use by the LLM formatter
+            document_sections = self.extract_document_sections(html_content)
+            
             # Extract text with sections
             extracted_text = self.extract_text_with_sections(html_content)
             
@@ -280,12 +283,84 @@ class SECExtractor:
             # Get file size
             file_size = os.path.getsize(output_path)
             
+            # Prepare narrative sections for LLM formatter
+            processed_sections = {}
+            
+            # Extract text for each section
+            soup = BeautifulSoup(html_content, 'html.parser')
+            raw_text = soup.get_text()
+            
+            # Process sections that have elements with text content
+            for key, info in document_sections.items():
+                if key not in ('title', 'stats') and 'element' in info:
+                    # Get the element for this section
+                    section_element = info['element']
+                    
+                    # Extract text from this element and siblings until next section
+                    section_text = ""
+                    
+                    try:
+                        # Get the section text
+                        next_sibling = section_element.next_sibling
+                        while next_sibling:
+                            # Add text from this sibling
+                            if hasattr(next_sibling, 'get_text'):
+                                sibling_text = next_sibling.get_text().strip()
+                                if sibling_text:
+                                    section_text += sibling_text + "\n\n"
+                            # Move to next sibling
+                            next_sibling = next_sibling.next_sibling
+                            
+                            # Stop at next section header
+                            if hasattr(next_sibling, 'name') and next_sibling.name in ['h1', 'h2', 'h3', 'h4'] and len(next_sibling.get_text().strip()) > 5:
+                                break
+                    
+                        # Add section to processed sections
+                        if section_text:
+                            processed_sections[key] = {
+                                "heading": info['heading'],
+                                "text": section_text.strip()
+                            }
+                            logging.info(f"Extracted section text for {key} ({len(section_text)} chars)")
+                    except Exception as e:
+                        logging.warning(f"Error extracting text for section {key}: {str(e)}")
+            
+            # If we couldn't extract sections properly, try to get some key sections from the raw text
+            if len(processed_sections) < 2:
+                logging.info("Using fallback method to extract narrative sections from raw text")
+                
+                # Define commonly used section titles and patterns
+                section_patterns = {
+                    "ITEM_1_BUSINESS": r"(?:ITEM|Item)\s+1\.?\s*Business(.*?)(?:ITEM|Item)\s+1A",
+                    "ITEM_1A_RISK_FACTORS": r"(?:ITEM|Item)\s+1A\.?\s*Risk\s+Factors(.*?)(?:ITEM|Item)\s+1B",
+                    "ITEM_7_MD_AND_A": r"(?:ITEM|Item)\s+7\.?\s*Management.*Discussion(.*?)(?:ITEM|Item)\s+7A",
+                    "ITEM_2_MD_AND_A": r"(?:ITEM|Item)\s+2\.?\s*Management.*Discussion(.*?)(?:ITEM|Item)\s+3"
+                }
+                
+                for section_id, pattern in section_patterns.items():
+                    match = re.search(pattern, raw_text, re.DOTALL | re.IGNORECASE)
+                    if match and match.group(1):
+                        section_text = match.group(1).strip()
+                        if len(section_text) > 500:  # Only keep substantial sections
+                            readable_name = section_id.replace("_", " ").title()
+                            processed_sections[section_id] = {
+                                "heading": readable_name,
+                                "text": section_text
+                            }
+                            logging.info(f"Extracted fallback section {section_id} ({len(section_text)} chars)")
+            
+            # Log sections found
+            logging.info(f"Extracted {len(processed_sections)} document sections with text content")
+            for section_id in processed_sections:
+                logging.info(f"  - {section_id}: {len(processed_sections[section_id]['text'])} chars")
+            
             return {
                 'success': True,
                 'output_path': str(output_path),
                 'file_size': file_size,
                 'file_size_mb': file_size / (1024 * 1024),
-                'word_count': len(extracted_text.split())
+                'word_count': len(extracted_text.split()),
+                'document_sections': processed_sections  # Add sections for LLM formatter
             }
             
         except Exception as e:
