@@ -623,6 +623,68 @@ class SECFilingPipeline:
             result["llm_path"] = str(llm_path) if os.path.exists(llm_path) else None
             result["total_time_seconds"] = time.time() - start_time
             
+            # Run data integrity validation if successful
+            if result["success"]:
+                logging.info("Running data integrity validation...")
+                
+                try:
+                    # Import the validation module
+                    # Try to import from local path first
+                    data_integrity_result = None
+                    
+                    try:
+                        # Run data integrity validation
+                        from data_integrity_validator import validate_filing_integrity
+                        
+                        # Run the validation
+                        data_integrity_result = validate_filing_integrity(
+                            ticker, 
+                            filing_type, 
+                            fiscal_year, 
+                            fiscal_period
+                        )
+                        
+                    except ImportError:
+                        # Fallback to a simpler validation if the module isn't available
+                        logging.warning("Could not import data_integrity_validator, falling back to basic validation")
+                        
+                        # Run basic validation
+                        if os.path.exists(text_path) and os.path.exists(llm_path):
+                            # Check file sizes
+                            text_size = os.path.getsize(text_path)
+                            llm_size = os.path.getsize(llm_path)
+                            
+                            min_size = 10 * 1024  # 10 KB
+                            if text_size < min_size or llm_size < min_size:
+                                logging.warning(f"File size validation failed: text={text_size}, llm={llm_size}")
+                                result["validation_warning"] = "File size is too small"
+                            else:
+                                # Check LLM format
+                                with open(llm_path, 'r') as f:
+                                    llm_content = f.read()
+                                    if not ("@DOCUMENT:" in llm_content and "@COMPANY:" in llm_content):
+                                        logging.warning("LLM format validation failed: missing required markers")
+                                        result["validation_warning"] = "LLM format validation failed"
+                    
+                    # Add validation result to pipeline result
+                    if data_integrity_result:
+                        result["validation"] = {
+                            "status": data_integrity_result.get("status", "UNKNOWN"),
+                            "details": {
+                                "llm_format_valid": data_integrity_result.get("llm_format_valid", False),
+                                "data_consistent": data_integrity_result.get("data_consistent", False)
+                            }
+                        }
+                        
+                        # Add warning if validation failed
+                        if data_integrity_result.get("status") != "PASS":
+                            result["validation_warning"] = f"Data integrity validation failed: {data_integrity_result.get('status')}"
+                            logging.warning(f"Data integrity validation failed: {data_integrity_result.get('status')}")
+                
+                except Exception as val_e:
+                    logging.warning(f"Error during data integrity validation: {str(val_e)}")
+                    result["validation_error"] = str(val_e)
+            
             # Clean up intermediate files and temporary folders
             if not save_intermediate:
                 # Try to clean up any temporary timestamp-based directories
@@ -704,6 +766,38 @@ def main():
         gcp_project=args.gcp_project
     )
     
+    # Helper function to notify about validation failures
+    def notify_validation_failure(result):
+        """Send notification about validation failure - customize as needed"""
+        # This is a placeholder function that you can customize to send
+        # email notifications, Slack messages, etc. for validation failures
+        
+        # For now, just print to console with attention-grabbing formatting
+        print("\n" + "!" * 80)
+        print("!! DATA INTEGRITY VALIDATION FAILURE DETECTED !!")
+        print("!" * 80)
+        
+        # Print details
+        validation = result.get("validation", {})
+        warning = result.get("validation_warning", "Unknown validation issue")
+        
+        print(f"\nTicker: {args.ticker}")
+        print(f"Filing: {args.filing_type}")
+        print(f"Warning: {warning}")
+        
+        # Print validation details
+        details = validation.get("details", {})
+        if details:
+            print("\nValidation Details:")
+            for key, value in details.items():
+                print(f"  {key}: {value}")
+        
+        print("\n" + "!" * 80)
+        # In a real system, you would:
+        # 1. Send an email notification
+        # 2. Log to a monitoring system
+        # 3. Create a ticket/issue in your tracking system
+    
     # Process filing
     try:
         print(f"\nProcessing {args.filing_type} for {args.ticker}...")
@@ -751,6 +845,26 @@ def main():
             # Print warning if any
             if "warning" in result:
                 print(f"\n⚠️ Warning: {result['warning']}")
+                
+            # Print validation results if available
+            if "validation" in result:
+                validation = result["validation"]
+                validation_status = validation.get("status", "UNKNOWN")
+                print(f"\n🔎 Data Integrity Validation: {validation_status}")
+                
+                # Show details
+                if "details" in validation:
+                    details = validation["details"]
+                    if "llm_format_valid" in details:
+                        print(f"  LLM Format: {'✅ VALID' if details['llm_format_valid'] else '❌ INVALID'}")
+                    if "data_consistent" in details:
+                        print(f"  Data Consistency: {'✅ VALID' if details['data_consistent'] else '❌ INVALID'}")
+            
+            # Print validation warning if any
+            if "validation_warning" in result:
+                print(f"\n⚠️ Validation Warning: {result['validation_warning']}")
+                # Send notification for validation failures
+                notify_validation_failure(result)
         else:
             print(f"\n❌ Processing failed: {result.get('error', 'Unknown error')}")
             
