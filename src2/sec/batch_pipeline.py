@@ -368,7 +368,9 @@ class BatchSECPipeline:
                         "quarter": q,  # 1-based quarter number (Q1, Q2, Q3)
                         "calendar_year": calendar_year,  # Calendar year for period filtering
                         "calendar_months": calendar_months,  # Calendar months for period filtering
-                        "filing_index": 0  # Use 0 as default, will be overridden by period filtering
+                        "filing_index": 0,  # Use 0 as default, will be overridden by period filtering
+                        "fiscal_year_end_month": fiscal_year_end_month,  # Store fiscal year end month for later use
+                        "fiscal_year_end_day": fiscal_year_end_day  # Store fiscal year end day for later use
                     })
                     logging.info(f"Added 10-Q for fiscal year {fiscal_year}, Q{q} (calendar year: {calendar_year}, months: {calendar_months})")
         
@@ -606,7 +608,14 @@ class BatchSECPipeline:
                     logging.info(f"Attempting more flexible search criteria...")
                     
                     # Try alternate calendar year (for companies near fiscal year boundaries)
-                    alternate_year = calendar_year + 1 if calendar_months[0] == fiscal_year_end_month else calendar_year - 1
+                    # Use fiscal_year_end_month from the filing_info that we passed through
+                    fiscal_year_end_month = filing_info.get("fiscal_year_end_month")
+                    if fiscal_year_end_month is None:
+                        logging.warning(f"fiscal_year_end_month not found in filing_info, using default alternate year logic")
+                        alternate_year = calendar_year - 1  # Default fallback
+                    else:
+                        alternate_year = calendar_year + 1 if calendar_months[0] == fiscal_year_end_month else calendar_year - 1
+                        logging.info(f"Using fiscal_year_end_month={fiscal_year_end_month} to calculate alternate_year={alternate_year}")
                     
                     # Look for filings with appropriate month in either calendar year
                     for filing in all_filings:
