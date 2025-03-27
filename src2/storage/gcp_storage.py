@@ -170,18 +170,12 @@ class GCPStorage:
                 from src2.sec.fiscal import fiscal_registry
                 
                 if period_end_date and ticker:
-                    # Direct override for Microsoft with 2024-06-30 date
-                    if ticker == "MSFT" and period_end_date == "2024-06-30" and filing_type == "10-K":
-                        fiscal_year = "2024"
-                        fiscal_period = "annual"
-                        print(f"OVERRIDE: Using fiscal_year=2024 for Microsoft 10-K with period_end_date=2024-06-30")
-                    else:
-                        # For all other cases, use fiscal registry
-                        fiscal_info = fiscal_registry.determine_fiscal_period(
-                            ticker, period_end_date, filing_type
-                        )
-                        fiscal_year = fiscal_info.get("fiscal_year")
-                        fiscal_period = fiscal_info.get("fiscal_period")
+                    # Use fiscal registry consistently for all companies
+                    fiscal_info = fiscal_registry.determine_fiscal_period(
+                        ticker, period_end_date, filing_type
+                    )
+                    fiscal_year = fiscal_info.get("fiscal_year")
+                    fiscal_period = fiscal_info.get("fiscal_period")
                     
                     logging.info(f"USING src2 FISCAL REGISTRY: {ticker}, period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_period}")
             except ImportError:

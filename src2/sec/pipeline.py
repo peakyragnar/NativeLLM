@@ -471,33 +471,36 @@ class SECFilingPipeline:
                 if not fiscal_year:
                     fiscal_year = time.strftime("%Y")
                     
-                # For Microsoft's specific fiscal calendar (fiscal year ends in June)
+                # Use the fiscal registry for all companies
                 fiscal_quarter = None
-                if ticker == "MSFT":
-                    # Microsoft's fiscal year ends June 30
-                    # Q1: Jul-Sep, Q2: Oct-Dec, Q3: Jan-Mar, Annual: Apr-Jun
-                    if period_end_date:
-                        year_match = re.search(r'(\d{4})-(\d{2})-(\d{2})', period_end_date)
-                        if year_match:
-                            cal_year = int(year_match.group(1))
-                            month = int(year_match.group(2))
-                            day = int(year_match.group(3))
-                                
-                            # Use the fiscal registry from src2 for consistent fiscal calculations
-                            from src2.sec.fiscal import fiscal_registry
+                
+                # If we have both ticker and period_end_date, use the fiscal registry
+                if ticker and period_end_date:
+                    # Use the fiscal registry from src2 for consistent fiscal calculations
+                    try:
+                        from src2.sec.fiscal import fiscal_registry
+                        
+                        # Get fiscal info from the registry
+                        fiscal_info = fiscal_registry.determine_fiscal_period(
+                            ticker, period_end_date, filing_type
+                        )
+                        
+                        # Update fiscal year and period from the registry
+                        if fiscal_info:
+                            reg_fiscal_year = fiscal_info.get("fiscal_year")
+                            reg_fiscal_period = fiscal_info.get("fiscal_period")
                             
-                            # Get fiscal info from the registry
-                            fiscal_info = fiscal_registry.determine_fiscal_period(
-                                ticker, period_end_date, filing_type
-                            )
-                            fiscal_year = fiscal_info.get("fiscal_year")
-                            fiscal_quarter = fiscal_info.get("fiscal_period")
+                            # Use registry values if available
+                            if reg_fiscal_year:
+                                fiscal_year = reg_fiscal_year
+                            if reg_fiscal_period:
+                                fiscal_quarter = reg_fiscal_period
                             
                             print(f"Using src2 fiscal registry in pipeline for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
-                                    
-                            # Fiscal quarter already determined by fiscal registry
+                    except (ImportError, Exception) as e:
+                        logging.warning(f"Could not use fiscal registry: {str(e)}")
                 
-                # For other companies, use standard quarterly mapping
+                # Fallback to standard quarterly mapping if fiscal registry didn't provide a value
                 if not fiscal_quarter and filing_type == "10-Q" and period_end_date:
                     month_match = re.search(r'\d{4}-(\d{2})-\d{2}', period_end_date)
                     if month_match:
