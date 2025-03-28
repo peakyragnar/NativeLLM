@@ -50,6 +50,16 @@ class LLMFormatter:
         """
         if "error" in parsed_xbrl:
             return f"ERROR: {parsed_xbrl['error']}"
+            
+        # Initialize data integrity tracking
+        self.data_integrity = {
+            "tables_detected": 0,
+            "tables_included": 0,
+            "total_table_rows": 0,
+            "narrative_paragraphs": 0,
+            "included_paragraphs": 0,
+            "section_tables": {}
+        }
         
         output = []
         
@@ -215,17 +225,239 @@ class LLMFormatter:
             else:
                 return "OTHER_FINANCIAL"
         
+        # Track table data for integrity checks
+        self.data_integrity["xbrl_facts"] = len(parsed_xbrl.get("facts", []))
+        self.data_integrity["xbrl_tables_created"] = 0
+        
         # Categorize facts by financial section
         for fact in parsed_xbrl.get("facts", []):
             concept = fact.get("concept", "")
             section = determine_section(concept)
             financial_sections[section].append(fact)
         
-        # Add facts from each section
+        # Track facts by context reference to build tables
+        facts_by_context = {}
+        for fact in parsed_xbrl.get("facts", []):
+            context_ref = fact.get("context_ref", "")
+            if context_ref not in facts_by_context:
+                facts_by_context[context_ref] = []
+            facts_by_context[context_ref].append(fact)
+        
+        # Add facts from each section - with both individual facts and tabular format
         for section_name, section_facts in financial_sections.items():
             if section_facts:
                 output.append(f"@SECTION: {section_name}")
                 output.append("")
+                
+                # Alternative approach for when context_map is empty or incomplete
+                # Group facts by their concept (name) for table rows
+                concepts_in_section = {}
+                for fact in section_facts:
+                    concept = fact.get("concept", "")
+                    if ":" in concept:
+                        # Get readable concept name
+                        concept_name = concept.split(":")[-1]
+                        # Make it more readable
+                        readable_name = re.sub(r'([a-z])([A-Z])', r'\1 \2', concept_name).title()
+                    else:
+                        readable_name = concept
+                        
+                    if readable_name not in concepts_in_section:
+                        concepts_in_section[readable_name] = []
+                    concepts_in_section[readable_name].append(fact)
+                
+                # Find most common contexts for columns (often periods like quarters or years)
+                context_counts = {}
+                for fact in section_facts:
+                    context_ref = fact.get("context_ref", "")
+                    if context_ref not in context_counts:
+                        context_counts[context_ref] = 0
+                    context_counts[context_ref] += 1
+                
+                # Sort contexts by frequency (most common first)
+                sorted_contexts = sorted(context_counts.items(), key=lambda x: x[1], reverse=True)
+                
+                # Get the top contexts that have significant counts (shared across multiple concepts)
+                top_contexts = []
+                for context_ref, count in sorted_contexts:
+                    # Only include contexts that appear multiple times
+                    if count >= 3:  # At least 3 facts with this context
+                        # Try to get period info from the raw contexts
+                        if context_ref in parsed_xbrl.get("contexts", {}):
+                            context_info = parsed_xbrl["contexts"][context_ref]
+                            context_label = context_ref
+                            
+                            # Attempt to create a readable label from period info
+                            if "period" in context_info:
+                                period_info = context_info["period"]
+                                if "instant" in period_info:
+                                    context_label = f"As of {period_info['instant']}"
+                                elif "startDate" in period_info and "endDate" in period_info:
+                                    context_label = f"{period_info['startDate']} to {period_info['endDate']}"
+                            
+                            top_contexts.append((context_ref, context_label))
+                        else:
+                            # No context info, just use the ID
+                            top_contexts.append((context_ref, f"Context {context_ref}"))
+                
+                # Only create a table if we have enough contexts and concepts
+                if len(top_contexts) >= 2 and len(concepts_in_section) >= 3:
+                    # Create table header
+                    header = f"{section_name.replace('_', ' ')} TABLE"
+                    output.append(f"@TABLE_CONTENT: {header}")
+                    
+                    # Build table
+                    table_rows = []
+                    
+                    # Add header row with column contexts
+                    header_row = "Concept"
+                    for _, context_label in top_contexts:
+                        header_row += f" | {context_label}"
+                    table_rows.append(header_row)
+                    
+                    # Add separator row
+                    separator = "-" * len("Concept")
+                    for context_label in [label for _, label in top_contexts]:
+                        separator += f" | {'-' * len(context_label)}"
+                    table_rows.append(separator)
+                    
+                    # Add data rows
+                    for concept_name, facts in concepts_in_section.items():
+                        # Create a mapping from context to fact for this concept
+                        context_to_fact = {fact.get("context_ref", ""): fact for fact in facts}
+                        
+                        # Only add rows that have data in at least one of our top contexts
+                        if any(context_ref in context_to_fact for context_ref, _ in top_contexts):
+                            row = concept_name
+                            for context_ref, _ in top_contexts:
+                                if context_ref in context_to_fact:
+                                    fact = context_to_fact[context_ref]
+                                    value = fact.get("value", "")
+                                    # Add currency symbol if available
+                                    unit_ref = fact.get("unit_ref", "")
+                                    if unit_ref and unit_ref.lower() == "usd":
+                                        # Only add $ if it's not already there
+                                        if not value.startswith("$"):
+                                            value = f"${value}"
+                                    row += f" | {value}"
+                                else:
+                                    row += " | -"
+                            table_rows.append(row)
+                    
+                    # Only add the table if it actually has data rows
+                    if len(table_rows) > 2:  # Header + separator + at least one data row
+                        output.append("\n".join(table_rows))
+                        output.append("")
+                        
+                        # Update data integrity metrics
+                        self.data_integrity["xbrl_tables_created"] += 1
+                        self.data_integrity["tables_detected"] += 1
+                        self.data_integrity["tables_included"] += 1
+                        self.data_integrity["total_table_rows"] += len(table_rows)
+                
+                # Keep the original context-based approach as a fallback
+                if context_map:
+                    # Group related facts into tables by context
+                    related_contexts = {}
+                    
+                    # Group contexts by type (period/instant) and date pattern
+                    for fact in section_facts:
+                        context_ref = fact.get("context_ref", "")
+                        if context_ref in context_map:
+                            context_label = context_map[context_ref]
+                            # Extract year from context label (e.g. "FY2023" -> "2023")
+                            year_match = re.search(r'(\d{4})', context_label)
+                            if year_match:
+                                year = year_match.group(1)
+                                key = f"{section_name}_{year}"
+                                if key not in related_contexts:
+                                    related_contexts[key] = []
+                                if context_ref not in related_contexts[key]:
+                                    related_contexts[key].append(context_ref)
+                    
+                    # Generate tables for each group of related contexts
+                    for key, contexts in related_contexts.items():
+                        # For each table, collect relevant facts
+                        table_facts = []
+                        for context_ref in contexts:
+                            for fact in section_facts:
+                                if fact.get("context_ref") == context_ref:
+                                    table_facts.append(fact)
+                        
+                        # Check if we have enough facts to create a meaningful table
+                        if len(table_facts) >= 3:
+                            # Create table header
+                            header = f"{section_name.replace('_', ' ')} TABLE - {key}"
+                            output.append(f"@TABLE_CONTENT: {header}")
+                            
+                            # Extract relevant periods/contexts for columns
+                            column_contexts = []
+                            for context_ref in contexts:
+                                if context_ref in context_map:
+                                    column_contexts.append((context_ref, context_map[context_ref]))
+                            
+                            # Sort column_contexts by year and period
+                            column_contexts.sort(key=lambda x: x[1])
+                            
+                            # Group facts by concept for rows
+                            facts_by_concept = {}
+                            for fact in table_facts:
+                                concept = fact.get("concept", "")
+                                if ":" in concept:
+                                    # Get readable concept name
+                                    concept_name = concept.split(":")[-1]
+                                    # Make it more readable
+                                    readable_name = re.sub(r'([a-z])([A-Z])', r'\1 \2', concept_name).title()
+                                else:
+                                    readable_name = concept
+                                
+                                if readable_name not in facts_by_concept:
+                                    facts_by_concept[readable_name] = {}
+                                
+                                context_ref = fact.get("context_ref", "")
+                                facts_by_concept[readable_name][context_ref] = fact
+                            
+                            # Build table
+                            table_rows = []
+                            
+                            # Add header row with column contexts
+                            header_row = "Concept"
+                            for _, context_label in column_contexts:
+                                header_row += f" | {context_label}"
+                            table_rows.append(header_row)
+                            
+                            # Add separator row
+                            separator = "-" * len("Concept")
+                            for context_label in [label for _, label in column_contexts]:
+                                separator += f" | {'-' * len(context_label)}"
+                            table_rows.append(separator)
+                            
+                            # Add data rows
+                            for concept_name, context_facts in facts_by_concept.items():
+                                row = concept_name
+                                for context_ref, _ in column_contexts:
+                                    if context_ref in context_facts:
+                                        value = context_facts[context_ref].get("value", "")
+                                        # Add currency symbol if available
+                                        unit_ref = context_facts[context_ref].get("unit_ref", "")
+                                        if unit_ref and unit_ref.lower() == "usd":
+                                            # Only add $ if it's not already there
+                                            if not value.startswith("$"):
+                                                value = f"${value}"
+                                        row += f" | {value}"
+                                    else:
+                                        row += " | -"
+                                table_rows.append(row)
+                            
+                            # Add the table
+                            output.append("\n".join(table_rows))
+                            output.append("")
+                            
+                            # Update data integrity metrics
+                            self.data_integrity["xbrl_tables_created"] += 1
+                            self.data_integrity["tables_detected"] += 1
+                            self.data_integrity["tables_included"] += 1
+                            self.data_integrity["total_table_rows"] += len(table_rows)
                 
                 # Sort facts within section
                 sorted_section_facts = sorted(section_facts, key=lambda x: x.get("concept", ""))
@@ -285,29 +517,149 @@ class LLMFormatter:
                     # Split by paragraphs
                     paragraphs = re.split(r'\n\s*\n', text)
                     
-                    # Select important paragraphs (limit quantity to keep file size reasonable)
+                    # Separate tables and narrative text
+                    tables = []
+                    narrative_paragraphs = []
+                    
+                    # For data integrity tracking
+                    section_id_safe = section_id.replace(" ", "_")
+                    if section_id_safe not in self.data_integrity["section_tables"]:
+                        self.data_integrity["section_tables"][section_id_safe] = {
+                            "detected": 0,
+                            "included": 0,
+                            "rows": 0
+                        }
+                    
+                    for paragraph in paragraphs:
+                        paragraph = paragraph.strip()
+                        if not paragraph:
+                            continue
+                        
+                        # Comprehensive table detection
+                        is_table = False
+                        detection_method = "none"
+                        
+                        # Method 1: Check for explicit table markers (pipe/tab)
+                        if '|' in paragraph or '\t' in paragraph:
+                            is_table = True
+                            detection_method = "explicit_markers"
+                        
+                        # Method 2: Check for aligned columns with financial indicators
+                        elif any(financial_marker in paragraph for financial_marker in ['$', '%', '(Dollars', '(in millions', 'Three Months Ended']):
+                            # Check for aligned numeric data - common in financial tables
+                            lines = paragraph.split('\n')
+                            if len(lines) >= 2:  # Need at least 2 rows to be a table
+                                # Look for aligned numbers or currency symbols
+                                numeric_pattern = r'[\s\d\$\(\)\.,%-]+'
+                                aligned_positions = []
+                                
+                                # Find positions of numbers in first line to check alignment
+                                for match in re.finditer(r'\$\d+|\d+\.\d+|\(\d+\)|\d+%', lines[0]):
+                                    aligned_positions.append((match.start(), match.end()))
+                                
+                                # Check for numbers or currency symbols at similar positions in other lines
+                                if aligned_positions:
+                                    alignment_count = 0
+                                    for line in lines[1:]:
+                                        for start, end in aligned_positions:
+                                            # Allow for some flexibility in position (±5 chars)
+                                            if start >= 5 and end <= len(line) + 5:
+                                                nearby_text = line[max(0, start-5):min(len(line), end+5)]
+                                                if re.search(r'\$\d+|\d+\.\d+|\(\d+\)|\d+%', nearby_text):
+                                                    alignment_count += 1
+                                    
+                                    # If we have good alignment, it's probably a table
+                                    if alignment_count >= len(lines) - 1:
+                                        is_table = True
+                                        detection_method = "financial_indicators"
+                        
+                        # Method 3: Detect space-delimited tables with column headers and consistent structure
+                        elif len(paragraph.split('\n')) >= 3:  # Need header + at least 2 data rows
+                            lines = paragraph.split('\n')
+                            
+                            # Count spaces to detect column boundaries in first 2 lines
+                            space_positions_1 = [i for i, char in enumerate(lines[0]) if char == ' ' and i > 0 and lines[0][i-1] != ' ']
+                            if len(lines) > 1:
+                                space_positions_2 = [i for i, char in enumerate(lines[1]) if char == ' ' and i > 0 and lines[1][i-1] != ' ']
+                                
+                                # If space positions are similar in multiple lines, likely a table with aligned columns
+                                matching_positions = 0
+                                for pos1 in space_positions_1:
+                                    for pos2 in space_positions_2:
+                                        if abs(pos1 - pos2) <= 3:  # Allow slight misalignment
+                                            matching_positions += 1
+                                
+                                if matching_positions >= 2:  # At least 2 columns align
+                                    is_table = True
+                                    detection_method = "space_alignment"
+                        
+                        # Add to appropriate category and update data integrity metrics
+                        if is_table:
+                            tables.append(paragraph)
+                            line_count = len(paragraph.split('\n'))
+                            
+                            # Update data integrity metrics
+                            self.data_integrity["tables_detected"] += 1
+                            self.data_integrity["total_table_rows"] += line_count
+                            self.data_integrity["section_tables"][section_id_safe]["detected"] += 1
+                            self.data_integrity["section_tables"][section_id_safe]["rows"] += line_count
+                            
+                            # Log detection of important tables for verification
+                            if any(financial_term in paragraph.lower() for financial_term in 
+                                  ["balance sheet", "income statement", "cash flow", "statement of operations"]):
+                                logging.info(f"Detected important financial table in {section_id} using {detection_method}")
+                        elif len(paragraph) >= 100:  # Only collect substantive paragraphs
+                            narrative_paragraphs.append(paragraph)
+                            self.data_integrity["narrative_paragraphs"] += 1
+                    
+                    # For narrative text, select important paragraphs (limit quantity to keep file size reasonable)
                     # Focus on first few paragraphs which often contain key information
                     important_paragraphs = []
                     paragraph_count = 0
                     
-                    for paragraph in paragraphs:
-                        # Skip very short paragraphs and tables
-                        if len(paragraph.strip()) < 100 or '|' in paragraph or '\t' in paragraph:
-                            continue
-                            
-                        # Add paragraph
-                        important_paragraphs.append(paragraph.strip())
+                    for paragraph in narrative_paragraphs:
+                        important_paragraphs.append(paragraph)
                         paragraph_count += 1
                         
-                        # Limit paragraphs per section
+                        # Update integrity metric
+                        self.data_integrity["included_paragraphs"] += 1
+                        
+                        # Limit paragraphs per section for narrative text only
                         if paragraph_count >= 5:
                             break
                     
-                    # Add selected paragraphs
+                    # Add selected narrative paragraphs
                     for paragraph in important_paragraphs:
                         output.append(f"@NARRATIVE_TEXT: {paragraph}")
                         output.append("")
                         
+                    # Add ALL tables with 100% fidelity - no filtering or summarization
+                    for table in tables:
+                        output.append(f"@TABLE_CONTENT: {table}")
+                        output.append("")
+                        
+                        # Update integrity metrics for included tables
+                        self.data_integrity["tables_included"] += 1
+                        self.data_integrity["section_tables"][section_id_safe]["included"] += 1
+                        
+        # Add Data Integrity Report
+        output.append("@DATA_INTEGRITY_REPORT")
+        output.append("Table preservation metrics:")
+        output.append(f"- XBRL facts: {self.data_integrity.get('xbrl_facts', 0)}")
+        output.append(f"- XBRL tables created: {self.data_integrity.get('xbrl_tables_created', 0)}")
+        output.append(f"- Text tables detected: {self.data_integrity['tables_detected'] - self.data_integrity.get('xbrl_tables_created', 0)}")
+        output.append(f"- Total tables included: {self.data_integrity['tables_included']}")
+        if self.data_integrity['tables_detected'] > 0:
+            preservation_rate = 100 * self.data_integrity['tables_included'] / self.data_integrity['tables_detected']
+            output.append(f"- Table preservation rate: {preservation_rate:.1f}%")
+            # Warning if not all tables are preserved
+            if preservation_rate < 100:
+                output.append("WARNING: Not all tables were preserved!")
+        output.append(f"- Total table rows: {self.data_integrity['total_table_rows']}")
+        output.append(f"- Narrative paragraphs: {self.data_integrity['narrative_paragraphs']}")
+        output.append(f"- Narrative paragraphs included: {self.data_integrity['included_paragraphs']}")
+        output.append("")
+        
         # Add the Context Reference Guide at the end of the document
         if context_reference_guide:
             output.append("@CONTEXT_REFERENCE_GUIDE")
