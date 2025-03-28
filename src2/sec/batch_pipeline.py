@@ -459,6 +459,356 @@ class BatchSECPipeline:
         
         return results
     
+    def _reorganize_files_by_fiscal_year(self, ticker, filing_type, fiscal_year, fiscal_period, result):
+        """
+        Reorganize processed files to use fiscal year naming instead of accession numbers.
+        
+        Args:
+            ticker: Company ticker symbol
+            filing_type: Filing type (10-K, 10-Q)
+            fiscal_year: Fiscal year as string (e.g., "2021")
+            fiscal_period: Fiscal period (e.g., "Q1", "annual")
+            result: The processing result containing file paths
+            
+        Returns:
+            Updated result with new file paths
+        """
+        import os
+        import shutil
+        from pathlib import Path
+        
+        # Get local output directory from pipeline
+        output_dir = Path(self.pipeline.output_dir)
+        company_dir = output_dir / ticker
+        
+        # Check if we have text and llm paths in the result
+        text_path = result.get("text_path")
+        llm_path = result.get("llm_path")
+        
+        if not text_path or not llm_path:
+            logging.warning(f"No text or LLM paths found in result for {ticker} {filing_type} {fiscal_year}")
+            return
+            
+        # Create the fiscal year-based destination directory
+        if fiscal_period and filing_type == "10-Q":
+            fiscal_dir = company_dir / f"{filing_type}_{fiscal_year}_{fiscal_period}"
+        else:
+            fiscal_dir = company_dir / f"{filing_type}_{fiscal_year}"
+            
+        # Make the directory if it doesn't exist
+        os.makedirs(fiscal_dir, exist_ok=True)
+        
+        # Construct new filenames
+        if fiscal_period and filing_type == "10-Q":
+            new_text_path = fiscal_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"
+            new_llm_path = fiscal_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"
+        else:
+            new_text_path = fiscal_dir / f"{ticker}_{filing_type}_{fiscal_year}_text.txt"
+            new_llm_path = fiscal_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
+            
+        # Copy the files to the new locations
+        try:
+            # Store original paths for cleanup
+            original_paths = []
+            
+            if os.path.exists(text_path):
+                logging.info(f"Copying text file from {text_path} to {new_text_path}")
+                shutil.copy2(text_path, new_text_path)
+                result["reorganized_text_path"] = str(new_text_path)
+                original_paths.append(text_path)
+                
+            if os.path.exists(llm_path):
+                logging.info(f"Copying LLM file from {llm_path} to {new_llm_path}")
+                shutil.copy2(llm_path, new_llm_path)
+                result["reorganized_llm_path"] = str(new_llm_path)
+                original_paths.append(llm_path)
+                
+            # Clean up local accession-based files after copying
+            try:
+                import re
+                fiscal_year_pattern = re.compile(r'^.*_20[0-9]{2}_.*$')  # Match filenames containing fiscal years
+                
+                for original_path in original_paths:
+                    # Only delete files that don't have fiscal years in their names
+                    if os.path.exists(original_path) and not fiscal_year_pattern.match(os.path.basename(original_path)):
+                        logging.info(f"Removing original accession-based file: {original_path}")
+                        os.remove(original_path)
+                        result.setdefault("removed_local_files", []).append(str(original_path))
+            except Exception as local_e:
+                logging.warning(f"Error cleaning up local accession-based files: {str(local_e)}")
+                
+                
+            # Upload to GCP with proper fiscal paths if GCP is configured
+            if self.pipeline.gcp_storage and self.pipeline.gcp_storage.is_enabled():
+                # Construct GCS paths
+                if filing_type == "10-K" or fiscal_period == "annual":
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
+                elif fiscal_period:
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/llm.txt"
+                else:
+                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
+                    gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
+                
+                # Find and remove existing incorrect GCP paths
+                logging.info(f"Looking for incorrect paths in GCS to remove")
+                
+                # Get the original accession-based paths from result
+                original_gcs_text_path = None
+                original_gcs_llm_path = None
+                
+                # Check if we have "stages" and "upload" in the result
+                if "stages" in result and "upload" in result["stages"]:
+                    upload_result = result["stages"]["upload"].get("result", {})
+                    
+                    # Extract original GCS paths from text and LLM uploads
+                    if "text_upload" in upload_result:
+                        text_upload = upload_result["text_upload"]
+                        if "gcs_path" in text_upload:
+                            original_gcs_text_path = text_upload["gcs_path"]
+                            logging.info(f"Found original text GCS path: {original_gcs_text_path}")
+                    
+                    if "llm_upload" in upload_result:
+                        llm_upload = upload_result["llm_upload"]
+                        if "gcs_path" in llm_upload:
+                            original_gcs_llm_path = llm_upload["gcs_path"]
+                            logging.info(f"Found original LLM GCS path: {original_gcs_llm_path}")
+                
+                # Delete the incorrect paths if they're different from the fiscal year paths
+                if original_gcs_text_path and original_gcs_text_path != gcs_text_path:
+                    try:
+                        logging.info(f"Deleting incorrect GCS text path: {original_gcs_text_path}")
+                        self.pipeline.gcp_storage.delete_file(original_gcs_text_path)
+                        result["deleted_original_gcs_text_path"] = original_gcs_text_path
+                    except Exception as e:
+                        logging.warning(f"Error deleting original GCS text path: {str(e)}")
+                
+                if original_gcs_llm_path and original_gcs_llm_path != gcs_llm_path:
+                    try:
+                        logging.info(f"Deleting incorrect GCS LLM path: {original_gcs_llm_path}")
+                        self.pipeline.gcp_storage.delete_file(original_gcs_llm_path)
+                        result["deleted_original_gcs_llm_path"] = original_gcs_llm_path
+                    except Exception as e:
+                        logging.warning(f"Error deleting original GCS LLM path: {str(e)}")
+                        
+                # Comprehensive cleanup for ALL accession-based paths in GCP
+                try:
+                    if self.pipeline.gcp_storage and self.pipeline.gcp_storage.is_enabled():
+                        # Check all possible accession number directories in GCP
+                        ticker_prefix = f"companies/{ticker}/{filing_type}/"
+                        
+                        # Pattern to identify potential accession numbers vs fiscal years
+                        import re
+                        accession_pattern = re.compile(r'^[0-9]{3,}$')  # Match numeric directories that aren't fiscal years
+                        fiscal_year_pattern = re.compile(r'^20[0-9]{2}$')  # Match typical fiscal years (2000-2099)
+                        
+                        logging.info(f"Performing comprehensive GCP cleanup for ALL accession directories under {ticker_prefix}")
+                        
+                        try:
+                            # Use delimiter to get "directory"-like prefixes
+                            prefixes = []
+                            blobs_iter = self.pipeline.gcp_storage.bucket.list_blobs(
+                                prefix=ticker_prefix, 
+                                delimiter='/'
+                            )
+                            
+                            # Process the prefixes (directory-like listings)
+                            for prefix in blobs_iter.prefixes:
+                                # Strip the trailing slash and get the last component
+                                dir_name = prefix.rstrip('/').split('/')[-1]
+                                prefixes.append(dir_name)
+                                logging.info(f"Found directory: {dir_name}")
+                            
+                            # If prefixes don't work, try another approach by listing all blobs
+                            if not prefixes:
+                                logging.info("No directory prefixes found, trying alternative approach")
+                                all_blobs = list(self.pipeline.gcp_storage.bucket.list_blobs(prefix=ticker_prefix))
+                                
+                                # Extract directory names from blob paths
+                                for blob in all_blobs:
+                                    parts = blob.name.split('/')
+                                    if len(parts) >= 4:  # companies/TICKER/FILING_TYPE/DIR/...
+                                        dir_name = parts[3]
+                                        if dir_name not in prefixes:
+                                            prefixes.append(dir_name)
+                                logging.info(f"Found directories through blob listing: {prefixes}")
+                            
+                            # Now check for accession numbers vs fiscal years
+                            for dir_name in prefixes:
+                                # If it's all numeric but not a typical fiscal year, it's likely an accession number
+                                if accession_pattern.match(dir_name) and not fiscal_year_pattern.match(dir_name):
+                                    logging.info(f"Found suspected accession directory: {dir_name}")
+                                    
+                                    # Delete all files in this directory
+                                    accession_prefix = f"{ticker_prefix}{dir_name}/"
+                                    logging.info(f"Listing blobs with prefix: {accession_prefix}")
+                                    
+                                    try:
+                                        # List and delete all blobs with this prefix
+                                        acc_blobs = list(self.pipeline.gcp_storage.bucket.list_blobs(prefix=accession_prefix))
+                                        
+                                        for blob in acc_blobs:
+                                            logging.info(f"Deleting accession-based file: {blob.name}")
+                                            try:
+                                                self.pipeline.gcp_storage.delete_file(blob.name)
+                                                result.setdefault("deleted_accession_files", []).append(blob.name)
+                                            except Exception as del_e:
+                                                logging.warning(f"Error deleting file {blob.name}: {str(del_e)}")
+                                    except Exception as list_e:
+                                        logging.warning(f"Error listing files in accession directory: {str(list_e)}")
+                        except Exception as iter_e:
+                            logging.warning(f"Error iterating GCS directories: {str(iter_e)}")
+                            
+                        # Also try the original cleanup approach as a fallback
+                        if original_gcs_text_path:
+                            # Extract path components
+                            path_parts = original_gcs_text_path.split('/')
+                            # Check if there are enough parts and if the part right after filing_type might be an accession number
+                            if len(path_parts) >= 4:
+                                # Check if the potential accession part is numeric and not a fiscal year
+                                potential_accession = path_parts[3]
+                                if accession_pattern.match(potential_accession) and not fiscal_year_pattern.match(potential_accession):
+                                    # Construct a potential accession directory path
+                                    gcs_prefix = '/'.join(path_parts[:-1])  # Remove the filename
+                                    
+                                    # Get all blobs with this prefix
+                                    logging.info(f"Checking for accession-based files with specific prefix: {gcs_prefix}")
+                                    accession_blobs = list(self.pipeline.gcp_storage.bucket.list_blobs(prefix=gcs_prefix))
+                                    
+                                    # Delete each blob
+                                    for blob in accession_blobs:
+                                        logging.info(f"Deleting accession-based file: {blob.name}")
+                                        self.pipeline.gcp_storage.delete_file(blob.name)
+                                        result.setdefault("deleted_accession_files", []).append(blob.name)
+                except Exception as acc_e:
+                    logging.warning(f"Error cleaning up accession directories: {str(acc_e)}")
+                
+                # Upload the reorganized files to GCS
+                logging.info(f"Re-uploading files to GCS with fiscal year paths")
+                
+                force_upload = result.get("force_upload", False)
+                text_result = self.pipeline.gcp_storage.upload_file(str(new_text_path), gcs_text_path, force=True)
+                
+                if os.path.exists(new_llm_path):
+                    llm_result = self.pipeline.gcp_storage.upload_file(str(new_llm_path), gcs_llm_path, force=True)
+                    if llm_result.get("success"):
+                        result["reorganized_gcs_llm_path"] = gcs_llm_path
+                
+                if text_result.get("success"):
+                    result["reorganized_gcs_text_path"] = gcs_text_path
+                    
+                    # Update Firestore metadata with the correct paths
+                    try:
+                        # Extract period_end_date from original result with more thorough search
+                        period_end_date = None
+                        
+                        # Check in stages->download->result if it exists
+                        if "stages" in result and "download" in result["stages"]:
+                            download_result = result["stages"]["download"]["result"]
+                            
+                            # Check if period_end_date is directly in download result
+                            if "period_end_date" in download_result:
+                                period_end_date = download_result["period_end_date"]
+                                logging.info(f"Found period_end_date in download result: {period_end_date}")
+                            # Check if filing_info contains period_end_date (most common case)
+                            elif "filing_info" in download_result:
+                                filing_info = download_result["filing_info"]
+                                if "period_end_date" in filing_info:
+                                    period_end_date = filing_info["period_end_date"]
+                                    logging.info(f"Found period_end_date in download_result.filing_info: {period_end_date}")
+                        
+                        # If not found in download result, check other locations
+                        if not period_end_date:
+                            # Check if it's in the filing_info section of the result
+                            if "filing_info" in result:
+                                period_end_date = result["filing_info"].get("period_end_date")
+                                logging.info(f"Found period_end_date in filing_info: {period_end_date}")
+                            # Or it might be directly in the result
+                            elif "period_end_date" in result:
+                                period_end_date = result["period_end_date"]
+                                logging.info(f"Found period_end_date directly in result: {period_end_date}")
+                        
+                        # Prepare metadata
+                        metadata = {
+                            "ticker": ticker,
+                            "company_name": ticker,  # Can be overridden if available
+                            "filing_type": filing_type,
+                            "fiscal_year": fiscal_year,
+                            "fiscal_period": fiscal_period if fiscal_period else "annual" if filing_type == "10-K" else None,
+                            "text_path": gcs_text_path,
+                            "text_size": os.path.getsize(str(new_text_path)),
+                            "local_text_path": str(new_text_path)
+                        }
+                        
+                        # ALWAYS include period_end_date in metadata 
+                        # This is CRITICAL for proper fiscal period determination
+                        if period_end_date:
+                            metadata["period_end_date"] = period_end_date
+                            logging.info(f"Using preserved period_end_date: {period_end_date}")
+                        else:
+                            # Access the original filing that was downloaded
+                            # This is a deeper way to find the period_end_date
+                            try:
+                                for result_key in result.keys():
+                                    if isinstance(result[result_key], dict) and "period_end_date" in result[result_key]:
+                                        period_end_date = result[result_key]["period_end_date"]
+                                        metadata["period_end_date"] = period_end_date
+                                        logging.info(f"Found period_end_date in result[{result_key}]: {period_end_date}")
+                                        break
+                            except Exception as e:
+                                logging.error(f"Error searching for period_end_date in result: {e}")
+                            
+                            if not period_end_date:
+                                logging.error(f"CRITICAL: No period_end_date found for {ticker} {filing_type} {fiscal_year}, metadata will be incomplete")
+                        
+                        # Add LLM path if available
+                        if os.path.exists(new_llm_path):
+                            metadata["llm_path"] = gcs_llm_path
+                            metadata["llm_size"] = os.path.getsize(str(new_llm_path))
+                            metadata["local_llm_path"] = str(new_llm_path)
+                        
+                        # Import datetime here to ensure it's available
+                        import datetime
+                        
+                        # Ensure all required fields are present in metadata
+                        if "fiscal_year" not in metadata:
+                            metadata["fiscal_year"] = fiscal_year
+                            logging.info(f"Added fiscal_year={fiscal_year} from function parameters")
+                            
+                        if "fiscal_period" not in metadata:
+                            metadata["fiscal_period"] = fiscal_period
+                            logging.info(f"Added fiscal_period={fiscal_period} from function parameters")
+                            
+                        # As a safety check, if fiscal_year is still missing, use period_end_date or current year
+                        if not metadata.get("fiscal_year"):
+                            period_end_date = metadata.get("period_end_date", "")
+                            if period_end_date and "-" in period_end_date:
+                                metadata["fiscal_year"] = period_end_date.split("-")[0]
+                                logging.info(f"Extracted fiscal_year={metadata['fiscal_year']} from period_end_date")
+                            else:
+                                metadata["fiscal_year"] = str(datetime.datetime.now().year)
+                                logging.info(f"Using current year as fiscal_year={metadata['fiscal_year']}")
+                                
+                        # If fiscal_period is still missing, set a safe default
+                        if not metadata.get("fiscal_period"):
+                            metadata["fiscal_period"] = "annual" if filing_type == "10-K" else "Q?"
+                            logging.info(f"Using default fiscal_period={metadata['fiscal_period']}")
+                        
+                        # Update Firestore with proper fiscal information
+                        firestore_result = self.pipeline.gcp_storage.add_filing_metadata(metadata)
+                        
+                        if firestore_result.get("success"):
+                            logging.info(f"Updated Firestore metadata with fiscal year-based paths")
+                            result["reorganized_firestore"] = True
+                    except Exception as fs_error:
+                        logging.warning(f"Error updating Firestore metadata: {str(fs_error)}")
+        except Exception as copy_error:
+            logging.warning(f"Error copying files to fiscal year directory: {str(copy_error)}")
+            raise
+            
+        return result
+    
     def _process_single_filing(self, filing_info):
         """Process a single filing and return the result"""
         ticker = filing_info["ticker"]
@@ -471,6 +821,13 @@ class BatchSECPipeline:
         
         # Add force_upload flag to filing_info to pass it to the pipeline
         filing_info["force_upload"] = self.force_upload
+        
+        # Add explicit fiscal year to filing_info for consistent paths
+        filing_info["fiscal_year"] = str(year)
+        if quarter:
+            filing_info["fiscal_period"] = f"Q{quarter}"
+        elif filing_type == "10-K":
+            filing_info["fiscal_period"] = "annual"
         
         log_message = f"Processing {ticker} {filing_type} for {year}"
         if quarter:
@@ -548,7 +905,14 @@ class BatchSECPipeline:
                             continue
                 
                 if target_filing:
-                    logging.info(f"Processing specific NVDA 2024 10-K filing")
+                    # Ensure the fiscal year is properly set in the filing info
+                    # so it's used in the local filename and GCP path
+                    target_filing["fiscal_year"] = str(year)
+                    target_filing["fiscal_period"] = "annual"
+                    
+                    logging.info(f"Processing specific NVDA 2024 10-K filing with explicit fiscal_year={year}")
+                    logging.info(f"Setting explicit fiscal_year={target_filing['fiscal_year']} and fiscal_period=annual")
+                    
                     result = self.pipeline.process_filing_with_info(target_filing)
                     # Override the year to ensure it's displayed correctly
                     result["year"] = year
@@ -643,6 +1007,14 @@ class BatchSECPipeline:
                             continue
                 
                 if target_filing:
+                    # Ensure the fiscal year is properly set in the filing info
+                    # so it's used in the local filename and GCP path
+                    target_filing["fiscal_year"] = str(year)
+                    target_filing["fiscal_period"] = f"Q{quarter}"
+                    
+                    logging.info(f"Processing filing with period end date {target_filing.get('period_end_date')} for {ticker} {filing_type} FY{year} Q{quarter}")
+                    logging.info(f"Setting explicit fiscal_year={target_filing['fiscal_year']} and fiscal_period={target_filing['fiscal_period']}")
+                    
                     # Process using the specific filing we found
                     result = self.pipeline.process_filing_with_info(target_filing)
                     # Add fiscal metadata
@@ -687,6 +1059,14 @@ class BatchSECPipeline:
                                 continue
                     
                     if target_filing:
+                        # Ensure the fiscal year is properly set in the filing info
+                        # so it's used in the local filename and GCP path
+                        target_filing["fiscal_year"] = str(year)
+                        target_filing["fiscal_period"] = f"Q{quarter}"
+                        
+                        logging.info(f"Processing filing with period end date {target_filing.get('period_end_date')} for {ticker} {filing_type} FY{year} Q{quarter}")
+                        logging.info(f"Setting explicit fiscal_year={target_filing['fiscal_year']} and fiscal_period={target_filing['fiscal_period']} (flexible search)")
+                        
                         # Process using the filing we found with flexible criteria
                         result = self.pipeline.process_filing_with_info(target_filing)
                         # Add fiscal metadata
@@ -705,12 +1085,73 @@ class BatchSECPipeline:
                             "status": "error"
                         }
             else:
-                # Standard filing index processing for non-Microsoft or non-quarterly filings
-                result = self.pipeline.process_filing(
+                # Modified to apply fiscal period filtering using our fiscal registry
+                # Get all possible filings of this type first 
+                logging.info(f"Getting all {filing_type} filings for {ticker} to find ones for fiscal year {year}")
+                
+                # Use a larger count to ensure we capture filings from past years
+                count = 10 if filing_type == "10-K" else 20  # More quarterly filings than annual
+                
+                all_filings = self.pipeline.downloader.get_company_filings(
                     ticker=ticker,
                     filing_type=filing_type,
-                    filing_index=filing_index
+                    count=count  # Get enough filings to find the right ones
                 )
+                
+                logging.info(f"Retrieved {len(all_filings)} {filing_type} filings for {ticker}")
+                
+                # Filter filings based on period end date and our fiscal registry
+                target_filings = []
+                
+                # Import fiscal registry
+                from src2.sec.fiscal.company_fiscal import fiscal_registry
+                
+                for filing in all_filings:
+                    period_end_date = filing.get("period_end_date")
+                    if period_end_date:
+                        try:
+                            # Look up fiscal information for this period end date
+                            fiscal_info = fiscal_registry.determine_fiscal_period(
+                                ticker=ticker,
+                                period_end_date=period_end_date,
+                                filing_type=filing_type
+                            )
+                            
+                            logging.info(f"Period end date {period_end_date} maps to: {fiscal_info}")
+                            
+                            # Check if this filing belongs to our target fiscal year
+                            if fiscal_info.get("fiscal_year") == str(year):
+                                logging.info(f"Found matching filing for fiscal year {year}: {period_end_date}")
+                                target_filings.append(filing)
+                        except Exception as e:
+                            logging.warning(f"Error determining fiscal period for {period_end_date}: {str(e)}")
+                
+                if target_filings:
+                    # Process the first matching filing
+                    selected_filing = target_filings[0]
+                    
+                    # Ensure the fiscal year is properly set in the filing info
+                    # so it's used in the local filename and GCP path
+                    selected_filing["fiscal_year"] = str(year)
+                    if "quarter" in filing_info and filing_info["quarter"]:
+                        selected_filing["fiscal_period"] = f"Q{filing_info['quarter']}"
+                    elif filing_type == "10-K":
+                        selected_filing["fiscal_period"] = "annual"
+                    
+                    logging.info(f"Processing filing with period end date {selected_filing.get('period_end_date')} for {ticker} {filing_type} FY{year}")
+                    logging.info(f"Setting explicit fiscal_year={selected_filing['fiscal_year']} and fiscal_period={selected_filing.get('fiscal_period', 'None')}")
+                    
+                    result = self.pipeline.process_filing_with_info(selected_filing)
+                else:
+                    # No matching filings found
+                    logging.error(f"No {filing_type} filing found for {ticker} fiscal year {year}")
+                    return {
+                        "ticker": ticker,
+                        "filing_type": filing_type,
+                        "year": year,
+                        "error": f"No filing found matching fiscal year {year}",
+                        "status": "error"
+                    }
             
             # Add year information from filing_info
             if result.get("success"):
@@ -732,6 +1173,19 @@ class BatchSECPipeline:
                         if file_size_mb < 0.1:
                             logging.warning(f"Small file warning: {ticker} {filing_type} file size is {file_size_mb:.2f} MB")
                             result["warning"] = f"Small file size: {file_size_mb:.2f} MB"
+                
+                # Reorganize files to use fiscal years instead of accession numbers
+                try:
+                    self._reorganize_files_by_fiscal_year(
+                        ticker=ticker, 
+                        filing_type=filing_type, 
+                        fiscal_year=str(year), 
+                        fiscal_period=filing_info.get("fiscal_period", "annual") if filing_type == "10-K" else f"Q{quarter}" if quarter else None,
+                        result=result
+                    )
+                except Exception as reorg_error:
+                    logging.warning(f"Error reorganizing files by fiscal year: {str(reorg_error)}")
+                    result["warning"] = f"File reorganization error: {str(reorg_error)}"
                 
                 # Log success
                 logging.info(f"Successfully processed {ticker} {filing_type} for {year}")

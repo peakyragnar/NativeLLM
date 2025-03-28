@@ -233,135 +233,85 @@ class SECFilingPipeline:
         return (fiscal_year, fiscal_period)
         
     @staticmethod
-    def determine_fiscal_period_properly(ticker, period_end_date, filing_type, document_text=None):
+    def determine_fiscal_period_from_registry(ticker, period_end_date, filing_type):
         """
-        Determine fiscal period correctly for any company with proper handling of NVDA and edge cases.
+        Use the fiscal registry as the single source of truth for all fiscal period determinations
         
         Args:
             ticker: Company ticker
-            period_end_date: Period end date string (YYYY-MM-DD)
+            period_end_date: Period end date string (in any format)
             filing_type: Filing type (10-K or 10-Q)
-            document_text: Optional document text to extract fiscal period from
             
         Returns:
-            tuple: (fiscal_year, fiscal_period)
+            tuple: (fiscal_year, fiscal_period, validation_metadata)
         """
-        # Default values
-        fiscal_year = None
-        fiscal_period = None
+        # Import datetime at the function level to avoid scope issues
+        import datetime
         
-        # PRIORITY 1: Try to extract from document text if available
-        if document_text:
-            fiscal_year, fiscal_period = SECFilingPipeline.extract_fiscal_period_from_document(
-                document_text, ticker, period_end_date, filing_type
-            )
-            
-            # If we successfully extracted both fiscal year and period, return them
-            if fiscal_year and fiscal_period:
-                print(f"Successfully extracted fiscal data from document: year={fiscal_year}, period={fiscal_period}")
-                return (fiscal_year, fiscal_period)
-        
-        # PRIORITY 2: Try known fiscal patterns for specific companies
-        if ticker.upper() == "NVDA":
-            try:
-                import datetime
-                
-                # Parse period end date
-                date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
-                month = date.month
-                
-                # For 10-K, it's always annual
-                if filing_type == "10-K":
-                    fiscal_period = "annual"
-                    
-                    # NVDA's fiscal year ending in January
-                    if month == 1:  # January
-                        fiscal_year = str(date.year)
-                    else:
-                        fiscal_year = str(date.year)
-                    
-                    print(f"Using NVDA 10-K fiscal logic: month={month} → year={fiscal_year}, period={fiscal_period}")
-                    return (fiscal_year, fiscal_period)
-                
-                # For 10-Q, use the correct NVDA quarterly mapping
-                if filing_type == "10-Q":
-                    if month == 4:  # April
-                        fiscal_period = "Q1"
-                    elif month == 7:  # July
-                        fiscal_period = "Q2"
-                    elif month == 10:  # October
-                        fiscal_period = "Q3"
-                    
-                    # NVDA fiscal year is calendar year + 1 for filings in Feb-Dec
-                    if 2 <= month <= 12:  # Feb-Dec
-                        fiscal_year = str(date.year + 1)
-                    else:  # January
-                        fiscal_year = str(date.year)
-                    
-                    print(f"Using NVDA 10-Q fiscal logic: month={month} → year={fiscal_year}, period={fiscal_period}")
-                    
-                    if fiscal_year and fiscal_period:
-                        return (fiscal_year, fiscal_period)
-            except Exception as e:
-                print(f"Error in NVDA-specific fiscal logic: {e}")
-        
-        # PRIORITY 3: Try fiscal registry if available
         try:
-            from src2.sec.fiscal import fiscal_registry
+            # Import the fiscal data contracts and registry
+            from src2.sec.fiscal.fiscal_data import FiscalPeriodInfo, FiscalDataError, validate_period_end_date
+            from src2.sec.fiscal.company_fiscal import fiscal_registry
             
-            print(f"Using fiscal registry for {ticker}, period_end_date={period_end_date}, filing_type={filing_type}")
+            # Validation metadata for logging and debugging
+            validation_metadata = {
+                "source": "pipeline.py:determine_fiscal_period_from_registry",
+                "timestamp": datetime.datetime.now().isoformat(),
+                "raw_period_end_date": period_end_date
+            }
             
-            # Get fiscal info from registry
+            # Use the fiscal registry as the single source of truth
+            logging.info(f"Getting fiscal information from registry for {ticker}, period_end_date={period_end_date}")
+            
+            # Call the registry's determine_fiscal_period method
             fiscal_info = fiscal_registry.determine_fiscal_period(
                 ticker, period_end_date, filing_type
             )
             
-            registry_fiscal_year = fiscal_info.get("fiscal_year")
-            registry_fiscal_period = fiscal_info.get("fiscal_period")
+            # Extract fiscal information
+            fiscal_year = fiscal_info.get("fiscal_year")
+            fiscal_period = fiscal_info.get("fiscal_period")
             
-            # If we got both fiscal year and period, use them
-            if registry_fiscal_year and registry_fiscal_period:
-                fiscal_year = registry_fiscal_year
-                fiscal_period = registry_fiscal_period
-                print(f"Using fiscal registry: year={fiscal_year}, period={fiscal_period}")
-                return (fiscal_year, fiscal_period)
-        except (ImportError, Exception) as e:
-            print(f"Could not use fiscal registry: {e}")
-        
-        # PRIORITY 4: Fall back to default calculation
-        if not fiscal_year or not fiscal_period:
-            print(f"WARNING: Using fallback fiscal calculation for {ticker}")
-            try:
-                import datetime
+            # Add determination details to metadata
+            validation_metadata.update({
+                "fiscal_year": fiscal_year,
+                "fiscal_period": fiscal_period,
+                "validated_date": fiscal_info.get("validated_date"),
+                "status": "success" if fiscal_year and fiscal_period else "failed"
+            })
+            
+            if fiscal_year and fiscal_period:
+                logging.info(f"Successfully determined fiscal period from registry: Year={fiscal_year}, Period={fiscal_period}")
+                return (fiscal_year, fiscal_period, validation_metadata)
+            else:
+                error_msg = fiscal_info.get("error", "Unknown error")
+                logging.error(f"Fiscal registry couldn't determine period: {error_msg}")
+                validation_metadata["error"] = error_msg
                 
-                # Parse period end date
-                date = datetime.datetime.strptime(period_end_date, '%Y-%m-%d')
-                month = date.month
-                
-                # Default to calendar year
-                fiscal_year = str(date.year)
-                
-                # For 10-K, it's always annual
+                # Last resort for 10-K only - we know it's annual
                 if filing_type == "10-K":
                     fiscal_period = "annual"
+                    logging.warning(f"Using safe fallback 'annual' for 10-K")
+                    validation_metadata["fallback_used"] = "annual_for_10K"
                 else:
-                    # Simple quarter mapping based on calendar
-                    if 1 <= month <= 3:
-                        fiscal_period = "Q1"
-                    elif 4 <= month <= 6:
-                        fiscal_period = "Q2"
-                    elif 7 <= month <= 9:
-                        fiscal_period = "Q3"
-                    else:  # 10-12
-                        fiscal_period = "Q4"
+                    # Use a placeholder to indicate unknown quarter
+                    fiscal_period = "Q?"
+                    logging.error(f"Using placeholder 'Q?' for unknown 10-Q fiscal period")
+                    validation_metadata["fallback_used"] = "Q?_placeholder"
                 
-                print(f"Fallback calculation: month={month} → year={fiscal_year}, period={fiscal_period}")
-            except Exception as e:
-                print(f"Error in fallback fiscal calculation: {e}")
-        
-        # Return whatever we determined, even if incomplete
-        print(f"Final fiscal determination: year={fiscal_year}, period={fiscal_period}")
-        return (fiscal_year, fiscal_period)
+                return (fiscal_year, fiscal_period, validation_metadata)
+                
+        except ImportError as e:
+            logging.error(f"ERROR: Fiscal registry not available: {e}")
+            # Minimal safe fallback for system errors
+            fiscal_period = "annual" if filing_type == "10-K" else "Q?"
+            return (None, fiscal_period, {"error": str(e), "status": "import_error"})
+            
+        except Exception as e:
+            logging.error(f"ERROR: Unexpected error determining fiscal period: {e}")
+            # Minimal safe fallback for system errors
+            fiscal_period = "annual" if filing_type == "10-K" else "Q?"
+            return (None, fiscal_period, {"error": str(e), "status": "unexpected_error"})
     
     def __init__(self, user_agent=None, contact_email=None, 
                  output_dir="./sec_processed", temp_dir=None,
@@ -483,11 +433,13 @@ class SECFilingPipeline:
             
             # Define output text path with fiscal period if available
             # Extract fiscal year and quarter information
-            fiscal_year = None
-            fiscal_period = None
+            # Initialize with safe defaults to prevent "referenced before assignment" errors
+            fiscal_year = filing_info.get("fiscal_year")
+            fiscal_period = filing_info.get("fiscal_period")
             period_end_date = filing_info.get("period_end_date", "")
             
-            if ticker and period_end_date:
+            # If fiscal information is not already in filing_info, derive it
+            if (not fiscal_year or not fiscal_period) and ticker and period_end_date:
                 try:
                     # Load document text for extraction
                     document_text = None
@@ -501,16 +453,28 @@ class SECFilingPipeline:
                     except Exception as e:
                         logging.warning(f"Could not read document text for extraction: {str(e)}")
                     
-                    # Use our improved fiscal period determination function with document text
-                    fiscal_year, fiscal_period = self.determine_fiscal_period_properly(
-                        ticker, period_end_date, filing_type, document_text
+                    # Use company_fiscal_registry as the single source of truth
+                    fiscal_year, fiscal_period, validation_metadata = self.determine_fiscal_period_from_registry(
+                        ticker, period_end_date, filing_type
                     )
                     
                     # Store the fiscal information in filing_info for later use
                     filing_info["fiscal_year"] = fiscal_year
                     filing_info["fiscal_period"] = fiscal_period
                     
-                    logging.info(f"Determined fiscal info: Year={fiscal_year}, Period={fiscal_period}")
+                    # Add complete validation metadata for audit and debugging
+                    filing_info["fiscal_metadata"] = validation_metadata
+                    filing_info["fiscal_source"] = "company_fiscal_registry"
+                    
+                    # Log fiscal determination results
+                    if fiscal_year and fiscal_period:
+                        logging.info(f"Successfully determined fiscal info: Year={fiscal_year}, Period={fiscal_period}")
+                    else:
+                        error_msg = validation_metadata.get("error", "Unknown error")
+                        logging.error(f"Error determining fiscal info: {error_msg}")
+                        
+                        if validation_metadata.get("fallback_used"):
+                            logging.warning(f"Using fallback: {validation_metadata.get('fallback_used')}")
                 except (ImportError, Exception) as e:
                     logging.warning(f"Could not determine fiscal period: {str(e)}")
             
@@ -526,9 +490,30 @@ class SECFilingPipeline:
                 rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_rendered.html"
                 logging.info(f"Using fiscal year in local filenames: {fiscal_year}")
             else:
-                text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
-                llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
-                rendered_path = company_dir / f"{ticker}_{filing_type}_rendered.html"
+                # IMPORTANT: If we don't have fiscal year, we need to determine it from period_end_date
+                # rather than using accession numbers in the filename
+                calculated_fiscal_year = None
+                
+                # Extract year from period_end_date
+                if period_end_date:
+                    import re
+                    year_match = re.search(r'(\d{4})', period_end_date)
+                    if year_match:
+                        calculated_fiscal_year = year_match.group(1)
+                        logging.info(f"Extracted fiscal year {calculated_fiscal_year} from period_end_date {period_end_date}")
+                
+                # If we still don't have a year, use the accession number as a last resort
+                if calculated_fiscal_year:
+                    text_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_text.txt"
+                    llm_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_llm.txt"
+                    rendered_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_rendered.html"
+                    logging.info(f"Using extracted year in local filenames: {calculated_fiscal_year}")
+                else:
+                    # Last resort fallback
+                    text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
+                    llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
+                    rendered_path = company_dir / f"{ticker}_{filing_type}_rendered.html"
+                    logging.warning(f"No year information available, using generic filenames")
             
             # Continue with normal rendering
             try:
@@ -580,6 +565,21 @@ class SECFilingPipeline:
                 }
             
             # Continue with the rest of the pipeline (stages 3+)
+            # Make sure fiscal information is properly initialized for safety
+            if 'fiscal_year' not in filing_info and 'period_end_date' in filing_info:
+                # Safely extract year from period_end_date as a fallback
+                try:
+                    filing_info['fiscal_year'] = filing_info['period_end_date'].split('-')[0]
+                    logging.info(f"Added fiscal_year={filing_info['fiscal_year']} from period_end_date")
+                except Exception as e:
+                    logging.warning(f"Could not extract fiscal year from period_end_date: {e}")
+                    filing_info['fiscal_year'] = str(datetime.datetime.now().year)
+
+            if 'fiscal_period' not in filing_info:
+                # Safe default based on filing type
+                filing_info['fiscal_period'] = "annual" if filing_type == "10-K" else "Q?"
+                logging.info(f"Added default fiscal_period={filing_info['fiscal_period']} based on filing type")
+                
             # (This is to avoid duplicating all the code)
             return self._continue_processing_after_render(
                 result, rendered_path, text_path, llm_path, 
@@ -602,6 +602,9 @@ class SECFilingPipeline:
         
         Helper method to avoid code duplication between process_filing and process_filing_with_info.
         """
+        # Import datetime at function scope to avoid reference errors
+        import datetime
+        
         try:
             # Stage 3: Extract text
             logging.info(f"Stage 3: Extracting text from document")
@@ -783,8 +786,16 @@ class SECFilingPipeline:
                 # Use the fiscal registry for all companies
                 fiscal_quarter = None
                 
+                # Initialize fiscal_year and fiscal_quarter to prevent 'referenced before assignment' errors
+                # These will only be used if the fiscal_registry determination fails
+                fiscal_year = None
+                fiscal_quarter = None
+                
                 # If we have both ticker and period_end_date, use the fiscal registry
                 if ticker and period_end_date:
+                    # Make sure datetime is available in this scope
+                    import datetime
+                    
                     # Use the fiscal registry from src2 for consistent fiscal calculations
                     try:
                         # Load document text for extraction if we have a document path
@@ -806,24 +817,54 @@ class SECFilingPipeline:
                         except Exception as e:
                             logging.warning(f"Could not read document text for GCS path extraction: {str(e)}")
                         
-                        # Use our improved fiscal period determination function with document text
-                        fiscal_year_new, fiscal_quarter_new = self.determine_fiscal_period_properly(
-                            ticker, period_end_date, filing_type, document_text
-                        )
-                        
-                        # Use new values if available
-                        if fiscal_year_new:
-                            fiscal_year = fiscal_year_new
-                        if fiscal_quarter_new:
-                            fiscal_quarter = fiscal_quarter_new
+                        # Use our centralized fiscal period determination function with the registry
+                        try:
+                            fiscal_year_new, fiscal_period_new, validation_metadata = self.determine_fiscal_period_from_registry(
+                                ticker, period_end_date, filing_type
+                            )
                             
-                            print(f"Using improved fiscal determination for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
+                            # Use new values if available
+                            if fiscal_year_new:
+                                fiscal_year = fiscal_year_new
+                            if fiscal_period_new:
+                                fiscal_quarter = fiscal_period_new
+                                
+                                print(f"Using fiscal registry determination for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
+                        except Exception as e:
+                            print(f"Could not use fiscal registry: {str(e)}")
+                            # Set defaults if determination fails
+                            if fiscal_year is None:
+                                if filing_type == "10-K":
+                                    fiscal_year = period_end_date.split('-')[0] if period_end_date else str(datetime.datetime.now().year)
+                                    fiscal_quarter = "annual"
+                                    print(f"Using default values for 10-K: Year={fiscal_year}, Period={fiscal_quarter}")
+                                else:
+                                    # Safe default values to prevent "referenced before assignment" errors
+                                    fiscal_year = period_end_date.split('-')[0] if period_end_date else str(datetime.datetime.now().year)
+                                    fiscal_quarter = "Q?"
+                                    print(f"Using default values for 10-Q: Year={fiscal_year}, Period={fiscal_quarter}")
                     except (ImportError, Exception) as e:
                         logging.warning(f"Could not use fiscal registry: {str(e)}")
                 
                 # Construct GCS paths using the proper folder structure
                 # Try to use fiscal_period if it was determined
                 fiscal_period = fiscal_quarter  # For consistency with other code
+                
+                # IMPORTANT: If fiscal_year isn't available, we need to extract it from the period_end_date
+                # This ensures we always use actual fiscal years in GCS paths, not accession numbers
+                if not fiscal_year and period_end_date:
+                    # Extract year from period_end_date as a fallback
+                    import re
+                    year_match = re.search(r'(\d{4})', period_end_date)
+                    if year_match:
+                        fiscal_year = year_match.group(1)
+                        logging.info(f"Extracted fiscal year {fiscal_year} from period_end_date for GCS path")
+                
+                # If we still don't have a fiscal year, use current year as last resort
+                if not fiscal_year:
+                    import datetime
+                    fiscal_year = str(datetime.datetime.now().year)
+                    logging.warning(f"No fiscal year determined, using current year {fiscal_year} for GCS path")
                 
                 if filing_type == "10-K" or fiscal_period == "annual":
                     gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
@@ -1153,8 +1194,30 @@ class SECFilingPipeline:
                 llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
                 logging.info(f"Using fiscal year in local filenames: {fiscal_year}")
             else:
-                text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
-                llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
+                # IMPORTANT: If we don't have fiscal year, we need to determine it from period_end_date
+                # rather than using accession numbers in the filename
+                calculated_fiscal_year = None
+                
+                # Extract year from period_end_date
+                if period_end_date:
+                    import re
+                    year_match = re.search(r'(\d{4})', period_end_date)
+                    if year_match:
+                        calculated_fiscal_year = year_match.group(1)
+                        logging.info(f"Extracted fiscal year {calculated_fiscal_year} from period_end_date {period_end_date}")
+                
+                # If we still don't have a year, use the current year
+                if calculated_fiscal_year:
+                    text_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_text.txt"
+                    llm_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_llm.txt"
+                    logging.info(f"Using extracted year in local filenames: {calculated_fiscal_year}")
+                else:
+                    # Last resort fallback to current year
+                    import datetime
+                    current_year = str(datetime.datetime.now().year)
+                    text_path = company_dir / f"{ticker}_{filing_type}_{current_year}_text.txt"
+                    llm_path = company_dir / f"{ticker}_{filing_type}_{current_year}_llm.txt"
+                    logging.warning(f"No year information available, using current year {current_year} in filenames")
             
             # Create metadata for the extraction
             metadata = {
@@ -1416,12 +1479,18 @@ class SECFilingPipeline:
                 
                 # If we have both ticker and period_end_date, use the fiscal registry
                 if ticker and period_end_date:
-                    # Use the fiscal registry from src2 for consistent fiscal calculations
+                    # Use the company_fiscal registry as the single source of truth
                     try:
-                        # Use our improved fiscal period determination function
-                        fiscal_year_new, fiscal_quarter_new = self.determine_fiscal_period_properly(
+                        # Import explicit fiscal registry (single source of truth)
+                        from src2.sec.fiscal.company_fiscal import fiscal_registry
+                        
+                        # Use only the dedicated fiscal registry
+                        fiscal_info = fiscal_registry.determine_fiscal_period(
                             ticker, period_end_date, filing_type
                         )
+                        
+                        fiscal_year_new = fiscal_info.get("fiscal_year")
+                        fiscal_quarter_new = fiscal_info.get("fiscal_period")
                         
                         # Use new values if available
                         if fiscal_year_new:
@@ -1429,9 +1498,16 @@ class SECFilingPipeline:
                         if fiscal_quarter_new:
                             fiscal_quarter = fiscal_quarter_new
                             
-                            print(f"Using improved fiscal determination for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
-                    except (ImportError, Exception) as e:
-                        logging.warning(f"Could not use fiscal registry: {str(e)}")
+                            print(f"USING SINGLE SOURCE OF TRUTH for {ticker}: period_end_date={period_end_date}, filing_type={filing_type} -> Year={fiscal_year}, Period={fiscal_quarter}")
+                            
+                        # If the fiscal registry didn't provide information, log a warning
+                        if not fiscal_year_new or not fiscal_quarter_new:
+                            error_msg = fiscal_info.get("error", "Unknown error")
+                            logging.error(f"CRITICAL: Fiscal registry couldn't determine period for {ticker}, {period_end_date}: {error_msg}")
+                    except ImportError:
+                        logging.error("CRITICAL ERROR: Fiscal registry not available! This is required as the single source of truth.")
+                    except Exception as e:
+                        logging.error(f"CRITICAL ERROR determining fiscal period: {str(e)}")
                 
                 # IMPORTANT: We skip the fallback to standard fiscal quarters
                 # to diagnose document extraction issues. Instead, we'll try to
@@ -1457,15 +1533,15 @@ class SECFilingPipeline:
                 
                 # Use our centralized fiscal period determination function
                 try:
-                    fiscal_year, fiscal_period = self.determine_fiscal_period_properly(
-                        ticker, period_end_date, filing_type, document_text
+                    fiscal_year, fiscal_period, validation_metadata = self.determine_fiscal_period_from_registry(
+                        ticker, period_end_date, filing_type
                     )
                     
                     # Update the fiscal_quarter variable for backward compatibility
                     # This ensures existing code still works with the new variable name
                     fiscal_quarter = fiscal_period
                     
-                    print(f"Determined fiscal info: Year={fiscal_year}, Period={fiscal_period}")
+                    print(f"Determined fiscal info from registry: Year={fiscal_year}, Period={fiscal_period}")
                 except Exception as e:
                     print(f"Error determining fiscal period: {str(e)}")
                     
@@ -1484,6 +1560,21 @@ class SECFilingPipeline:
                 # Additional logging to help debug fiscal period extraction
                 print(f"FINAL VALUES for GCS paths: ticker={ticker}, filing_type={filing_type}, year={fiscal_year}, period={fiscal_quarter}")
                     
+                # IMPORTANT: Ensure fiscal_year is always a valid year, not an accession number
+                # If fiscal_year isn't available, extract it from period_end_date
+                if not fiscal_year and period_end_date:
+                    import re
+                    year_match = re.search(r'(\d{4})', period_end_date)
+                    if year_match:
+                        fiscal_year = year_match.group(1)
+                        logging.info(f"Extracted fiscal year {fiscal_year} from period_end_date for GCS path")
+                
+                # If we still don't have a fiscal year, use current year as last resort
+                if not fiscal_year:
+                    import datetime
+                    fiscal_year = str(datetime.datetime.now().year)
+                    logging.warning(f"No fiscal year determined, using current year {fiscal_year} for GCS path")
+                
                 # Construct GCS paths using the proper folder structure
                 # Prefer using fiscal_period (which is more consistent) but fall back to fiscal_quarter for compatibility
                 if filing_type == "10-K" or (fiscal_period == "annual" or fiscal_quarter == "annual"):
@@ -1624,12 +1715,28 @@ class SECFilingPipeline:
                         # Run data integrity validation
                         from data_integrity_validator import validate_filing_integrity
                         
-                        # Run the validation
+                        # Ensure fiscal variables are initialized with safe defaults if missing
+                        safe_fiscal_year = fiscal_year
+                        if safe_fiscal_year is None:
+                            # Extract from period_end_date or use current year
+                            if period_end_date and '-' in period_end_date:
+                                safe_fiscal_year = period_end_date.split('-')[0]
+                            else:
+                                safe_fiscal_year = str(datetime.datetime.now().year)
+                            logging.warning(f"Using extracted/default fiscal year {safe_fiscal_year} for validation")
+                            
+                        safe_fiscal_period = fiscal_period
+                        if safe_fiscal_period is None:
+                            # Use filing type to determine a default
+                            safe_fiscal_period = "annual" if filing_type == "10-K" else "Q?"
+                            logging.warning(f"Using default fiscal period {safe_fiscal_period} for validation")
+                        
+                        # Run the validation with safe values
                         data_integrity_result = validate_filing_integrity(
                             ticker, 
                             filing_type, 
-                            fiscal_year, 
-                            fiscal_period  # This is the variable causing the error
+                            safe_fiscal_year, 
+                            safe_fiscal_period
                         )
                         
                     except ImportError:

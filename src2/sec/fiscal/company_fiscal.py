@@ -1,373 +1,457 @@
-# src2/sec/fiscal/company_fiscal.py
+#!/usr/bin/env python3
+"""
+Explicit Fiscal Calendar Registry
+
+This module uses explicit period end date mappings for maximum reliability.
+Each company has a complete set of period end dates mapped to specific fiscal periods.
+"""
+
 import os
 import json
-import datetime
 import logging
-from collections import Counter
+import datetime
+from pathlib import Path
 
 class CompanyFiscalCalendar:
     """
-    Maintains and learns a company's fiscal calendar patterns based on SEC filings.
-    Used to correctly map period end dates to fiscal quarters and years.
+    Company fiscal calendar using explicit period end date mappings
     """
     
-    # Known fiscal patterns for popular companies
-    # IMPORTANT: The fiscal period is based on when a quarter ENDS, not when it begins
-    # For example, a filing with period_end_date of April 1 is reporting on Q2 (Jan-Mar)
-    KNOWN_FISCAL_PATTERNS = {
-        # Apple: Fiscal year ends in September
-        # Q1: Oct-Dec (ends Dec)
-        # Q2: Jan-Mar (ends Mar)
-        # Q3: Apr-Jun (ends Jun)
-        # Q4: Jul-Sep (ends Sep)
-        "AAPL": {"month": 9, "day": 30, "confidence": 1.0},
-        # Microsoft: Fiscal year ends in June
-        "MSFT": {"month": 6, "day": 30, "confidence": 1.0},
-        # NVIDIA: Fiscal year ends in January
-        # Q1: Feb-Apr (ends Apr)
-        # Q2: May-Jul (ends Jul)
-        # Q3: Aug-Oct (ends Oct)
-        # Annual: Nov-Jan (ends Jan)
-        "NVDA": {"month": 1, "day": 26, "confidence": 1.0},
-        # Google: Calendar year (Dec)
-        "GOOGL": {"month": 12, "day": 31, "confidence": 1.0},
-        # Amazon: Calendar year (Dec)
-        "AMZN": {"month": 12, "day": 31, "confidence": 1.0}
-    }
-    
-    def __init__(self, ticker):
-        self.ticker = ticker
-        
-        # Use known pattern if available
-        if ticker in self.KNOWN_FISCAL_PATTERNS:
-            known = self.KNOWN_FISCAL_PATTERNS[ticker]
-            self.fiscal_year_end_month = known["month"]
-            self.fiscal_year_end_day = known["day"]
-            self.confidence_score = known["confidence"]
-            logging.info(f"Using known fiscal pattern for {ticker}: FY end {self.fiscal_year_end_month}-{self.fiscal_year_end_day}")
-        else:
-            self.fiscal_year_end_month = None
-            self.fiscal_year_end_day = None
-            self.confidence_score = 0
-            
-        self.historical_filings = {}
-        self.last_updated = datetime.datetime.now().isoformat()
-    
-    def analyze_10k_filings(self, filings):
+    def __init__(self, ticker, fiscal_data):
         """
-        Analyze 10-K filings to determine the company's fiscal year end pattern
+        Initialize with complete fiscal mapping data
         
         Args:
-            filings: List of filing metadata containing period_end_date for 10-K filings
+            ticker (str): Company ticker symbol
+            fiscal_data (dict): Complete fiscal data including period_end_dates mapping
         """
-        if not filings:
-            return
-            
-        # Extract all period end dates
-        end_dates = []
-        for filing in filings:
-            period_end = filing.get('period_end_date')
-            if period_end:
-                try:
-                    end_date = datetime.datetime.strptime(period_end, '%Y-%m-%d')
-                    end_dates.append(end_date)
-                    self.historical_filings[period_end] = filing.get('filing_type')
-                except (ValueError, TypeError):
-                    logging.warning(f"Invalid period end date format: {period_end}")
+        self.ticker = ticker.upper()
+        self.period_end_dates = fiscal_data.get("period_end_dates", {})
         
-        if not end_dates:
-            return
-            
-        # Count frequency of end months to determine fiscal year end
-        month_counter = Counter([date.month for date in end_dates])
-        most_common_month = month_counter.most_common(1)[0][0]
-        
-        # Count frequency of end days
-        day_counter = Counter([date.day for date in end_dates])
-        most_common_day = day_counter.most_common(1)[0][0]
-        
-        self.fiscal_year_end_month = most_common_month
-        self.fiscal_year_end_day = most_common_day
-        self.confidence_score = month_counter[most_common_month] / len(end_dates)
-        self.last_updated = datetime.datetime.now().isoformat()
-        
-        logging.info(f"Fiscal calendar for {self.ticker}: Year ends on month {self.fiscal_year_end_month}, day {self.fiscal_year_end_day}")
-    
-    def determine_fiscal_period(self, period_end_date_str, filing_type="10-Q"):
-        """
-        Determine the fiscal quarter and year for a given period end date
-        
-        Args:
-            period_end_date_str: Period end date as string (YYYY-MM-DD)
-            filing_type: Type of filing (10-Q or 10-K)
-            
-        Returns:
-            Dict with fiscal_year and fiscal_period
-        """
-        if not self.fiscal_year_end_month:
-            # If we don't know the fiscal year end, use calendar quarters as fallback
-            return self._fallback_fiscal_period(period_end_date_str)
-        
-        try:
-            period_end = datetime.datetime.strptime(period_end_date_str, '%Y-%m-%d')
-        except (ValueError, TypeError):
-            logging.warning(f"Invalid period end date: {period_end_date_str}")
-            return {"fiscal_year": None, "fiscal_period": None}
-        
-        # Special handling for Apple
-        if self.ticker == "AAPL":
-            # Apple's fiscal year ends in September
-            # Q1: Oct-Dec, Q2: Jan-Mar, Q3: Apr-Jun, Q4: Jul-Sep
-            month = period_end.month
-            
-            if month in [10, 11, 12]:  # Oct-Dec = Q1 of next calendar year
-                fiscal_year = str(period_end.year + 1)
-                fiscal_period = "Q1" if filing_type != "10-K" else "annual"
-            elif month in [1, 2, 3]:  # Jan-Mar = Q2
-                fiscal_year = str(period_end.year)
-                fiscal_period = "Q2" if filing_type != "10-K" else "annual"
-            elif month in [4, 5, 6]:  # Apr-Jun = Q3
-                fiscal_year = str(period_end.year)
-                fiscal_period = "Q3" if filing_type != "10-K" else "annual"
-            else:  # Jul-Sep
-                fiscal_year = str(period_end.year)
-                if filing_type == "10-K":
-                    fiscal_period = "annual"
-                else:
-                    # Apple has no Q4 10-Q filings, as they're covered by 10-K
-                    # If we find a 10-Q in this period, it must be Q3
-                    fiscal_period = "Q3"
-            
-            return {
-                "fiscal_year": fiscal_year,
-                "fiscal_period": fiscal_period
-            }
-        
-        # Special handling for Microsoft
-        if self.ticker == "MSFT":
-            # Microsoft's fiscal year ends in June
-            # Fiscal year 20XX runs from July 1, 20XX-1 to June 30, 20XX
-            # Q1: Jul-Sep, Q2: Oct-Dec, Q3: Jan-Mar, annual (never Q4): Apr-Jun
-            month = period_end.month
-            
-            # For Microsoft, determine the fiscal year based on the month
-            # If the date is between Jul-Dec, it's in the next fiscal year
-            # If the date is between Jan-Jun, it's in the current fiscal year
-            if month >= 7:  # Jul-Dec
-                base_fiscal_year = period_end.year + 1
-            else:  # Jan-Jun
-                base_fiscal_year = period_end.year
-                
-            # Determine quarter
-            if month in [7, 8, 9]:  # Jul-Sep = Q1
-                fiscal_period = "Q1" if filing_type != "10-K" else "annual"
-            elif month in [10, 11, 12]:  # Oct-Dec = Q2
-                fiscal_period = "Q2" if filing_type != "10-K" else "annual"
-            elif month in [1, 2, 3]:  # Jan-Mar = Q3
-                fiscal_period = "Q3" if filing_type != "10-K" else "annual"
-            else:  # Apr-Jun = ALWAYS annual for both 10-K and 10-Q
-                fiscal_period = "annual"
-                
-            # For annual reports (10-K), if it's at fiscal year end (June 30),
-            # it should represent the fiscal year that's ending
-            if filing_type == "10-K" and month == 6 and period_end.day == 30:
-                fiscal_year = str(period_end.year)
-            else:
-                fiscal_year = str(base_fiscal_year)
-            
-            return {
-                "fiscal_year": fiscal_year,
-                "fiscal_period": fiscal_period
-            }
-            
-        # Special handling for NVIDIA
-        if self.ticker == "NVDA":
-            # NVIDIA's fiscal year ends in January
-            # Q1: Feb-Apr (ends Apr)
-            # Q2: May-Jul (ends Jul)
-            # Q3: Aug-Oct (ends Oct)
-            # Annual: Nov-Jan (ends Jan)
-            month = period_end.month
-            
-            # Determine fiscal year based on month
-            if month == 1:  # January (fiscal year end month)
-                if period_end.day >= self.fiscal_year_end_day:
-                    # After fiscal year end day in January
-                    fiscal_year = str(period_end.year)
-                else:
-                    # Before fiscal year end day in January
-                    fiscal_year = str(period_end.year)
-            elif 2 <= month <= 12:  # Feb-Dec
-                # For NVIDIA, Feb-Dec dates are part of the NEXT fiscal year
-                fiscal_year = str(period_end.year + 1)
-            
-            # Determine fiscal period based on month
-            if filing_type == "10-K":
-                fiscal_period = "annual"
-            elif month in [2, 3, 4]:  # Feb-Apr = Q1
-                fiscal_period = "Q1"
-            elif month in [5, 6, 7]:  # May-Jul = Q2
-                fiscal_period = "Q2"
-            elif month in [8, 9, 10]:  # Aug-Oct = Q3
-                fiscal_period = "Q3"
-            else:  # Nov-Jan = Annual period, covered by 10-K
-                fiscal_period = "annual"
-            
-            return {
-                "fiscal_year": fiscal_year,
-                "fiscal_period": fiscal_period
-            }
-            
-        # Standard handling for other companies
-        # Calculate months from fiscal year end
-        month_diff = (period_end.month - self.fiscal_year_end_month) % 12
-        
-        # Determine fiscal year
-        # If the date is after fiscal year end month, it's in the next fiscal year
-        if month_diff == 0:
-            # Same month as fiscal year end
-            if period_end.day >= self.fiscal_year_end_day:
-                fiscal_year = period_end.year
-                fiscal_period = "Q4" if filing_type != "10-K" else "annual"
-            else:
-                fiscal_year = period_end.year
-                fiscal_period = self._get_quarter_by_month_diff((month_diff - 1) % 12)
-                if filing_type == "10-K":
-                    fiscal_period = "annual"
-        elif month_diff > 0:
-            # Month is after fiscal year end month in the same calendar year
-            fiscal_year = period_end.year
-            fiscal_period = self._get_quarter_by_month_diff(month_diff)
-            if filing_type == "10-K":
-                fiscal_period = "annual"
-        else:
-            # Month is before fiscal year end month in the next calendar year
-            fiscal_year = period_end.year - 1
-            fiscal_period = self._get_quarter_by_month_diff(month_diff)
-            if filing_type == "10-K":
-                fiscal_period = "annual"
-        
-        return {
-            "fiscal_year": str(fiscal_year),
-            "fiscal_period": fiscal_period
-        }
-    
-    def _get_quarter_by_month_diff(self, month_diff):
-        """Map months from fiscal year end to quarters"""
-        if 0 <= month_diff < 3:
-            return "Q1"
-        elif 3 <= month_diff < 6:
-            return "Q2"
-        elif 6 <= month_diff < 9:
-            return "Q3"
-        else:
-            return "Q4"
-    
-    def _fallback_fiscal_period(self, period_end_date_str):
-        """Fallback to calendar quarters if fiscal year end is unknown"""
-        try:
-            period_end = datetime.datetime.strptime(period_end_date_str, '%Y-%m-%d')
-            month = period_end.month
-            
-            # Use calendar quarters
-            if 1 <= month <= 3:
-                quarter = "Q1"
-            elif 4 <= month <= 6:
-                quarter = "Q2"
-            elif 7 <= month <= 9:
-                quarter = "Q3"
-            else:
-                quarter = "Q4"
-                
-            return {
-                "fiscal_year": str(period_end.year),
-                "fiscal_period": quarter
-            }
-        except (ValueError, TypeError):
-            logging.warning(f"Invalid period end date in fallback: {period_end_date_str}")
-            return {"fiscal_year": None, "fiscal_period": None}
-    
     def to_dict(self):
         """Convert to dictionary for storage"""
         return {
             "ticker": self.ticker,
-            "fiscal_year_end_month": self.fiscal_year_end_month,
-            "fiscal_year_end_day": self.fiscal_year_end_day,
-            "confidence_score": self.confidence_score,
-            "historical_filings": self.historical_filings,
-            "last_updated": self.last_updated
+            "period_end_dates": self.period_end_dates
         }
-    
+        
     @classmethod
     def from_dict(cls, data):
         """Create from dictionary"""
-        calendar = cls(data["ticker"])
-        calendar.fiscal_year_end_month = data.get("fiscal_year_end_month")
-        calendar.fiscal_year_end_day = data.get("fiscal_year_end_day")
-        calendar.confidence_score = data.get("confidence_score", 0)
-        calendar.historical_filings = data.get("historical_filings", {})
-        calendar.last_updated = data.get("last_updated")
-        return calendar
+        return cls(
+            ticker=data["ticker"],
+            fiscal_data={"period_end_dates": data.get("period_end_dates", {})}
+        )
+        
+    def determine_fiscal_period(self, period_end_date, filing_type=None):
+        """
+        Determine fiscal year and period based on exact period end date
+        
+        Args:
+            period_end_date (str): Period end date in YYYY-MM-DD format
+            filing_type (str, optional): Type of filing (not used in explicit mapping)
+            
+        Returns:
+            dict: Fiscal information with fiscal_year and fiscal_period
+        """
+        from .fiscal_data import validate_period_end_date, FiscalDataError
+        
+        if not period_end_date:
+            return {"fiscal_year": None, "fiscal_period": None, "error": "Period end date is empty"}
+        
+        # Validate and normalize the period end date first
+        try:
+            validated_date = validate_period_end_date(period_end_date)
+        except FiscalDataError as e:
+            return {"fiscal_year": None, "fiscal_period": None, "error": str(e)}
+        
+        # Now that we have a validated date, look it up in our mappings
+        period_data = self.period_end_dates.get(validated_date)
+        
+        if period_data:
+            return {
+                "fiscal_year": period_data.get("fiscal_year"),
+                "fiscal_period": period_data.get("fiscal_period"),
+                "validated_date": validated_date,
+                "validated": True
+            }
+        else:
+            error_msg = f"No mapping found for period end date: {validated_date}"
+            logging.error(error_msg)
+            return {
+                "fiscal_year": None,
+                "fiscal_period": None,
+                "error": error_msg,
+                "validated_date": validated_date,
+                "validated": True
+            }
 
 
 class FiscalCalendarRegistry:
     """
-    Registry to store and retrieve company fiscal calendars
+    Registry for company fiscal calendars using explicit period end date mappings
     """
     
-    def __init__(self, storage_path="data/fiscal_calendars.json"):
-        self.storage_path = storage_path
-        self.calendars = {}
-        self._load_registry()
+    # Pre-defined company fiscal calendars with explicit mappings
+    COMPANY_CALENDARS = {
+        # NVIDIA (NVDA) - Full fiscal years 2021-2025
+        "NVDA": {
+            "period_end_dates": {
+                # Fiscal Year 2021 (Feb 2020 - Jan 2021)
+                "2020-04-26": {"fiscal_year": "2021", "fiscal_period": "Q1"},
+                "2020-07-26": {"fiscal_year": "2021", "fiscal_period": "Q2"},
+                "2020-10-25": {"fiscal_year": "2021", "fiscal_period": "Q3"},
+                "2021-01-31": {"fiscal_year": "2021", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2022 (Feb 2021 - Jan 2022)
+                "2021-04-25": {"fiscal_year": "2022", "fiscal_period": "Q1"},
+                "2021-05-02": {"fiscal_year": "2022", "fiscal_period": "Q1"}, # Alternative date format
+                "2021-07-25": {"fiscal_year": "2022", "fiscal_period": "Q2"},
+                "2021-08-01": {"fiscal_year": "2022", "fiscal_period": "Q2"}, # Alternative date format
+                "2021-10-31": {"fiscal_year": "2022", "fiscal_period": "Q3"},
+                "2022-01-30": {"fiscal_year": "2022", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2023 (Feb 2022 - Jan 2023)
+                "2022-05-01": {"fiscal_year": "2023", "fiscal_period": "Q1"},
+                "2022-07-31": {"fiscal_year": "2023", "fiscal_period": "Q2"},
+                "2022-10-30": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-01-29": {"fiscal_year": "2023", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2024 (Feb 2023 - Jan 2024)
+                "2023-04-30": {"fiscal_year": "2024", "fiscal_period": "Q1"},
+                "2023-07-30": {"fiscal_year": "2024", "fiscal_period": "Q2"},
+                "2023-10-29": {"fiscal_year": "2024", "fiscal_period": "Q3"},
+                "2024-01-28": {"fiscal_year": "2024", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2025 (Feb 2024 - Jan 2025)
+                "2024-04-28": {"fiscal_year": "2025", "fiscal_period": "Q1"},
+                "2024-07-28": {"fiscal_year": "2025", "fiscal_period": "Q2"},
+                "2024-10-27": {"fiscal_year": "2025", "fiscal_period": "Q3"},
+                "2025-01-26": {"fiscal_year": "2025", "fiscal_period": "annual"}
+            }
+        },
+        
+        # Microsoft (MSFT) - Full fiscal years 2022-2025
+        "MSFT": {
+            "period_end_dates": {
+                # Fiscal Year 2022 (Jul 2021 - Jun 2022)
+                "2021-09-30": {"fiscal_year": "2022", "fiscal_period": "Q1"},
+                "2021-12-31": {"fiscal_year": "2022", "fiscal_period": "Q2"},
+                "2022-03-31": {"fiscal_year": "2022", "fiscal_period": "Q3"},
+                "2022-06-30": {"fiscal_year": "2022", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2023 (Jul 2022 - Jun 2023)
+                "2022-09-30": {"fiscal_year": "2023", "fiscal_period": "Q1"},
+                "2022-12-31": {"fiscal_year": "2023", "fiscal_period": "Q2"},
+                "2023-03-31": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-06-30": {"fiscal_year": "2023", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2024 (Jul 2023 - Jun 2024)
+                "2023-09-30": {"fiscal_year": "2024", "fiscal_period": "Q1"},
+                "2023-12-31": {"fiscal_year": "2024", "fiscal_period": "Q2"},
+                "2024-03-31": {"fiscal_year": "2024", "fiscal_period": "Q3"},
+                "2024-06-30": {"fiscal_year": "2024", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2025 (Jul 2024 - Jun 2025)
+                "2024-09-30": {"fiscal_year": "2025", "fiscal_period": "Q1"},
+                "2024-12-31": {"fiscal_year": "2025", "fiscal_period": "Q2"},
+                "2025-03-31": {"fiscal_year": "2025", "fiscal_period": "Q3"},
+                "2025-06-30": {"fiscal_year": "2025", "fiscal_period": "annual"}
+            }
+        },
+        
+        # Apple (AAPL) - Full fiscal years 2022-2025
+        "AAPL": {
+            "period_end_dates": {
+                # Fiscal Year 2022 (Oct 2021 - Sep 2022)
+                "2021-12-25": {"fiscal_year": "2022", "fiscal_period": "Q1"},
+                "2022-03-26": {"fiscal_year": "2022", "fiscal_period": "Q2"},
+                "2022-06-25": {"fiscal_year": "2022", "fiscal_period": "Q3"},
+                "2022-09-24": {"fiscal_year": "2022", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2023 (Oct 2022 - Sep 2023)
+                "2022-12-31": {"fiscal_year": "2023", "fiscal_period": "Q1"},
+                "2023-04-01": {"fiscal_year": "2023", "fiscal_period": "Q2"},
+                "2023-07-01": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-09-30": {"fiscal_year": "2023", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2024 (Oct 2023 - Sep 2024)
+                "2023-12-30": {"fiscal_year": "2024", "fiscal_period": "Q1"},
+                "2024-03-30": {"fiscal_year": "2024", "fiscal_period": "Q2"},
+                "2024-06-29": {"fiscal_year": "2024", "fiscal_period": "Q3"},
+                "2024-09-28": {"fiscal_year": "2024", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2025 (Oct 2024 - Sep 2025)
+                "2024-12-28": {"fiscal_year": "2025", "fiscal_period": "Q1"},
+                "2025-03-29": {"fiscal_year": "2025", "fiscal_period": "Q2"},
+                "2025-06-28": {"fiscal_year": "2025", "fiscal_period": "Q3"},
+                "2025-09-27": {"fiscal_year": "2025", "fiscal_period": "annual"}
+            }
+        },
+        
+        # Google/Alphabet (GOOGL) - Full fiscal years 2022-2025 (Calendar year)
+        "GOOGL": {
+            "period_end_dates": {
+                # Fiscal Year 2022 (Jan 2022 - Dec 2022)
+                "2022-03-31": {"fiscal_year": "2022", "fiscal_period": "Q1"},
+                "2022-06-30": {"fiscal_year": "2022", "fiscal_period": "Q2"},
+                "2022-09-30": {"fiscal_year": "2022", "fiscal_period": "Q3"},
+                "2022-12-31": {"fiscal_year": "2022", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2023 (Jan 2023 - Dec 2023)
+                "2023-03-31": {"fiscal_year": "2023", "fiscal_period": "Q1"},
+                "2023-06-30": {"fiscal_year": "2023", "fiscal_period": "Q2"},
+                "2023-09-30": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-12-31": {"fiscal_year": "2023", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2024 (Jan 2024 - Dec 2024)
+                "2024-03-31": {"fiscal_year": "2024", "fiscal_period": "Q1"},
+                "2024-06-30": {"fiscal_year": "2024", "fiscal_period": "Q2"},
+                "2024-09-30": {"fiscal_year": "2024", "fiscal_period": "Q3"},
+                "2024-12-31": {"fiscal_year": "2024", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2025 (Jan 2025 - Dec 2025)
+                "2025-03-31": {"fiscal_year": "2025", "fiscal_period": "Q1"},
+                "2025-06-30": {"fiscal_year": "2025", "fiscal_period": "Q2"},
+                "2025-09-30": {"fiscal_year": "2025", "fiscal_period": "Q3"},
+                "2025-12-31": {"fiscal_year": "2025", "fiscal_period": "annual"}
+            }
+        }
+    }
     
+    def __init__(self, registry_path=None):
+        """
+        Initialize the registry
+        
+        Args:
+            registry_path (str, optional): Path to registry JSON file
+        """
+        self.registry = {}
+        
+        # Set default registry path if not provided
+        if not registry_path:
+            module_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+            self.registry_path = module_dir / "fiscal_calendars.json"
+        else:
+            self.registry_path = Path(registry_path)
+            
+        # Load the registry
+        self._load_registry()
+        
     def _load_registry(self):
-        """Load registry from storage"""
-        if os.path.exists(self.storage_path):
+        """Load registry from pre-defined calendars and JSON file"""
+        # First load pre-defined calendars
+        for ticker, calendar_data in self.COMPANY_CALENDARS.items():
+            self.registry[ticker] = CompanyFiscalCalendar(
+                ticker=ticker,
+                fiscal_data=calendar_data
+            )
+            
+        # Then load from JSON file if it exists
+        if os.path.exists(self.registry_path):
             try:
-                with open(self.storage_path, 'r') as f:
-                    data = json.load(f)
+                with open(self.registry_path, 'r') as f:
+                    registry_data = json.load(f)
                     
-                for ticker, calendar_data in data.items():
-                    self.calendars[ticker] = CompanyFiscalCalendar.from_dict(calendar_data)
-                    
-                logging.info(f"Loaded fiscal calendars for {len(self.calendars)} companies")
+                for ticker, data in registry_data.items():
+                    # Only add if not already in registry
+                    if ticker not in self.registry:
+                        self.registry[ticker] = CompanyFiscalCalendar.from_dict(data)
+                        
+                logging.info(f"Loaded fiscal calendars for {len(self.registry)} companies")
             except Exception as e:
                 logging.error(f"Error loading fiscal registry: {str(e)}")
-                self.calendars = {}
-        else:
-            os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
-            self.calendars = {}
-    
-    def save_registry(self):
-        """Save registry to storage"""
-        try:
-            data = {ticker: calendar.to_dict() for ticker, calendar in self.calendars.items()}
-            
-            with open(self.storage_path, 'w') as f:
-                json.dump(data, f, indent=2)
                 
-            logging.info(f"Saved fiscal calendars for {len(self.calendars)} companies")
+    def save_registry(self):
+        """Save registry to JSON file"""
+        try:
+            # Create directory if it doesn't exist
+            os.makedirs(os.path.dirname(self.registry_path), exist_ok=True)
+            
+            # Convert all calendars to dictionaries 
+            registry_data = {
+                ticker: calendar.to_dict()
+                for ticker, calendar in self.registry.items()
+            }
+            
+            # Save to file
+            with open(self.registry_path, 'w') as f:
+                json.dump(registry_data, f, indent=2)
+                
+            logging.info(f"Saved fiscal registry with {len(self.registry)} companies")
+            return True
         except Exception as e:
             logging.error(f"Error saving fiscal registry: {str(e)}")
-    
+            return False
+            
     def get_calendar(self, ticker):
-        """Get a company's fiscal calendar"""
-        if ticker not in self.calendars:
-            self.calendars[ticker] = CompanyFiscalCalendar(ticker)
-        return self.calendars[ticker]
+        """
+        Get fiscal calendar for a company
+        
+        Args:
+            ticker (str): Company ticker symbol
+            
+        Returns:
+            CompanyFiscalCalendar or None: The company's fiscal calendar
+        """
+        ticker = ticker.upper()
+        return self.registry.get(ticker)
     
-    def update_calendar(self, ticker, filings):
-        """Update a company's fiscal calendar with new filings"""
+    def add_period_end_date(self, ticker, period_end_date, fiscal_year, fiscal_period):
+        """
+        Add a new period end date mapping for a company
+        
+        Args:
+            ticker (str): Company ticker symbol
+            period_end_date (str): Period end date in YYYY-MM-DD format
+            fiscal_year (str): Fiscal year (e.g., "2023")
+            fiscal_period (str): Fiscal period (e.g., "Q1", "Q2", "Q3", "annual")
+            
+        Returns:
+            bool: True if successful
+        """
+        ticker = ticker.upper()
+        
+        # Get the company's calendar
         calendar = self.get_calendar(ticker)
-        calendar.analyze_10k_filings(filings)
+        
+        # If company doesn't exist, create it
+        if not calendar:
+            calendar = CompanyFiscalCalendar(
+                ticker=ticker,
+                fiscal_data={"period_end_dates": {}}
+            )
+            self.registry[ticker] = calendar
+        
+        # Add the period end date mapping
+        calendar.period_end_dates[period_end_date] = {
+            "fiscal_year": fiscal_year,
+            "fiscal_period": fiscal_period
+        }
+        
+        # Save the registry
+        return self.save_registry()
+            
+    def add_calendar(self, ticker, period_end_dates):
+        """
+        Add a new company fiscal calendar
+        
+        Args:
+            ticker (str): Company ticker symbol
+            period_end_dates (dict): Mapping from period end dates to fiscal info
+            
+        Returns:
+            CompanyFiscalCalendar: The added calendar
+        """
+        ticker = ticker.upper()
+        
+        calendar = CompanyFiscalCalendar(
+            ticker=ticker,
+            fiscal_data={"period_end_dates": period_end_dates}
+        )
+        
+        self.registry[ticker] = calendar
         self.save_registry()
         return calendar
-    
-    def determine_fiscal_period(self, ticker, period_end_date, filing_type="10-Q"):
-        """Determine fiscal period for a company and date"""
+        
+    def determine_fiscal_period(self, ticker, period_end_date, filing_type=None):
+        """
+        Determine fiscal year and period for a company and specific period end date
+        
+        This is the SINGLE SOURCE OF TRUTH for fiscal period determination in the system.
+        All components should use this method to ensure consistency.
+        
+        Args:
+            ticker (str): Company ticker symbol
+            period_end_date (str): Period end date in any format
+            filing_type (str, optional): Type of filing
+            
+        Returns:
+            dict: Fiscal information with comprehensive metadata
+        """
+        from .fiscal_data import FiscalPeriodInfo, FiscalDataError, validate_period_end_date
+        
+        ticker = ticker.upper()
+        
+        # Create a complete audit trail in the result
+        result = {
+            "fiscal_year": None,
+            "fiscal_period": None,
+            "ticker": ticker,
+            "raw_period_end_date": period_end_date,
+            "filing_type": filing_type,
+            "determination_timestamp": datetime.datetime.now().isoformat(),
+        }
+        
+        # Step 1: Validate the period_end_date first to ensure clean data
+        try:
+            normalized_date = validate_period_end_date(period_end_date)
+            result["validated_date"] = normalized_date
+            result["date_validated"] = True
+        except FiscalDataError as e:
+            error_msg = f"Invalid period_end_date: {e}"
+            logging.error(error_msg)
+            result["error"] = error_msg
+            result["date_validated"] = False
+            return result
+        
+        # Step 2: Get the company's fiscal calendar
         calendar = self.get_calendar(ticker)
-        return calendar.determine_fiscal_period(period_end_date, filing_type)
-
+        
+        if not calendar:
+            error_msg = f"No fiscal calendar found for {ticker}. Please add this company to the fiscal registry."
+            logging.error(error_msg)
+            result["error"] = error_msg
+            return result
+        
+        # Step 3: Get the fiscal period information from the company calendar    
+        calendar_result = calendar.determine_fiscal_period(normalized_date, filing_type)
+        
+        # Extract fiscal information
+        fiscal_year = calendar_result.get("fiscal_year")
+        fiscal_period = calendar_result.get("fiscal_period")
+        
+        # If either is missing, return error result
+        if not fiscal_year or not fiscal_period:
+            error_msg = calendar_result.get("error", "Unknown error determining fiscal period")
+            logging.error(error_msg)
+            result["error"] = error_msg
+            return result
+        
+        # Step 4: Create a validated FiscalPeriodInfo object to ensure data integrity
+        try:
+            fiscal_info = FiscalPeriodInfo(
+                ticker=ticker,
+                period_end_date=normalized_date,
+                fiscal_year=fiscal_year,
+                fiscal_period=fiscal_period,
+                filing_type=filing_type,
+                source="company_fiscal_registry",
+                confidence=1.0,  # Highest confidence for explicit mappings
+                metadata={
+                    "origin": "company_fiscal_registry",
+                    "validated": True,
+                    "registry_lookup": True
+                }
+            )
+            
+            # Convert to dictionary and add additional metadata
+            result = fiscal_info.to_dict()
+            result["source"] = "company_fiscal_registry"
+            result["validated"] = True
+            
+            # Log successful determination
+            logging.info(f"Fiscal period determined for {ticker}, {normalized_date}: {fiscal_year} {fiscal_period}")
+            
+            return result
+            
+        except FiscalDataError as e:
+            error_msg = f"Data contract validation failed: {e}"
+            logging.error(error_msg)
+            result["error"] = error_msg
+            result["fiscal_year"] = fiscal_year
+            result["fiscal_period"] = fiscal_period
+            return result
 
 # Initialize global registry
 fiscal_registry = FiscalCalendarRegistry()
