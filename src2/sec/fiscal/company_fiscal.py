@@ -228,6 +228,41 @@ class FiscalCalendarRegistry:
                 "2025-09-30": {"fiscal_year": "2025", "fiscal_period": "Q3"},
                 "2025-12-31": {"fiscal_year": "2025", "fiscal_period": "annual"}
             }
+        },
+        
+        # Tesla (TSLA) - Full fiscal years 2021-2025 (Calendar year)
+        "TSLA": {
+            "period_end_dates": {
+                # Fiscal Year 2021 (Jan 2021 - Dec 2021)
+                "2021-03-31": {"fiscal_year": "2021", "fiscal_period": "Q1"},
+                "2021-06-30": {"fiscal_year": "2021", "fiscal_period": "Q2"},
+                "2021-09-30": {"fiscal_year": "2021", "fiscal_period": "Q3"},
+                "2021-12-31": {"fiscal_year": "2021", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2022 (Jan 2022 - Dec 2022)
+                "2022-03-31": {"fiscal_year": "2022", "fiscal_period": "Q1"},
+                "2022-06-30": {"fiscal_year": "2022", "fiscal_period": "Q2"},
+                "2022-09-30": {"fiscal_year": "2022", "fiscal_period": "Q3"},
+                "2022-12-31": {"fiscal_year": "2022", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2023 (Jan 2023 - Dec 2023)
+                "2023-03-31": {"fiscal_year": "2023", "fiscal_period": "Q1"},
+                "2023-06-30": {"fiscal_year": "2023", "fiscal_period": "Q2"},
+                "2023-09-30": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-12-31": {"fiscal_year": "2023", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2024 (Jan 2024 - Dec 2024)
+                "2024-03-31": {"fiscal_year": "2024", "fiscal_period": "Q1"},
+                "2024-06-30": {"fiscal_year": "2024", "fiscal_period": "Q2"},
+                "2024-09-30": {"fiscal_year": "2024", "fiscal_period": "Q3"},
+                "2024-12-31": {"fiscal_year": "2024", "fiscal_period": "annual"},
+                
+                # Fiscal Year 2025 (Jan 2025 - Dec 2025)
+                "2025-03-31": {"fiscal_year": "2025", "fiscal_period": "Q1"},
+                "2025-06-30": {"fiscal_year": "2025", "fiscal_period": "Q2"},
+                "2025-09-30": {"fiscal_year": "2025", "fiscal_period": "Q3"},
+                "2025-12-31": {"fiscal_year": "2025", "fiscal_period": "annual"}
+            }
         }
     }
     
