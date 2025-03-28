@@ -32,7 +32,14 @@ class BatchSECPipeline:
         
         Args:
             **kwargs: Arguments to pass to the SECFilingPipeline constructor
+                     Including force_upload option to override GCS existence checks
         """
+        # Extract force_upload if present
+        self.force_upload = kwargs.pop("force_upload", False)
+        if self.force_upload:
+            logging.info("FORCE UPLOAD MODE ENABLED - Will upload all files regardless of existence in GCS")
+        
+        # Pass remaining kwargs to pipeline
         self.pipeline = SECFilingPipeline(**kwargs)
         logging.info("Initialized Batch SEC Pipeline")
     
@@ -462,6 +469,9 @@ class BatchSECPipeline:
         calendar_year = filing_info.get("calendar_year")
         calendar_months = filing_info.get("calendar_months")
         
+        # Add force_upload flag to filing_info to pass it to the pipeline
+        filing_info["force_upload"] = self.force_upload
+        
         log_message = f"Processing {ticker} {filing_type} for {year}"
         if quarter:
             log_message += f", Q{quarter}"
@@ -789,6 +799,8 @@ def main():
     parser.add_argument("--output", help="Output directory for processed files")
     parser.add_argument("--gcp-bucket", help="GCS bucket name for upload")
     parser.add_argument("--gcp-project", help="GCP project ID for upload")
+    parser.add_argument("--force-upload", action="store_true", default=False,
+                        help="Force upload of files even if they already exist in GCS (useful for initial load)")
     
     args = parser.parse_args()
     
@@ -808,7 +820,8 @@ def main():
         contact_email=args.email,
         output_dir=args.output or "./sec_processed",
         gcp_bucket=args.gcp_bucket,
-        gcp_project=args.gcp_project
+        gcp_project=args.gcp_project,
+        force_upload=args.force_upload  # Pass the force_upload flag
     )
     
     # Process filings

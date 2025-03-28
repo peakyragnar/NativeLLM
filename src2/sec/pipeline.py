@@ -852,11 +852,14 @@ class SECFilingPipeline:
                 if llm_result.get("success", False) and os.path.exists(str(llm_path)):
                     llm_size = os.path.getsize(str(llm_path))
                 
+                # Check if force_upload is enabled in the filing_info
+                force_upload = filing_info.get("force_upload", False)
+                
                 # Check if files already exist in GCS
                 files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
                 
-                # Always upload the text file if it doesn't exist
-                if files_exist.get(gcs_text_path, False):
+                # Handle text file upload based on existence and force_upload flag
+                if files_exist.get(gcs_text_path, False) and not force_upload:
                     logging.info(f"Text file already exists in GCS: {gcs_text_path}")
                     text_upload_result = {
                         "success": True,
@@ -864,15 +867,19 @@ class SECFilingPipeline:
                         "already_exists": True
                     }
                 else:
-                    logging.info(f"Uploading text file to GCS: {gcs_text_path}")
+                    if files_exist.get(gcs_text_path, False) and force_upload:
+                        logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
+                    else:
+                        logging.info(f"Uploading text file to GCS: {gcs_text_path}")
+                    
                     text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
                 
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
                 
-                # Handle LLM file separately
+                # Handle LLM file separately with force_upload flag
                 if llm_result.get("success", False) and os.path.exists(str(llm_path)):
-                    if files_exist.get(gcs_llm_path, False):
+                    if files_exist.get(gcs_llm_path, False) and not force_upload:
                         logging.info(f"LLM file already exists in GCS: {gcs_llm_path}")
                         llm_upload_result = {
                             "success": True,
@@ -880,7 +887,10 @@ class SECFilingPipeline:
                             "already_exists": True
                         }
                     else:
-                        logging.info(f"Uploading LLM file to GCS: {gcs_llm_path}")
+                        if files_exist.get(gcs_llm_path, False) and force_upload:
+                            logging.info(f"Force upload: LLM file exists but uploading again: {gcs_llm_path}")
+                        else:
+                            logging.info(f"Uploading LLM file to GCS: {gcs_llm_path}")
                         llm_upload_result = self.gcp_storage.upload_file(str(llm_path), gcs_llm_path)
                     
                     # Add LLM upload result
@@ -1528,9 +1538,9 @@ class SECFilingPipeline:
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
                 
-                # Handle LLM file separately
+                # Handle LLM file separately with force_upload flag
                 if llm_result.get("success", False) and os.path.exists(str(llm_path)):
-                    if files_exist.get(gcs_llm_path, False):
+                    if files_exist.get(gcs_llm_path, False) and not force_upload:
                         logging.info(f"LLM file already exists in GCS: {gcs_llm_path}")
                         llm_upload_result = {
                             "success": True,
@@ -1538,7 +1548,10 @@ class SECFilingPipeline:
                             "already_exists": True
                         }
                     else:
-                        logging.info(f"Uploading LLM file to GCS: {gcs_llm_path}")
+                        if files_exist.get(gcs_llm_path, False) and force_upload:
+                            logging.info(f"Force upload: LLM file exists but uploading again: {gcs_llm_path}")
+                        else:
+                            logging.info(f"Uploading LLM file to GCS: {gcs_llm_path}")
                         llm_upload_result = self.gcp_storage.upload_file(str(llm_path), gcs_llm_path)
                     
                     # Add LLM upload result
