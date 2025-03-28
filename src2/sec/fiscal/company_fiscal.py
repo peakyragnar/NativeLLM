@@ -23,6 +23,12 @@ class CompanyFiscalCalendar:
         "AAPL": {"month": 9, "day": 30, "confidence": 1.0},
         # Microsoft: Fiscal year ends in June
         "MSFT": {"month": 6, "day": 30, "confidence": 1.0},
+        # NVIDIA: Fiscal year ends in January
+        # Q1: Feb-Apr (ends Apr)
+        # Q2: May-Jul (ends Jul)
+        # Q3: Aug-Oct (ends Oct)
+        # Annual: Nov-Jan (ends Jan)
+        "NVDA": {"month": 1, "day": 26, "confidence": 1.0},
         # Google: Calendar year (Dec)
         "GOOGL": {"month": 12, "day": 31, "confidence": 1.0},
         # Amazon: Calendar year (Dec)
@@ -168,6 +174,44 @@ class CompanyFiscalCalendar:
                 fiscal_year = str(period_end.year)
             else:
                 fiscal_year = str(base_fiscal_year)
+            
+            return {
+                "fiscal_year": fiscal_year,
+                "fiscal_period": fiscal_period
+            }
+            
+        # Special handling for NVIDIA
+        if self.ticker == "NVDA":
+            # NVIDIA's fiscal year ends in January
+            # Q1: Feb-Apr (ends Apr)
+            # Q2: May-Jul (ends Jul)
+            # Q3: Aug-Oct (ends Oct)
+            # Annual: Nov-Jan (ends Jan)
+            month = period_end.month
+            
+            # Determine fiscal year based on month
+            if month == 1:  # January (fiscal year end month)
+                if period_end.day >= self.fiscal_year_end_day:
+                    # After fiscal year end day in January
+                    fiscal_year = str(period_end.year)
+                else:
+                    # Before fiscal year end day in January
+                    fiscal_year = str(period_end.year)
+            elif 2 <= month <= 12:  # Feb-Dec
+                # For NVIDIA, Feb-Dec dates are part of the NEXT fiscal year
+                fiscal_year = str(period_end.year + 1)
+            
+            # Determine fiscal period based on month
+            if filing_type == "10-K":
+                fiscal_period = "annual"
+            elif month in [2, 3, 4]:  # Feb-Apr = Q1
+                fiscal_period = "Q1"
+            elif month in [5, 6, 7]:  # May-Jul = Q2
+                fiscal_period = "Q2"
+            elif month in [8, 9, 10]:  # Aug-Oct = Q3
+                fiscal_period = "Q3"
+            else:  # Nov-Jan = Annual period, covered by 10-K
+                fiscal_period = "annual"
             
             return {
                 "fiscal_year": fiscal_year,
