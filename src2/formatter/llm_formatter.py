@@ -75,6 +75,7 @@ class LLMFormatter:
         
         # Add human-readable context markers
         context_map = {}
+        context_reference_guide = {}  # Store context details for the reference guide
         output.append("@CONTEXTS")
         for context_id, context in parsed_xbrl.get("contexts", {}).items():
             period_info = context.get("period", {})
@@ -104,6 +105,14 @@ class LLMFormatter:
                     # Store mapping from context ID to readable label
                     context_map[context_id] = readable_label
                     
+                    # Store information for context reference guide
+                    context_reference_guide[readable_label] = {
+                        "type": "period",
+                        "start_date": period_info['startDate'],
+                        "end_date": period_info['endDate'],
+                        "description": f"Period from {period_info['startDate']} to {period_info['endDate']}"
+                    }
+                    
                     output.append(f"@CONTEXT_DEF: {context_id} | Period: {period_info['startDate']} to {period_info['endDate']} | @LABEL: {readable_label}")
                 except Exception:
                     # Fallback if parsing fails
@@ -125,6 +134,13 @@ class LLMFormatter:
                     
                     # Store mapping
                     context_map[context_id] = readable_label
+                    
+                    # Store information for context reference guide
+                    context_reference_guide[readable_label] = {
+                        "type": "instant",
+                        "date": period_info['instant'],
+                        "description": f"Point in time at {period_info['instant']}"
+                    }
                     
                     output.append(f"@CONTEXT_DEF: {context_id} | Instant: {period_info['instant']} | @LABEL: {readable_label}")
                 except Exception:
@@ -291,6 +307,43 @@ class LLMFormatter:
                     for paragraph in important_paragraphs:
                         output.append(f"@NARRATIVE_TEXT: {paragraph}")
                         output.append("")
+                        
+        # Add the Context Reference Guide at the end of the document
+        if context_reference_guide:
+            output.append("@CONTEXT_REFERENCE_GUIDE")
+            output.append("This section provides a consolidated reference for all time periods used in this document.")
+            output.append("")
+            
+            # Sort the context labels alphabetically for consistency
+            sorted_labels = sorted(context_reference_guide.keys())
+            
+            # First list period contexts (fiscal years, quarters)
+            period_labels = [label for label in sorted_labels if context_reference_guide[label]["type"] == "period"]
+            if period_labels:
+                output.append("@PERIOD_CONTEXTS")
+                for label in period_labels:
+                    context_info = context_reference_guide[label]
+                    output.append(f"- {label}: {context_info['description']}")
+                output.append("")
+            
+            # Then list instant contexts (balance sheet dates)
+            instant_labels = [label for label in sorted_labels if context_reference_guide[label]["type"] == "instant"]
+            if instant_labels:
+                output.append("@INSTANT_CONTEXTS")
+                for label in instant_labels:
+                    context_info = context_reference_guide[label]
+                    output.append(f"- {label}: {context_info['description']}")
+                output.append("")
+                
+            # Add a mapping of fiscal periods to calendar periods if fiscal year info is available
+            if fiscal_year and fiscal_period:
+                output.append("@FISCAL_CALENDAR_MAPPING")
+                output.append(f"- Fiscal Year {fiscal_year} corresponds to filing period ending {period_end}")
+                if fiscal_period in ["Q1", "Q2", "Q3", "Q4"]:
+                    output.append(f"- {fiscal_period} is a quarterly period within Fiscal Year {fiscal_year}")
+                elif fiscal_period == "annual":
+                    output.append(f"- This document represents the annual (10-K) filing for Fiscal Year {fiscal_year}")
+                output.append("")
         
         return "\n".join(output)
     
