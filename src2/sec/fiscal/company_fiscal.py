@@ -131,9 +131,15 @@ class FiscalCalendarRegistry:
             }
         },
         
-        # Microsoft (MSFT) - Full fiscal years 2022-2025
+        # Microsoft (MSFT) - Full fiscal years 2021-2025
         "MSFT": {
             "period_end_dates": {
+                # Fiscal Year 2021 (Jul 2020 - Jun 2021)
+                "2020-09-30": {"fiscal_year": "2021", "fiscal_period": "Q1"},
+                "2020-12-31": {"fiscal_year": "2021", "fiscal_period": "Q2"},
+                "2021-03-31": {"fiscal_year": "2021", "fiscal_period": "Q3"},
+                "2021-06-30": {"fiscal_year": "2021", "fiscal_period": "annual"},
+                
                 # Fiscal Year 2022 (Jul 2021 - Jun 2022)
                 "2021-09-30": {"fiscal_year": "2022", "fiscal_period": "Q1"},
                 "2021-12-31": {"fiscal_year": "2022", "fiscal_period": "Q2"},
@@ -160,9 +166,15 @@ class FiscalCalendarRegistry:
             }
         },
         
-        # Apple (AAPL) - Full fiscal years 2022-2025
+        # Apple (AAPL) - Full fiscal years 2021-2025
         "AAPL": {
             "period_end_dates": {
+                # Fiscal Year 2021 (Oct 2020 - Sep 2021)
+                "2020-12-26": {"fiscal_year": "2021", "fiscal_period": "Q1"},
+                "2021-03-27": {"fiscal_year": "2021", "fiscal_period": "Q2"},
+                "2021-06-26": {"fiscal_year": "2021", "fiscal_period": "Q3"},
+                "2021-09-25": {"fiscal_year": "2021", "fiscal_period": "annual"},
+                
                 # Fiscal Year 2022 (Oct 2021 - Sep 2022)
                 "2021-12-25": {"fiscal_year": "2022", "fiscal_period": "Q1"},
                 "2022-03-26": {"fiscal_year": "2022", "fiscal_period": "Q2"},

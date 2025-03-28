@@ -136,12 +136,16 @@ class BatchSECPipeline:
             else:
                 current_fiscal_year = current_date.year  # Still in current fiscal year
         else:  # Fiscal year ends in second half of calendar year (like AAPL in September)
-            # If current date is after fiscal year end, we're still in the current fiscal year
-            if (current_date.month > fiscal_year_end_month or 
-                (current_date.month == fiscal_year_end_month and current_date.day >= fiscal_year_end_day)):
+            # For companies with fiscal year ending in the second half:
+            # - Oct-Dec of year X: We're in fiscal year X+1
+            # - Jan-Sep of year X+1: We're still in fiscal year X+1
+            if (current_date.month < fiscal_year_end_month or 
+                (current_date.month == fiscal_year_end_month and current_date.day < fiscal_year_end_day)):
+                # Before fiscal year end (Jan-Sep), we're in the fiscal year equal to the calendar year
                 current_fiscal_year = current_date.year
             else:
-                current_fiscal_year = current_date.year - 1
+                # After fiscal year end (Oct-Dec), we're in the fiscal year of next calendar year
+                current_fiscal_year = current_date.year + 1
             
         # Calculate current fiscal quarter (0-3, where 0 is Q1)
         # Define quarter boundaries based on fiscal year end
@@ -1021,69 +1025,16 @@ class BatchSECPipeline:
                     result["fiscal_year"] = str(year)
                     result["fiscal_quarter"] = f"Q{quarter}"
                 else:
-                    # No filing found with exact month/year match - try with more flexible criteria
-                    logging.warning(f"No exact match found for {ticker} FY{year} Q{quarter} with period end in {calendar_year}-{expected_period_month}")
-                    logging.info(f"Attempting more flexible search criteria...")
-                    
-                    # Try alternate calendar year (for companies near fiscal year boundaries)
-                    # Use fiscal_year_end_month from the filing_info that we passed through
-                    fiscal_year_end_month = filing_info.get("fiscal_year_end_month")
-                    if fiscal_year_end_month is None:
-                        logging.warning(f"fiscal_year_end_month not found in filing_info, using default alternate year logic")
-                        alternate_year = calendar_year - 1  # Default fallback
-                    else:
-                        alternate_year = calendar_year + 1 if calendar_months[0] == fiscal_year_end_month else calendar_year - 1
-                        logging.info(f"Using fiscal_year_end_month={fiscal_year_end_month} to calculate alternate_year={alternate_year}")
-                    
-                    # Look for filings with appropriate month in either calendar year
-                    for filing in all_filings:
-                        period_end = filing.get("period_end_date")
-                        if period_end:
-                            try:
-                                end_date = datetime.datetime.strptime(period_end, '%Y-%m-%d')
-                                
-                                # Check for a match with the alternate year but same month
-                                if end_date.year == alternate_year and end_date.month in calendar_months:
-                                    target_filing = filing
-                                    logging.info(f"Found match using alternate year: {ticker} FY{year} Q{quarter}: {period_end}")
-                                    break
-                                
-                                # Also look for filings with months +/- 1 in the expected year (for slight fiscal calendar variations)
-                                adjacent_months = [(m-1) if m > 1 else 12 for m in calendar_months] + \
-                                                 [(m+1) if m < 12 else 1 for m in calendar_months]
-                                if end_date.year == calendar_year and end_date.month in adjacent_months:
-                                    target_filing = filing
-                                    logging.info(f"Found match using adjacent month: {ticker} FY{year} Q{quarter}: {period_end}")
-                                    break
-                            except (ValueError, TypeError):
-                                continue
-                    
-                    if target_filing:
-                        # Ensure the fiscal year is properly set in the filing info
-                        # so it's used in the local filename and GCP path
-                        target_filing["fiscal_year"] = str(year)
-                        target_filing["fiscal_period"] = f"Q{quarter}"
-                        
-                        logging.info(f"Processing filing with period end date {target_filing.get('period_end_date')} for {ticker} {filing_type} FY{year} Q{quarter}")
-                        logging.info(f"Setting explicit fiscal_year={target_filing['fiscal_year']} and fiscal_period={target_filing['fiscal_period']} (flexible search)")
-                        
-                        # Process using the filing we found with flexible criteria
-                        result = self.pipeline.process_filing_with_info(target_filing)
-                        # Add fiscal metadata
-                        result["fiscal_year"] = str(year)
-                        result["fiscal_quarter"] = f"Q{quarter}"
-                        result["note"] = "Found using flexible period end date criteria"
-                    else:
-                        # No filing found even with flexible criteria
-                        logging.error(f"No filing found for {ticker} FY{year} Q{quarter} in calendar years {calendar_year} or {alternate_year}")
-                        return {
-                            "ticker": ticker,
-                            "filing_type": filing_type,
-                            "year": year,
-                            "quarter": quarter,
-                            "error": f"No filing found for this fiscal period in calendar years {calendar_year} or {alternate_year}",
-                            "status": "error"
-                        }
+                    # No filing found with exact month/year match - simply report the error
+                    logging.error(f"No exact match found for {ticker} FY{year} Q{quarter} with period end in {calendar_year}-{expected_period_month}")
+                    return {
+                        "ticker": ticker,
+                        "filing_type": filing_type,
+                        "year": year,
+                        "quarter": quarter,
+                        "error": f"No filing found for {ticker} FY{year} Q{quarter} with period end in {calendar_year}-{expected_period_month}",
+                        "status": "error"
+                    }
             else:
                 # Modified to apply fiscal period filtering using our fiscal registry
                 # Get all possible filings of this type first 
