@@ -673,7 +673,51 @@ class LLMFormatter:
                         separator += f" | {'-' * len(context_label)}"
                     table_rows.append(separator)
                     
-                    # Sort concepts for hierarchical organization
+                    # Analyze XBRL facts to identify hierarchical relationships
+                    # Extract hierarchy information from facts and XBRL structure
+                    concept_hierarchies = {}
+                    subtotal_items = {}
+                    parent_child_map = {}
+                    
+                    # First pass: identify potential total/subtotal items
+                    for concept_name, facts in concepts_in_section.items():
+                        concept_lower = concept_name.lower()
+                        # Identify likely subtotal or total items based on naming patterns
+                        is_total = False
+                        if "total" in concept_lower or "subtotal" in concept_lower:
+                            is_total = True
+                        elif any(concept_lower.startswith(prefix) for prefix in ["gross", "net", "operating", "consolidated"]):
+                            is_total = True
+                        
+                        # Mark items that are likely to be subtotals
+                        if is_total:
+                            subtotal_items[concept_name] = {
+                                "level": 0,  # Will be adjusted in the second pass
+                                "children": [],
+                                "facts": facts
+                            }
+                    
+                    # Second pass: identify parent-child relationships
+                    for subtotal_name in subtotal_items:
+                        subtotal_lower = subtotal_name.lower()
+                        
+                        # Find child items that belong to this subtotal
+                        # Example: "Total Revenue" would match with items containing "revenue"
+                        base_term = None
+                        if "total" in subtotal_lower:
+                            base_term = subtotal_lower.replace("total", "").strip()
+                        elif "subtotal" in subtotal_lower:
+                            base_term = subtotal_lower.replace("subtotal", "").strip()
+                            
+                        if base_term:
+                            for concept_name in concepts_in_section:
+                                if concept_name != subtotal_name and base_term in concept_name.lower():
+                                    # This is likely a child of the subtotal
+                                    subtotal_items[subtotal_name]["children"].append(concept_name)
+                                    # Track parent-child relationship
+                                    parent_child_map[concept_name] = subtotal_name
+                    
+                    # Sort concepts for hierarchical organization with levels based on relationships
                     # Group related concepts together
                     organized_concepts = {}
                     for concept_name, facts in concepts_in_section.items():
@@ -697,10 +741,30 @@ class LLMFormatter:
                             category = "Cash_Flow"
                         else:
                             category = "Other"
+                        
+                        # Determine this concept's hierarchical level
+                        # Level 0 is a root, Level 1 is a subtotal, Level 2+ are detail items
+                        hierarchy_level = 0
+                        
+                        # Check if this is a total/subtotal
+                        if concept_name in subtotal_items:
+                            hierarchy_level = 1
+                        # Check if this is a child of a subtotal
+                        elif concept_name in parent_child_map:
+                            hierarchy_level = 2
+                        
+                        # Store hierarchy information with the concept
+                        concept_hierarchies[concept_name] = {
+                            "level": hierarchy_level,
+                            "parent": parent_child_map.get(concept_name, None),
+                            "is_total": concept_name in subtotal_items,
+                            "category": category
+                        }
                             
                         if category not in organized_concepts:
                             organized_concepts[category] = []
-                        organized_concepts[category].append((concept_name, facts))
+                        # Include hierarchy level with concept data
+                        organized_concepts[category].append((concept_name, facts, hierarchy_level))
                     
                     # Add data rows with hierarchical organization
                     for category in ["Revenue", "Expenses", "Profit", "Income", "Assets", "Liabilities", "Equity", "Cash_Flow", "Other"]:
@@ -712,18 +776,47 @@ class LLMFormatter:
                                     category_row += " | "
                                 table_rows.append(category_row)
                             
+                            # Sort items to ensure parent items come before children
+                            sorted_concepts = sorted(
+                                organized_concepts[category], 
+                                key=lambda x: (concept_hierarchies[x[0]]["level"], 0 if concept_hierarchies[x[0]]["is_total"] else 1)
+                            )
+                            
                             # Add items in this category
-                            for concept_name, facts in organized_concepts[category]:
+                            for concept_tuple in sorted_concepts:
+                                concept_name = concept_tuple[0]
+                                facts = concept_tuple[1]
+                                hierarchy_level = concept_tuple[2] if len(concept_tuple) > 2 else 0
+                                
                                 # Create a mapping from context to fact for this concept
                                 context_to_fact = {fact.get("context_ref", ""): fact for fact in facts}
                                 
                                 # Only add rows that have data in at least one of our top contexts
                                 if any(context_ref in context_to_fact for context_ref, _ in top_contexts):
-                                    # Add hierarchical indentation for subcategories
-                                    if len(organized_concepts[category]) > 1:
-                                        row = f"  {concept_name}"
+                                    # Get hierarchy info for this concept
+                                    concept_info = concept_hierarchies.get(concept_name, {})
+                                    is_total = concept_info.get("is_total", False)
+                                    parent = concept_info.get("parent", None)
+                                    
+                                    # Apply formatting based on hierarchy
+                                    if is_total:
+                                        # Format total items (make them stand out)
+                                        if hierarchy_level == 1:
+                                            # Level 1 totals (main line totals)
+                                            row = f"@TOTAL: {concept_name}"
+                                        else:
+                                            # Lower level subtotals
+                                            row = f"@SUBTOTAL: {concept_name}"
+                                    elif parent:
+                                        # Child items with indentation based on hierarchy level
+                                        indentation = "  " * hierarchy_level
+                                        row = f"{indentation}↳ {concept_name} @CHILD_OF: {parent}"
                                     else:
-                                        row = concept_name
+                                        # Regular line items with basic indentation
+                                        if len(organized_concepts[category]) > 1:
+                                            row = f"  {concept_name}"
+                                        else:
+                                            row = concept_name
                                     
                                     # Add enhanced context key reference with semantic codes
                                     context_keys = []
@@ -1367,56 +1460,148 @@ class LLMFormatter:
         output.append("Example of how to extract and format data from this document:")
         output.append("")
         output.append("```python")
-        output.append("# Extract revenue information for specific period")
+        output.append("# Extract revenue information for specific period with hierarchy awareness")
         output.append("def extract_revenue(document, context_code):")
         output.append("    # Find the Revenue section")
         output.append("    revenue_section = find_section(document, '<Revenue>')")
         output.append("    ")
         output.append("    # Extract all line items with their context codes")
         output.append("    revenue_data = {}")
+        output.append("    totals = {}")
+        output.append("    parent_child_map = {}")
+        output.append("    ")
+        output.append("    # First pass: collect all items and identify parent-child relationships")
         output.append("    for line in revenue_section:")
         output.append("        if context_code in line.split('|')[1].strip():")
-        output.append("            item_name = line.split('|')[0].strip()")
-        output.append("            # Find the value corresponding to the context code")
         output.append("            columns = line.split('|')")
-        output.append("            # The value is in the column after the Key column")
+        output.append("            raw_item_name = columns[0].strip()")
+        output.append("            ")
+        output.append("            # Parse hierarchy information")
+        output.append("            if raw_item_name.startswith('@TOTAL:'):")
+        output.append("                # This is a total item")
+        output.append("                item_name = raw_item_name.replace('@TOTAL:', '').strip()")
+        output.append("                is_total = True")
+        output.append("                level = 0  # Top level")
+        output.append("            elif raw_item_name.startswith('@SUBTOTAL:'):")
+        output.append("                # This is a subtotal item")
+        output.append("                item_name = raw_item_name.replace('@SUBTOTAL:', '').strip()")
+        output.append("                is_total = True")
+        output.append("                level = 1  # Mid level")
+        output.append("            elif '@CHILD_OF:' in raw_item_name:")
+        output.append("                # This is a child item, extract its parent")
+        output.append("                parts = raw_item_name.split('@CHILD_OF:')")
+        output.append("                item_name = parts[0].replace('↳', '').strip()")
+        output.append("                parent_name = parts[1].strip()")
+        output.append("                parent_child_map[item_name] = parent_name")
+        output.append("                is_total = False")
+        output.append("                level = 2  # Child level")
+        output.append("            else:")
+        output.append("                # Regular item")
+        output.append("                item_name = raw_item_name.strip()")
+        output.append("                is_total = False")
+        output.append("                level = 1  # Base level")
+        output.append("            ")
+        output.append("            # Find the value corresponding to the context code")
         output.append("            value = get_value_for_context(columns, context_code)")
-        output.append("            revenue_data[item_name] = value")
+        output.append("            ")
+        output.append("            # Store with hierarchy information")
+        output.append("            if is_total:")
+        output.append("                totals[item_name] = {")
+        output.append("                    'value': value,")
+        output.append("                    'level': level,")
+        output.append("                    'components': []  # Will be filled in second pass")
+        output.append("                }")
+        output.append("            else:")
+        output.append("                revenue_data[item_name] = {")
+        output.append("                    'value': value,")
+        output.append("                    'level': level,")
+        output.append("                    'parent': parent_child_map.get(item_name)")
+        output.append("                }")
         output.append("    ")
-        output.append("    return revenue_data")
+        output.append("    # Second pass: associate children with their parent totals")
+        output.append("    for item_name, item_data in revenue_data.items():")
+        output.append("        parent = item_data.get('parent')")
+        output.append("        if parent and parent in totals:")
+        output.append("            totals[parent]['components'].append(item_name)")
+        output.append("    ")
+        output.append("    # Combine the data structures")
+        output.append("    result = {")
+        output.append("        'line_items': revenue_data,")
+        output.append("        'totals': totals,")
+        output.append("        # Include verification formulas")
+        output.append("        'verify': {")
+        output.append("            'sum_components': 'Sum of all components should equal the total',")
+        output.append("            'formula': 'Total_Revenue = Product_Revenue + Service_Revenue + Other_Revenue'")
+        output.append("        }")
+        output.append("    }")
+        output.append("    return result")
         output.append("```")
         output.append("")
         
-        output.append("Example data format for extraction:")
+        output.append("Example hierarchical data format for extraction:")
         output.append("")
         output.append("```json")
         output.append("{")
-        output.append("  \"Revenue\": {")
+        output.append("  \"line_items\": {")
         output.append("    \"Product_Revenue\": {")
-        output.append("      \"c-1\": 72480,         // Using short code")
-        output.append("      \"c-2\": 65240,         // Using short code")
-        output.append("      \"FY2023\": 72480,      // Using semantic code")
-        output.append("      \"FY2022\": 65240,      // Using semantic code")
-        output.append("      \"BS_2023_12_31\": 72480 // Using descriptive balance sheet date")
+        output.append("      \"value\": 72480,")
+        output.append("      \"level\": 1,")
+        output.append("      \"parent\": \"Total_Revenue\"")
         output.append("    },")
         output.append("    \"Service_Revenue\": {")
-        output.append("      \"c-1\": 16320,         // Using short code")
-        output.append("      \"c-2\": 13950,         // Using short code")
-        output.append("      \"FY2023\": 16320,      // Using semantic code")
-        output.append("      \"FY2022\": 13950       // Using semantic code")
+        output.append("      \"value\": 16320,")
+        output.append("      \"level\": 1,")
+        output.append("      \"parent\": \"Total_Revenue\"")
         output.append("    },")
-        output.append("    \"Total_Revenue\": {")
-        output.append("      \"c-1\": 88800,         // Using short code")
-        output.append("      \"c-2\": 79190,         // Using short code")
-        output.append("      \"FY2023\": 88800,      // Using semantic code")
-        output.append("      \"FY2022\": 79190,      // Using semantic code")
-        output.append("      \"Consolidated_2023\": 88800  // Using segment information")
+        output.append("    \"Automotive_Revenue\": {")
+        output.append("      \"value\": 52300,")
+        output.append("      \"level\": 2,")
+        output.append("      \"parent\": \"Product_Revenue\"")
+        output.append("    },")
+        output.append("    \"Energy_Revenue\": {")
+        output.append("      \"value\": 20180,")
+        output.append("      \"level\": 2,")
+        output.append("      \"parent\": \"Product_Revenue\"")
         output.append("    }")
+        output.append("  },")
+        output.append("  \"totals\": {")
+        output.append("    \"Total_Revenue\": {")
+        output.append("      \"value\": 88800,")
+        output.append("      \"level\": 0,")
+        output.append("      \"components\": [\"Product_Revenue\", \"Service_Revenue\"],")
+        output.append("      \"contexts\": {")
+        output.append("        \"c-1\": 88800,           // Using short code")
+        output.append("        \"FY2023\": 88800,        // Using semantic code")
+        output.append("        \"Consolidated_2023\": 88800  // Using segment information")
+        output.append("      }")
+        output.append("    },")
+        output.append("    \"Product_Revenue\": {")
+        output.append("      \"value\": 72480,")
+        output.append("      \"level\": 1,")
+        output.append("      \"components\": [\"Automotive_Revenue\", \"Energy_Revenue\"]")
+        output.append("    }")
+        output.append("  },")
+        output.append("  \"verify\": {")
+        output.append("    \"equations\": [")
+        output.append("      \"Total_Revenue = Product_Revenue + Service_Revenue\",")
+        output.append("      \"Product_Revenue = Automotive_Revenue + Energy_Revenue\"")
+        output.append("    ],")
+        output.append("    \"verified\": true")
+        output.append("  },")
+        output.append("  \"metadata\": {")
+        output.append("    \"statement_type\": \"Income_Statement\",")
+        output.append("    \"period\": \"FY2023\",")
+        output.append("    \"hierarchical\": true")
         output.append("  }")
         output.append("}")
         output.append("```")
         output.append("")
-        output.append("Note: You can use either the numeric short codes (c-1, c-2) or the semantic codes (FY2023, BS_2023_12_31) to access context values. The semantic codes are more descriptive and self-explanatory.")
+        output.append("Note: This hierarchical structure makes parent-child relationships explicit, enabling accurate calculation and validation of totals. The hierarchy levels indicate:")
+        output.append("- Level 0: Main totals (like Total Revenue)")
+        output.append("- Level 1: Major categories (like Product Revenue)")
+        output.append("- Level 2: Subcategories (like Automotive Revenue)")
+        output.append("")
+        output.append("You can use either the numeric short codes (c-1, c-2) or the semantic codes (FY2023, BS_2023_12_31) to access context values. The semantic codes are more descriptive and self-explanatory.")
         
         return "\n".join(output)
     
