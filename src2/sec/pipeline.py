@@ -896,9 +896,37 @@ class SECFilingPipeline:
                 # Check if force_upload is enabled in the filing_info
                 force_upload = filing_info.get("force_upload", False)
                 
-                # Check if we should skip GCP upload entirely (for amended filings)
-                skip_gcp_upload = filing_info.get("skip_gcp_upload", False)
+                # Check if this is an amended filing that should use a subdirectory
                 is_amended = filing_info.get("is_amended", False)
+                use_amendment_subdirectory = filing_info.get("use_amendment_subdirectory", False)
+                
+                # Modify the GCS paths for amended filings to use "/a" subdirectory
+                if is_amended and use_amendment_subdirectory:
+                    # Create paths with "/a" subdirectory
+                    parts = gcs_text_path.split("/")
+                    if len(parts) >= 3:
+                        # Insert "a" before the final component
+                        filename = parts[-1]  # text.txt or llm.txt
+                        base_path = "/".join(parts[:-1])  # everything before the filename
+                        amended_gcs_text_path = f"{base_path}/a/{filename}"
+                        
+                        parts = gcs_llm_path.split("/")
+                        filename = parts[-1]
+                        base_path = "/".join(parts[:-1])
+                        amended_gcs_llm_path = f"{base_path}/a/{filename}"
+                        
+                        # Update the paths for this upload
+                        logging.info(f"Using amended filing paths: {amended_gcs_text_path} and {amended_gcs_llm_path}")
+                        gcs_text_path = amended_gcs_text_path
+                        gcs_llm_path = amended_gcs_llm_path
+                        
+                        # Store the amended paths in the filing info for later reference
+                        filing_info["amended_gcs_text_path"] = amended_gcs_text_path
+                        filing_info["amended_gcs_llm_path"] = amended_gcs_llm_path
+                
+                # Check if we should skip GCP upload entirely
+                # We now don't automatically skip amended filings - they go to a subdirectory
+                skip_gcp_upload = filing_info.get("skip_gcp_upload", False)
                 
                 if skip_gcp_upload:
                     if is_amended:

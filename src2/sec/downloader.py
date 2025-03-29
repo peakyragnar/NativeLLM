@@ -335,9 +335,25 @@ class SECDownloader:
                             if filing_type.lower() in filing_type_col.lower():
                                 # Check if this is an amended filing (10-K/A or 10-Q/A)
                                 is_amended = False
-                                if re.search(r'10-[KQ]/A', filing_type_col, re.IGNORECASE):
-                                    is_amended = True
-                                    logging.info(f"Found amended filing: {filing_type_col}")
+                                # Check multiple patterns for amended filings
+                                amended_patterns = [
+                                    r'10-[KQ]/A',           # Standard SEC format: 10-K/A
+                                    r'10-[KQ]\s*\(Amended', # Alternative format: 10-K (Amended)
+                                    r'Amended\s*10-[KQ]',   # Another format: Amended 10-K
+                                    r'10[KQ]/A'             # Compact format: 10K/A
+                                ]
+                                
+                                for pattern in amended_patterns:
+                                    if re.search(pattern, filing_type_col, re.IGNORECASE):
+                                        is_amended = True
+                                        logging.info(f"Found amended filing: {filing_type_col} (matched pattern: {pattern})")
+                                        break
+                                
+                                # Extract the base filing type (10-K or 10-Q) for consistency
+                                base_filing_type = filing_type
+                                if is_amended and filing_type in ["10-K", "10-Q"]:
+                                    # Store the actual displayed type for reference
+                                    filing_amendment_info = filing_type_col
                                 
                                 # Extract data from other columns
                                 documents_link = cols[1].find('a')
@@ -395,6 +411,17 @@ class SECDownloader:
                                         "is_amended": is_amended,
                                         "original_filing_type": filing_type_col
                                     }
+                                    
+                                    # Add specific amendment information if this is an amended filing
+                                    if is_amended:
+                                        filing["amendment_info"] = {
+                                            "original_type": base_filing_type,
+                                            "displayed_type": filing_type_col,
+                                            "amendment_number": 1  # Default to 1, could extract from name if needed
+                                        }
+                                        # Add a special flag to indicate this should be stored in the "/a" subdirectory
+                                        filing["use_amendment_subdirectory"] = True
+                                        logging.info(f"Marked filing as amended, will use '/a' subdirectory")
                                     
                                     # We need to extract period_end_date for proper fiscal year calculation
                                     # This requires downloading and parsing the filing's index page

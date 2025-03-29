@@ -826,14 +826,16 @@ class BatchSECPipeline:
         # Check if this is an amended filing
         is_amended = filing_info.get("is_amended", False)
         original_filing_type = filing_info.get("original_filing_type", filing_type)
+        use_amendment_subdirectory = filing_info.get("use_amendment_subdirectory", False)
         
         # Add force_upload flag to filing_info to pass it to the pipeline
-        # For amended filings, we want to skip GCP upload regardless of user settings
         if is_amended:
-            filing_info["force_upload"] = False
-            filing_info["skip_gcp_upload"] = True
-            # Add a flag to store locally in a special directory
-            filing_info["store_in_amendments_dir"] = True
+            # For amended filings, we now use a subdirectory structure instead of skipping
+            filing_info["force_upload"] = self.force_upload
+            filing_info["skip_gcp_upload"] = False  # Don't skip the upload, just use different path
+            # Mark it for storage in "/a" subdirectory
+            filing_info["use_amendment_subdirectory"] = True
+            logging.info(f"Amended filing will be stored in '/a' subdirectory structure")
         else:
             filing_info["force_upload"] = self.force_upload
             filing_info["skip_gcp_upload"] = False
@@ -1269,7 +1271,10 @@ def main():
                     "year": filing.get("year", "Unknown"),
                     "quarter": filing.get("quarter", None),
                     "period_end_date": filing.get("period_end_date", "Unknown"),
-                    "local_path": filing.get("local_path", "")
+                    "local_path": filing.get("local_path", ""),
+                    # Include cloud paths for amended filings
+                    "gcs_text_path": filing.get("amended_gcs_text_path", ""),
+                    "gcs_llm_path": filing.get("amended_gcs_llm_path", "")
                 })
         
         # Print a summary of results
@@ -1279,18 +1284,24 @@ def main():
         print(f"Filings Processed: {results['summary']['total_filings']}")
         print(f"Successful: {results['summary']['successful_filings']}")
         print(f"Failed: {results['summary']['failed_filings']}")
-        print(f"Amended Filings (not uploaded to GCP): {len(amended_filings)}")
+        print(f"Amended Filings: {len(amended_filings)}")
         print(f"Total Time: {results['summary']['total_time_seconds']:.2f} seconds")
         
         # Print details of any amended filings
         if amended_filings:
-            print("\nAmended Filings (stored locally only):")
+            print("\nAmended Filings (stored in '/a' subdirectories):")
             for filing in amended_filings:
                 filing_info = f"{filing['filing_type']} ({filing['year']}"
                 if filing.get("quarter"):
                     filing_info += f", Q{filing['quarter']}"
                 filing_info += ")"
-                print(f"  - {filing_info}: Available locally at {filing.get('local_path', 'Unknown path')}")
+                
+                print(f"  - {filing_info}:")
+                print(f"    • Local: {filing.get('local_path', 'Unknown path')}")
+                if filing.get('gcs_text_path'):
+                    print(f"    • GCS Text: {filing.get('gcs_text_path')}")
+                if filing.get('gcs_llm_path'):
+                    print(f"    • GCS LLM: {filing.get('gcs_llm_path')}")
         
         # Print details of any failed filings
         if results['summary']['failed_filings'] > 0:
