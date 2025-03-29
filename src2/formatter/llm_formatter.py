@@ -158,41 +158,117 @@ class LLMFormatter:
                     end_year = period_info['endDate'].split('-')[0]
                     end_month = int(period_info['endDate'].split('-')[1])
                     
+                    # Check for segment/dimension information to add context detail
+                    segment_info = ""
+                    segment_text = ""
+                    entity_info = context.get("entity", {})
+                    segment_data = entity_info.get("segment", {})
+                    
+                    # Extract segment/business unit information if available
+                    if segment_data:
+                        # Look for common segment dimensions like business unit or geography
+                        for dimension_key, dimension_value in segment_data.items():
+                            if isinstance(dimension_value, str):
+                                # Clean up dimension names
+                                dim_name = dimension_key.split(":")[-1] if ":" in dimension_key else dimension_key
+                                dim_name = dim_name.replace("Segment", "").replace("Dimension", "")
+                                
+                                # Clean up dimension values
+                                dim_value = dimension_value.split(":")[-1] if ":" in dimension_value else dimension_value
+                                
+                                if not segment_info:
+                                    segment_info = f"{dim_name}_{dim_value}"
+                                    segment_text = f"{dim_name}: {dim_value}"
+                                else:
+                                    segment_info += f"_{dim_value}"
+                                    segment_text += f", {dim_name}: {dim_value}"
+                    
+                    # Create a more descriptive meaningful code that shows what the context represents
                     if start_year == end_year:
                         # Same year period - could be quarterly or annual
                         if filing_type == "10-K":
                             readable_label = f"FY{end_year}"
                             category_label = f"Annual_{end_year}"
+                            
+                            # Create more descriptive context code
+                            semantic_code = f"FY{end_year}"
+                            if segment_info:
+                                semantic_code += f"_{segment_info}"
+                                readable_label += f" ({segment_text})"
                         else:
                             # Map month to quarter (approximate)
                             quarter_map = {3: "Q1", 6: "Q2", 9: "Q3", 12: "Q4"}
                             # Get closest quarter
                             closest_month = min(quarter_map.keys(), key=lambda x: abs(x - end_month))
-                            readable_label = f"{end_year}_{quarter_map[closest_month]}"
-                            category_label = f"Quarter{quarter_map[closest_month]}_{end_year}"
+                            quarter_code = quarter_map[closest_month]
+                            
+                            readable_label = f"{end_year}_{quarter_code}"
+                            category_label = f"Quarter{quarter_code}_{end_year}"
+                            
+                            # Create more descriptive context code
+                            semantic_code = f"{end_year}_{quarter_code}"
+                            if segment_info:
+                                semantic_code += f"_{segment_info}"
+                                readable_label += f" ({segment_text})"
                     else:
                         # Multi-year period - likely annual
                         readable_label = f"FY{end_year}"
                         category_label = f"Annual_{end_year}"
+                        
+                        # Create more descriptive context code
+                        semantic_code = f"FY{end_year}"
+                        if segment_info:
+                            semantic_code += f"_{segment_info}"
+                            readable_label += f" ({segment_text})"
                     
                     # Store mapping from context ID to readable label
                     context_map[context_id] = readable_label
                     context_code_map[context_id] = context_code
                     
+                    # Create a human-readable description for the context
+                    consolidated_txt = "Consolidated" if not segment_info else f"{segment_text}"
+                    if filing_type == "10-K":
+                        period_description = f"{consolidated_txt} – Year ended {period_info['endDate']}"
+                    else:
+                        # Calculate period duration in days
+                        try:
+                            start_date = datetime.datetime.strptime(period_info['startDate'], "%Y-%m-%d")
+                            end_date = datetime.datetime.strptime(period_info['endDate'], "%Y-%m-%d")
+                            duration_days = (end_date - start_date).days
+                            
+                            if 85 <= duration_days <= 95:
+                                period_description = f"{consolidated_txt} – Quarter ended {period_info['endDate']}"
+                            elif 175 <= duration_days <= 190:
+                                period_description = f"{consolidated_txt} – Six months ended {period_info['endDate']}"
+                            elif 265 <= duration_days <= 280:
+                                period_description = f"{consolidated_txt} – Nine months ended {period_info['endDate']}"
+                            else:
+                                period_description = f"{consolidated_txt} – Period from {period_info['startDate']} to {period_info['endDate']}"
+                        except:
+                            period_description = f"{consolidated_txt} – Period from {period_info['startDate']} to {period_info['endDate']}"
+                    
                     # Store information for context reference guide
                     context_reference_guide[readable_label] = {
                         "type": "period",
                         "code": context_code,
+                        "semantic_code": semantic_code,
                         "category": category_label,
+                        "segment": segment_text if segment_text else "Consolidated",
                         "start_date": period_info['startDate'],
                         "end_date": period_info['endDate'],
-                        "description": f"Period from {period_info['startDate']} to {period_info['endDate']}"
+                        "description": period_description
                     }
                     
-                    # Enhanced explicit context labeling
-                    output.append(f"{context_code}: {category_label} | Period: {period_info['startDate']} to {period_info['endDate']} | @LABEL: {readable_label}")
-                except Exception:
+                    # Enhanced explicit context labeling using both shortcode and semantic code
+                    output.append(f"{context_code} | @CODE: {semantic_code} | {category_label} | Period: {period_info['startDate']} to {period_info['endDate']}")
+                    if segment_text:
+                        output.append(f"  @SEGMENT: {segment_text} | @LABEL: {readable_label}")
+                    else:
+                        output.append(f"  @SEGMENT: Consolidated | @LABEL: {readable_label}")
+                    output.append(f"  @DESCRIPTION: {period_description}")
+                except Exception as e:
                     # Fallback if parsing fails
+                    logging.warning(f"Context parsing error: {str(e)}")
                     output.append(f"{context_code}: Period: {period_info['startDate']} to {period_info['endDate']}")
             elif "instant" in period_info:
                 # For instant dates (like balance sheet dates)
@@ -200,34 +276,100 @@ class LLMFormatter:
                     year = period_info['instant'].split('-')[0]
                     month = int(period_info['instant'].split('-')[1])
                     
+                    # Check for segment/dimension information to add context detail
+                    segment_info = ""
+                    segment_text = ""
+                    entity_info = context.get("entity", {})
+                    segment_data = entity_info.get("segment", {})
+                    
+                    # Extract segment/business unit information if available
+                    if segment_data:
+                        # Look for common segment dimensions like business unit or geography
+                        for dimension_key, dimension_value in segment_data.items():
+                            if isinstance(dimension_value, str):
+                                # Clean up dimension names
+                                dim_name = dimension_key.split(":")[-1] if ":" in dimension_key else dimension_key
+                                dim_name = dim_name.replace("Segment", "").replace("Dimension", "")
+                                
+                                # Clean up dimension values
+                                dim_value = dimension_value.split(":")[-1] if ":" in dimension_value else dimension_value
+                                
+                                if not segment_info:
+                                    segment_info = f"{dim_name}_{dim_value}"
+                                    segment_text = f"{dim_name}: {dim_value}"
+                                else:
+                                    segment_info += f"_{dim_value}"
+                                    segment_text += f", {dim_name}: {dim_value}"
+                    
+                    # Determine if this is a balance sheet date or other type of instant
+                    # Check for balance sheet date by examining the date itself
+                    date_obj = datetime.datetime.strptime(period_info['instant'], "%Y-%m-%d")
+                    is_balance_sheet = False
+                    date_str = date_obj.strftime("%b %d, %Y")
+                    
+                    # For 10-K filings, check if this is the fiscal year end date
                     if filing_type == "10-K":
                         readable_label = f"FY{year}_END"
                         category_label = f"Annual_{year}_End"
+                        is_balance_sheet = True
+                        statement_type = "Balance_Sheet"
                     else:
                         # Map month to quarter (approximate)
                         quarter_map = {3: "Q1", 6: "Q2", 9: "Q3", 12: "Q4"}
                         # Get closest quarter
                         closest_month = min(quarter_map.keys(), key=lambda x: abs(x - month))
-                        readable_label = f"{year}_{quarter_map[closest_month]}_END"
-                        category_label = f"Quarter{quarter_map[closest_month]}_{year}_End"
+                        quarter_code = quarter_map[closest_month]
+                        readable_label = f"{year}_{quarter_code}_END"
+                        category_label = f"Quarter{quarter_code}_{year}_End"
+                        is_balance_sheet = True
+                        statement_type = "Balance_Sheet"
+                    
+                    # Create more descriptive context code that conveys meaning
+                    if is_balance_sheet:
+                        semantic_code = f"BS_{year}_{month:02d}_{date_obj.day:02d}"
+                    else:
+                        semantic_code = f"INST_{year}_{month:02d}_{date_obj.day:02d}"
+                        
+                    # Add segment information if available
+                    if segment_info:
+                        semantic_code += f"_{segment_info}"
+                        readable_label += f" ({segment_text})"
                     
                     # Store mapping
                     context_map[context_id] = readable_label
                     context_code_map[context_id] = context_code
                     
+                    # Create a human-readable description for the context
+                    consolidated_txt = "Consolidated" if not segment_info else f"{segment_text}"
+                    if is_balance_sheet:
+                        period_description = f"{consolidated_txt} – Balance Sheet as of {date_str}"
+                    else:
+                        period_description = f"{consolidated_txt} – Point in time at {date_str}"
+                    
                     # Store information for context reference guide
                     context_reference_guide[readable_label] = {
                         "type": "instant",
                         "code": context_code,
+                        "semantic_code": semantic_code,
                         "category": category_label,
+                        "segment": segment_text if segment_text else "Consolidated",
+                        "statement_type": statement_type if is_balance_sheet else "Other",
                         "date": period_info['instant'],
-                        "description": f"Point in time at {period_info['instant']}"
+                        "description": period_description
                     }
                     
-                    # Enhanced explicit context labeling
-                    output.append(f"{context_code}: {category_label} | Instant: {period_info['instant']} | @LABEL: {readable_label}")
-                except Exception:
-                    # Fallback
+                    # Enhanced explicit context labeling with both shortcode and semantic code
+                    output.append(f"{context_code} | @CODE: {semantic_code} | {category_label} | Instant: {period_info['instant']}")
+                    if segment_text:
+                        output.append(f"  @SEGMENT: {segment_text} | @LABEL: {readable_label}")
+                    else:
+                        output.append(f"  @SEGMENT: Consolidated | @LABEL: {readable_label}")
+                    output.append(f"  @DESCRIPTION: {period_description}")
+                    if is_balance_sheet:
+                        output.append(f"  @STATEMENT_TYPE: Balance_Sheet")
+                except Exception as e:
+                    # Fallback if parsing fails
+                    logging.warning(f"Instant context parsing error: {str(e)}")
                     output.append(f"{context_code}: Instant: {period_info['instant']}")
         output.append("")
         
@@ -583,16 +725,31 @@ class LLMFormatter:
                                     else:
                                         row = concept_name
                                     
-                                    # Add context key reference
+                                    # Add enhanced context key reference with semantic codes
                                     context_keys = []
+                                    semantic_keys = []
                                     for context_ref, _ in top_contexts:
-                                        if context_ref in context_to_fact and context_ref in context_code_map:
-                                            context_keys.append(context_code_map[context_ref])
+                                        if context_ref in context_to_fact:
+                                            if context_ref in context_code_map:
+                                                context_keys.append(context_code_map[context_ref])
+                                            
+                                            # Add semantic code if available
+                                            code = context_code_map.get(context_ref, "")
+                                            if code:
+                                                for label, info in context_reference_guide.items():
+                                                    if info.get("code") == code and "semantic_code" in info:
+                                                        semantic_keys.append(info["semantic_code"])
+                                                        break
                                     
+                                    # First show the short code (c-1, c-2) for backward compatibility
                                     if context_keys:
                                         row += f" | {','.join(context_keys)}"
                                     else:
                                         row += " | -"
+                                        
+                                    # Then add a comment with the semantic codes that are more descriptive
+                                    if semantic_keys:
+                                        row += f" # {','.join(semantic_keys)}"
                                     
                                     # Add values for each context
                                     for context_ref, _ in top_contexts:
@@ -1088,11 +1245,11 @@ class LLMFormatter:
             output.append("This section provides a consolidated reference for all time periods used in this document.")
             output.append("")
             
-            # Data Dictionary Table for all context references
+            # Enhanced Data Dictionary Table for all context references
             output.append("@DATA_DICTIONARY:")
             context_dict_rows = []
-            context_dict_rows.append("Context_Code | Category | Type | Period | Description")
-            context_dict_rows.append("------------|----------|------|--------|------------")
+            context_dict_rows.append("Context_Code | Semantic_Code | Category | Type | Segment | Period | Description")
+            context_dict_rows.append("------------|---------------|----------|------|---------|--------|------------")
             
             # Sort by context code for logical ordering
             sorted_items = sorted([(info["code"], label) for label, info in context_reference_guide.items() if "code" in info])
@@ -1101,6 +1258,8 @@ class LLMFormatter:
                 info = context_reference_guide[label]
                 category = info.get("category", "Unknown")
                 type_str = info.get("type", "Unknown")
+                semantic_code = info.get("semantic_code", code)
+                segment = info.get("segment", "Consolidated")
                 
                 # Format period information
                 if type_str == "period":
@@ -1111,7 +1270,13 @@ class LLMFormatter:
                     period = "Unknown"
                 
                 description = info.get("description", "")
-                context_dict_rows.append(f"{code} | {category} | {type_str} | {period} | {description}")
+                
+                # Add statement type if available (like Balance_Sheet)
+                if "statement_type" in info:
+                    statement_type = info["statement_type"]
+                    description = f"{description} ({statement_type})"
+                
+                context_dict_rows.append(f"{code} | {semantic_code} | {category} | {type_str} | {segment} | {period} | {description}")
             
             output.append("\n".join(context_dict_rows))
             output.append("")
@@ -1139,9 +1304,23 @@ class LLMFormatter:
             for year, contexts in years.items():
                 if contexts:
                     codes = [code for code, _ in contexts]
-                    output.append(f"- Revenue_{year} = Product_Revenue_{year} + Service_Revenue_{year} (contexts: {', '.join(codes)})")
-                    output.append(f"- Gross_Profit_{year} = Revenue_{year} - Cost_of_Revenue_{year} (contexts: {', '.join(codes)})")
-                    output.append(f"- Operating_Income_{year} = Gross_Profit_{year} - Operating_Expenses_{year} (contexts: {', '.join(codes)})")
+                    
+                    # Get the semantic codes too for clarity
+                    semantic_codes = []
+                    for code, _ in contexts:
+                        for _, info in context_reference_guide.items():
+                            if info.get("code") == code and "semantic_code" in info:
+                                semantic_codes.append(info["semantic_code"])
+                                break
+                    
+                    # Show formulas with both short codes and semantic codes
+                    context_ref = f"contexts: {', '.join(codes)}"
+                    if semantic_codes:
+                        context_ref += f" ({', '.join(semantic_codes)})"
+                        
+                    output.append(f"- Revenue_{year} = Product_Revenue_{year} + Service_Revenue_{year} ({context_ref})")
+                    output.append(f"- Gross_Profit_{year} = Revenue_{year} - Cost_of_Revenue_{year} ({context_ref})")
+                    output.append(f"- Operating_Income_{year} = Gross_Profit_{year} - Operating_Expenses_{year} ({context_ref})")
             output.append("")
             
             # First list period contexts (fiscal years, quarters)
@@ -1150,7 +1329,12 @@ class LLMFormatter:
                 output.append("@PERIOD_CONTEXTS")
                 for label in period_labels:
                     context_info = context_reference_guide[label]
-                    output.append(f"- {label}: {context_info['description']} (code: {context_info.get('code', 'Unknown')})")
+                    code = context_info.get('code', "Unknown")
+                    semantic_code = context_info.get('semantic_code', code)
+                    segment = context_info.get('segment', 'Consolidated')
+                    
+                    # Create a more descriptive entry with all available information
+                    output.append(f"- {label}: {context_info['description']} (code: {code}, semantic: {semantic_code}, segment: {segment})")
                 output.append("")
             
             # Then list instant contexts (balance sheet dates)
@@ -1159,7 +1343,13 @@ class LLMFormatter:
                 output.append("@INSTANT_CONTEXTS")
                 for label in instant_labels:
                     context_info = context_reference_guide[label]
-                    output.append(f"- {label}: {context_info['description']} (code: {context_info.get('code', 'Unknown')})")
+                    code = context_info.get('code', "Unknown")
+                    semantic_code = context_info.get('semantic_code', code)
+                    segment = context_info.get('segment', 'Consolidated')
+                    statement_type = context_info.get('statement_type', 'Unknown')
+                    
+                    # Create a more descriptive entry with all available information
+                    output.append(f"- {label}: {context_info['description']} (code: {code}, semantic: {semantic_code}, segment: {segment}, statement: {statement_type})")
                 output.append("")
                 
             # Add a mapping of fiscal periods to calendar periods if fiscal year info is available
@@ -1203,20 +1393,30 @@ class LLMFormatter:
         output.append("{")
         output.append("  \"Revenue\": {")
         output.append("    \"Product_Revenue\": {")
-        output.append("      \"c-1\": 72480,")
-        output.append("      \"c-2\": 65240")
+        output.append("      \"c-1\": 72480,         // Using short code")
+        output.append("      \"c-2\": 65240,         // Using short code")
+        output.append("      \"FY2023\": 72480,      // Using semantic code")
+        output.append("      \"FY2022\": 65240,      // Using semantic code")
+        output.append("      \"BS_2023_12_31\": 72480 // Using descriptive balance sheet date")
         output.append("    },")
         output.append("    \"Service_Revenue\": {")
-        output.append("      \"c-1\": 16320,")
-        output.append("      \"c-2\": 13950")
+        output.append("      \"c-1\": 16320,         // Using short code")
+        output.append("      \"c-2\": 13950,         // Using short code")
+        output.append("      \"FY2023\": 16320,      // Using semantic code")
+        output.append("      \"FY2022\": 13950       // Using semantic code")
         output.append("    },")
         output.append("    \"Total_Revenue\": {")
-        output.append("      \"c-1\": 88800,")
-        output.append("      \"c-2\": 79190")
+        output.append("      \"c-1\": 88800,         // Using short code")
+        output.append("      \"c-2\": 79190,         // Using short code")
+        output.append("      \"FY2023\": 88800,      // Using semantic code")
+        output.append("      \"FY2022\": 79190,      // Using semantic code")
+        output.append("      \"Consolidated_2023\": 88800  // Using segment information")
         output.append("    }")
         output.append("  }")
         output.append("}")
         output.append("```")
+        output.append("")
+        output.append("Note: You can use either the numeric short codes (c-1, c-2) or the semantic codes (FY2023, BS_2023_12_31) to access context values. The semantic codes are more descriptive and self-explanatory.")
         
         return "\n".join(output)
     
