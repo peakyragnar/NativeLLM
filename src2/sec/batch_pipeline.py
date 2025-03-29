@@ -35,16 +35,24 @@ class BatchSECPipeline:
                      Including:
                      - force_upload: Override GCS existence checks
                      - amendments_only: Process only amended filings (10-K/A, 10-Q/A)
+                     - skip_text_files: Skip generating text.txt files
         """
         # Extract specialized flags
         self.force_upload = kwargs.pop("force_upload", False)
         self.amendments_only = kwargs.pop("amendments_only", False)
+        self.skip_text_files = kwargs.pop("skip_text_files", False)
         
         if self.force_upload:
             logging.info("FORCE UPLOAD MODE ENABLED - Will upload all files regardless of existence in GCS")
             
         if self.amendments_only:
             logging.info("AMENDMENTS-ONLY MODE ENABLED - Will only process amended filings (10-K/A, 10-Q/A)")
+            
+        if self.skip_text_files:
+            logging.info("TEXT FILE GENERATION DISABLED - Only generating LLM-formatted files")
+            # Update the config to skip text files
+            from src2.config import OUTPUT_FORMAT
+            OUTPUT_FORMAT["GENERATE_TEXT_FILES"] = False
         
         # Pass remaining kwargs to pipeline
         self.pipeline = SECFilingPipeline(**kwargs)
@@ -1256,6 +1264,8 @@ def main():
     parser.add_argument("--gcp-project", help="GCP project ID for upload")
     parser.add_argument("--force-upload", action="store_true", default=False,
                         help="Force upload of files even if they already exist in GCS (useful for initial load)")
+    parser.add_argument("--skip-text-files", action="store_true", default=False,
+                        help="Skip generating text.txt files and only produce LLM-formatted (llm.txt) files")
     
     args = parser.parse_args()
     
@@ -1269,6 +1279,12 @@ def main():
     if not args.process_10k and not args.process_10q:
         parser.error("Must process at least one filing type (10-K or 10-Q)")
     
+    # Update config based on command line arguments
+    if args.skip_text_files:
+        from src2.config import OUTPUT_FORMAT
+        OUTPUT_FORMAT["GENERATE_TEXT_FILES"] = False
+        print("Skipping text.txt file generation - only LLM format will be produced")
+
     # Create batch pipeline
     batch = BatchSECPipeline(
         user_agent=f"NativeLLM_BatchPipeline/1.0",
@@ -1277,7 +1293,8 @@ def main():
         gcp_bucket=args.gcp_bucket,
         gcp_project=args.gcp_project,
         force_upload=args.force_upload,  # Pass the force_upload flag
-        amendments_only=args.amendments_only  # Pass the amendments_only flag
+        amendments_only=args.amendments_only,  # Pass the amendments_only flag
+        skip_text_files=args.skip_text_files  # Pass the skip_text_files flag
     )
     
     # Process filings

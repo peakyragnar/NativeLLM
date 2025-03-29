@@ -622,10 +622,23 @@ class SECFilingPipeline:
             }
             
             # Extract text
+            # Check if we should skip text file generation
+            from src2.config import OUTPUT_FORMAT
+            generate_text_files = OUTPUT_FORMAT.get("GENERATE_TEXT_FILES", True)
+            
+            if generate_text_files:
+                # Extract text to text.txt file with output path
+                logging.info(f"Generating text.txt file: {text_path}")
+            else:
+                # Skip text.txt output file generation
+                logging.info(f"Skipping text.txt file generation as configured")
+                text_path = None  # Set to None to avoid file creation
+            
             extract_result = self.extractor.process_filing(
                 rendered_path,
                 output_path=text_path,
-                metadata=metadata
+                metadata=metadata,
+                return_content=not generate_text_files
             )
             
             # Add extraction stage to results

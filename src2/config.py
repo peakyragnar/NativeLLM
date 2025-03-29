@@ -51,3 +51,10 @@ HTML_OPTIMIZATION = {
     # Enable logging of HTML optimization metrics
     "enable_logging": True
 }
+
+# Output format configuration
+OUTPUT_FORMAT = {
+    # Whether to generate text.txt files (raw extracted text)
+    # Set to False to only generate LLM-formatted files (llm.txt)
+    "GENERATE_TEXT_FILES": True  # Default to True for backward compatibility
+}
