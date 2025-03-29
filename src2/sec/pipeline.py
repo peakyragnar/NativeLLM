@@ -629,17 +629,23 @@ class SECFilingPipeline:
             if generate_text_files:
                 # Extract text to text.txt file with output path
                 logging.info(f"Generating text.txt file: {text_path}")
+                extract_result = self.extractor.process_filing(
+                    rendered_path,
+                    output_path=text_path,
+                    metadata=metadata
+                )
             else:
                 # Skip text.txt output file generation
                 logging.info(f"Skipping text.txt file generation as configured")
-                text_path = None  # Set to None to avoid file creation
-            
-            extract_result = self.extractor.process_filing(
-                rendered_path,
-                output_path=text_path,
-                metadata=metadata,
-                return_content=not generate_text_files
-            )
+                # Set to None to avoid file creation but still store filename for GCS path
+                original_text_path = text_path
+                text_path = None  
+                extract_result = self.extractor.process_filing(
+                    rendered_path,
+                    output_path=None,
+                    metadata=metadata,
+                    return_content=True
+                )
             
             # Add extraction stage to results
             result["stages"]["extract"] = {
@@ -1000,7 +1006,18 @@ class SECFilingPipeline:
                     files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
                     
                     # Handle text file upload based on existence and force_upload flag
-                    if files_exist.get(gcs_text_path, False) and not force_upload:
+                    # First check if text_path is None (skip-text-files mode)
+                    from src2.config import OUTPUT_FORMAT
+                    generate_text_files = OUTPUT_FORMAT.get("GENERATE_TEXT_FILES", True)
+                    
+                    if not generate_text_files:
+                        logging.info(f"Skipping text file upload to GCS (text file generation disabled)")
+                        text_upload_result = {
+                            "success": True,
+                            "skipped": True,
+                            "reason": "text_files_disabled"
+                        }
+                    elif files_exist.get(gcs_text_path, False) and not force_upload:
                         logging.info(f"Text file already exists in GCS: {gcs_text_path}")
                         text_upload_result = {
                             "success": True,
@@ -1013,7 +1030,15 @@ class SECFilingPipeline:
                         else:
                             logging.info(f"Uploading text file to GCS: {gcs_text_path}")
                         
-                        text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
+                        # Only attempt to upload if text_path exists
+                        if text_path and os.path.exists(str(text_path)):
+                            text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
+                        else:
+                            text_upload_result = {
+                                "success": True,
+                                "skipped": True,
+                                "reason": "text_path_not_available"
+                            }
                 
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
@@ -1041,10 +1066,17 @@ class SECFilingPipeline:
                 if text_upload_result.get("success", False):
                     # Add Firestore metadata
                     metadata_update = {
-                        "text_path": gcs_text_path,
-                        "text_size": os.path.getsize(str(text_path)),
-                        "local_text_path": str(text_path)  # Add local path for token counting
+                        "text_path": gcs_text_path
                     }
+                    
+                    # Only add text size and path if text file was actually generated
+                    if text_path and os.path.exists(str(text_path)):
+                        metadata_update["text_size"] = os.path.getsize(str(text_path))
+                        metadata_update["local_text_path"] = str(text_path)  # Add local path for token counting
+                    else:
+                        # If text file was skipped, set size to 0
+                        metadata_update["text_size"] = 0
+                        metadata_update["text_file_skipped"] = True
                     
                     # Add LLM path if it was uploaded successfully
                     if llm_upload_result and llm_upload_result.get("success", False):
@@ -1081,8 +1113,8 @@ class SECFilingPipeline:
             
             # Final result construction
             result["success"] = "error" not in result
-            result["text_path"] = str(text_path) if os.path.exists(text_path) else None
-            result["llm_path"] = str(llm_path) if os.path.exists(llm_path) else None
+            result["text_path"] = str(text_path) if text_path and os.path.exists(text_path) else None
+            result["llm_path"] = str(llm_path) if llm_path and os.path.exists(llm_path) else None
             result["total_time_seconds"] = time.time() - start_time
             
             return result
@@ -1726,11 +1758,16 @@ class SECFilingPipeline:
                         "already_exists": True
                     }
                 else:
-                    if files_exist.get(gcs_text_path, False) and force_upload:
-                        logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
+                    # Check if text_path is None (text file generation skipped)
+                    if text_path is None:
+                        logging.info(f"Skipping text file upload to GCS (text file generation disabled)")
+                        text_upload_result = {"success": True, "message": "Text file generation disabled"}
                     else:
-                        logging.info(f"Uploading text file to GCS: {gcs_text_path}")
-                    text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
+                        if files_exist.get(gcs_text_path, False) and force_upload:
+                            logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
+                        else:
+                            logging.info(f"Uploading text file to GCS: {gcs_text_path}")
+                        text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
                 
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
@@ -1758,10 +1795,17 @@ class SECFilingPipeline:
                 if text_upload_result.get("success", False):
                     # Add Firestore metadata
                     metadata_update = {
-                        "text_path": gcs_text_path,
-                        "text_size": os.path.getsize(str(text_path)),
-                        "local_text_path": str(text_path)  # Add local path for token counting
+                        "text_path": gcs_text_path
                     }
+                    
+                    # Only add text size and path if text file was actually generated
+                    if text_path and os.path.exists(str(text_path)):
+                        metadata_update["text_size"] = os.path.getsize(str(text_path))
+                        metadata_update["local_text_path"] = str(text_path)  # Add local path for token counting
+                    else:
+                        # If text file was skipped, set size to 0
+                        metadata_update["text_size"] = 0
+                        metadata_update["text_file_skipped"] = True
                     
                     # Add LLM path if it was uploaded successfully
                     if llm_upload_result and llm_upload_result.get("success", False):
@@ -1798,8 +1842,8 @@ class SECFilingPipeline:
             
             # Add final results
             result["success"] = "error" not in result
-            result["text_path"] = str(text_path) if os.path.exists(text_path) else None
-            result["llm_path"] = str(llm_path) if os.path.exists(llm_path) else None
+            result["text_path"] = str(text_path) if text_path and os.path.exists(text_path) else None
+            result["llm_path"] = str(llm_path) if llm_path and os.path.exists(llm_path) else None
             result["total_time_seconds"] = time.time() - start_time
             
             # Run data integrity validation if successful
@@ -1859,7 +1903,8 @@ class SECFilingPipeline:
                         # Log what we're validating
                         logging.info(f"Running basic validation for {ticker} {filing_type} {local_fiscal_year} {local_fiscal_period}")
                         
-                        if os.path.exists(text_path) and os.path.exists(llm_path):
+                        # Handle validation differently if text file generation was skipped
+                        if (text_path and os.path.exists(text_path)) and os.path.exists(llm_path):
                             # Check file sizes
                             text_size = os.path.getsize(text_path)
                             llm_size = os.path.getsize(llm_path)
@@ -1868,7 +1913,15 @@ class SECFilingPipeline:
                             if text_size < min_size or llm_size < min_size:
                                 logging.warning(f"File size validation failed: text={text_size/1024:.2f}KB, llm={llm_size/1024:.2f}KB")
                                 data_integrity_result["status"] = "FILE_SIZE_WARNING"
-                                data_integrity_result["details"]["file_size_warning"] = f"File size too small: text={text_size/1024:.2f}KB, llm={llm_size/1024:.2f}KB"
+                        elif text_path is None and os.path.exists(llm_path):
+                            # Text file was intentionally skipped, validate only LLM file
+                            llm_size = os.path.getsize(llm_path)
+                            min_size = 10 * 1024  # 10 KB
+                            
+                            if llm_size < min_size:
+                                logging.warning(f"LLM file size validation failed: llm={llm_size/1024:.2f}KB")
+                                data_integrity_result["status"] = "FILE_SIZE_WARNING"
+                                data_integrity_result["details"]["file_size_warning"] = f"File size too small: llm={llm_size/1024:.2f}KB"
                             
                             # Check LLM format
                             format_valid = True
