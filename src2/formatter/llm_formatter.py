@@ -8,6 +8,7 @@ import os
 import logging
 import json
 import re
+import datetime
 
 class LLMFormatter:
     """
@@ -277,34 +278,159 @@ class LLMFormatter:
                 # Sort contexts by frequency (most common first)
                 sorted_contexts = sorted(context_counts.items(), key=lambda x: x[1], reverse=True)
                 
-                # Get the top contexts that have significant counts (shared across multiple concepts)
-                top_contexts = []
+                # Get contexts with period information for columns
+                contexts_with_period = []
+                context_to_period_info = {}  # Store all context period info for reference
+                
                 for context_ref, count in sorted_contexts:
                     # Only include contexts that appear multiple times
                     if count >= 3:  # At least 3 facts with this context
                         # Try to get period info from the raw contexts
                         if context_ref in parsed_xbrl.get("contexts", {}):
                             context_info = parsed_xbrl["contexts"][context_ref]
-                            context_label = context_ref
+                            period_data = None
                             
-                            # Attempt to create a readable label from period info
                             if "period" in context_info:
                                 period_info = context_info["period"]
+                                
+                                # Store all period info for later reference
+                                context_to_period_info[context_ref] = period_info
+                                
                                 if "instant" in period_info:
-                                    context_label = f"As of {period_info['instant']}"
+                                    date_str = period_info['instant']
+                                    try:
+                                        date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+                                        period_type = "Instant"
+                                        period_data = {
+                                            "date": date_obj,
+                                            "label": f"As of {date_obj.strftime('%b %d, %Y')}",
+                                            "year": date_obj.year,
+                                            "type": period_type,
+                                            "context_ref": context_ref,
+                                            "sort_key": f"{date_obj.year}{date_obj.month:02d}{date_obj.day:02d}"
+                                        }
+                                    except ValueError:
+                                        # If date parsing fails, use the original string
+                                        period_data = {
+                                            "date": date_str,
+                                            "label": f"As of {date_str}",
+                                            "year": date_str[:4],  # Assume YYYY-MM-DD format
+                                            "type": "Instant",
+                                            "context_ref": context_ref,
+                                            "sort_key": date_str.replace("-", "")
+                                        }
                                 elif "startDate" in period_info and "endDate" in period_info:
-                                    context_label = f"{period_info['startDate']} to {period_info['endDate']}"
+                                    start_str = period_info['startDate']
+                                    end_str = period_info['endDate']
+                                    try:
+                                        start_date = datetime.datetime.strptime(start_str, "%Y-%m-%d")
+                                        end_date = datetime.datetime.strptime(end_str, "%Y-%m-%d")
+                                        delta = (end_date - start_date).days
+                                        
+                                        # Determine if it's a quarter, year, or other period
+                                        if 88 <= delta <= 95:  # ~3 months (quarter)
+                                            quarter = (end_date.month + 2) // 3  # Calculate quarter from end month
+                                            period_type = "Quarter"
+                                            period_label = f"Q{quarter} {end_date.year}"
+                                        elif 360 <= delta <= 371:  # ~1 year
+                                            period_type = "Annual"
+                                            period_label = f"FY {end_date.year}"
+                                        elif 175 <= delta <= 190:  # ~6 months
+                                            period_type = "Semi-annual"
+                                            period_label = f"H1 {end_date.year}"
+                                        else:
+                                            period_type = "Period"
+                                            period_label = f"{start_date.strftime('%b %d')} - {end_date.strftime('%b %d, %Y')}"
+                                        
+                                        period_data = {
+                                            "start_date": start_date,
+                                            "end_date": end_date,
+                                            "label": period_label,
+                                            "year": end_date.year,
+                                            "type": period_type,
+                                            "context_ref": context_ref,
+                                            "sort_key": f"{end_date.year}{end_date.month:02d}{end_date.day:02d}"
+                                        }
+                                    except ValueError:
+                                        # If date parsing fails, use the original strings
+                                        period_data = {
+                                            "start_date": start_str,
+                                            "end_date": end_str,
+                                            "label": f"{start_str} to {end_str}",
+                                            "year": end_str[:4],  # Assume YYYY-MM-DD format
+                                            "type": "Period",
+                                            "context_ref": context_ref,
+                                            "sort_key": end_str.replace("-", "")
+                                        }
                             
-                            top_contexts.append((context_ref, context_label))
+                            if period_data:
+                                contexts_with_period.append(period_data)
                         else:
-                            # No context info, just use the ID
-                            top_contexts.append((context_ref, f"Context {context_ref}"))
+                            # No context info, fallback to ID with count indicator
+                            contexts_with_period.append({
+                                "label": f"Context {context_ref}",
+                                "context_ref": context_ref,
+                                "type": "Unknown",
+                                "sort_key": f"Z{context_ref}",  # 'Z' prefix to sort after known dates
+                                "year": 9999  # High value to sort at the end
+                            })
+                
+                # Sort contexts chronologically (earliest to latest)
+                contexts_with_period.sort(key=lambda x: x.get("sort_key", ""))
+                
+                # Convert to the format needed for table creation
+                top_contexts = [(ctx["context_ref"], ctx["label"]) for ctx in contexts_with_period]
+                
+                # Create a context reference mapping for the table header
+                context_mapping = {}
+                for ctx in contexts_with_period:
+                    context_mapping[ctx["context_ref"]] = ctx["label"]
                 
                 # Only create a table if we have enough contexts and concepts
                 if len(top_contexts) >= 2 and len(concepts_in_section) >= 3:
-                    # Create table header
-                    header = f"{section_name.replace('_', ' ')} TABLE"
+                    # Identify the years covered in this table
+                    years_covered = sorted(set([ctx.get("year") for ctx in contexts_with_period if "year" in ctx]))
+                    period_types = sorted(set([ctx.get("type") for ctx in contexts_with_period if "type" in ctx]))
+                    
+                    # Create descriptive table header
+                    if years_covered and len(years_covered) <= 5:  # Reasonable number to display
+                        years_str = ", ".join([str(year) for year in years_covered])
+                        header = f"{section_name.replace('_', ' ')} TABLE ({years_str})"
+                    else:
+                        header = f"{section_name.replace('_', ' ')} TABLE"
+                    
                     output.append(f"@TABLE_CONTENT: {header}")
+                    
+                    # Add a period guide for this table if we have good period info
+                    if len(contexts_with_period) > 0 and any("type" in ctx for ctx in contexts_with_period):
+                        period_guide = []
+                        
+                        # Group contexts by type
+                        period_by_type = {}
+                        for ctx in contexts_with_period:
+                            if "type" in ctx and ctx["type"] != "Unknown":
+                                if ctx["type"] not in period_by_type:
+                                    period_by_type[ctx["type"]] = []
+                                period_by_type[ctx["type"]].append(ctx)
+                        
+                        # Add period reference information
+                        for period_type in ["Annual", "Quarter", "Semi-annual", "Instant", "Period"]:
+                            if period_type in period_by_type:
+                                periods = period_by_type[period_type]
+                                if period_type == "Annual":
+                                    periods_str = ", ".join([f"{p['label']}" for p in periods])
+                                    period_guide.append(f"Annual periods: {periods_str}")
+                                elif period_type == "Quarter":
+                                    periods_str = ", ".join([f"{p['label']}" for p in periods])
+                                    period_guide.append(f"Quarterly periods: {periods_str}")
+                                elif period_type == "Instant":
+                                    if len(periods) <= 4:  # Keep it concise
+                                        periods_str = ", ".join([f"{p['label']}" for p in periods])
+                                        period_guide.append(f"As of dates: {periods_str}")
+                        
+                        # Add the period guide if we have useful information
+                        if period_guide:
+                            output.append("Period reference: " + "; ".join(period_guide))
                     
                     # Build table
                     table_rows = []
@@ -356,26 +482,48 @@ class LLMFormatter:
                         self.data_integrity["total_table_rows"] += len(table_rows)
                 
                 # Keep the original context-based approach as a fallback
-                if context_map:
+                if context_map and not self.data_integrity["xbrl_tables_created"]:
                     # Group related facts into tables by context
                     related_contexts = {}
+                    context_period_mapping = {}
                     
-                    # Group contexts by type (period/instant) and date pattern
-                    for fact in section_facts:
-                        context_ref = fact.get("context_ref", "")
-                        if context_ref in context_map:
-                            context_label = context_map[context_ref]
-                            # Extract year from context label (e.g. "FY2023" -> "2023")
-                            year_match = re.search(r'(\d{4})', context_label)
-                            if year_match:
-                                year = year_match.group(1)
-                                key = f"{section_name}_{year}"
-                                if key not in related_contexts:
-                                    related_contexts[key] = []
-                                if context_ref not in related_contexts[key]:
-                                    related_contexts[key].append(context_ref)
+                    # Process context map for year and period extraction
+                    for context_ref, context_label in context_map.items():
+                        # Extract year from context label (e.g. "FY2023" -> "2023")
+                        year_match = re.search(r'(\d{4})', context_label)
+                        if year_match:
+                            year = year_match.group(1)
+                            
+                            # Try to determine period type
+                            period_type = "Unknown"
+                            if "FY" in context_label or "Annual" in context_label:
+                                period_type = "Annual"
+                            elif "Q1" in context_label or "Q2" in context_label or "Q3" in context_label or "Q4" in context_label:
+                                period_type = "Quarter"
+                                quarter_match = re.search(r'Q([1-4])', context_label)
+                                quarter = quarter_match.group(1) if quarter_match else ""
+                                # Enhance the context label to be more descriptive
+                                if quarter:
+                                    context_map[context_ref] = f"Q{quarter} {year}"
+                            elif "As of" in context_label:
+                                period_type = "Instant"
+                            
+                            # Store in our mapping
+                            context_period_mapping[context_ref] = {
+                                "year": year,
+                                "label": context_map[context_ref],
+                                "type": period_type,
+                                "sort_key": f"{year}{period_type}{context_ref}"  # For sorting
+                            }
+                            
+                            # Group by year for tables
+                            key = f"{section_name}_{year}"
+                            if key not in related_contexts:
+                                related_contexts[key] = []
+                            if context_ref not in related_contexts[key]:
+                                related_contexts[key].append(context_ref)
                     
-                    # Generate tables for each group of related contexts
+                    # Generate tables for each group of related contexts (typically by year)
                     for key, contexts in related_contexts.items():
                         # For each table, collect relevant facts
                         table_facts = []
@@ -386,18 +534,49 @@ class LLMFormatter:
                         
                         # Check if we have enough facts to create a meaningful table
                         if len(table_facts) >= 3:
-                            # Create table header
-                            header = f"{section_name.replace('_', ' ')} TABLE - {key}"
+                            # Extract year from key for better header
+                            year_match = re.search(r'_(\d{4})$', key)
+                            year = year_match.group(1) if year_match else ""
+                            
+                            # Create descriptive table header
+                            if year:
+                                header = f"{section_name.replace('_', ' ')} TABLE ({year})"
+                            else:
+                                header = f"{section_name.replace('_', ' ')} TABLE - {key}"
+                                
                             output.append(f"@TABLE_CONTENT: {header}")
                             
-                            # Extract relevant periods/contexts for columns
+                            # Add period reference for this table if we have good info
+                            period_types_in_table = set()
+                            for context_ref in contexts:
+                                if context_ref in context_period_mapping:
+                                    period_types_in_table.add(context_period_mapping[context_ref]["type"])
+                            
+                            if period_types_in_table:
+                                period_guide = []
+                                for period_type in ["Annual", "Quarter", "Instant"]:
+                                    if period_type in period_types_in_table:
+                                        periods = [ctx for ctx_ref, ctx in context_period_mapping.items() 
+                                                if ctx_ref in contexts and ctx["type"] == period_type]
+                                        if periods:
+                                            periods_str = ", ".join([ctx["label"] for ctx in periods])
+                                            period_guide.append(f"{period_type} periods: {periods_str}")
+                                
+                                if period_guide:
+                                    output.append("Period reference: " + "; ".join(period_guide))
+                            
+                            # Extract relevant periods/contexts for columns and sort chronologically
                             column_contexts = []
                             for context_ref in contexts:
                                 if context_ref in context_map:
-                                    column_contexts.append((context_ref, context_map[context_ref]))
+                                    sort_key = context_period_mapping.get(context_ref, {}).get("sort_key", context_ref)
+                                    column_contexts.append((context_ref, context_map[context_ref], sort_key))
                             
-                            # Sort column_contexts by year and period
-                            column_contexts.sort(key=lambda x: x[1])
+                            # Sort column_contexts chronologically
+                            column_contexts.sort(key=lambda x: x[2])
+                            
+                            # Convert to the format expected by the rest of the code
+                            column_contexts = [(ctx[0], ctx[1]) for ctx in column_contexts]
                             
                             # Group facts by concept for rows
                             facts_by_concept = {}
