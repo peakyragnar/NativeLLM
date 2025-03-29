@@ -21,15 +21,46 @@ class LLMFormatter:
         """
         # Map of section IDs to human-readable names
         self.section_to_readable_name = {
+            # Form 10-K Items
             "ITEM_1_BUSINESS": "Business",
             "ITEM_1A_RISK_FACTORS": "Risk Factors",
+            "ITEM_1B_UNRESOLVED_STAFF_COMMENTS": "Unresolved Staff Comments",
+            "ITEM_1C_CYBERSECURITY": "Cybersecurity",
+            "ITEM_2_PROPERTIES": "Properties",
+            "ITEM_3_LEGAL_PROCEEDINGS": "Legal Proceedings",
+            "ITEM_4_MINE_SAFETY": "Mine Safety Disclosures",
+            "ITEM_5_MARKET": "Market for Registrant's Common Equity and Related Stockholder Matters",
+            "ITEM_6_SELECTED_FINANCIAL": "Selected Financial Data",
             "ITEM_7_MD_AND_A": "Management's Discussion and Analysis",
-            "MANAGEMENT_DISCUSSION": "Management's Discussion and Analysis",
-            "ITEM_7A_MARKET_RISK": "Market Risk",
-            "ITEM_8_FINANCIAL_STATEMENTS": "Financial Statements",
-            "ITEM_2_MD_AND_A": "Management's Discussion and Analysis",
-            "ITEM_3_MARKET_RISK": "Market Risk",
+            "ITEM_7A_MARKET_RISK": "Quantitative and Qualitative Disclosures About Market Risk",
+            "ITEM_8_FINANCIAL_STATEMENTS": "Financial Statements and Supplementary Data",
+            "ITEM_9_CHANGES_ACCOUNTANTS": "Changes in and Disagreements with Accountants",
+            "ITEM_9A_CONTROLS": "Controls and Procedures",
+            "ITEM_9B_OTHER_INFORMATION": "Other Information",
+            "ITEM_9C_FOREIGN_JURISDICTIONS": "Disclosure Regarding Foreign Jurisdictions",
+            "ITEM_10_DIRECTORS": "Directors, Executive Officers and Corporate Governance",
+            "ITEM_11_EXECUTIVE_COMPENSATION": "Executive Compensation",
+            "ITEM_12_SECURITY_OWNERSHIP": "Security Ownership of Certain Beneficial Owners and Management",
+            "ITEM_13_RELATED_TRANSACTIONS": "Certain Relationships and Related Transactions",
+            "ITEM_14_PRINCIPAL_ACCOUNTANT": "Principal Accountant Fees and Services",
+            "ITEM_15_EXHIBITS": "Exhibits, Financial Statement Schedules",
+            "ITEM_16_FORM_10K_SUMMARY": "Form 10-K Summary",
+            
+            # Form 10-Q Items
             "ITEM_1_FINANCIAL_STATEMENTS": "Financial Statements",
+            "ITEM_2_MD_AND_A": "Management's Discussion and Analysis",
+            "ITEM_3_MARKET_RISK": "Quantitative and Qualitative Disclosures About Market Risk",
+            "ITEM_4_CONTROLS": "Controls and Procedures",
+            "ITEM_1_LEGAL_PROCEEDINGS": "Legal Proceedings",
+            "ITEM_1A_RISK_FACTORS_Q": "Risk Factors (10-Q)",
+            "ITEM_2_UNREGISTERED_SALES": "Unregistered Sales of Equity Securities",
+            "ITEM_3_DEFAULTS": "Defaults Upon Senior Securities",
+            "ITEM_4_MINE_SAFETY_Q": "Mine Safety Disclosures (10-Q)",
+            "ITEM_5_OTHER_INFORMATION_Q": "Other Information (10-Q)",
+            "ITEM_6_EXHIBITS_Q": "Exhibits (10-Q)",
+            
+            # Common statement sections
+            "MANAGEMENT_DISCUSSION": "Management's Discussion and Analysis",
             "CONSOLIDATED_BALANCE_SHEET": "Consolidated Balance Sheet",
             "CONSOLIDATED_INCOME_STATEMENT": "Consolidated Income Statement",
             "CONSOLIDATED_CASH_FLOW": "Consolidated Cash Flow Statement",
@@ -88,10 +119,17 @@ class LLMFormatter:
         output.append("")
         output.append("@STRUCTURE: Financial_Statement")
         output.append("@MAIN_CATEGORIES: Revenues, Cost_of_Revenues, Gross_Profit, Operating_Expenses, Operating_Income, Net_Income")
+        
+        # Expanded document structure information
         if filing_type == "10-K":
             output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement, Stockholders_Equity")
+            output.append("@DOCUMENT_PARTS: Part_I (Items_1-4), Part_II (Items_5-9), Part_III (Items_10-14), Part_IV (Items_15-16)")
+            output.append("@ALL_SECTIONS: Item_1_Business, Item_1A_Risk_Factors, Item_1B_Unresolved_Comments, Item_1C_Cybersecurity, Item_2_Properties, Item_3_Legal, Item_4_Mine_Safety, Item_5_Market, Item_6_Selected_Financial, Item_7_MD&A, Item_7A_Market_Risk, Item_8_Financial_Statements, Item_9_Accountant_Changes, Item_9A_Controls, Item_9B_Other, Item_9C_Foreign_Jurisdictions, Item_10_Directors, Item_11_Compensation, Item_12_Security_Ownership, Item_13_Related_Transactions, Item_14_Accountant_Fees, Item_15_Exhibits, Item_16_Summary")
         else:
             output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement")
+            output.append("@DOCUMENT_PARTS: Part_I (Items_1-2), Part_II (Items_3-6)")
+            output.append("@ALL_SECTIONS: Item_1_Financial_Statements, Item_2_MD&A, Item_3_Market_Risk, Item_4_Controls, Item_1_Legal_Proceedings, Item_1A_Risk_Factors, Item_2_Unregistered_Sales, Item_3_Defaults, Item_4_Mine_Safety, Item_5_Other, Item_6_Exhibits")
+            
         output.append("@SUBCATEGORIES_REVENUES: Product_Revenue, Service_Revenue, Total_Revenue")
         output.append("@SUBCATEGORIES_EXPENSES: Cost_of_Revenue, Research_Development, Sales_Marketing, General_Administrative")
         output.append("")
@@ -781,14 +819,52 @@ class LLMFormatter:
         
         # Add narrative sections
         if extracted_sections:
-            # Priority order for sections
+            # Include all sections for 100% completeness
+            # Priority order for sections - now includes all possible 10-K and 10-Q sections
             priority_sections = [
+                # Form 10-K main Items (in order)
                 "ITEM_1_BUSINESS",
-                "ITEM_1A_RISK_FACTORS", 
+                "ITEM_1A_RISK_FACTORS",
+                "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",
+                "ITEM_1C_CYBERSECURITY",
+                "ITEM_2_PROPERTIES",
+                "ITEM_3_LEGAL_PROCEEDINGS",
+                "ITEM_4_MINE_SAFETY",
+                "ITEM_5_MARKET",
+                "ITEM_6_SELECTED_FINANCIAL",
                 "ITEM_7_MD_AND_A",
+                "ITEM_7A_MARKET_RISK",
+                "ITEM_8_FINANCIAL_STATEMENTS",
+                "ITEM_9_CHANGES_ACCOUNTANTS",
+                "ITEM_9A_CONTROLS",
+                "ITEM_9B_OTHER_INFORMATION",
+                "ITEM_9C_FOREIGN_JURISDICTIONS",
+                "ITEM_10_DIRECTORS",
+                "ITEM_11_EXECUTIVE_COMPENSATION",
+                "ITEM_12_SECURITY_OWNERSHIP",
+                "ITEM_13_RELATED_TRANSACTIONS",
+                "ITEM_14_PRINCIPAL_ACCOUNTANT",
+                "ITEM_15_EXHIBITS",
+                "ITEM_16_FORM_10K_SUMMARY",
+                
+                # Form 10-Q main Items (in order)
+                "ITEM_1_FINANCIAL_STATEMENTS",
+                "ITEM_2_MD_AND_A",
+                "ITEM_3_MARKET_RISK",
+                "ITEM_4_CONTROLS",
+                "ITEM_1_LEGAL_PROCEEDINGS",
+                "ITEM_1A_RISK_FACTORS_Q", 
+                "ITEM_2_UNREGISTERED_SALES",
+                "ITEM_3_DEFAULTS",
+                "ITEM_4_MINE_SAFETY_Q",
+                "ITEM_5_OTHER_INFORMATION_Q",
+                "ITEM_6_EXHIBITS_Q",
+                
+                # Common MD&A subsections
                 "MANAGEMENT_DISCUSSION",
                 "RESULTS_OF_OPERATIONS",
-                "LIQUIDITY_AND_CAPITAL"
+                "LIQUIDITY_AND_CAPITAL",
+                "CRITICAL_ACCOUNTING"
             ]
             
             # Process sections in priority order
@@ -946,6 +1022,64 @@ class LLMFormatter:
         output.append(f"- Total table rows: {self.data_integrity['total_table_rows']}")
         output.append(f"- Narrative paragraphs: {self.data_integrity['narrative_paragraphs']}")
         output.append(f"- Narrative paragraphs included: {self.data_integrity['included_paragraphs']}")
+        
+        # Document section coverage report
+        output.append("")
+        output.append("@DOCUMENT_COVERAGE")
+        covered_sections = [section_id for section_id in priority_sections if section_id in extracted_sections]
+        missing_sections = [section_id for section_id in priority_sections if section_id not in extracted_sections]
+        
+        if filing_type == "10-K":
+            # Calculate coverage percentage based on 10-K sections
+            # Only consider the main 16 items for 10-K (skipping subsections)
+            main_10k_sections = [s for s in priority_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
+            found_10k_sections = [s for s in covered_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
+            
+            if main_10k_sections:
+                coverage_pct = (len(found_10k_sections) / len(main_10k_sections)) * 100
+                output.append(f"10-K Coverage: {coverage_pct:.1f}% of standard sections found")
+                
+                # Items found
+                output.append(f"Found {len(found_10k_sections)} of {len(main_10k_sections)} standard 10-K sections:")
+                output.append(", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in found_10k_sections[:10]]) + 
+                             ("..." if len(found_10k_sections) > 10 else ""))
+                
+                # Items not found (might be absent in the original document)
+                if missing_sections:
+                    missing_10k = [s for s in missing_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
+                    if missing_10k:
+                        output.append(f"Missing {len(missing_10k)} section(s):")
+                        output.append(", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in missing_10k[:5]]) + 
+                                     ("..." if len(missing_10k) > 5 else ""))
+                        output.append("Note: Missing sections may not exist in the original document")
+        
+        elif filing_type == "10-Q":
+            # Calculate coverage percentage based on 10-Q sections
+            main_10q_sections = [s for s in priority_sections if s.startswith("ITEM_") and (s.endswith("_Q") or s in [
+                "ITEM_1_FINANCIAL_STATEMENTS", "ITEM_2_MD_AND_A", "ITEM_3_MARKET_RISK", "ITEM_4_CONTROLS"
+            ])]
+            found_10q_sections = [s for s in covered_sections if s.startswith("ITEM_") and (s.endswith("_Q") or s in [
+                "ITEM_1_FINANCIAL_STATEMENTS", "ITEM_2_MD_AND_A", "ITEM_3_MARKET_RISK", "ITEM_4_CONTROLS"
+            ])]
+            
+            if main_10q_sections:
+                coverage_pct = (len(found_10q_sections) / len(main_10q_sections)) * 100
+                output.append(f"10-Q Coverage: {coverage_pct:.1f}% of standard sections found")
+                
+                # Items found
+                output.append(f"Found {len(found_10q_sections)} of {len(main_10q_sections)} standard 10-Q sections:")
+                output.append(", ".join([s.replace("ITEM_", "Item ").replace("_Q", "").replace("_", " ") for s in found_10q_sections]))
+                
+                # Items not found (might be absent in the original document)
+                if missing_sections:
+                    missing_10q = [s for s in missing_sections if s.startswith("ITEM_") and (s.endswith("_Q") or s in [
+                        "ITEM_1_FINANCIAL_STATEMENTS", "ITEM_2_MD_AND_A", "ITEM_3_MARKET_RISK", "ITEM_4_CONTROLS"
+                    ])]
+                    if missing_10q:
+                        output.append(f"Missing {len(missing_10q)} section(s):")
+                        output.append(", ".join([s.replace("ITEM_", "Item ").replace("_Q", "").replace("_", " ") for s in missing_10q]))
+                        output.append("Note: Missing sections may not exist in the original document")
+        
         output.append("")
         
         # Enhanced Context Reference Guide and Data Dictionary
