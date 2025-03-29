@@ -823,8 +823,20 @@ class BatchSECPipeline:
         calendar_year = filing_info.get("calendar_year")
         calendar_months = filing_info.get("calendar_months")
         
+        # Check if this is an amended filing
+        is_amended = filing_info.get("is_amended", False)
+        original_filing_type = filing_info.get("original_filing_type", filing_type)
+        
         # Add force_upload flag to filing_info to pass it to the pipeline
-        filing_info["force_upload"] = self.force_upload
+        # For amended filings, we want to skip GCP upload regardless of user settings
+        if is_amended:
+            filing_info["force_upload"] = False
+            filing_info["skip_gcp_upload"] = True
+            # Add a flag to store locally in a special directory
+            filing_info["store_in_amendments_dir"] = True
+        else:
+            filing_info["force_upload"] = self.force_upload
+            filing_info["skip_gcp_upload"] = False
         
         # Add explicit fiscal year to filing_info for consistent paths
         filing_info["fiscal_year"] = str(year)
@@ -833,7 +845,11 @@ class BatchSECPipeline:
         elif filing_type == "10-K":
             filing_info["fiscal_period"] = "annual"
         
-        log_message = f"Processing {ticker} {filing_type} for {year}"
+        # Create appropriate log message with amendment status
+        log_message = f"Processing {ticker} {original_filing_type} for {year}"
+        if is_amended:
+            log_message = f"Processing {ticker} {original_filing_type} (AMENDED) for {year}"
+        
         if quarter:
             log_message += f", Q{quarter}"
         if calendar_year and calendar_months:
@@ -1242,6 +1258,20 @@ def main():
             max_workers=args.workers
         )
         
+        # Count amended filings
+        amended_filings = []
+        for filing in results["filings_processed"]:
+            if filing.get("is_amended", False) and filing.get("status") == "success":
+                filing_type = filing.get("original_filing_type", filing.get("filing_type", "Unknown"))
+                amended_filings.append({
+                    "ticker": filing.get("ticker", args.ticker),
+                    "filing_type": filing_type,
+                    "year": filing.get("year", "Unknown"),
+                    "quarter": filing.get("quarter", None),
+                    "period_end_date": filing.get("period_end_date", "Unknown"),
+                    "local_path": filing.get("local_path", "")
+                })
+        
         # Print a summary of results
         print("\n=== Batch Processing Results ===")
         print(f"Company: {args.ticker}")
@@ -1249,7 +1279,18 @@ def main():
         print(f"Filings Processed: {results['summary']['total_filings']}")
         print(f"Successful: {results['summary']['successful_filings']}")
         print(f"Failed: {results['summary']['failed_filings']}")
+        print(f"Amended Filings (not uploaded to GCP): {len(amended_filings)}")
         print(f"Total Time: {results['summary']['total_time_seconds']:.2f} seconds")
+        
+        # Print details of any amended filings
+        if amended_filings:
+            print("\nAmended Filings (stored locally only):")
+            for filing in amended_filings:
+                filing_info = f"{filing['filing_type']} ({filing['year']}"
+                if filing.get("quarter"):
+                    filing_info += f", Q{filing['quarter']}"
+                filing_info += ")"
+                print(f"  - {filing_info}: Available locally at {filing.get('local_path', 'Unknown path')}")
         
         # Print details of any failed filings
         if results['summary']['failed_filings'] > 0:

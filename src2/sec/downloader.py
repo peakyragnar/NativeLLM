@@ -333,6 +333,12 @@ class SECDownloader:
                             
                             # Only process rows that match our filing type
                             if filing_type.lower() in filing_type_col.lower():
+                                # Check if this is an amended filing (10-K/A or 10-Q/A)
+                                is_amended = False
+                                if re.search(r'10-[KQ]/A', filing_type_col, re.IGNORECASE):
+                                    is_amended = True
+                                    logging.info(f"Found amended filing: {filing_type_col}")
+                                
                                 # Extract data from other columns
                                 documents_link = cols[1].find('a')
                                 description = cols[2].get_text().strip() if len(cols) > 2 else ""
@@ -385,7 +391,9 @@ class SECDownloader:
                                         "file_number": file_number,
                                         "documents_url": documents_url,
                                         "cik": cik,
-                                        "ticker": ticker
+                                        "ticker": ticker,
+                                        "is_amended": is_amended,
+                                        "original_filing_type": filing_type_col
                                     }
                                     
                                     # We need to extract period_end_date for proper fiscal year calculation
@@ -409,9 +417,52 @@ class SECDownloader:
                                             # Look for period of report
                                             period_match = re.search(r'Period of Report</div>\s*<div[^>]*>([^<]+)', doc_response.text)
                                             if period_match:
-                                                period_end_date = period_match.group(1).strip()
-                                                filing["period_end_date"] = period_end_date
-                                                logging.info(f"Extracted period_end_date: {period_end_date} for {accession_number}")
+                                                raw_period_end_date = period_match.group(1).strip()
+                                                
+                                                # CRITICAL: Validate the period_end_date at extraction
+                                                # This is the first defense against bad data entering the system
+                                                try:
+                                                    # Import validation function
+                                                    from src2.sec.fiscal.fiscal_data import validate_period_end_date, FiscalDataError
+                                                    
+                                                    # Normalize and validate the date
+                                                    normalized_date = validate_period_end_date(raw_period_end_date)
+                                                    
+                                                    # Only set validated date in filing info with complete metadata
+                                                    filing["period_end_date"] = normalized_date
+                                                    filing["period_end_date_raw"] = raw_period_end_date
+                                                    filing["period_end_date_validated"] = True
+                                                    filing["period_end_date_validation_timestamp"] = datetime.datetime.now().isoformat()
+                                                    
+                                                    # Add data integrity metadata for audit
+                                                    filing["data_integrity"] = {
+                                                        "period_end_date_validated": True,
+                                                        "validation_timestamp": datetime.datetime.now().isoformat(),
+                                                        "validation_source": "downloader.py:extract_validation",
+                                                        "raw_value": raw_period_end_date,
+                                                        "normalized_value": normalized_date
+                                                    }
+                                                    
+                                                    logging.info(f"DATA INTEGRITY: Extracted and validated period_end_date: {normalized_date} for {accession_number}")
+                                                except (ImportError, FiscalDataError) as e:
+                                                    logging.error(f"DATA INTEGRITY ERROR: Period end date validation failed: {str(e)}")
+                                                    
+                                                    # Circuit breaker pattern - fail early to prevent bad data
+                                                    # Note: Setting to None will trigger errors in downstream components
+                                                    # rather than allowing bad data to propagate
+                                                    filing["period_end_date"] = None
+                                                    filing["period_end_date_raw"] = raw_period_end_date
+                                                    filing["period_end_date_validated"] = False
+                                                    filing["period_end_date_error"] = str(e)
+                                                    
+                                                    # Add data integrity error metadata for audit
+                                                    filing["data_integrity"] = {
+                                                        "period_end_date_validated": False,
+                                                        "validation_timestamp": datetime.datetime.now().isoformat(),
+                                                        "validation_source": "downloader.py:extract_validation",
+                                                        "raw_value": raw_period_end_date,
+                                                        "error": str(e)
+                                                    }
                                     except Exception as e:
                                         logging.warning(f"Error getting period_end_date for {accession_number}: {str(e)}")
                                         # Continue without period_end_date - we'll handle missing dates elsewhere
@@ -435,6 +486,24 @@ class SECDownloader:
                 
                 # We could add alternative search methods here in the future
                 # For example: search by different URL patterns, try alternative APIs, etc.
+            
+            # Sort filings to prioritize non-amended filings
+            # This ensures original filings come before amendments
+            if filings:
+                # Count amended vs non-amended filings
+                amended_count = sum(1 for f in filings if f.get("is_amended", False))
+                original_count = len(filings) - amended_count
+                
+                if amended_count > 0:
+                    logging.info(f"Found {amended_count} amended filings and {original_count} original filings")
+                    
+                    # Sort filings with non-amended first
+                    filings.sort(key=lambda x: (x.get("is_amended", False), x.get("filing_date", "")))
+                    
+                    # Log the first few filings after sorting
+                    for i, f in enumerate(filings[:3]):
+                        amended_status = "AMENDED" if f.get("is_amended", False) else "ORIGINAL"
+                        logging.info(f"Filing {i+1}: {amended_status} {f.get('original_filing_type')} from {f.get('filing_date')}")
             
             logging.info(f"Found {len(filings)} {filing_type} filings for {ticker or cik}")
             return filings

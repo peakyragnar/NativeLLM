@@ -896,24 +896,83 @@ class SECFilingPipeline:
                 # Check if force_upload is enabled in the filing_info
                 force_upload = filing_info.get("force_upload", False)
                 
-                # Check if files already exist in GCS
-                files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
+                # Check if we should skip GCP upload entirely (for amended filings)
+                skip_gcp_upload = filing_info.get("skip_gcp_upload", False)
+                is_amended = filing_info.get("is_amended", False)
                 
-                # Handle text file upload based on existence and force_upload flag
-                if files_exist.get(gcs_text_path, False) and not force_upload:
-                    logging.info(f"Text file already exists in GCS: {gcs_text_path}")
-                    text_upload_result = {
-                        "success": True,
-                        "gcs_path": gcs_text_path,
-                        "already_exists": True
-                    }
-                else:
-                    if files_exist.get(gcs_text_path, False) and force_upload:
-                        logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
+                if skip_gcp_upload:
+                    if is_amended:
+                        logging.info(f"SKIPPING GCP UPLOAD for amended filing ({filing_info.get('original_filing_type', filing_type)})")
+                        
+                        # Store amended filing in amendments directory
+                        from pathlib import Path
+                        ticker = filing_info.get("ticker")
+                        fiscal_year = filing_info.get("fiscal_year")
+                        fiscal_period = filing_info.get("fiscal_period")
+                        amendments_dir = Path(output_dir) / ticker / "amendments"
+                        amendments_dir.mkdir(exist_ok=True, parents=True)
+                        
+                        # Determine appropriate file names
+                        filing_identifier = f"{ticker}_{filing_type}"
+                        if fiscal_year:
+                            filing_identifier += f"_{fiscal_year}"
+                        if fiscal_period and fiscal_period != "annual":
+                            filing_identifier += f"_{fiscal_period}"
+                        filing_identifier += "_amended"
+                        
+                        amended_text_path = amendments_dir / f"{filing_identifier}_text.txt"
+                        amended_llm_path = amendments_dir / f"{filing_identifier}_llm.txt"
+                        
+                        # Copy the files to the amendments directory
+                        import shutil
+                        try:
+                            shutil.copy2(text_path, amended_text_path)
+                            if os.path.exists(llm_path):
+                                shutil.copy2(llm_path, amended_llm_path)
+                            logging.info(f"Stored amended filing in {amendments_dir}")
+                            
+                            # Store the path in filing_info for reporting
+                            filing_info["amended_text_path"] = str(amended_text_path)
+                            filing_info["amended_llm_path"] = str(amended_llm_path)
+                        except Exception as e:
+                            logging.warning(f"Failed to store amended filing in amendments directory: {e}")
+                        
+                        # Create a result with the amendments path for reporting
+                        text_upload_result = {
+                            "success": True,
+                            "skipped": True,
+                            "reason": "amended_filing",
+                            "local_path": str(text_path),
+                            "amended_path": str(amended_text_path)
+                        }
                     else:
-                        logging.info(f"Uploading text file to GCS: {gcs_text_path}")
+                        logging.info(f"SKIPPING GCP UPLOAD as requested in filing_info")
+                        # Create a fake success result for consistency in the pipeline
+                        text_upload_result = {
+                            "success": True,
+                            "skipped": True,
+                            "local_path": str(text_path)
+                        }
+                else:
+                    # Normal GCP upload flow
+                    # Check if files already exist in GCS
+                    files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
                     
-                    text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
+                    # Handle text file upload based on existence and force_upload flag
+                    if files_exist.get(gcs_text_path, False) and not force_upload:
+                        logging.info(f"Text file already exists in GCS: {gcs_text_path}")
+                        text_upload_result = {
+                            "success": True,
+                            "gcs_path": gcs_text_path,
+                            "already_exists": True
+                        }
+                    else:
+                        if files_exist.get(gcs_text_path, False) and force_upload:
+                            logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
+                        else:
+                            logging.info(f"Uploading text file to GCS: {gcs_text_path}")
+                        
+                        text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
                 
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
