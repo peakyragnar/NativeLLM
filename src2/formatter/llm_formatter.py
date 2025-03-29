@@ -74,6 +74,7 @@ class LLMFormatter:
         fiscal_year = filing_metadata.get("fiscal_year", "")
         fiscal_period = filing_metadata.get("fiscal_period", "")
         
+        # Enhanced document structure with metadata headers
         output.append(f"@DOCUMENT: {ticker}-{filing_type}-{period_end}")
         output.append(f"@FILING_DATE: {filing_date}")
         output.append(f"@COMPANY: {company_name}")
@@ -82,15 +83,35 @@ class LLMFormatter:
             output.append(f"@FISCAL_YEAR: {fiscal_year}")
         if fiscal_period:
             output.append(f"@FISCAL_PERIOD: {fiscal_period}")
+        
+        # Add structure metadata headers
+        output.append("")
+        output.append("@STRUCTURE: Financial_Statement")
+        output.append("@MAIN_CATEGORIES: Revenues, Cost_of_Revenues, Gross_Profit, Operating_Expenses, Operating_Income, Net_Income")
+        if filing_type == "10-K":
+            output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement, Stockholders_Equity")
+        else:
+            output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement")
+        output.append("@SUBCATEGORIES_REVENUES: Product_Revenue, Service_Revenue, Total_Revenue")
+        output.append("@SUBCATEGORIES_EXPENSES: Cost_of_Revenue, Research_Development, Sales_Marketing, General_Administrative")
         output.append("")
         
-        # Add human-readable context markers
+        # Create enhanced context data dictionary
         context_map = {}
         context_reference_guide = {}  # Store context details for the reference guide
-        output.append("@CONTEXTS")
+        context_code_map = {}  # For explicitly labeled context references
+        
+        # Start context section with data dictionary format
+        output.append("@DATA_DICTIONARY: CONTEXTS")
+        
+        # Assign short codes to contexts for easier reference (c-1, c-2, etc.)
+        context_counter = 0
+        
         for context_id, context in parsed_xbrl.get("contexts", {}).items():
             period_info = context.get("period", {})
             readable_label = ""
+            context_counter += 1
+            context_code = f"c-{context_counter}"
             
             # Generate human-readable period labels for contexts
             if "startDate" in period_info and "endDate" in period_info:
@@ -103,31 +124,38 @@ class LLMFormatter:
                         # Same year period - could be quarterly or annual
                         if filing_type == "10-K":
                             readable_label = f"FY{end_year}"
+                            category_label = f"Annual_{end_year}"
                         else:
                             # Map month to quarter (approximate)
                             quarter_map = {3: "Q1", 6: "Q2", 9: "Q3", 12: "Q4"}
                             # Get closest quarter
                             closest_month = min(quarter_map.keys(), key=lambda x: abs(x - end_month))
                             readable_label = f"{end_year}_{quarter_map[closest_month]}"
+                            category_label = f"Quarter{quarter_map[closest_month]}_{end_year}"
                     else:
                         # Multi-year period - likely annual
                         readable_label = f"FY{end_year}"
+                        category_label = f"Annual_{end_year}"
                     
                     # Store mapping from context ID to readable label
                     context_map[context_id] = readable_label
+                    context_code_map[context_id] = context_code
                     
                     # Store information for context reference guide
                     context_reference_guide[readable_label] = {
                         "type": "period",
+                        "code": context_code,
+                        "category": category_label,
                         "start_date": period_info['startDate'],
                         "end_date": period_info['endDate'],
                         "description": f"Period from {period_info['startDate']} to {period_info['endDate']}"
                     }
                     
-                    output.append(f"@CONTEXT_DEF: {context_id} | Period: {period_info['startDate']} to {period_info['endDate']} | @LABEL: {readable_label}")
+                    # Enhanced explicit context labeling
+                    output.append(f"{context_code}: {category_label} | Period: {period_info['startDate']} to {period_info['endDate']} | @LABEL: {readable_label}")
                 except Exception:
                     # Fallback if parsing fails
-                    output.append(f"@CONTEXT_DEF: {context_id} | Period: {period_info['startDate']} to {period_info['endDate']}")
+                    output.append(f"{context_code}: Period: {period_info['startDate']} to {period_info['endDate']}")
             elif "instant" in period_info:
                 # For instant dates (like balance sheet dates)
                 try:
@@ -136,27 +164,33 @@ class LLMFormatter:
                     
                     if filing_type == "10-K":
                         readable_label = f"FY{year}_END"
+                        category_label = f"Annual_{year}_End"
                     else:
                         # Map month to quarter (approximate)
                         quarter_map = {3: "Q1", 6: "Q2", 9: "Q3", 12: "Q4"}
                         # Get closest quarter
                         closest_month = min(quarter_map.keys(), key=lambda x: abs(x - month))
                         readable_label = f"{year}_{quarter_map[closest_month]}_END"
+                        category_label = f"Quarter{quarter_map[closest_month]}_{year}_End"
                     
                     # Store mapping
                     context_map[context_id] = readable_label
+                    context_code_map[context_id] = context_code
                     
                     # Store information for context reference guide
                     context_reference_guide[readable_label] = {
                         "type": "instant",
+                        "code": context_code,
+                        "category": category_label,
                         "date": period_info['instant'],
                         "description": f"Point in time at {period_info['instant']}"
                     }
                     
-                    output.append(f"@CONTEXT_DEF: {context_id} | Instant: {period_info['instant']} | @LABEL: {readable_label}")
+                    # Enhanced explicit context labeling
+                    output.append(f"{context_code}: {category_label} | Instant: {period_info['instant']} | @LABEL: {readable_label}")
                 except Exception:
                     # Fallback
-                    output.append(f"@CONTEXT_DEF: {context_id} | Instant: {period_info['instant']}")
+                    output.append(f"{context_code}: Instant: {period_info['instant']}")
         output.append("")
         
         # Add units
@@ -432,43 +466,118 @@ class LLMFormatter:
                         if period_guide:
                             output.append("Period reference: " + "; ".join(period_guide))
                     
-                    # Build table
+                    # Build enhanced table with explicit context references
                     table_rows = []
                     
-                    # Add header row with column contexts
-                    header_row = "Concept"
+                    # Add table metadata
+                    table_rows.append(f"@TABLE_TYPE: {section_name.replace('_', ' ')}")
+                    
+                    # Add verification key if available
+                    if "Revenues" in section_name or "Revenue" in section_name:
+                        verification_contexts = []
+                        for context_ref, _ in top_contexts:
+                            if context_ref in context_code_map:
+                                verification_contexts.append(context_code_map[context_ref])
+                        if verification_contexts:
+                            table_rows.append(f"@VERIFICATION: Total_Revenue = Sum_of_Revenue_Components for contexts: {', '.join(verification_contexts)}")
+                    
+                    # Add standardized header structure with Key column
+                    header_row = "Concept | Key"
                     for _, context_label in top_contexts:
                         header_row += f" | {context_label}"
                     table_rows.append(header_row)
                     
                     # Add separator row
-                    separator = "-" * len("Concept")
+                    separator = "-" * len("Concept") + " | " + "-" * len("Key")
                     for context_label in [label for _, label in top_contexts]:
                         separator += f" | {'-' * len(context_label)}"
                     table_rows.append(separator)
                     
-                    # Add data rows
+                    # Sort concepts for hierarchical organization
+                    # Group related concepts together
+                    organized_concepts = {}
                     for concept_name, facts in concepts_in_section.items():
-                        # Create a mapping from context to fact for this concept
-                        context_to_fact = {fact.get("context_ref", ""): fact for fact in facts}
-                        
-                        # Only add rows that have data in at least one of our top contexts
-                        if any(context_ref in context_to_fact for context_ref, _ in top_contexts):
-                            row = concept_name
-                            for context_ref, _ in top_contexts:
-                                if context_ref in context_to_fact:
-                                    fact = context_to_fact[context_ref]
-                                    value = fact.get("value", "")
-                                    # Add currency symbol if available
-                                    unit_ref = fact.get("unit_ref", "")
-                                    if unit_ref and unit_ref.lower() == "usd":
-                                        # Only add $ if it's not already there
-                                        if not value.startswith("$"):
-                                            value = f"${value}"
-                                    row += f" | {value}"
-                                else:
-                                    row += " | -"
-                            table_rows.append(row)
+                        # Look for parent categories
+                        concept_lower = concept_name.lower()
+                        if "revenue" in concept_lower or "sales" in concept_lower:
+                            category = "Revenue"
+                        elif "cost" in concept_lower or "expense" in concept_lower:
+                            category = "Expenses"
+                        elif "profit" in concept_lower or "margin" in concept_lower:
+                            category = "Profit"
+                        elif "asset" in concept_lower:
+                            category = "Assets"
+                        elif "liabilit" in concept_lower:
+                            category = "Liabilities"
+                        elif "equity" in concept_lower:
+                            category = "Equity"
+                        elif "income" in concept_lower or "earnings" in concept_lower:
+                            category = "Income"
+                        elif "cash" in concept_lower or "flow" in concept_lower:
+                            category = "Cash_Flow"
+                        else:
+                            category = "Other"
+                            
+                        if category not in organized_concepts:
+                            organized_concepts[category] = []
+                        organized_concepts[category].append((concept_name, facts))
+                    
+                    # Add data rows with hierarchical organization
+                    for category in ["Revenue", "Expenses", "Profit", "Income", "Assets", "Liabilities", "Equity", "Cash_Flow", "Other"]:
+                        if category in organized_concepts:
+                            # Add category header
+                            if len(organized_concepts[category]) > 1:
+                                category_row = f"<{category}>"
+                                for _ in range(len(top_contexts) + 1):  # +1 for Key column
+                                    category_row += " | "
+                                table_rows.append(category_row)
+                            
+                            # Add items in this category
+                            for concept_name, facts in organized_concepts[category]:
+                                # Create a mapping from context to fact for this concept
+                                context_to_fact = {fact.get("context_ref", ""): fact for fact in facts}
+                                
+                                # Only add rows that have data in at least one of our top contexts
+                                if any(context_ref in context_to_fact for context_ref, _ in top_contexts):
+                                    # Add hierarchical indentation for subcategories
+                                    if len(organized_concepts[category]) > 1:
+                                        row = f"  {concept_name}"
+                                    else:
+                                        row = concept_name
+                                    
+                                    # Add context key reference
+                                    context_keys = []
+                                    for context_ref, _ in top_contexts:
+                                        if context_ref in context_to_fact and context_ref in context_code_map:
+                                            context_keys.append(context_code_map[context_ref])
+                                    
+                                    if context_keys:
+                                        row += f" | {','.join(context_keys)}"
+                                    else:
+                                        row += " | -"
+                                    
+                                    # Add values for each context
+                                    for context_ref, _ in top_contexts:
+                                        if context_ref in context_to_fact:
+                                            fact = context_to_fact[context_ref]
+                                            value = fact.get("value", "")
+                                            # Add currency symbol if available
+                                            unit_ref = fact.get("unit_ref", "")
+                                            if unit_ref and unit_ref.lower() == "usd":
+                                                # Only add $ if it's not already there
+                                                if not value.startswith("$"):
+                                                    value = f"${value}"
+                                            row += f" | {value}"
+                                        else:
+                                            row += " | -"
+                                    table_rows.append(row)
+                            
+                            # Close category with proper XML syntax if we added a category header
+                            if len(organized_concepts[category]) > 1:
+                                end_category = f"</{category}>"
+                                for _ in range(len(top_contexts) + 1):  # +1 for Key column
+                                    end_category += " | "
+                                table_rows.append(end_category)
                     
                     # Only add the table if it actually has data rows
                     if len(table_rows) > 2:  # Header + separator + at least one data row
@@ -839,14 +948,67 @@ class LLMFormatter:
         output.append(f"- Narrative paragraphs included: {self.data_integrity['included_paragraphs']}")
         output.append("")
         
-        # Add the Context Reference Guide at the end of the document
+        # Enhanced Context Reference Guide and Data Dictionary
         if context_reference_guide:
             output.append("@CONTEXT_REFERENCE_GUIDE")
             output.append("This section provides a consolidated reference for all time periods used in this document.")
             output.append("")
             
-            # Sort the context labels alphabetically for consistency
+            # Data Dictionary Table for all context references
+            output.append("@DATA_DICTIONARY:")
+            context_dict_rows = []
+            context_dict_rows.append("Context_Code | Category | Type | Period | Description")
+            context_dict_rows.append("------------|----------|------|--------|------------")
+            
+            # Sort by context code for logical ordering
+            sorted_items = sorted([(info["code"], label) for label, info in context_reference_guide.items() if "code" in info])
+            
+            for code, label in sorted_items:
+                info = context_reference_guide[label]
+                category = info.get("category", "Unknown")
+                type_str = info.get("type", "Unknown")
+                
+                # Format period information
+                if type_str == "period":
+                    period = f"{info.get('start_date', '')} to {info.get('end_date', '')}"
+                elif type_str == "instant":
+                    period = f"As of {info.get('date', '')}"
+                else:
+                    period = "Unknown"
+                
+                description = info.get("description", "")
+                context_dict_rows.append(f"{code} | {category} | {type_str} | {period} | {description}")
+            
+            output.append("\n".join(context_dict_rows))
+            output.append("")
+            
+            # Create a verification section with all verification formulas
+            output.append("@VERIFICATION_KEYS:")
+            output.append("These formulas can be used to verify data consistency:")
+            
+            # Sort the context labels by year and period
             sorted_labels = sorted(context_reference_guide.keys())
+            
+            # Group contexts by year for formula creation
+            years = {}
+            for label in sorted_labels:
+                info = context_reference_guide[label]
+                if "category" in info:
+                    category = info["category"]
+                    if "_" in category:
+                        year = category.split("_")[1]
+                        if year not in years:
+                            years[year] = []
+                        years[year].append((info["code"], label))
+            
+            # Create verification formulas by year
+            for year, contexts in years.items():
+                if contexts:
+                    codes = [code for code, _ in contexts]
+                    output.append(f"- Revenue_{year} = Product_Revenue_{year} + Service_Revenue_{year} (contexts: {', '.join(codes)})")
+                    output.append(f"- Gross_Profit_{year} = Revenue_{year} - Cost_of_Revenue_{year} (contexts: {', '.join(codes)})")
+                    output.append(f"- Operating_Income_{year} = Gross_Profit_{year} - Operating_Expenses_{year} (contexts: {', '.join(codes)})")
+            output.append("")
             
             # First list period contexts (fiscal years, quarters)
             period_labels = [label for label in sorted_labels if context_reference_guide[label]["type"] == "period"]
@@ -854,7 +1016,7 @@ class LLMFormatter:
                 output.append("@PERIOD_CONTEXTS")
                 for label in period_labels:
                     context_info = context_reference_guide[label]
-                    output.append(f"- {label}: {context_info['description']}")
+                    output.append(f"- {label}: {context_info['description']} (code: {context_info.get('code', 'Unknown')})")
                 output.append("")
             
             # Then list instant contexts (balance sheet dates)
@@ -863,7 +1025,7 @@ class LLMFormatter:
                 output.append("@INSTANT_CONTEXTS")
                 for label in instant_labels:
                     context_info = context_reference_guide[label]
-                    output.append(f"- {label}: {context_info['description']}")
+                    output.append(f"- {label}: {context_info['description']} (code: {context_info.get('code', 'Unknown')})")
                 output.append("")
                 
             # Add a mapping of fiscal periods to calendar periods if fiscal year info is available
@@ -875,6 +1037,52 @@ class LLMFormatter:
                 elif fiscal_period == "annual":
                     output.append(f"- This document represents the annual (10-K) filing for Fiscal Year {fiscal_year}")
                 output.append("")
+        
+        # Add example extraction section
+        output.append("@EXAMPLE_EXTRACTION")
+        output.append("Example of how to extract and format data from this document:")
+        output.append("")
+        output.append("```python")
+        output.append("# Extract revenue information for specific period")
+        output.append("def extract_revenue(document, context_code):")
+        output.append("    # Find the Revenue section")
+        output.append("    revenue_section = find_section(document, '<Revenue>')")
+        output.append("    ")
+        output.append("    # Extract all line items with their context codes")
+        output.append("    revenue_data = {}")
+        output.append("    for line in revenue_section:")
+        output.append("        if context_code in line.split('|')[1].strip():")
+        output.append("            item_name = line.split('|')[0].strip()")
+        output.append("            # Find the value corresponding to the context code")
+        output.append("            columns = line.split('|')")
+        output.append("            # The value is in the column after the Key column")
+        output.append("            value = get_value_for_context(columns, context_code)")
+        output.append("            revenue_data[item_name] = value")
+        output.append("    ")
+        output.append("    return revenue_data")
+        output.append("```")
+        output.append("")
+        
+        output.append("Example data format for extraction:")
+        output.append("")
+        output.append("```json")
+        output.append("{")
+        output.append("  \"Revenue\": {")
+        output.append("    \"Product_Revenue\": {")
+        output.append("      \"c-1\": 72480,")
+        output.append("      \"c-2\": 65240")
+        output.append("    },")
+        output.append("    \"Service_Revenue\": {")
+        output.append("      \"c-1\": 16320,")
+        output.append("      \"c-2\": 13950")
+        output.append("    },")
+        output.append("    \"Total_Revenue\": {")
+        output.append("      \"c-1\": 88800,")
+        output.append("      \"c-2\": 79190")
+        output.append("    }")
+        output.append("  }")
+        output.append("}")
+        output.append("```")
         
         return "\n".join(output)
     
