@@ -32,12 +32,19 @@ class BatchSECPipeline:
         
         Args:
             **kwargs: Arguments to pass to the SECFilingPipeline constructor
-                     Including force_upload option to override GCS existence checks
+                     Including:
+                     - force_upload: Override GCS existence checks
+                     - amendments_only: Process only amended filings (10-K/A, 10-Q/A)
         """
-        # Extract force_upload if present
+        # Extract specialized flags
         self.force_upload = kwargs.pop("force_upload", False)
+        self.amendments_only = kwargs.pop("amendments_only", False)
+        
         if self.force_upload:
             logging.info("FORCE UPLOAD MODE ENABLED - Will upload all files regardless of existence in GCS")
+            
+        if self.amendments_only:
+            logging.info("AMENDMENTS-ONLY MODE ENABLED - Will only process amended filings (10-K/A, 10-Q/A)")
         
         # Pass remaining kwargs to pipeline
         self.pipeline = SECFilingPipeline(**kwargs)
@@ -316,7 +323,8 @@ class BatchSECPipeline:
                         "ticker": ticker,
                         "filing_type": "10-K",
                         "year": fiscal_year,
-                        "filing_index": 0  # Always get the most recent 10-K for this fiscal year
+                        "filing_index": 0,  # Always get the most recent 10-K for this fiscal year
+                        "amendments_only": self.amendments_only  # Flag for amendments-only mode
                     })
                     logging.info(f"Added 10-K for fiscal year {fiscal_year} (reason: {reason})")
                 
@@ -405,7 +413,8 @@ class BatchSECPipeline:
                         "calendar_months": calendar_months,  # Calendar months for period filtering
                         "filing_index": 0,  # Use 0 as default, will be overridden by period filtering
                         "fiscal_year_end_month": fiscal_year_end_month,  # Store fiscal year end month for later use
-                        "fiscal_year_end_day": fiscal_year_end_day  # Store fiscal year end day for later use
+                        "fiscal_year_end_day": fiscal_year_end_day,  # Store fiscal year end day for later use
+                        "amendments_only": self.amendments_only  # Flag for amendments-only mode
                     })
                     logging.info(f"Added 10-Q for fiscal year {fiscal_year}, Q{q} (calendar year: {calendar_year}, months: {calendar_months})")
         
@@ -1069,14 +1078,32 @@ class BatchSECPipeline:
                 
                 logging.info(f"Retrieved {len(all_filings)} {filing_type} filings for {ticker}")
                 
-                # Filter filings based on period end date and our fiscal registry
+                # Filter filings based on period end date, amendment status, and our fiscal registry
                 target_filings = []
                 
                 # Import fiscal registry
                 from src2.sec.fiscal.company_fiscal import fiscal_registry
                 
+                # Check if we're in amendments-only mode
+                amendments_only = filing_info.get("amendments_only", False)
+                
+                if amendments_only:
+                    logging.info(f"AMENDMENTS-ONLY MODE: Will process only amended filings for {ticker} {filing_type}")
+                
                 for filing in all_filings:
                     period_end_date = filing.get("period_end_date")
+                    is_amended = filing.get("is_amended", False)
+                    
+                    # In amendments-only mode, skip non-amended filings
+                    if amendments_only and not is_amended:
+                        continue
+                    
+                    # In regular mode, skip amended filings (they'll be processed separately)
+                    if not amendments_only and is_amended:
+                        logging.info(f"Skipping amended filing in regular mode: {filing.get('original_filing_type', filing_type)} "
+                                     f"from {filing.get('filing_date')}. Use --amendments-only to process this.")
+                        continue
+                    
                     if period_end_date:
                         try:
                             # Look up fiscal information for this period end date
@@ -1090,7 +1117,10 @@ class BatchSECPipeline:
                             
                             # Check if this filing belongs to our target fiscal year
                             if fiscal_info.get("fiscal_year") == str(year):
-                                logging.info(f"Found matching filing for fiscal year {year}: {period_end_date}")
+                                if is_amended:
+                                    logging.info(f"Found matching AMENDED filing for fiscal year {year}: {period_end_date}")
+                                else:
+                                    logging.info(f"Found matching filing for fiscal year {year}: {period_end_date}")
                                 target_filings.append(filing)
                         except Exception as e:
                             logging.warning(f"Error determining fiscal period for {period_end_date}: {str(e)}")
@@ -1215,6 +1245,8 @@ def main():
                         help="Skip 10-Q filings")
     
     # Other options
+    parser.add_argument("--amendments-only", action="store_true", default=False,
+                        help="Process only amended filings (10-K/A, 10-Q/A)")
     parser.add_argument("--email", help="Contact email for SEC identification",
                         default="info@example.com")
     parser.add_argument("--workers", type=int, default=1,
@@ -1244,12 +1276,18 @@ def main():
         output_dir=args.output or "./sec_processed",
         gcp_bucket=args.gcp_bucket,
         gcp_project=args.gcp_project,
-        force_upload=args.force_upload  # Pass the force_upload flag
+        force_upload=args.force_upload,  # Pass the force_upload flag
+        amendments_only=args.amendments_only  # Pass the amendments_only flag
     )
     
     # Process filings
     try:
-        print(f"\n=== Starting batch processing for {args.ticker} from {args.start_year} to {args.end_year} ===")
+        # Create a descriptive message about what we're processing
+        if args.amendments_only:
+            print(f"\n=== Starting amendments-only processing for {args.ticker} from {args.start_year} to {args.end_year} ===")
+            print(f"Note: This will only process amended filings (10-K/A, 10-Q/A)")
+        else:
+            print(f"\n=== Starting batch processing for {args.ticker} from {args.start_year} to {args.end_year} ===")
         
         results = batch.process_filings_by_years(
             ticker=args.ticker,
@@ -1278,7 +1316,10 @@ def main():
                 })
         
         # Print a summary of results
-        print("\n=== Batch Processing Results ===")
+        if args.amendments_only:
+            print("\n=== Amendments-Only Processing Results ===")
+        else:
+            print("\n=== Batch Processing Results ===")
         print(f"Company: {args.ticker}")
         print(f"Fiscal Years: {args.start_year} to {args.end_year}")
         print(f"Filings Processed: {results['summary']['total_filings']}")
