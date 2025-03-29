@@ -11,17 +11,42 @@ import datetime
 def estimate_tokens(text_content):
     """
     Estimate the number of tokens in text content.
-    Uses a rough approximation of 4 characters per token.
+    Uses a more nuanced approach to token estimation:
+    - For English text dominated by alphanumeric characters: ~4.0 chars per token
+    - For JSON/structured data with many special chars: ~2.5 chars per token
+    - For numeric heavy financial tables: ~3.0 chars per token
     
     Args:
         text_content: The text content to estimate
         
     Returns:
-        Estimated token count
+        Estimated token count with improved accuracy
     """
     if not text_content:
         return 0
-    return len(text_content) // 4
+        
+    # Check if this is likely a structured file with special characters
+    special_chars_ratio = sum(1 for c in text_content if not c.isalnum() and not c.isspace()) / max(1, len(text_content))
+    
+    # Default ratio for normal text
+    chars_per_token = 4.0
+    
+    # Adjust based on content characteristics
+    if '@' in text_content and '|' in text_content and special_chars_ratio > 0.1:
+        # This is likely our LLM format with many special characters
+        chars_per_token = 3.0
+    elif special_chars_ratio > 0.15:
+        # Very high special character ratio (like JSON)
+        chars_per_token = 2.5
+    elif len([c for c in text_content[:1000] if c.isdigit()]) > 300:
+        # Numeric-heavy content like financial tables
+        chars_per_token = 3.0
+        
+    # Apply the estimate
+    estimated_tokens = int(len(text_content) / chars_per_token)
+    
+    # Add a small buffer for safety (Claude, OpenAI and other tokenizers vary slightly)
+    return int(estimated_tokens * 1.05)
 
 class GCPStorage:
     """
@@ -437,74 +462,186 @@ class GCPStorage:
                 doc_data['llm_file_size'] = kwargs.get('llm_size', 0)
                 doc_data['has_llm_format'] = True
                 
-                # Estimate token count for LLM file
+                # Estimate token count for LLM file - IMPROVED ALGORITHM
                 try:
-                    # Check if path is a GCS path or local path
-                    if llm_path.startswith('gs://') or not os.path.exists(llm_path):
-                        # If it's a GCS path, look for a local copy in kwargs
-                        local_llm_path = kwargs.get('local_llm_path')
-                        if local_llm_path and os.path.exists(local_llm_path):
-                            llm_path = local_llm_path
-                            logging.info(f"Using local LLM file for token counting: {local_llm_path}")
-                        else:
-                            # Try to find a local copy based on naming convention
-                            potential_local_path = os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_llm.txt")
-                            if os.path.exists(potential_local_path):
-                                llm_path = potential_local_path
-                                logging.info(f"Found local LLM file for token counting: {potential_local_path}")
+                    # Define all possible locations where the file might be
+                    potential_llm_paths = []
                     
-                    logging.info(f"Attempting to read LLM file for token counting: {llm_path}")
-                    if os.path.exists(llm_path):
-                        with open(llm_path, 'r', encoding='utf-8') as f:
-                            llm_content = f.read()
+                    # 1. If a local_llm_path is directly provided in kwargs, use it first
+                    local_llm_path = kwargs.get('local_llm_path')
+                    if local_llm_path:
+                        potential_llm_paths.append(local_llm_path)
+                    
+                    # 2. If we're given a non-GCS path that might be local, check it
+                    if llm_path and not llm_path.startswith('gs://'):
+                        potential_llm_paths.append(llm_path)
+                    
+                    # 3. Check common directory structures based on ticker and filing info
+                    # Structure: /sec_processed/TICKER/TICKER_FILING-TYPE_YEAR_llm.txt
+                    if fiscal_year and fiscal_period and filing_type == "10-Q":
+                        # Quarterly filing path with fiscal period
+                        potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"))
+                        # Try subdirectory pattern too
+                        potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}_{fiscal_period}", f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"))
+                    
+                    # Annual filing path (no quarter)
+                    if fiscal_year:
+                        potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"))
+                        # Try subdirectory pattern too
+                        potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}", f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"))
+                    
+                    # 4. Try simple structure with no year/quarter (legacy format)
+                    potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_llm.txt"))
+                    
+                    # Try all potential paths until we find an existing file
+                    llm_content = None
+                    found_path = None
+                    
+                    for path in potential_llm_paths:
+                        if os.path.exists(path) and os.path.isfile(path):
+                            logging.info(f"Found LLM file for token counting at: {path}")
+                            try:
+                                with open(path, 'r', encoding='utf-8') as f:
+                                    llm_content = f.read()
+                                found_path = path
+                                break
+                            except Exception as inner_e:
+                                logging.warning(f"Failed to read file {path}: {str(inner_e)}")
+                    
+                    # Process the content if we found it
+                    if llm_content:
                         llm_token_count = estimate_tokens(llm_content)
                         doc_data['llm_token_count'] = llm_token_count
+                        doc_data['llm_token_count_source'] = found_path
+                        doc_data['llm_char_count'] = len(llm_content)
                         logging.info(f"SUCCESS: Estimated {llm_token_count:,} tokens for LLM file ({len(llm_content):,} chars)")
                     else:
-                        logging.warning(f"LLM file not found for token counting: {llm_path}")
+                        # If we failed to find a file, log detailed information for debugging
+                        logging.warning(f"LLM file not found for token counting. Tried: {', '.join(potential_llm_paths)}")
+                        # Set a default token count based on file size if available
+                        if 'llm_file_size' in doc_data and doc_data['llm_file_size'] > 0:
+                            estimated_tokens = doc_data['llm_file_size'] // 4  # Rough estimate based on size
+                            doc_data['llm_token_count'] = estimated_tokens
+                            doc_data['llm_token_count_source'] = 'estimated_from_file_size'
+                            logging.info(f"Using file size to roughly estimate token count: {estimated_tokens:,}")
                 except Exception as e:
                     logging.warning(f"Could not estimate tokens for LLM file: {str(e)}")
+                    # Even if we fail, try to provide an estimate from file size
+                    if 'llm_file_size' in doc_data and doc_data['llm_file_size'] > 0:
+                        estimated_tokens = doc_data['llm_file_size'] // 4  # Rough estimate based on size
+                        doc_data['llm_token_count'] = estimated_tokens
+                        doc_data['llm_token_count_source'] = 'estimated_from_file_size_fallback'
+                        logging.info(f"Using file size to roughly estimate token count (fallback): {estimated_tokens:,}")
             else:
                 doc_data['has_llm_format'] = False
                 
-            # Estimate token count for text file if available
+            # Estimate token count for text file if available - IMPROVED ALGORITHM
             text_path = kwargs.get('text_path')
             if text_path:
                 try:
-                    # Check if path is a GCS path or local path
-                    if text_path.startswith('gs://') or not os.path.exists(text_path):
-                        # If it's a GCS path, look for a local copy in kwargs
-                        local_text_path = kwargs.get('local_text_path')
-                        if local_text_path and os.path.exists(local_text_path):
-                            text_path = local_text_path
-                            logging.info(f"Using local text file for token counting: {local_text_path}")
-                        else:
-                            # Try to find a local copy based on naming convention
-                            potential_local_path = os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_text.txt")
-                            if os.path.exists(potential_local_path):
-                                text_path = potential_local_path
-                                logging.info(f"Found local text file for token counting: {potential_local_path}")
+                    # Define all possible locations where the file might be
+                    potential_text_paths = []
                     
-                    logging.info(f"Attempting to read text file for token counting: {text_path}")
-                    if os.path.exists(text_path):
-                        with open(text_path, 'r', encoding='utf-8') as f:
-                            text_content = f.read()
+                    # 1. If a local_text_path is directly provided in kwargs, use it first
+                    local_text_path = kwargs.get('local_text_path')
+                    if local_text_path:
+                        potential_text_paths.append(local_text_path)
+                    
+                    # 2. If we're given a non-GCS path that might be local, check it
+                    if text_path and not text_path.startswith('gs://'):
+                        potential_text_paths.append(text_path)
+                    
+                    # 3. Check common directory structures based on ticker and filing info
+                    # Structure: /sec_processed/TICKER/TICKER_FILING-TYPE_YEAR_text.txt
+                    if fiscal_year and fiscal_period and filing_type == "10-Q":
+                        # Quarterly filing path with fiscal period
+                        potential_text_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"))
+                        # Try subdirectory pattern too
+                        potential_text_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}_{fiscal_period}", f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"))
+                    
+                    # Annual filing path (no quarter)
+                    if fiscal_year:
+                        potential_text_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_text.txt"))
+                        # Try subdirectory pattern too
+                        potential_text_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}", f"{ticker}_{filing_type}_{fiscal_year}_text.txt"))
+                    
+                    # 4. Try simple structure with no year/quarter (legacy format)
+                    potential_text_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_text.txt"))
+                    
+                    # Try all potential paths until we find an existing file
+                    text_content = None
+                    found_path = None
+                    
+                    for path in potential_text_paths:
+                        if os.path.exists(path) and os.path.isfile(path):
+                            logging.info(f"Found text file for token counting at: {path}")
+                            try:
+                                with open(path, 'r', encoding='utf-8') as f:
+                                    text_content = f.read()
+                                found_path = path
+                                break
+                            except Exception as inner_e:
+                                logging.warning(f"Failed to read file {path}: {str(inner_e)}")
+                    
+                    # Process the content if we found it
+                    if text_content:
                         text_token_count = estimate_tokens(text_content)
                         doc_data['text_token_count'] = text_token_count
+                        doc_data['text_token_count_source'] = found_path
+                        doc_data['text_char_count'] = len(text_content)
                         logging.info(f"SUCCESS: Estimated {text_token_count:,} tokens for text file ({len(text_content):,} chars)")
                     else:
-                        logging.warning(f"Text file not found for token counting: {text_path}")
+                        # If we failed to find a file, log detailed information for debugging
+                        logging.warning(f"Text file not found for token counting. Tried: {', '.join(potential_text_paths)}")
+                        # Set a default token count based on file size if available
+                        if 'text_file_size' in doc_data and doc_data['text_file_size'] > 0:
+                            estimated_tokens = doc_data['text_file_size'] // 4  # Rough estimate based on size
+                            doc_data['text_token_count'] = estimated_tokens
+                            doc_data['text_token_count_source'] = 'estimated_from_file_size'
+                            logging.info(f"Using file size to roughly estimate text token count: {estimated_tokens:,}")
                 except Exception as e:
                     logging.warning(f"Could not estimate tokens for text file: {str(e)}")
+                    # Even if we fail, try to provide an estimate from file size
+                    if 'text_file_size' in doc_data and doc_data['text_file_size'] > 0:
+                        estimated_tokens = doc_data['text_file_size'] // 4  # Rough estimate based on size
+                        doc_data['text_token_count'] = estimated_tokens
+                        doc_data['text_token_count_source'] = 'estimated_from_file_size_fallback'
+                        logging.info(f"Using file size to roughly estimate text token count (fallback): {estimated_tokens:,}")
+            
+            # Track whether we have token counts
+            has_token_counts = 'llm_token_count' in doc_data or 'text_token_count' in doc_data
+            token_count_source = doc_data.get('llm_token_count_source', 'none')
             
             # Add document to Firestore (overwrite if exists)
             filing_ref.set(doc_data)
+            
+            # Verify the document was saved correctly
+            try:
+                # Read back from Firestore to verify all data was saved
+                saved_doc = filing_ref.get().to_dict()
+                
+                # Verify token counts were saved
+                if has_token_counts:
+                    if 'llm_token_count' in doc_data and 'llm_token_count' in saved_doc:
+                        logging.info(f"✅ Verified llm_token_count in Firestore: {saved_doc.get('llm_token_count'):,} tokens (source: {token_count_source})")
+                    elif 'llm_token_count' in doc_data:
+                        logging.warning(f"⚠️ llm_token_count was set but not saved to Firestore")
+                    
+                    if 'text_token_count' in doc_data and 'text_token_count' in saved_doc:
+                        logging.info(f"✅ Verified text_token_count in Firestore: {saved_doc.get('text_token_count'):,} tokens")
+                    elif 'text_token_count' in doc_data:
+                        logging.warning(f"⚠️ text_token_count was set but not saved to Firestore")
+                else:
+                    logging.warning(f"⚠️ No token counts were set for this document")
+            except Exception as verify_error:
+                logging.warning(f"Could not verify Firestore document: {str(verify_error)}")
             
             logging.info(f"Added metadata to Firestore for {document_id}")
             
             return {
                 "success": True,
-                "document_id": document_id
+                "document_id": document_id,
+                "has_token_counts": has_token_counts
             }
         except Exception as e:
             logging.error(f"Error adding metadata to Firestore: {str(e)}")
