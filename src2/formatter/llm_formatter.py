@@ -1457,17 +1457,23 @@ class LLMFormatter:
         output.append("")
         
         # Enhanced Context Reference Guide and Data Dictionary
-        if context_reference_guide:
-            output.append("@CONTEXT_REFERENCE_GUIDE")
-            output.append("This section provides a consolidated reference for all time periods used in this document.")
-            output.append("")
-            
-            # Enhanced Data Dictionary Table for all context references
-            output.append("@DATA_DICTIONARY:")
-            context_dict_rows = []
-            context_dict_rows.append("Context_Code | Semantic_Code | Category | Type | Segment | Period | Description")
-            context_dict_rows.append("------------|---------------|----------|------|---------|--------|------------")
-            
+        # Always include the context reference guide, even if empty
+        # This ensures the section is always present
+        output.append("@CONTEXT_REFERENCE_GUIDE")
+        output.append("This section provides a consolidated reference for all time periods used in this document.")
+        output.append("")
+        
+        # Enhanced Data Dictionary Table for all context references
+        output.append("@DATA_DICTIONARY:")
+        context_dict_rows = []
+        context_dict_rows.append("Context_Code | Semantic_Code | Category | Type | Segment | Period | Description")
+        context_dict_rows.append("------------|---------------|----------|------|---------|--------|------------")
+        
+        # Include default row if no contexts found
+        if not context_reference_guide:
+            # Add a note explaining that no context information was available
+            context_dict_rows.append("Note: No detailed context information available for this filing")
+        else:
             # Sort by context code for logical ordering
             sorted_items = sorted([(info["code"], label) for label, info in context_reference_guide.items() if "code" in info])
             
@@ -1494,14 +1500,16 @@ class LLMFormatter:
                     description = f"{description} ({statement_type})"
                 
                 context_dict_rows.append(f"{code} | {semantic_code} | {category} | {type_str} | {segment} | {period} | {description}")
-            
-            output.append("\n".join(context_dict_rows))
-            output.append("")
-            
-            # Create a verification section with all verification formulas
-            output.append("@VERIFICATION_KEYS:")
-            output.append("These formulas can be used to verify data consistency:")
-            
+        
+        output.append("\n".join(context_dict_rows))
+        output.append("")
+        
+        # Create a verification section with all verification formulas
+        output.append("@VERIFICATION_KEYS:")
+        output.append("These formulas can be used to verify data consistency:")
+        
+        # Only add verification formulas if we have context information
+        if context_reference_guide:
             # Sort the context labels by year and period
             sorted_labels = sorted(context_reference_guide.keys())
             
@@ -1538,12 +1546,17 @@ class LLMFormatter:
                     output.append(f"- Revenue_{year} = Product_Revenue_{year} + Service_Revenue_{year} ({context_ref})")
                     output.append(f"- Gross_Profit_{year} = Revenue_{year} - Cost_of_Revenue_{year} ({context_ref})")
                     output.append(f"- Operating_Income_{year} = Gross_Profit_{year} - Operating_Expenses_{year} ({context_ref})")
-            output.append("")
-            
-            # First list period contexts (fiscal years, quarters)
+        else:
+            output.append("- No context information available for formula verification")
+        
+        output.append("")
+        
+        # First list period contexts (fiscal years, quarters)
+        output.append("@PERIOD_CONTEXTS")
+        if context_reference_guide:
+            sorted_labels = sorted(context_reference_guide.keys())
             period_labels = [label for label in sorted_labels if context_reference_guide[label]["type"] == "period"]
             if period_labels:
-                output.append("@PERIOD_CONTEXTS")
                 for label in period_labels:
                     context_info = context_reference_guide[label]
                     code = context_info.get('code', "Unknown")
@@ -1552,12 +1565,18 @@ class LLMFormatter:
                     
                     # Create a more descriptive entry with all available information
                     output.append(f"- {label}: {context_info['description']} (code: {code}, semantic: {semantic_code}, segment: {segment})")
-                output.append("")
-            
-            # Then list instant contexts (balance sheet dates)
+            else:
+                output.append("No period contexts found in this filing")
+        else:
+            output.append("No detailed period context information available")
+        output.append("")
+        
+        # Then list instant contexts (balance sheet dates)
+        output.append("@INSTANT_CONTEXTS")
+        if context_reference_guide:
+            sorted_labels = sorted(context_reference_guide.keys())
             instant_labels = [label for label in sorted_labels if context_reference_guide[label]["type"] == "instant"]
             if instant_labels:
-                output.append("@INSTANT_CONTEXTS")
                 for label in instant_labels:
                     context_info = context_reference_guide[label]
                     code = context_info.get('code', "Unknown")
@@ -1567,17 +1586,21 @@ class LLMFormatter:
                     
                     # Create a more descriptive entry with all available information
                     output.append(f"- {label}: {context_info['description']} (code: {code}, semantic: {semantic_code}, segment: {segment}, statement: {statement_type})")
-                output.append("")
-                
-            # Add a mapping of fiscal periods to calendar periods if fiscal year info is available
-            if fiscal_year and fiscal_period:
-                output.append("@FISCAL_CALENDAR_MAPPING")
-                output.append(f"- Fiscal Year {fiscal_year} corresponds to filing period ending {period_end}")
-                if fiscal_period in ["Q1", "Q2", "Q3", "Q4"]:
-                    output.append(f"- {fiscal_period} is a quarterly period within Fiscal Year {fiscal_year}")
-                elif fiscal_period == "annual":
-                    output.append(f"- This document represents the annual (10-K) filing for Fiscal Year {fiscal_year}")
-                output.append("")
+            else:
+                output.append("No instant contexts found in this filing")
+        else:
+            output.append("No detailed instant context information available")
+        output.append("")
+        
+        # Add a mapping of fiscal periods to calendar periods if fiscal year info is available
+        if fiscal_year and fiscal_period:
+            output.append("@FISCAL_CALENDAR_MAPPING")
+            output.append(f"- Fiscal Year {fiscal_year} corresponds to filing period ending {period_end}")
+            if fiscal_period in ["Q1", "Q2", "Q3", "Q4"]:
+                output.append(f"- {fiscal_period} is a quarterly period within Fiscal Year {fiscal_year}")
+            elif fiscal_period == "annual":
+                output.append(f"- This document represents the annual (10-K) filing for Fiscal Year {fiscal_year}")
+            output.append("")
         
         # Add example extraction section
         output.append("@EXAMPLE_EXTRACTION")
