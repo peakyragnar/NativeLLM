@@ -349,6 +349,12 @@ class SECDownloader:
                                         logging.info(f"Found amended filing: {filing_type_col} (matched pattern: {pattern})")
                                         break
                                 
+                                # If this is an amended filing, skip it entirely
+                                # This is crucial to prevent processing amendments in the normal workflow
+                                if is_amended:
+                                    logging.info(f"SKIPPING amended filing {filing_type_col} in regular mode")
+                                    continue  # Skip this filing entirely
+                                
                                 # Extract the base filing type (10-K or 10-Q) for consistency
                                 base_filing_type = filing_type
                                 if is_amended and filing_type in ["10-K", "10-Q"]:
