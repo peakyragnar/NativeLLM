@@ -373,10 +373,88 @@ class LLMFormatter:
                     output.append(f"{context_code}: Instant: {period_info['instant']}")
         output.append("")
         
-        # Add units
-        output.append("@UNITS")
+        # Extract and analyze units and scales
+        units_info = {}
+        decimals_info = {}
+        
+        # First pass to gather unit and decimal information
+        for fact in parsed_xbrl.get("facts", []):
+            unit_ref = fact.get("unit_ref", "")
+            decimals = fact.get("decimals", "")
+            
+            if unit_ref:
+                if unit_ref not in units_info:
+                    units_info[unit_ref] = 0
+                units_info[unit_ref] += 1
+            
+            if decimals:
+                try:
+                    decimal_val = int(decimals)
+                    if decimal_val not in decimals_info:
+                        decimals_info[decimal_val] = 0
+                    decimals_info[decimal_val] += 1
+                except:
+                    pass
+        
+        # Determine most common scale for monetary values
+        most_common_decimal = None
+        max_count = 0
+        for decimal_val, count in decimals_info.items():
+            if count > max_count:
+                most_common_decimal = decimal_val
+                max_count = count
+        
+        # Interpret scale
+        scale_description = ""
+        if most_common_decimal is not None:
+            if most_common_decimal == 0:
+                scale_description = "exact units"
+            elif most_common_decimal == -3:
+                scale_description = "thousands"
+            elif most_common_decimal == -6:
+                scale_description = "millions"
+            elif most_common_decimal == -9:
+                scale_description = "billions"
+        
+        # Add enhanced units section with scaling information
+        output.append("@UNITS_AND_SCALING")
+        
+        # Explicitly state the scaling for monetary values
+        if scale_description:
+            output.append(f"@MONETARY_SCALE: {scale_description}")
+            if most_common_decimal == -6:
+                output.append("@SCALE_NOTE: All dollar amounts are in millions unless otherwise specified")
+            elif most_common_decimal == -3:
+                output.append("@SCALE_NOTE: All dollar amounts are in thousands unless otherwise specified")
+            elif most_common_decimal == -9:
+                output.append("@SCALE_NOTE: All dollar amounts are in billions unless otherwise specified")
+        
+        # Document unit codes
         for unit_id, unit_value in parsed_xbrl.get("units", {}).items():
-            output.append(f"@UNIT_DEF: {unit_id} | {unit_value}")
+            if unit_id.lower() == "usd":
+                output.append(f"@UNIT_DEF: {unit_id} | United States Dollars (USD)")
+            elif unit_id.lower() in ["eur", "gbp", "jpy", "cad"]:
+                currency_map = {"eur": "Euros", "gbp": "British Pounds", "jpy": "Japanese Yen", "cad": "Canadian Dollars"}
+                output.append(f"@UNIT_DEF: {unit_id} | {currency_map.get(unit_id.lower(), unit_value)}")
+            elif unit_id.lower() == "shares":
+                output.append(f"@UNIT_DEF: {unit_id} | Number of equity shares")
+            else:
+                output.append(f"@UNIT_DEF: {unit_id} | {unit_value}")
+        
+        # Document and explain decimals usage
+        output.append("@DECIMALS_USAGE:")
+        for decimal_val, count in sorted(decimals_info.items()):
+            if decimal_val == 0:
+                output.append(f"  {decimal_val}: Exact values")
+            elif decimal_val == -3:
+                output.append(f"  {decimal_val}: Values rounded to thousands")
+            elif decimal_val == -6:
+                output.append(f"  {decimal_val}: Values rounded to millions")
+            elif decimal_val == -9:
+                output.append(f"  {decimal_val}: Values rounded to billions")
+            else:
+                output.append(f"  {decimal_val}: Values rounded to {10**(-decimal_val)} decimal places")
+        
         output.append("")
         
         # Check for narrative content
@@ -844,18 +922,64 @@ class LLMFormatter:
                                     if semantic_keys:
                                         row += f" # {','.join(semantic_keys)}"
                                     
-                                    # Add values for each context
+                                    # Add values for each context with consistent units and scaling
                                     for context_ref, _ in top_contexts:
                                         if context_ref in context_to_fact:
                                             fact = context_to_fact[context_ref]
                                             value = fact.get("value", "")
-                                            # Add currency symbol if available
                                             unit_ref = fact.get("unit_ref", "")
-                                            if unit_ref and unit_ref.lower() == "usd":
-                                                # Only add $ if it's not already there
-                                                if not value.startswith("$"):
-                                                    value = f"${value}"
-                                            row += f" | {value}"
+                                            decimals = fact.get("decimals", "")
+                                            
+                                            # Format value with appropriate scale indicator
+                                            try:
+                                                # Add currency symbol if available
+                                                if unit_ref and unit_ref.lower() == "usd":
+                                                    # Only add $ if it's not already there
+                                                    if not value.startswith("$"):
+                                                        formatted_value = f"${value}"
+                                                    else:
+                                                        formatted_value = value
+                                                        
+                                                    # Add scale indicator if specified
+                                                    if decimals and int(decimals) == -6:
+                                                        formatted_value += " [M]"  # Millions
+                                                    elif decimals and int(decimals) == -3:
+                                                        formatted_value += " [K]"  # Thousands
+                                                    elif decimals and int(decimals) == -9:
+                                                        formatted_value += " [B]"  # Billions
+                                                elif unit_ref and unit_ref.lower() == "shares":
+                                                    formatted_value = f"{value} shares"
+                                                else:
+                                                    formatted_value = value
+                                                    
+                                                row += f" | {formatted_value}"
+                                            except:
+                                                # Fallback if formatting fails
+                                                # Add scale indicators to values in fallback context-based tables
+                                                # Format value with appropriate scaling
+                                                unit_ref = fact.get("unit_ref", "")
+                                                decimals = fact.get("decimals", "")
+                                                
+                                                if unit_ref and unit_ref.lower() == "usd":
+                                                    # Add currency symbol if needed
+                                                    if not value.startswith("$"):
+                                                        formatted_value = f"${value}"
+                                                    else:
+                                                        formatted_value = value
+                                                    
+                                                    # Add scale indicator
+                                                    if decimals and int(decimals) == -6:
+                                                        formatted_value += " [M]"  # Millions
+                                                    elif decimals and int(decimals) == -3:
+                                                        formatted_value += " [K]"  # Thousands
+                                                    elif decimals and int(decimals) == -9:
+                                                        formatted_value += " [B]"  # Billions
+                                                elif unit_ref and unit_ref.lower() == "shares":
+                                                    formatted_value = f"{value} shares"
+                                                else:
+                                                    formatted_value = value
+                                                    
+                                                row += f" | {formatted_value}"
                                         else:
                                             row += " | -"
                                     table_rows.append(row)
