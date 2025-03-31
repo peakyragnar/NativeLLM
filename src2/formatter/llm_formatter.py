@@ -1193,53 +1193,8 @@ class LLMFormatter:
         
         # Add narrative sections
         if extracted_sections:
-            # Include all sections for 100% completeness
-            # Priority order for sections - now includes all possible 10-K and 10-Q sections
-            priority_sections = [
-                # Form 10-K main Items (in order)
-                "ITEM_1_BUSINESS",
-                "ITEM_1A_RISK_FACTORS",
-                "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",
-                "ITEM_1C_CYBERSECURITY",
-                "ITEM_2_PROPERTIES",
-                "ITEM_3_LEGAL_PROCEEDINGS",
-                "ITEM_4_MINE_SAFETY",
-                "ITEM_5_MARKET",
-                "ITEM_6_SELECTED_FINANCIAL",
-                "ITEM_7_MD_AND_A",
-                "ITEM_7A_MARKET_RISK",
-                "ITEM_8_FINANCIAL_STATEMENTS",
-                "ITEM_9_CHANGES_ACCOUNTANTS",
-                "ITEM_9A_CONTROLS",
-                "ITEM_9B_OTHER_INFORMATION",
-                "ITEM_9C_FOREIGN_JURISDICTIONS",
-                "ITEM_10_DIRECTORS",
-                "ITEM_11_EXECUTIVE_COMPENSATION",
-                "ITEM_12_SECURITY_OWNERSHIP",
-                "ITEM_13_RELATED_TRANSACTIONS",
-                "ITEM_14_PRINCIPAL_ACCOUNTANT",
-                "ITEM_15_EXHIBITS",
-                "ITEM_16_FORM_10K_SUMMARY",
-                
-                # Form 10-Q main Items (in order)
-                "ITEM_1_FINANCIAL_STATEMENTS",
-                "ITEM_2_MD_AND_A",
-                "ITEM_3_MARKET_RISK",
-                "ITEM_4_CONTROLS",
-                "ITEM_1_LEGAL_PROCEEDINGS",
-                "ITEM_1A_RISK_FACTORS_Q", 
-                "ITEM_2_UNREGISTERED_SALES",
-                "ITEM_3_DEFAULTS",
-                "ITEM_4_MINE_SAFETY_Q",
-                "ITEM_5_OTHER_INFORMATION_Q",
-                "ITEM_6_EXHIBITS_Q",
-                
-                # Common MD&A subsections
-                "MANAGEMENT_DISCUSSION",
-                "RESULTS_OF_OPERATIONS",
-                "LIQUIDITY_AND_CAPITAL",
-                "CRITICAL_ACCOUNTING"
-            ]
+            # Priority sections are now defined earlier for coverage calculation
+            # Use the same priority order for section processing
             
             # Process sections in priority order
             for section_id in priority_sections:
@@ -1400,12 +1355,71 @@ class LLMFormatter:
         # Document section coverage report
         output.append("")
         output.append("@DOCUMENT_COVERAGE")
-        covered_sections = [section_id for section_id in priority_sections if section_id in extracted_sections]
-        missing_sections = [section_id for section_id in priority_sections if section_id not in extracted_sections]
+        
+        # Define priority sections here to ensure they're available for coverage calculation
+        # Include all possible 10-K and 10-Q sections
+        priority_sections = [
+            # Form 10-K main Items (in order)
+            "ITEM_1_BUSINESS",
+            "ITEM_1A_RISK_FACTORS",
+            "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",
+            "ITEM_1C_CYBERSECURITY",
+            "ITEM_2_PROPERTIES",
+            "ITEM_3_LEGAL_PROCEEDINGS",
+            "ITEM_4_MINE_SAFETY_DISCLOSURES",
+            "ITEM_5_MARKET",
+            "ITEM_6_SELECTED_FINANCIAL_DATA",
+            "ITEM_7_MD_AND_A",
+            "ITEM_7A_MARKET_RISK",
+            "ITEM_8_FINANCIAL_STATEMENTS",
+            "ITEM_9_DISAGREEMENTS",
+            "ITEM_9A_CONTROLS",
+            "ITEM_9B_OTHER_INFORMATION",
+            "ITEM_9C_FOREIGN_JURISDICTIONS",
+            "ITEM_10_DIRECTORS",
+            "ITEM_11_EXECUTIVE_COMPENSATION",
+            "ITEM_12_SECURITY_OWNERSHIP",
+            "ITEM_13_RELATIONSHIPS",
+            "ITEM_14_ACCOUNTANT_FEES",
+            "ITEM_15_EXHIBITS",
+            "ITEM_16_SUMMARY",
+            
+            # Form 10-Q main Items (in order)
+            "ITEM_1_FINANCIAL_STATEMENTS",
+            "ITEM_2_MD_AND_A",
+            "ITEM_3_MARKET_RISK",
+            "ITEM_4_CONTROLS",
+            "ITEM_1_LEGAL_PROCEEDINGS",
+            "ITEM_1A_RISK_FACTORS_Q", 
+            "ITEM_2_UNREGISTERED_SALES",
+            "ITEM_3_DEFAULTS",
+            "ITEM_4_MINE_SAFETY_Q",
+            "ITEM_5_OTHER_INFORMATION_Q",
+            "ITEM_6_EXHIBITS_Q",
+            
+            # Common MD&A subsections
+            "MANAGEMENT_DISCUSSION",
+            "RESULTS_OF_OPERATIONS",
+            "LIQUIDITY_AND_CAPITAL",
+            "CRITICAL_ACCOUNTING"
+        ]
+        
+        # Check for new format with document_sections in filing_metadata
+        document_sections = {}
+        if "html_content" in filing_metadata and "document_sections" in filing_metadata["html_content"]:
+            document_sections = filing_metadata["html_content"]["document_sections"]
+        
+        # Create lists of covered and missing sections, considering both extracted_sections and document_sections
+        covered_sections = []
+        for section_id in priority_sections:
+            if section_id in extracted_sections or section_id in document_sections:
+                covered_sections.append(section_id)
+        
+        missing_sections = [section_id for section_id in priority_sections if section_id not in covered_sections]
         
         if filing_type == "10-K":
             # Calculate coverage percentage based on 10-K sections
-            # Only consider the main 16 items for 10-K (skipping subsections)
+            # Only consider the main items for 10-K (skipping subsections)
             main_10k_sections = [s for s in priority_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
             found_10k_sections = [s for s in covered_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
             
