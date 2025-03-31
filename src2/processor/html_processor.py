@@ -477,6 +477,9 @@ class HTMLProcessor:
         part_pattern = re.compile(r'(?:[Pp]art|PART)\s+(IV|4)', re.IGNORECASE)
         exhibits_pattern = re.compile(r'(^|\s)(Exhibits?|EXHIBITS?|Index\s+to\s+Exhibits|Exhibit\s+Index)(\s|:|$)', re.IGNORECASE)
         signatures_pattern = re.compile(r'(^|\s)(Signatures?|SIGNATURES?)(\s|:|$)', re.IGNORECASE)
+        # Specific patterns for Items 1B and 1C which are often very brief
+        unresolved_pattern = re.compile(r'(^|\s)(Unresolved\s+Staff\s+Comments)(\s|:|$)', re.IGNORECASE)
+        cybersecurity_pattern = re.compile(r'(^|\s)(Cybersecurity)(\s|:|$)', re.IGNORECASE)
         
         for element in all_text_elements:
             element_text = element.get_text().strip()
@@ -531,6 +534,34 @@ class HTMLProcessor:
                     }
                     found_sections.add(section_id)
                     logging.info(f"Found Exhibits section via Signatures heading: {section_id} - {element_text}")
+                    
+            # Check for Item 1B Unresolved Staff Comments - typically very brief
+            if "ITEM_1B_UNRESOLVED_STAFF_COMMENTS" not in found_sections and unresolved_pattern.search(element_text):
+                if element.name in ['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'p'] or element.get('class') == 'heading':
+                    section_id = "ITEM_1B_UNRESOLVED_STAFF_COMMENTS"
+                    section_text = self.extract_section_text(element)
+                    sections["document_sections"][section_id] = {
+                        "heading": "Unresolved Staff Comments",
+                        "element": element,
+                        "text": section_text,
+                        "detected_as": "content_pattern_match"
+                    }
+                    found_sections.add(section_id)
+                    logging.info(f"Found Item 1B section via content pattern: {section_id} - {element_text}")
+                    
+            # Check for Item 1C Cybersecurity - new requirement with varying formats
+            if "ITEM_1C_CYBERSECURITY" not in found_sections and cybersecurity_pattern.search(element_text):
+                if element.name in ['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'p'] or element.get('class') == 'heading':
+                    section_id = "ITEM_1C_CYBERSECURITY"
+                    section_text = self.extract_section_text(element)
+                    sections["document_sections"][section_id] = {
+                        "heading": "Cybersecurity",
+                        "element": element,
+                        "text": section_text,
+                        "detected_as": "content_pattern_match"
+                    }
+                    found_sections.add(section_id)
+                    logging.info(f"Found Item 1C section via content pattern: {section_id} - {element_text}")
         
         # Create missing placeholder sections for any missing standard sections
         if toc_sections:
@@ -704,6 +735,13 @@ class HTMLProcessor:
         if item_num == "IV" or item_num == "PART IV" or item_num == "PART 4" or item_num == "4":
             if filing_type == "10-K":
                 return "ITEM_15_EXHIBITS"
+        
+        # Special cases for Items 1B and 1C which often have minimal content
+        if item_num == "1B" or item_num == "ITEM 1B" or item_num == "UNRESOLVED STAFF COMMENTS":
+            return "ITEM_1B_UNRESOLVED_STAFF_COMMENTS"
+            
+        if item_num == "1C" or item_num == "ITEM 1C" or item_num == "CYBERSECURITY":
+            return "ITEM_1C_CYBERSECURITY"
         
         # 10-K mappings
         if filing_type == "10-K":

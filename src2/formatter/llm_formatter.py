@@ -1441,12 +1441,26 @@ class LLMFormatter:
                             covered_sections.append(section_id)
                             logging.info(f"EXHIBITS section included through alternative detection: {section_info.get('heading', '')}")
                             break
-                # Last resort - check raw text for PART IV or EXHIBITS
-                elif "raw_html_text" in filing_metadata and filing_type == "10-K":
-                    raw_text = filing_metadata.get("raw_html_text", "")
-                    if re.search(r'part\s+iv|exhibits?|exhibit\s+index', raw_text, re.IGNORECASE):
+            # Special handling for 1B and 1C which often have minimal content
+            elif section_id in ["ITEM_1B_UNRESOLVED_STAFF_COMMENTS", "ITEM_1C_CYBERSECURITY"] and document_sections:
+                # Check for alternative detection with content pattern match
+                section_found = False
+                for section_key, section_info in document_sections.items():
+                    if section_key == section_id and section_info.get("detected_as") == "content_pattern_match":
                         covered_sections.append(section_id)
-                        logging.info("EXHIBITS section detected through raw text search")
+                        logging.info(f"{section_id} included through content pattern match: {section_info.get('heading', '')}")
+                        section_found = True
+                        break
+                        
+                # Last resort - check raw text for 1B/1C keywords if section not found above
+                if not section_found and "raw_html_text" in filing_metadata and filing_type == "10-K":
+                    raw_text = filing_metadata.get("raw_html_text", "")
+                    if section_id == "ITEM_1B_UNRESOLVED_STAFF_COMMENTS" and re.search(r'unresolved\s+staff\s+comments', raw_text, re.IGNORECASE):
+                        covered_sections.append(section_id)
+                        logging.info("Item 1B detected through raw text search")
+                    elif section_id == "ITEM_1C_CYBERSECURITY" and re.search(r'cybersecurity', raw_text, re.IGNORECASE):
+                        covered_sections.append(section_id)
+                        logging.info("Item 1C detected through raw text search")
         
         missing_sections = [section_id for section_id in priority_sections if section_id not in covered_sections]
         
