@@ -360,23 +360,45 @@ class HTMLProcessor:
         # Check for Microsoft-specific EXHIBITS section directly in the TOC or main content
         # This is needed because Microsoft filings often use non-standard section identifiers
         if filing_type == "10-K" and "ITEM_15_EXHIBITS" not in sections["document_sections"]:
-            # Look for exhibits or part IV in the document
-            exhibits_elements = content.find_all(
-                ['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'div'], 
-                string=lambda text: text and (
-                    re.search(r'exhibit', text, re.IGNORECASE) or 
-                    re.search(r'part\s+iv', text, re.IGNORECASE) or
-                    re.search(r'signatures', text, re.IGNORECASE)
+            # Expand the detection patterns for EXHIBITS section
+            exhibits_patterns = [
+                r'exhibits?',
+                r'part\s+iv', 
+                r'signatures',
+                r'exhibit\s+index',
+                r'index\s+to\s+exhibits',
+                r'financial\s+statement\s+schedules'
+            ]
+            
+            # Look for matches in headings and various text elements
+            exhibits_elements = []
+            for pattern in exhibits_patterns:
+                elements = content.find_all(
+                    ['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'div', 'span', 'p'], 
+                    string=lambda text: text and re.search(pattern, text, re.IGNORECASE)
                 )
-            )
+                exhibits_elements.extend(elements)
             
             if exhibits_elements:
+                # Find the earliest matching element (most likely to be the section header)
+                exhibits_elements.sort(key=lambda x: x.sourceline if hasattr(x, "sourceline") else float('inf'))
                 exhibit_element = exhibits_elements[0]  # Use the first match
+                
+                # Extract text for this section
+                section_text = self.extract_section_text(exhibit_element)
+                
+                # Add to document sections with explicit exhibit marker
                 sections["document_sections"]["ITEM_15_EXHIBITS"] = {
                     "heading": exhibit_element.get_text().strip(),
-                    "element": exhibit_element
+                    "element": exhibit_element,
+                    "detected_as": "exhibits_alternative",  # Mark this as alternatively detected
+                    "text": section_text  # Add extracted text directly to the section data
                 }
-                logging.info(f"Found Microsoft-specific EXHIBITS section: {exhibit_element.get_text().strip()}")
+                
+                # Add a direct flag to ensure it gets detected regardless of section handling
+                sections["has_exhibits_section"] = True
+                logging.info(f"Explicitly marked EXHIBITS section as detected with flag: has_exhibits_section=True")
+                logging.info(f"Found EXHIBITS section using expanded patterns: {exhibit_element.get_text().strip()}")
         
         # First try to extract Table of Contents to identify all sections present
         toc_sections = self.extract_sections_from_toc(content, filing_type)
@@ -732,6 +754,35 @@ class HTMLProcessor:
         
         return mapping.get(item_num)
     
+    def extract_section_text(self, element):
+        """
+        Extract clean text from a section element
+        
+        Args:
+            element: BeautifulSoup element representing a section heading
+            
+        Returns:
+            String containing the extracted section text
+        """
+        if not element:
+            return ""
+        
+        # Find all text in this element and its children until the next section
+        next_section = element.find_next(['h1', 'h2', 'h3', 'h4'], 
+                                        string=lambda text: text and len(text) > 3)
+        
+        section_content = []
+        current = element.next_sibling
+        
+        while current and current != next_section:
+            if hasattr(current, 'get_text'):
+                text = current.get_text(strip=True)
+                if text:
+                    section_content.append(text)
+            current = current.next_sibling
+        
+        return "\n".join(section_content)
+    
     def get_text_with_section_markers(self, content, document_sections=None):
         """
         Generate text with section markers from the content
@@ -758,6 +809,12 @@ class HTMLProcessor:
         # We'll build a new text with section markers
         from bs4 import BeautifulSoup
         
+        # Track alternative detection sections
+        alternative_sections = {}
+        for section_id, section_info in document_sections.items():
+            if section_info.get("detected_as") == "exhibits_alternative":
+                alternative_sections[section_id] = True
+        
         # Create markers inline by using the text of each section heading as an anchor
         marked_text = base_text
         
@@ -777,6 +834,9 @@ class HTMLProcessor:
         # For each section, find its heading in the text and add markers
         for section_id, section_info in sorted_sections:
             heading_text = section_info["heading"].strip()
+            
+            # Check if this is an alternatively detected section
+            is_alternative = section_id in alternative_sections
             
             # Find the heading in the text
             heading_pos = marked_text.find(heading_text, added_chars)
@@ -800,8 +860,12 @@ class HTMLProcessor:
                 if heading_pos == -1:
                     continue
             
-            # Add start marker before the heading
-            start_marker = f"\n\n@SECTION_START: {section_id}\n"
+            # Add start marker before the heading with alternative detection flag if applicable
+            start_marker = f"\n\n@SECTION_START: {section_id}"
+            if is_alternative:
+                start_marker += " @ALTERNATIVE_DETECTION"
+            start_marker += "\n"
+            
             marked_text = marked_text[:heading_pos] + start_marker + marked_text[heading_pos:]
             added_chars += len(start_marker)
             
@@ -821,8 +885,12 @@ class HTMLProcessor:
             if next_section_pos == float('inf'):
                 next_section_pos = len(marked_text)
             
-            # Add end marker
-            end_marker = f"\n@SECTION_END: {section_id}\n\n"
+            # Add end marker with alternative detection flag if applicable
+            end_marker = f"\n@SECTION_END: {section_id}"
+            if is_alternative:
+                end_marker += " @ALTERNATIVE_DETECTION"
+            end_marker += "\n\n"
+            
             marked_text = marked_text[:next_section_pos] + end_marker + marked_text[next_section_pos:]
             added_chars += len(end_marker)
         

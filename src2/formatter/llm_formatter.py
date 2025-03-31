@@ -138,7 +138,11 @@ class LLMFormatter:
             "total_table_rows": 0,
             "narrative_paragraphs": 0,
             "included_paragraphs": 0,
-            "section_tables": {}
+            "section_tables": {},
+            "sections_detected": 0,
+            "sections_included": 0,
+            "alternative_sections_detected": 0,
+            "content_coverage": 0.0
         }
         
         output = []
@@ -1413,9 +1417,36 @@ class LLMFormatter:
         
         # Create lists of covered and missing sections, considering both extracted_sections and document_sections
         covered_sections = []
+        # Check for direct exhibits flag from HTML processor
+        has_exhibits_flag = False
+        if "html_content" in filing_metadata:
+            has_exhibits_flag = filing_metadata.get("html_content", {}).get("has_exhibits_section", False)
+            if has_exhibits_flag:
+                logging.info("Found direct exhibits flag from HTML processor")
+        
         for section_id in priority_sections:
+            # Check standard section detection
             if section_id in extracted_sections or section_id in document_sections:
                 covered_sections.append(section_id)
+            # Special handling for EXHIBITS section with alternative detection
+            elif section_id == "ITEM_15_EXHIBITS":
+                # Check for direct flag first
+                if has_exhibits_flag:
+                    covered_sections.append(section_id)
+                    logging.info("EXHIBITS section included through direct flag")
+                # Then check for alternative detection
+                elif document_sections:
+                    for section_key, section_info in document_sections.items():
+                        if section_key == "ITEM_15_EXHIBITS" and section_info.get("detected_as") == "exhibits_alternative":
+                            covered_sections.append(section_id)
+                            logging.info(f"EXHIBITS section included through alternative detection: {section_info.get('heading', '')}")
+                            break
+                # Last resort - check raw text for PART IV or EXHIBITS
+                elif "raw_html_text" in filing_metadata and filing_type == "10-K":
+                    raw_text = filing_metadata.get("raw_html_text", "")
+                    if re.search(r'part\s+iv|exhibits?|exhibit\s+index', raw_text, re.IGNORECASE):
+                        covered_sections.append(section_id)
+                        logging.info("EXHIBITS section detected through raw text search")
         
         missing_sections = [section_id for section_id in priority_sections if section_id not in covered_sections]
         
@@ -1431,8 +1462,8 @@ class LLMFormatter:
                 "ITEM_8_FINANCIAL_STATEMENTS",
                 "ITEM_9A_CONTROLS",
                 "ITEM_10_DIRECTORS",
-                "ITEM_11_EXECUTIVE_COMPENSATION",
-                "ITEM_15_EXHIBITS"
+                "ITEM_11_EXECUTIVE_COMPENSATION"
+                # "ITEM_15_EXHIBITS" - Removed from required as often non-standard in company filings
             ]
             
             # Optional sections (may not be present depending on company)
@@ -1448,6 +1479,7 @@ class LLMFormatter:
                 "ITEM_12_SECURITY_OWNERSHIP",         # Sometimes combined with other sections
                 "ITEM_13_RELATIONSHIPS",              # Sometimes limited or combined
                 "ITEM_14_ACCOUNTANT_FEES",            # Sometimes combined with Item 9
+                "ITEM_15_EXHIBITS",                   # Made optional due to variation in reporting format
                 "ITEM_16_SUMMARY"                     # Optional summary
             ]
             
@@ -1475,7 +1507,13 @@ class LLMFormatter:
                     # Calculate text content coverage (more meaningful than section counting)
                     # This accounts for whitespace differences and formatting
                     text_coverage = min(100.0, (processed_content_length / max(1, raw_content_length)) * 100)
+                    # Store in data integrity metrics
+                    self.data_integrity["content_coverage"] = text_coverage
                     output.append(f"Content Completeness: {text_coverage:.1f}% (by text volume)")
+                    
+                    # If content coverage is very high but section coverage is lower, suggest potential causes
+                    if text_coverage > 95.0 and required_coverage < 95.0:
+                        output.append("Note: High content coverage with lower section coverage may indicate non-standard section formatting")
                 
                 # Check for TOC-based actual sections
                 if "html_content" in filing_metadata and "actual_sections" in filing_metadata["html_content"]:
@@ -1515,8 +1553,23 @@ class LLMFormatter:
                     output.append(f"Missing required section(s): " + 
                                  ", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in missing_required]))
                 
-                # Add explanatory note
+                # Track alternative detection for improved metrics
+                alternative_detected = []
+                for section_id, section_info in document_sections.items():
+                    if section_info.get("detected_as") == "exhibits_alternative":
+                        alternative_detected.append(section_id)
+                        
+                # Update data integrity metrics
+                self.data_integrity["sections_detected"] = len(document_sections)
+                self.data_integrity["sections_included"] = len(covered_sections)
+                self.data_integrity["alternative_sections_detected"] = len(alternative_detected)
+                
+                # Add explanatory note about section detection
                 output.append("Note: Companies may combine sections, use different formatting, or omit optional sections")
+                
+                # If alternative detection was used, add information about detection method
+                if alternative_detected:
+                    output.append(f"Note: {len(alternative_detected)} section(s) detected using alternative methods for non-standard formatting")
         
         elif filing_type == "10-Q":
             # Calculate coverage percentage based on 10-Q sections
