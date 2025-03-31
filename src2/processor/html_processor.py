@@ -275,102 +275,380 @@ class HTMLProcessor:
             sections: Dictionary to populate with section info
             filing_type: Type of filing (10-K, 10-Q)
         """
-        # Define standard SEC item sections based on filing type
-        section_patterns = []
+        # Standard section IDs and their titles for each filing type
+        standard_sections = {}
         
         if filing_type == "10-K":
-            section_patterns = [
-                (r'Item\s+1\.?\s*Business', 'ITEM_1_BUSINESS'),
-                (r'Item\s+1A\.?\s*Risk\s+Factors', 'ITEM_1A_RISK_FACTORS'),
-                (r'Item\s+1B\.?\s*Unresolved\s+Staff\s+Comments', 'ITEM_1B_UNRESOLVED_STAFF_COMMENTS'),
-                (r'Item\s+2\.?\s*Properties', 'ITEM_2_PROPERTIES'),
-                (r'Item\s+3\.?\s*Legal\s+Proceedings', 'ITEM_3_LEGAL_PROCEEDINGS'),
-                (r'Item\s+4\.?\s*Mine\s+Safety\s+Disclosures', 'ITEM_4_MINE_SAFETY_DISCLOSURES'),
-                (r'Item\s+5\.?\s*Market\s+for\s+Registrant', 'ITEM_5_MARKET'),
-                (r'Item\s+6\.?\s*Selected\s+Financial\s+Data', 'ITEM_6_SELECTED_FINANCIAL_DATA'),
-                (r'Item\s+7\.?\s*Management.*Discussion', 'ITEM_7_MD_AND_A'),
-                (r'Item\s+7A\.?\s*Quantitative\s+and\s+Qualitative', 'ITEM_7A_MARKET_RISK'),
-                (r'Item\s+8\.?\s*Financial\s+Statements', 'ITEM_8_FINANCIAL_STATEMENTS'),
-                (r'Item\s+9\.?\s*Changes\s+in\s+and\s+Disagreements', 'ITEM_9_DISAGREEMENTS'),
-                (r'Item\s+9A\.?\s*Controls\s+and\s+Procedures', 'ITEM_9A_CONTROLS'),
-                (r'Item\s+9B\.?\s*Other\s+Information', 'ITEM_9B_OTHER_INFORMATION'),
-                (r'Item\s+10\.?\s*Directors', 'ITEM_10_DIRECTORS'),
-                (r'Item\s+11\.?\s*Executive\s+Compensation', 'ITEM_11_EXECUTIVE_COMPENSATION'),
-                (r'Item\s+12\.?\s*Security\s+Ownership', 'ITEM_12_SECURITY_OWNERSHIP'),
-                (r'Item\s+13\.?\s*Certain\s+Relationships', 'ITEM_13_RELATIONSHIPS'),
-                (r'Item\s+14\.?\s*Principal\s+Accountant\s+Fees', 'ITEM_14_ACCOUNTANT_FEES'),
-                (r'Item\s+15\.?\s*Exhibits', 'ITEM_15_EXHIBITS')
-            ]
+            standard_sections = {
+                'ITEM_1_BUSINESS': 'Business',
+                'ITEM_1A_RISK_FACTORS': 'Risk Factors',
+                'ITEM_1B_UNRESOLVED_STAFF_COMMENTS': 'Unresolved Staff Comments',
+                'ITEM_1C_CYBERSECURITY': 'Cybersecurity',
+                'ITEM_2_PROPERTIES': 'Properties',
+                'ITEM_3_LEGAL_PROCEEDINGS': 'Legal Proceedings',
+                'ITEM_4_MINE_SAFETY_DISCLOSURES': 'Mine Safety Disclosures',
+                'ITEM_5_MARKET': 'Market for Registrant\'s Common Equity',
+                'ITEM_6_SELECTED_FINANCIAL_DATA': 'Selected Financial Data',
+                'ITEM_7_MD_AND_A': 'Management\'s Discussion and Analysis',
+                'ITEM_7A_MARKET_RISK': 'Quantitative and Qualitative Disclosures About Market Risk',
+                'ITEM_8_FINANCIAL_STATEMENTS': 'Financial Statements and Supplementary Data',
+                'ITEM_9_DISAGREEMENTS': 'Changes in and Disagreements With Accountants',
+                'ITEM_9A_CONTROLS': 'Controls and Procedures',
+                'ITEM_9B_OTHER_INFORMATION': 'Other Information',
+                'ITEM_9C_FOREIGN_JURISDICTIONS': 'Disclosure Regarding Foreign Jurisdictions',
+                'ITEM_10_DIRECTORS': 'Directors, Executive Officers and Corporate Governance',
+                'ITEM_11_EXECUTIVE_COMPENSATION': 'Executive Compensation',
+                'ITEM_12_SECURITY_OWNERSHIP': 'Security Ownership of Certain Beneficial Owners',
+                'ITEM_13_RELATIONSHIPS': 'Certain Relationships and Related Transactions',
+                'ITEM_14_ACCOUNTANT_FEES': 'Principal Accountant Fees and Services',
+                'ITEM_15_EXHIBITS': 'Exhibits, Financial Statement Schedules',
+                'ITEM_16_SUMMARY': 'Form 10-K Summary'
+            }
         elif filing_type == "10-Q":
-            section_patterns = [
-                (r'Item\s+1\.?\s*Financial\s+Statements', 'ITEM_1_FINANCIAL_STATEMENTS'),
-                (r'Item\s+2\.?\s*Management.*Discussion', 'ITEM_2_MD_AND_A'),
-                (r'Item\s+3\.?\s*Quantitative\s+and\s+Qualitative', 'ITEM_3_MARKET_RISK'),
-                (r'Item\s+4\.?\s*Controls\s+and\s+Procedures', 'ITEM_4_CONTROLS'),
-                (r'Item\s+1\.?\s*Legal\s+Proceedings', 'ITEM_1_LEGAL_PROCEEDINGS'),
-                (r'Item\s+1A\.?\s*Risk\s+Factors', 'ITEM_1A_RISK_FACTORS'),
-                (r'Item\s+2\.?\s*Unregistered\s+Sales', 'ITEM_2_UNREGISTERED_SALES'),
-                (r'Item\s+3\.?\s*Defaults', 'ITEM_3_DEFAULTS'),
-                (r'Item\s+4\.?\s*Mine\s+Safety\s+Disclosures', 'ITEM_4_MINE_SAFETY'),
-                (r'Item\s+5\.?\s*Other\s+Information', 'ITEM_5_OTHER_INFORMATION'),
-                (r'Item\s+6\.?\s*Exhibits', 'ITEM_6_EXHIBITS'),
-                (r'Notes\s+to.*(Financial\s+Statements|Condensed)', 'NOTES_TO_FINANCIAL_STATEMENTS'),
-                (r'Management.*Discussion.*Analysis', 'MANAGEMENT_DISCUSSION'),
-                (r'Part\s+I\.?\s*Financial\s+Information', 'PART_I_FINANCIAL_INFORMATION'),
-                (r'Part\s+II\.?\s*Other\s+Information', 'PART_II_OTHER_INFORMATION')
-            ]
+            standard_sections = {
+                'ITEM_1_FINANCIAL_STATEMENTS': 'Financial Statements',
+                'ITEM_2_MD_AND_A': 'Management\'s Discussion and Analysis',
+                'ITEM_3_MARKET_RISK': 'Quantitative and Qualitative Disclosures About Market Risk',
+                'ITEM_4_CONTROLS': 'Controls and Procedures',
+                'ITEM_1_LEGAL_PROCEEDINGS': 'Legal Proceedings',
+                'ITEM_1A_RISK_FACTORS': 'Risk Factors',
+                'ITEM_2_UNREGISTERED_SALES': 'Unregistered Sales of Equity Securities',
+                'ITEM_3_DEFAULTS': 'Defaults Upon Senior Securities',
+                'ITEM_4_MINE_SAFETY': 'Mine Safety Disclosures',
+                'ITEM_5_OTHER_INFORMATION': 'Other Information',
+                'ITEM_6_EXHIBITS': 'Exhibits'
+            }
         else:
-            # Generic patterns for other filing types
-            section_patterns = [
-                (r'Financial\s+Statements', 'FINANCIAL_STATEMENTS'),
-                (r'Notes\s+to.*Financial\s+Statements', 'NOTES_TO_FINANCIAL_STATEMENTS'),
-                (r'Management.*Discussion.*Analysis', 'MANAGEMENT_DISCUSSION'),
-                (r'Risk\s+Factors', 'RISK_FACTORS')
-            ]
+            # Generic sections for other filing types
+            standard_sections = {
+                'FINANCIAL_STATEMENTS': 'Financial Statements',
+                'NOTES_TO_FINANCIAL_STATEMENTS': 'Notes to Financial Statements',
+                'MANAGEMENT_DISCUSSION': 'Management\'s Discussion and Analysis',
+                'RISK_FACTORS': 'Risk Factors'
+            }
         
-        # Add more specific sections for better granularity
-        additional_patterns = [
-            # Common to all reports
-            (r'Consolidated Balance Sheets?', 'CONSOLIDATED_BALANCE_SHEET'),
-            (r'Consolidated Statements? of Operations', 'CONSOLIDATED_INCOME_STATEMENT'),
-            (r'Consolidated Statements? of Cash Flows?', 'CONSOLIDATED_CASH_FLOW'),
-            (r'Consolidated Statements? of Stockholders[\'\"]? Equity', 'CONSOLIDATED_EQUITY'),
-            (r'Consolidated Statements? of Comprehensive Income', 'CONSOLIDATED_COMPREHENSIVE_INCOME'),
-            
-            # Important subsections 
-            (r'Controls and Procedures', 'CONTROLS_AND_PROCEDURES'),
-            (r'Critical Accounting (Policies|Estimates)', 'CRITICAL_ACCOUNTING'),
-            (r'Forward[-\s]Looking Statements?', 'FORWARD_LOOKING'),
-            (r'Liquidity and Capital Resources', 'LIQUIDITY_AND_CAPITAL'),
-            (r'Results? of Operations', 'RESULTS_OF_OPERATIONS'),
-            (r'Significant Accounting Policies', 'SIGNIFICANT_ACCOUNTING_POLICIES')
-        ]
+        # Basic financial statement sections for any filing type
+        financial_sections = {
+            'CONSOLIDATED_BALANCE_SHEET': 'Consolidated Balance Sheet',
+            'CONSOLIDATED_INCOME_STATEMENT': 'Consolidated Income Statement',
+            'CONSOLIDATED_CASH_FLOW': 'Consolidated Cash Flow Statement',
+            'CONSOLIDATED_EQUITY': 'Consolidated Statement of Stockholders\' Equity',
+            'CONSOLIDATED_COMPREHENSIVE_INCOME': 'Consolidated Statement of Comprehensive Income',
+            'CONTROLS_AND_PROCEDURES': 'Controls and Procedures',
+            'CRITICAL_ACCOUNTING': 'Critical Accounting Policies',
+            'FORWARD_LOOKING': 'Forward-Looking Statements',
+            'LIQUIDITY_AND_CAPITAL': 'Liquidity and Capital Resources',
+            'RESULTS_OF_OPERATIONS': 'Results of Operations',
+            'SIGNIFICANT_ACCOUNTING_POLICIES': 'Significant Accounting Policies'
+        }
         
-        # Combine all patterns
-        section_patterns.extend(additional_patterns)
-        
-        # Find all headings
-        headings = content.find_all(['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'p', 'div'], 
-                                   string=lambda text: text and any(re.search(pattern, text, re.IGNORECASE) 
-                                                                  for pattern, _ in section_patterns))
+        # Combine standard sections with financial sections
+        all_sections = {**standard_sections, **financial_sections}
         
         # Initialize document_sections if not present
         if "document_sections" not in sections:
             sections["document_sections"] = {}
         
-        # Process each heading to extract section info
-        for heading in headings:
-            heading_text = heading.get_text().strip()
+        # First try to extract Table of Contents to identify all sections present
+        toc_sections = self.extract_sections_from_toc(content, filing_type)
+        if toc_sections:
+            logging.info(f"Found {len(toc_sections)} sections in Table of Contents")
+            # Add the sections from TOC to document_sections
+            for section_id, section_info in toc_sections.items():
+                if section_id in all_sections:
+                    sections["document_sections"][section_id] = section_info
+        
+        # Generate regex patterns for each standard section
+        section_patterns = []
+        
+        # For 10-K sections, create patterns that match different variations of section headers
+        for section_id, section_title in standard_sections.items():
+            # Extract the item number from the section_id (e.g., "1" from "ITEM_1_BUSINESS")
+            if section_id.startswith('ITEM_'):
+                parts = section_id.split('_')
+                if len(parts) > 1 and parts[1].isdigit():
+                    item_number = parts[1]
+                    item_letter = parts[2][0] if len(parts) > 2 and parts[2] and parts[2][0].isalpha() else ''
+                    
+                    # Create pattern with and without period after the number
+                    # Also handle both cases (ITEM vs Item) and various punctuation
+                    pattern = r'(?:[Ii]tem|ITEM)\s+' + item_number
+                    if item_letter:
+                        pattern += r'(?:' + item_letter + r'|' + item_letter.upper() + r')\.?\s*'
+                    
+                    # Add keywords from the title for additional matching
+                    title_keywords = section_title.split()
+                    if title_keywords:
+                        main_keyword = title_keywords[0]
+                        pattern += r'(?:.*?' + main_keyword + r'|:[^.]*?' + main_keyword + r')'
+                    
+                    section_patterns.append((pattern, section_id))
+            else:
+                # For non-ITEM sections, use the title directly
+                section_patterns.append((section_title.replace("'", "['\"]?"), section_id))
+        
+        # Add financial section patterns
+        for section_id, section_title in financial_sections.items():
+            pattern = section_title.replace("'", "['\"]?").replace(" ", r"\s+")
+            section_patterns.append((pattern, section_id))
+        
+        # Find all potential section headers in the document
+        all_text_elements = content.find_all(['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'p', 'div', 'span', 'td'], 
+                                           string=lambda text: text and len(text) > 3)
+        
+        # Track found sections
+        found_sections = set()
+        
+        # Process each text element to check if it's a section header
+        for element in all_text_elements:
+            element_text = element.get_text().strip()
             
-            # Find matching section
+            # Skip very short text or already processed elements
+            if len(element_text) < 4:
+                continue
+            
+            # Check if text matches any section pattern
             for pattern, section_id in section_patterns:
-                if re.search(pattern, heading_text, re.IGNORECASE):
-                    # Add section to sections dict, noting the heading and the element
+                if re.search(pattern, element_text, re.IGNORECASE):
+                    # Only add if this section wasn't already found
+                    if section_id not in found_sections:
+                        sections["document_sections"][section_id] = {
+                            "heading": element_text,
+                            "element": element
+                        }
+                        found_sections.add(section_id)
+                        logging.info(f"Found section: {section_id} - {element_text}")
+                        break
+        
+        # Additional checks for ITEM identifiers in a specific format (e.g., Item 1., Item 1:, etc.)
+        item_pattern = re.compile(r'(?:[Ii]tem|ITEM)\s+(\d+[A-C]?)[\s\.:]', re.IGNORECASE)
+        for element in all_text_elements:
+            element_text = element.get_text().strip()
+            match = item_pattern.search(element_text)
+            if match:
+                item_number = match.group(1)
+                # Try to match this to a standard section
+                for section_id in standard_sections.keys():
+                    if section_id.startswith(f'ITEM_{item_number}') or section_id.startswith(f'ITEM_{item_number}_'):
+                        if section_id not in found_sections:
+                            sections["document_sections"][section_id] = {
+                                "heading": element_text,
+                                "element": element
+                            }
+                            found_sections.add(section_id)
+                            logging.info(f"Found section via item number match: {section_id} - {element_text}")
+                            break
+        
+        # Create missing placeholder sections for any missing standard sections
+        if toc_sections:
+            # If we found a TOC, use those sections as the definitive list
+            for section_id in toc_sections.keys():
+                if section_id not in sections["document_sections"] and section_id in all_sections:
                     sections["document_sections"][section_id] = {
-                        "heading": heading_text,
-                        "element": heading
+                        "heading": all_sections[section_id],
+                        "element": None,
+                        "missing": True
                     }
-                    break
+        else:
+            # If no TOC found, include all standard sections as placeholders
+            for section_id, section_title in standard_sections.items():
+                if section_id not in sections["document_sections"]:
+                    sections["document_sections"][section_id] = {
+                        "heading": section_title,
+                        "element": None,
+                        "missing": True
+                    }
+        
+        # Log the total sections found
+        logging.info(f"Total sections found: {len(found_sections)} of {len(standard_sections)} standard sections")
+        
+    def extract_sections_from_toc(self, content, filing_type):
+        """
+        Extract sections from Table of Contents if present
+        
+        Args:
+            content: BeautifulSoup object of the main content
+            filing_type: Type of filing (10-K, 10-Q)
+            
+        Returns:
+            Dictionary of section_id -> section_info mappings or None if TOC not found
+        """
+        # Look for Table of Contents
+        toc_elements = []
+        
+        # Check for text containing "Table of Contents" or "Contents"
+        for element in content.find_all(['h1', 'h2', 'h3', 'h4', 'p', 'div', 'span', 'td'], 
+                                      string=lambda text: text and re.search(r'(?:Table\s+of\s+Contents|CONTENTS)', text, re.IGNORECASE)):
+            toc_elements.append(element)
+        
+        if not toc_elements:
+            return None
+        
+        # Find the most likely TOC element
+        toc_element = toc_elements[0]
+        
+        # Try to find the TOC as a list or table after this element
+        potential_toc = None
+        
+        # Look for structured TOCs (tables, lists)
+        # 1. Try finding a table
+        toc_table = toc_element.find_next('table')
+        if toc_table and toc_table.find_all('tr'):
+            potential_toc = toc_table
+        
+        # 2. Try finding a list
+        if not potential_toc:
+            toc_list = toc_element.find_next(['ul', 'ol'])
+            if toc_list and toc_list.find_all('li'):
+                potential_toc = toc_list
+        
+        # 3. Look for a div with multiple paragraphs that might be TOC entries
+        if not potential_toc:
+            toc_div = toc_element.find_next('div')
+            if toc_div and len(toc_div.find_all(['p', 'div'], recursive=False)) > 3:
+                potential_toc = toc_div
+        
+        # If still not found, use a broader search approach
+        if not potential_toc:
+            # Look for all <p> elements with item entries after the TOC header
+            item_pattern = re.compile(r'item\s+\d+[A-C]?', re.IGNORECASE)
+            toc_paragraphs = []
+            
+            # Start looking from the TOC element
+            current = toc_element.next_sibling
+            while current and len(toc_paragraphs) < 30:  # Limit search space
+                if hasattr(current, 'name'):
+                    # If we hit a major heading, stop searching
+                    if current.name in ['h1', 'h2'] and not item_pattern.search(current.get_text()):
+                        break
+                    
+                    # If this element contains an Item reference, add it
+                    if item_pattern.search(current.get_text()):
+                        toc_paragraphs.append(current)
+                        
+                current = current.next_sibling
+            
+            if toc_paragraphs:
+                potential_toc = toc_paragraphs
+        
+        # If we found something that looks like a TOC, extract the sections
+        if potential_toc:
+            sections = {}
+            item_pattern = re.compile(r'(?:item|ITEM)\s+(\d+[A-C]?)(?:\.|\s|:)', re.IGNORECASE)
+            
+            # Different approaches based on TOC structure
+            if isinstance(potential_toc, list):
+                # Process a list of paragraphs
+                for p in potential_toc:
+                    text = p.get_text().strip()
+                    match = item_pattern.search(text)
+                    if match:
+                        item_num = match.group(1)
+                        section_id = self.map_item_to_section_id(item_num, filing_type)
+                        if section_id:
+                            sections[section_id] = {
+                                "heading": text,
+                                "element": p
+                            }
+            elif potential_toc.name == 'table':
+                # Process a table
+                for row in potential_toc.find_all('tr'):
+                    text = row.get_text().strip()
+                    match = item_pattern.search(text)
+                    if match:
+                        item_num = match.group(1)
+                        section_id = self.map_item_to_section_id(item_num, filing_type)
+                        if section_id:
+                            sections[section_id] = {
+                                "heading": text,
+                                "element": row
+                            }
+            elif potential_toc.name in ['ul', 'ol']:
+                # Process a list
+                for item in potential_toc.find_all('li'):
+                    text = item.get_text().strip()
+                    match = item_pattern.search(text)
+                    if match:
+                        item_num = match.group(1)
+                        section_id = self.map_item_to_section_id(item_num, filing_type)
+                        if section_id:
+                            sections[section_id] = {
+                                "heading": text,
+                                "element": item
+                            }
+            else:
+                # Process a div or other container
+                for element in potential_toc.find_all(['p', 'div', 'span']):
+                    text = element.get_text().strip()
+                    match = item_pattern.search(text)
+                    if match:
+                        item_num = match.group(1)
+                        section_id = self.map_item_to_section_id(item_num, filing_type)
+                        if section_id:
+                            sections[section_id] = {
+                                "heading": text,
+                                "element": element
+                            }
+            
+            return sections
+        
+        return None
+    
+    def map_item_to_section_id(self, item_num, filing_type):
+        """
+        Maps an item number (e.g., "1", "1A") to a section ID
+        
+        Args:
+            item_num: Item number as string (e.g., "1", "1A")
+            filing_type: Type of filing (10-K, 10-Q)
+            
+        Returns:
+            Section ID or None if no mapping found
+        """
+        item_num = item_num.upper()  # Normalize to uppercase
+        
+        # 10-K mappings
+        if filing_type == "10-K":
+            mapping = {
+                "1": "ITEM_1_BUSINESS",
+                "1A": "ITEM_1A_RISK_FACTORS",
+                "1B": "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",
+                "1C": "ITEM_1C_CYBERSECURITY",
+                "2": "ITEM_2_PROPERTIES",
+                "3": "ITEM_3_LEGAL_PROCEEDINGS",
+                "4": "ITEM_4_MINE_SAFETY_DISCLOSURES",
+                "5": "ITEM_5_MARKET",
+                "6": "ITEM_6_SELECTED_FINANCIAL_DATA",
+                "7": "ITEM_7_MD_AND_A",
+                "7A": "ITEM_7A_MARKET_RISK",
+                "8": "ITEM_8_FINANCIAL_STATEMENTS",
+                "9": "ITEM_9_DISAGREEMENTS",
+                "9A": "ITEM_9A_CONTROLS",
+                "9B": "ITEM_9B_OTHER_INFORMATION",
+                "9C": "ITEM_9C_FOREIGN_JURISDICTIONS",
+                "10": "ITEM_10_DIRECTORS",
+                "11": "ITEM_11_EXECUTIVE_COMPENSATION",
+                "12": "ITEM_12_SECURITY_OWNERSHIP",
+                "13": "ITEM_13_RELATIONSHIPS",
+                "14": "ITEM_14_ACCOUNTANT_FEES",
+                "15": "ITEM_15_EXHIBITS",
+                "16": "ITEM_16_SUMMARY"
+            }
+        # 10-Q mappings
+        elif filing_type == "10-Q":
+            mapping = {
+                "1": "ITEM_1_FINANCIAL_STATEMENTS",
+                "2": "ITEM_2_MD_AND_A",
+                "3": "ITEM_3_MARKET_RISK",
+                "4": "ITEM_4_CONTROLS",
+                "1A": "ITEM_1A_RISK_FACTORS",
+                "5": "ITEM_5_OTHER_INFORMATION",
+                "6": "ITEM_6_EXHIBITS"
+            }
+        else:
+            return None
+        
+        return mapping.get(item_num)
     
     def get_text_with_section_markers(self, content, document_sections=None):
         """
