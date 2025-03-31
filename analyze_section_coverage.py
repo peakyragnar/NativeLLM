@@ -94,12 +94,25 @@ def parse_section_data(file_path):
                 all_sections.append(marker)
             
         # Extract found required and optional sections 
-        found_required_match = re.search(r'Required sections found: (.*?)$', content, re.MULTILINE)
         found_required = []
+        
+        # Try 10-K format first (Required sections found: ...)
+        found_required_match = re.search(r'Required sections found: (.*?)$', content, re.MULTILINE)
         if found_required_match:
             found_req_text = found_required_match.group(1)
             # Convert from display format back to section ID format
             for section in found_req_text.split(','):
+                section = section.strip()
+                if section:
+                    section_id = "ITEM_" + section.replace("Item ", "").replace(" ", "_")
+                    found_required.append(section_id.upper())
+        
+        # Try 10-Q format (Found X of Y standard 10-Q sections:)
+        found_10q_match = re.search(r'Found \d+ of \d+ standard 10-Q sections:\s*(.*?)$', content, re.MULTILINE)
+        if found_10q_match:
+            found_10q_text = found_10q_match.group(1)
+            # Convert from display format back to section ID format
+            for section in found_10q_text.split(','):
                 section = section.strip()
                 if section:
                     section_id = "ITEM_" + section.replace("Item ", "").replace(" ", "_")
@@ -117,13 +130,21 @@ def parse_section_data(file_path):
                     found_optional.append(section_id.upper())
                     
         # Extract coverage percentages
-        required_coverage_match = re.search(r'10-K Required Coverage: ([\d\.]+)%', content)
         required_coverage = 0
+        
+        # Try 10-K required coverage format
+        required_coverage_match = re.search(r'10-K Required Coverage: ([\d\.]+)%', content)
         if required_coverage_match:
             required_coverage = float(required_coverage_match.group(1))
+        
+        # Try 10-Q coverage format
+        q_coverage_match = re.search(r'10-Q Coverage: ([\d\.]+)%', content)
+        if q_coverage_match and not required_coverage_match:
+            required_coverage = float(q_coverage_match.group(1))
             
-        standard_coverage_match = re.search(r'10-K Standard Coverage: ([\d\.]+)%', content)  
+        # Extract standard coverage
         standard_coverage = 0
+        standard_coverage_match = re.search(r'10-K Standard Coverage: ([\d\.]+)%', content)  
         if standard_coverage_match:
             standard_coverage = float(standard_coverage_match.group(1))
             
@@ -303,27 +324,84 @@ def analyze_directory(directory_path, output_format="text"):
         report.append(f"  Files using Alternative Detection: {stats['files_with_alternative_detection']} ({stats['files_with_alternative_detection']/stats['total_filings']*100:.1f}%)")
         report.append("")
         
+        # Organize sections by type and filing type
+        k_required = []
+        k_optional = []
+        q_required = []
+        q_optional = []
+        
+        # Prepare categorized lists
+        for section_id, rate in stats["section_detection_rates"].items():
+            upper_id = section_id.upper()
+            if upper_id in SECTION_DEFINITIONS["10-K"]["required"]:
+                k_required.append((section_id, rate))
+            elif upper_id in SECTION_DEFINITIONS["10-K"]["optional"]:
+                k_optional.append((section_id, rate))
+            elif upper_id in SECTION_DEFINITIONS["10-Q"]["required"]:
+                q_required.append((section_id, rate))
+            elif upper_id in SECTION_DEFINITIONS["10-Q"]["optional"]:
+                q_optional.append((section_id, rate))
+        
+        # Sort all lists by detection rate (highest first)
+        k_required.sort(key=lambda x: x[1]["percentage"], reverse=True)
+        k_optional.sort(key=lambda x: x[1]["percentage"], reverse=True)
+        q_required.sort(key=lambda x: x[1]["percentage"], reverse=True)
+        q_optional.sort(key=lambda x: x[1]["percentage"], reverse=True)
+        
+        # Report by category
+        if k_required:
+            report.append("10-K REQUIRED SECTIONS:")
+            for section_id, rate in k_required:
+                report.append(f"  {section_id}: {rate['percentage']:.1f}% ({rate['count']}/{rate['total']})")
+            report.append("")
+            
+        if q_required:
+            report.append("10-Q REQUIRED SECTIONS:")
+            for section_id, rate in q_required:
+                report.append(f"  {section_id}: {rate['percentage']:.1f}% ({rate['count']}/{rate['total']})")
+            report.append("")
+            
         if missing_required:
-            report.append("Missing Required Sections (< 90% detection):")
+            report.append("⚠️ MISSING REQUIRED SECTIONS: (< 90% detection)")
             for section in missing_required:
                 report.append(f"  {section['section']}: {section['detection_rate']:.1f}% ({section['count']}/{section['total']})")
             report.append("")
-            
-        if missing_optional:
-            report.append("Low Detection Optional Sections (< 50% detection):")
-            for section in missing_optional:
-                report.append(f"  {section['section']}: {section['detection_rate']:.1f}% ({section['count']}/{section['total']})")
+        else:
+            report.append("✅ All required sections are properly detected.")
             report.append("")
             
-        report.append("Section Detection Rates:")
-        sorted_rates = sorted(
-            [(k, v) for k, v in stats["section_detection_rates"].items()],
-            key=lambda x: x[1]["percentage"],
-            reverse=True
-        )
+        # Optional sections (less prominent)
+        report.append("OPTIONAL SECTIONS:")
+        if k_optional:
+            report.append("  10-K Optional:")
+            for section_id, rate in k_optional:
+                if rate["percentage"] > 0:
+                    report.append(f"    {section_id}: {rate['percentage']:.1f}% ({rate['count']}/{rate['total']})")
+            
+        if q_optional:
+            report.append("  10-Q Optional:")
+            for section_id, rate in q_optional:
+                if rate["percentage"] > 0:
+                    report.append(f"    {section_id}: {rate['percentage']:.1f}% ({rate['count']}/{rate['total']})")
+            
+        report.append("")
         
-        for section_id, rate in sorted_rates:
-            report.append(f"  {section_id}: {rate['percentage']:.1f}% ({rate['count']}/{rate['total']})")
+        # Other detected sections (non-standard)
+        other_sections = []
+        for section_id, rate in stats["section_detection_rates"].items():
+            upper_id = section_id.upper()
+            if (upper_id not in SECTION_DEFINITIONS["10-K"]["required"] and 
+                upper_id not in SECTION_DEFINITIONS["10-K"]["optional"] and
+                upper_id not in SECTION_DEFINITIONS["10-Q"]["required"] and
+                upper_id not in SECTION_DEFINITIONS["10-Q"]["optional"]):
+                other_sections.append((section_id, rate))
+                
+        if other_sections:
+            report.append("OTHER DETECTED PATTERNS:")
+            other_sections.sort(key=lambda x: x[1]["percentage"], reverse=True)
+            for section_id, rate in other_sections:
+                if rate["percentage"] > 0:
+                    report.append(f"  {section_id}: {rate['percentage']:.1f}% ({rate['count']}/{rate['total']})")
             
         return "\n".join(report)
 
