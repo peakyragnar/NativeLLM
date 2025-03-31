@@ -1420,28 +1420,73 @@ class LLMFormatter:
         missing_sections = [section_id for section_id in priority_sections if section_id not in covered_sections]
         
         if filing_type == "10-K":
+            # Define required sections for 10-K filings
+            required_10k_sections = [
+                "ITEM_1_BUSINESS",
+                "ITEM_1A_RISK_FACTORS",
+                "ITEM_2_PROPERTIES",
+                "ITEM_3_LEGAL_PROCEEDINGS", 
+                "ITEM_7_MD_AND_A",
+                "ITEM_7A_MARKET_RISK",
+                "ITEM_8_FINANCIAL_STATEMENTS",
+                "ITEM_9A_CONTROLS",
+                "ITEM_10_DIRECTORS",
+                "ITEM_11_EXECUTIVE_COMPENSATION",
+                "ITEM_15_EXHIBITS"
+            ]
+            
+            # Optional sections (may not be present depending on company)
+            optional_10k_sections = [
+                "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",  # Only required for accelerated filers
+                "ITEM_1C_CYBERSECURITY",              # Added in 2023, not required before
+                "ITEM_4_MINE_SAFETY_DISCLOSURES",     # Only for mining companies
+                "ITEM_5_MARKET",                      # Sometimes combined with Item 6
+                "ITEM_6_SELECTED_FINANCIAL_DATA",     # No longer required since 2021
+                "ITEM_9_DISAGREEMENTS",               # Only if there were disagreements
+                "ITEM_9B_OTHER_INFORMATION",          # Only if there is other information
+                "ITEM_9C_FOREIGN_JURISDICTIONS",      # Only for companies with foreign operations
+                "ITEM_12_SECURITY_OWNERSHIP",         # Sometimes combined with other sections
+                "ITEM_13_RELATIONSHIPS",              # Sometimes limited or combined
+                "ITEM_14_ACCOUNTANT_FEES",            # Sometimes combined with Item 9
+                "ITEM_16_SUMMARY"                     # Optional summary
+            ]
+            
             # Calculate coverage percentage based on 10-K sections
             # Only consider the main items for 10-K (skipping subsections)
             main_10k_sections = [s for s in priority_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
             found_10k_sections = [s for s in covered_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
             
+            # Calculate required vs optional coverage
+            covered_required = [s for s in covered_sections if s in required_10k_sections]
+            covered_optional = [s for s in covered_sections if s in optional_10k_sections]
+            
             if main_10k_sections:
-                coverage_pct = (len(found_10k_sections) / len(main_10k_sections)) * 100
-                output.append(f"10-K Coverage: {coverage_pct:.1f}% of standard sections found")
+                # Calculate different coverage metrics
+                standard_coverage = (len(found_10k_sections) / len(main_10k_sections)) * 100
+                required_coverage = (len(covered_required) / len(required_10k_sections)) * 100
                 
-                # Items found
-                output.append(f"Found {len(found_10k_sections)} of {len(main_10k_sections)} standard 10-K sections:")
-                output.append(", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in found_10k_sections[:10]]) + 
-                             ("..." if len(found_10k_sections) > 10 else ""))
+                # Show both metrics for clearer understanding
+                output.append(f"10-K Required Coverage: {required_coverage:.1f}% ({len(covered_required)}/{len(required_10k_sections)} required sections)")
+                output.append(f"10-K Standard Coverage: {standard_coverage:.1f}% ({len(found_10k_sections)}/{len(main_10k_sections)} standard sections)")
                 
-                # Items not found (might be absent in the original document)
-                if missing_sections:
-                    missing_10k = [s for s in missing_sections if s.startswith("ITEM_") and not s.endswith("_Q")]
-                    if missing_10k:
-                        output.append(f"Missing {len(missing_10k)} section(s):")
-                        output.append(", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in missing_10k[:5]]) + 
-                                     ("..." if len(missing_10k) > 5 else ""))
-                        output.append("Note: Missing sections may not exist in the original document")
+                # Show both metrics in a more readable way
+                output.append(f"Found Required: {len(covered_required)} of {len(required_10k_sections)} required sections")
+                if optional_10k_sections:
+                    output.append(f"Found Optional: {len(covered_optional)} of {len(optional_10k_sections)} optional sections")
+                
+                # Show which sections were found (required first, then optional)
+                output.append("Required sections found: " + ", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in covered_required]))
+                if covered_optional:
+                    output.append("Optional sections found: " + ", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in covered_optional]))
+                
+                # Show missing required sections (most important)
+                missing_required = [s for s in required_10k_sections if s not in covered_sections]
+                if missing_required:
+                    output.append(f"Missing required section(s): " + 
+                                 ", ".join([s.replace("ITEM_", "Item ").replace("_", " ") for s in missing_required]))
+                
+                # Add explanatory note
+                output.append("Note: Companies may combine sections, use different formatting, or omit optional sections")
         
         elif filing_type == "10-Q":
             # Calculate coverage percentage based on 10-Q sections
