@@ -83,6 +83,54 @@ class LLMFormatter:
         if "error" in parsed_xbrl:
             return f"ERROR: {parsed_xbrl['error']}"
             
+        # Define priority sections at the very beginning to ensure it's available throughout the method
+        # Include all possible 10-K and 10-Q sections
+        priority_sections = [
+            # Form 10-K main Items (in order)
+            "ITEM_1_BUSINESS",
+            "ITEM_1A_RISK_FACTORS",
+            "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",
+            "ITEM_1C_CYBERSECURITY",
+            "ITEM_2_PROPERTIES",
+            "ITEM_3_LEGAL_PROCEEDINGS",
+            "ITEM_4_MINE_SAFETY_DISCLOSURES",
+            "ITEM_5_MARKET",
+            "ITEM_6_SELECTED_FINANCIAL_DATA",
+            "ITEM_7_MD_AND_A",
+            "ITEM_7A_MARKET_RISK",
+            "ITEM_8_FINANCIAL_STATEMENTS",
+            "ITEM_9_DISAGREEMENTS",
+            "ITEM_9A_CONTROLS",
+            "ITEM_9B_OTHER_INFORMATION",
+            "ITEM_9C_FOREIGN_JURISDICTIONS",
+            "ITEM_10_DIRECTORS",
+            "ITEM_11_EXECUTIVE_COMPENSATION",
+            "ITEM_12_SECURITY_OWNERSHIP",
+            "ITEM_13_RELATIONSHIPS",
+            "ITEM_14_ACCOUNTANT_FEES",
+            "ITEM_15_EXHIBITS",
+            "ITEM_16_SUMMARY",
+            
+            # Form 10-Q main Items (in order)
+            "ITEM_1_FINANCIAL_STATEMENTS",
+            "ITEM_2_MD_AND_A",
+            "ITEM_3_MARKET_RISK",
+            "ITEM_4_CONTROLS",
+            "ITEM_1_LEGAL_PROCEEDINGS",
+            "ITEM_1A_RISK_FACTORS_Q", 
+            "ITEM_2_UNREGISTERED_SALES",
+            "ITEM_3_DEFAULTS",
+            "ITEM_4_MINE_SAFETY_Q",
+            "ITEM_5_OTHER_INFORMATION_Q",
+            "ITEM_6_EXHIBITS_Q",
+            
+            # Common MD&A subsections
+            "MANAGEMENT_DISCUSSION",
+            "RESULTS_OF_OPERATIONS",
+            "LIQUIDITY_AND_CAPITAL",
+            "CRITICAL_ACCOUNTING"
+        ]
+            
         # Initialize data integrity tracking
         self.data_integrity = {
             "tables_detected": 0,
@@ -1356,53 +1404,7 @@ class LLMFormatter:
         output.append("")
         output.append("@DOCUMENT_COVERAGE")
         
-        # Define priority sections here to ensure they're available for coverage calculation
-        # Include all possible 10-K and 10-Q sections
-        priority_sections = [
-            # Form 10-K main Items (in order)
-            "ITEM_1_BUSINESS",
-            "ITEM_1A_RISK_FACTORS",
-            "ITEM_1B_UNRESOLVED_STAFF_COMMENTS",
-            "ITEM_1C_CYBERSECURITY",
-            "ITEM_2_PROPERTIES",
-            "ITEM_3_LEGAL_PROCEEDINGS",
-            "ITEM_4_MINE_SAFETY_DISCLOSURES",
-            "ITEM_5_MARKET",
-            "ITEM_6_SELECTED_FINANCIAL_DATA",
-            "ITEM_7_MD_AND_A",
-            "ITEM_7A_MARKET_RISK",
-            "ITEM_8_FINANCIAL_STATEMENTS",
-            "ITEM_9_DISAGREEMENTS",
-            "ITEM_9A_CONTROLS",
-            "ITEM_9B_OTHER_INFORMATION",
-            "ITEM_9C_FOREIGN_JURISDICTIONS",
-            "ITEM_10_DIRECTORS",
-            "ITEM_11_EXECUTIVE_COMPENSATION",
-            "ITEM_12_SECURITY_OWNERSHIP",
-            "ITEM_13_RELATIONSHIPS",
-            "ITEM_14_ACCOUNTANT_FEES",
-            "ITEM_15_EXHIBITS",
-            "ITEM_16_SUMMARY",
-            
-            # Form 10-Q main Items (in order)
-            "ITEM_1_FINANCIAL_STATEMENTS",
-            "ITEM_2_MD_AND_A",
-            "ITEM_3_MARKET_RISK",
-            "ITEM_4_CONTROLS",
-            "ITEM_1_LEGAL_PROCEEDINGS",
-            "ITEM_1A_RISK_FACTORS_Q", 
-            "ITEM_2_UNREGISTERED_SALES",
-            "ITEM_3_DEFAULTS",
-            "ITEM_4_MINE_SAFETY_Q",
-            "ITEM_5_OTHER_INFORMATION_Q",
-            "ITEM_6_EXHIBITS_Q",
-            
-            # Common MD&A subsections
-            "MANAGEMENT_DISCUSSION",
-            "RESULTS_OF_OPERATIONS",
-            "LIQUIDITY_AND_CAPITAL",
-            "CRITICAL_ACCOUNTING"
-        ]
+        # Use priority_sections defined at the beginning of the method
         
         # Check for new format with document_sections in filing_metadata
         document_sections = {}
