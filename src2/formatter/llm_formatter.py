@@ -1465,7 +1465,37 @@ class LLMFormatter:
                 standard_coverage = (len(found_10k_sections) / len(main_10k_sections)) * 100
                 required_coverage = (len(covered_required) / len(required_10k_sections)) * 100
                 
-                # Show both metrics for clearer understanding
+                # Content-centric approach - focus on data completeness
+                # First, record the proportion of document content captured
+                raw_content = ""
+                if "raw_html_text_length" in filing_metadata:
+                    raw_content_length = filing_metadata["raw_html_text_length"]
+                    processed_content_length = len("\n".join(output))
+                    
+                    # Calculate text content coverage (more meaningful than section counting)
+                    # This accounts for whitespace differences and formatting
+                    text_coverage = min(100.0, (processed_content_length / max(1, raw_content_length)) * 100)
+                    output.append(f"Content Completeness: {text_coverage:.1f}% (by text volume)")
+                
+                # Check for TOC-based actual sections
+                if "html_content" in filing_metadata and "actual_sections" in filing_metadata["html_content"]:
+                    actual_sections = filing_metadata["html_content"]["actual_sections"]
+                    
+                    # Ensure actual_sections is treated as a list consistently
+                    actual_sections_list = actual_sections
+                    if isinstance(actual_sections, dict):
+                        # If it's a dictionary, use the keys as the section list
+                        actual_sections_list = list(actual_sections.keys())
+                    
+                    # Find the overlap between covered sections and actual sections
+                    actually_covered = [s for s in covered_sections if s in actual_sections_list]
+                    actually_missed = [s for s in actual_sections_list if s not in covered_sections]
+                    actual_coverage = (len(actually_covered) / len(actual_sections_list)) * 100 if actual_sections_list else 0
+                    
+                    # Report section coverage (secondary metric)
+                    output.append(f"Document Structure Coverage: {actual_coverage:.1f}% ({len(actually_covered)}/{len(actual_sections_list)} TOC sections)")
+                
+                # Show standard metrics after the more informative ones
                 output.append(f"10-K Required Coverage: {required_coverage:.1f}% ({len(covered_required)}/{len(required_10k_sections)} required sections)")
                 output.append(f"10-K Standard Coverage: {standard_coverage:.1f}% ({len(found_10k_sections)}/{len(main_10k_sections)} standard sections)")
                 

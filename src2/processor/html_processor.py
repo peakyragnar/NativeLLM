@@ -74,7 +74,9 @@ class HTMLProcessor:
         
         # Create a dictionary to store extracted sections
         sections = {
-            "metadata": {},
+            "metadata": {
+                "raw_html_text_length": len(soup.get_text())  # Store raw text length for content coverage metrics
+            },
             "full_text": "",
             "toc": ""
         }
@@ -304,6 +306,12 @@ class HTMLProcessor:
                 'ITEM_15_EXHIBITS': 'Exhibits, Financial Statement Schedules',
                 'ITEM_16_SUMMARY': 'Form 10-K Summary'
             }
+            
+            # Add common alternative section titles specific to different companies
+            # This helps capture sections that use different naming conventions but represent the same content
+            alternative_section_titles = {
+                'ITEM_15_EXHIBITS': ['Exhibits', 'Financial Statement Schedules', 'Exhibit Index', 'Part IV', 'Signatures', 'Index to Exhibits']
+            }
         elif filing_type == "10-Q":
             standard_sections = {
                 'ITEM_1_FINANCIAL_STATEMENTS': 'Financial Statements',
@@ -348,6 +356,27 @@ class HTMLProcessor:
         # Initialize document_sections if not present
         if "document_sections" not in sections:
             sections["document_sections"] = {}
+            
+        # Check for Microsoft-specific EXHIBITS section directly in the TOC or main content
+        # This is needed because Microsoft filings often use non-standard section identifiers
+        if filing_type == "10-K" and "ITEM_15_EXHIBITS" not in sections["document_sections"]:
+            # Look for exhibits or part IV in the document
+            exhibits_elements = content.find_all(
+                ['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'div'], 
+                string=lambda text: text and (
+                    re.search(r'exhibit', text, re.IGNORECASE) or 
+                    re.search(r'part\s+iv', text, re.IGNORECASE) or
+                    re.search(r'signatures', text, re.IGNORECASE)
+                )
+            )
+            
+            if exhibits_elements:
+                exhibit_element = exhibits_elements[0]  # Use the first match
+                sections["document_sections"]["ITEM_15_EXHIBITS"] = {
+                    "heading": exhibit_element.get_text().strip(),
+                    "element": exhibit_element
+                }
+                logging.info(f"Found Microsoft-specific EXHIBITS section: {exhibit_element.get_text().strip()}")
         
         # First try to extract Table of Contents to identify all sections present
         toc_sections = self.extract_sections_from_toc(content, filing_type)
@@ -422,8 +451,14 @@ class HTMLProcessor:
         
         # Additional checks for ITEM identifiers in a specific format (e.g., Item 1., Item 1:, etc.)
         item_pattern = re.compile(r'(?:[Ii]tem|ITEM)\s+(\d+[A-C]?)[\s\.:]', re.IGNORECASE)
+        # Also look for part identifiers (especially for Part IV which often contains exhibits)
+        part_pattern = re.compile(r'(?:[Pp]art|PART)\s+(IV|4)', re.IGNORECASE)
+        exhibits_pattern = re.compile(r'(^|\s)(Exhibits?|EXHIBITS?|Index\s+to\s+Exhibits|Exhibit\s+Index)(\s|:|$)', re.IGNORECASE)
+        signatures_pattern = re.compile(r'(^|\s)(Signatures?|SIGNATURES?)(\s|:|$)', re.IGNORECASE)
+        
         for element in all_text_elements:
             element_text = element.get_text().strip()
+            # Check for standard item pattern
             match = item_pattern.search(element_text)
             if match:
                 item_number = match.group(1)
@@ -438,6 +473,42 @@ class HTMLProcessor:
                             found_sections.add(section_id)
                             logging.info(f"Found section via item number match: {section_id} - {element_text}")
                             break
+            
+            # Check for Part IV which often contains exhibits 
+            # (especially important for Microsoft filings)
+            part_match = part_pattern.search(element_text)
+            if part_match:
+                # Part IV is typically Item 15 (Exhibits)
+                section_id = "ITEM_15_EXHIBITS"
+                if section_id not in found_sections:
+                    sections["document_sections"][section_id] = {
+                        "heading": element_text,
+                        "element": element
+                    }
+                    found_sections.add(section_id)
+                    logging.info(f"Found section via Part IV match: {section_id} - {element_text}")
+            
+            # Check for exhibits section without an item number
+            if "ITEM_15_EXHIBITS" not in found_sections and exhibits_pattern.search(element_text):
+                if element.name in ['h1', 'h2', 'h3', 'h4', 'strong', 'b'] or element.get('class') == 'heading':
+                    section_id = "ITEM_15_EXHIBITS"
+                    sections["document_sections"][section_id] = {
+                        "heading": element_text,
+                        "element": element
+                    }
+                    found_sections.add(section_id)
+                    logging.info(f"Found Exhibits section via explicit exhibits title: {section_id} - {element_text}")
+                    
+            # Check for signatures section which often follows exhibits
+            if "ITEM_15_EXHIBITS" not in found_sections and signatures_pattern.search(element_text):
+                if element.name in ['h1', 'h2', 'h3', 'h4', 'strong', 'b'] or element.get('class') == 'heading':
+                    section_id = "ITEM_15_EXHIBITS"
+                    sections["document_sections"][section_id] = {
+                        "heading": "Signatures (Part of Exhibits)",
+                        "element": element
+                    }
+                    found_sections.add(section_id)
+                    logging.info(f"Found Exhibits section via Signatures heading: {section_id} - {element_text}")
         
         # Create missing placeholder sections for any missing standard sections
         if toc_sections:
@@ -607,6 +678,11 @@ class HTMLProcessor:
         """
         item_num = item_num.upper()  # Normalize to uppercase
         
+        # Special case for Part IV which is commonly used instead of Item 15 in Microsoft filings
+        if item_num == "IV" or item_num == "PART IV" or item_num == "PART 4" or item_num == "4":
+            if filing_type == "10-K":
+                return "ITEM_15_EXHIBITS"
+        
         # 10-K mappings
         if filing_type == "10-K":
             mapping = {
@@ -632,8 +708,14 @@ class HTMLProcessor:
                 "13": "ITEM_13_RELATIONSHIPS",
                 "14": "ITEM_14_ACCOUNTANT_FEES",
                 "15": "ITEM_15_EXHIBITS",
-                "16": "ITEM_16_SUMMARY"
+                "16": "ITEM_16_SUMMARY",
+                # Add additional alternative mappings for item numbers
+                "EXHIBITS": "ITEM_15_EXHIBITS",
+                "EXHIBIT": "ITEM_15_EXHIBITS",
+                "SIGNATURES": "ITEM_15_EXHIBITS"
             }
+            
+            return mapping.get(item_num)
         # 10-Q mappings
         elif filing_type == "10-Q":
             mapping = {
