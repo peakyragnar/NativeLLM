@@ -999,18 +999,11 @@ class SECFilingPipeline:
                 # Update metadata in Firestore if text upload was successful
                 if text_upload_result.get("success", False):
                     # Add Firestore metadata
-                    metadata_update = {
-                        "text_path": gcs_text_path
-                    }
+                    metadata_update = {}
                     
-                    # Only add text size and path if text file was actually generated
-                    if text_path and os.path.exists(str(text_path)):
-                        metadata_update["text_size"] = os.path.getsize(str(text_path))
-                        metadata_update["local_text_path"] = str(text_path)  # Add local path for token counting
-                    else:
-                        # If text file was skipped, set size to 0
-                        metadata_update["text_size"] = 0
-                        metadata_update["text_file_skipped"] = True
+                    # Text file functionality has been removed
+                    metadata_update["text_size"] = 0
+                    metadata_update["text_file_skipped"] = True
                     
                     # Add LLM path if it was uploaded successfully
                     if llm_upload_result and llm_upload_result.get("success", False):
@@ -1047,7 +1040,7 @@ class SECFilingPipeline:
             
             # Final result construction
             result["success"] = "error" not in result
-            result["text_path"] = str(text_path) if text_path and os.path.exists(text_path) else None
+            result["text_path"] = None  # No longer generating text.txt files
             result["llm_path"] = str(llm_path) if llm_path and os.path.exists(llm_path) else None
             result["total_time_seconds"] = time.time() - start_time
             
@@ -1670,29 +1663,16 @@ class SECFilingPipeline:
                 # Check if force_upload is enabled in the filing_info
                 force_upload = filing_info.get("force_upload", False)
                 
-                # Check if files already exist in GCS
-                files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
+                # Check if LLM file already exists in GCS
+                files_exist = self.gcp_storage.check_files_exist([gcs_llm_path])
                 
-                # Modified logic to handle each file individually
-                # Always upload the text file if it doesn't exist
-                if files_exist.get(gcs_text_path, False) and not force_upload:
-                    logging.info(f"Text file already exists in GCS: {gcs_text_path}")
-                    text_upload_result = {
-                        "success": True,
-                        "gcs_path": gcs_text_path,
-                        "already_exists": True
-                    }
-                else:
-                    # Check if text_path is None (text file generation skipped)
-                    if text_path is None:
-                        logging.info(f"Skipping text file upload to GCS (text file generation disabled)")
-                        text_upload_result = {"success": True, "message": "Text file generation disabled"}
-                    else:
-                        if files_exist.get(gcs_text_path, False) and force_upload:
-                            logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
-                        else:
-                            logging.info(f"Uploading text file to GCS: {gcs_text_path}")
-                        text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
+                # Create placeholder for text upload result (for compatibility)
+                logging.info(f"Skipping text file upload to GCS (text.txt functionality removed)")
+                text_upload_result = {
+                    "success": True, 
+                    "skipped": True,
+                    "message": "Text file functionality removed"
+                }
                 
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
@@ -1719,18 +1699,11 @@ class SECFilingPipeline:
                 # Update metadata in Firestore if text upload was successful
                 if text_upload_result.get("success", False):
                     # Add Firestore metadata
-                    metadata_update = {
-                        "text_path": gcs_text_path
-                    }
+                    metadata_update = {}
                     
-                    # Only add text size and path if text file was actually generated
-                    if text_path and os.path.exists(str(text_path)):
-                        metadata_update["text_size"] = os.path.getsize(str(text_path))
-                        metadata_update["local_text_path"] = str(text_path)  # Add local path for token counting
-                    else:
-                        # If text file was skipped, set size to 0
-                        metadata_update["text_size"] = 0
-                        metadata_update["text_file_skipped"] = True
+                    # Text file functionality has been removed
+                    metadata_update["text_size"] = 0
+                    metadata_update["text_file_skipped"] = True
                     
                     # Add LLM path if it was uploaded successfully
                     if llm_upload_result and llm_upload_result.get("success", False):
@@ -1767,7 +1740,7 @@ class SECFilingPipeline:
             
             # Add final results
             result["success"] = "error" not in result
-            result["text_path"] = str(text_path) if text_path and os.path.exists(text_path) else None
+            result["text_path"] = None  # No longer generating text.txt files
             result["llm_path"] = str(llm_path) if llm_path and os.path.exists(llm_path) else None
             result["total_time_seconds"] = time.time() - start_time
             
@@ -1828,54 +1801,29 @@ class SECFilingPipeline:
                         # Log what we're validating
                         logging.info(f"Running basic validation for {ticker} {filing_type} {local_fiscal_year} {local_fiscal_period}")
                         
-                        # Handle validation differently if text file generation was skipped
-                        if (text_path and os.path.exists(text_path)) and os.path.exists(llm_path):
+                        # Handle validation for LLM file only (text.txt functionality removed)
+                        if os.path.exists(llm_path):
                             # Check file sizes
-                            text_size = os.path.getsize(text_path)
                             llm_size = os.path.getsize(llm_path)
                             
                             min_size = 10 * 1024  # 10 KB
-                            if text_size < min_size or llm_size < min_size:
-                                logging.warning(f"File size validation failed: text={text_size/1024:.2f}KB, llm={llm_size/1024:.2f}KB")
-                                data_integrity_result["status"] = "FILE_SIZE_WARNING"
-                        elif text_path is None and os.path.exists(llm_path):
-                            # Text file was intentionally skipped, validate only LLM file
-                            llm_size = os.path.getsize(llm_path)
-                            min_size = 10 * 1024  # 10 KB
-                            
                             if llm_size < min_size:
-                                logging.warning(f"LLM file size validation failed: llm={llm_size/1024:.2f}KB")
+                                logging.warning(f"File size validation failed: llm={llm_size/1024:.2f}KB")
                                 data_integrity_result["status"] = "FILE_SIZE_WARNING"
-                                data_integrity_result["details"]["file_size_warning"] = f"File size too small: llm={llm_size/1024:.2f}KB"
-                            
-                            # Check LLM format
-                            format_valid = True
-                            try:
-                                with open(llm_path, 'r', encoding='utf-8') as f:
-                                    llm_content = f.read(2000)  # Just read the beginning
-                                    if not ("@DOCUMENT:" in llm_content and "@COMPANY:" in llm_content):
-                                        logging.warning("LLM format validation failed: missing required markers")
-                                        format_valid = False
-                                        data_integrity_result["status"] = "FORMAT_WARNING"
-                                        data_integrity_result["details"]["format_warning"] = "Missing required markers"
-                            except Exception as e:
-                                logging.warning(f"Error reading LLM file for validation: {str(e)}")
-                                format_valid = False
-                            
-                            # If all checks passed
-                            if data_integrity_result["status"] == "UNKNOWN":
-                                data_integrity_result["status"] = "PASS"
-                                data_integrity_result["llm_format_valid"] = True
-                                data_integrity_result["data_consistent"] = True
-                                logging.info("Basic validation passed")
-                            
-                            # Log validation results
-                            logging.info(f"Validation result: {data_integrity_result['status']}")
                         else:
-                            # Files not found
-                            logging.warning(f"Validation failed: files not found. Text: {os.path.exists(text_path)}, LLM: {os.path.exists(llm_path)}")
-                            data_integrity_result["status"] = "FILES_NOT_FOUND"
-                            data_integrity_result["details"]["error"] = "One or more files not found"
+                            logging.warning(f"LLM file not found for validation: {llm_path}")
+                            data_integrity_result["status"] = "FILE_NOT_FOUND"
+                            data_integrity_result["details"]["error"] = "LLM file not found"
+                        
+                        # If all checks passed
+                        if data_integrity_result["status"] == "UNKNOWN":
+                            data_integrity_result["status"] = "PASS"
+                            data_integrity_result["llm_format_valid"] = True
+                            data_integrity_result["data_consistent"] = True
+                            logging.info("Basic validation passed")
+                        
+                        # Log validation results
+                        logging.info(f"Validation result: {data_integrity_result['status']}")
                     
                     # Add validation result to pipeline result
                     if data_integrity_result:
