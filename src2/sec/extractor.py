@@ -227,15 +227,14 @@ class SECExtractor:
             logging.error(f"Error extracting text with sections: {str(e)}")
             return f"ERROR: {str(e)}"
     
-    def process_filing(self, html_path, output_path=None, metadata=None, return_content=False):
+    def process_filing(self, html_path, metadata=None, return_content=True):
         """
         Process an SEC filing and extract text with sections.
         
         Args:
             html_path: Path to HTML file
-            output_path: Path to output file (if None, uses default naming)
             metadata: Optional filing metadata
-            return_content: Whether to return content without writing to file (default: False)
+            return_content: Always True to return content (parameter kept for backward compatibility)
             
         Returns:
             Dictionary with processing results
@@ -251,18 +250,6 @@ class SECExtractor:
             # Extract text with sections
             extracted_text = self.extract_text_with_sections(html_content)
             
-            # Determine output path if not provided
-            if not output_path:
-                if self.output_dir:
-                    # Use base filename with .txt extension in output directory
-                    output_path = self.output_dir / f"{Path(html_path).stem}.txt"
-                else:
-                    # Use same directory as input with .txt extension
-                    output_path = Path(html_path).with_suffix('.txt')
-            
-            # Ensure output directory exists
-            os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-            
             # Add metadata header if provided
             if metadata:
                 metadata_header = []
@@ -277,20 +264,9 @@ class SECExtractor:
                 
                 extracted_text = '\n'.join(metadata_header) + '\n' + extracted_text
             
-            # Only save to file if we're not in return_content mode and output_path is provided
-            file_size = 0
-            if not return_content and output_path:
-                # Save extracted text
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    f.write(extracted_text)
-                
-                # Get file size
-                file_size = os.path.getsize(output_path)
-                logging.info(f"Saved extracted text to {output_path} ({file_size} bytes)")
-            elif return_content:
-                # Just estimate the file size without writing
-                file_size = len(extracted_text.encode('utf-8'))
-                logging.info(f"Skipped writing to file, estimated content size: {file_size} bytes")
+            # Estimate the content size without writing to file
+            file_size = len(extracted_text.encode('utf-8'))
+            logging.info(f"Extracted content size: {file_size} bytes")
             
             # Prepare narrative sections for LLM formatter
             processed_sections = {}

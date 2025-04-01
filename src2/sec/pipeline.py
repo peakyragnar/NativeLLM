@@ -480,12 +480,10 @@ class SECFilingPipeline:
             
             # Use fiscal information in filenames to prevent overwriting
             if fiscal_year and fiscal_period and filing_type == "10-Q":
-                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"
                 llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"
                 rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_rendered.html"
                 logging.info(f"Using fiscal period in local filenames: {fiscal_year}_{fiscal_period}")
             elif fiscal_year:
-                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_text.txt"
                 llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
                 rendered_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_rendered.html"
                 logging.info(f"Using fiscal year in local filenames: {fiscal_year}")
@@ -504,13 +502,11 @@ class SECFilingPipeline:
                 
                 # If we still don't have a year, use the accession number as a last resort
                 if calculated_fiscal_year:
-                    text_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_text.txt"
                     llm_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_llm.txt"
                     rendered_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_rendered.html"
                     logging.info(f"Using extracted year in local filenames: {calculated_fiscal_year}")
                 else:
                     # Last resort fallback
-                    text_path = company_dir / f"{ticker}_{filing_type}_text.txt"
                     llm_path = company_dir / f"{ticker}_{filing_type}_llm.txt"
                     rendered_path = company_dir / f"{ticker}_{filing_type}_rendered.html"
                     logging.warning(f"No year information available, using generic filenames")
@@ -621,31 +617,12 @@ class SECFilingPipeline:
                 "source_url": filing_info.get("primary_doc_url")
             }
             
-            # Extract text
-            # Check if we should skip text file generation
-            from src2.config import OUTPUT_FORMAT
-            generate_text_files = OUTPUT_FORMAT.get("GENERATE_TEXT_FILES", True)
-            
-            if generate_text_files:
-                # Extract text to text.txt file with output path
-                logging.info(f"Generating text.txt file: {text_path}")
-                extract_result = self.extractor.process_filing(
-                    rendered_path,
-                    output_path=text_path,
-                    metadata=metadata
-                )
-            else:
-                # Skip text.txt output file generation
-                logging.info(f"Skipping text.txt file generation as configured")
-                # Set to None to avoid file creation but still store filename for GCS path
-                original_text_path = text_path
-                text_path = None  
-                extract_result = self.extractor.process_filing(
-                    rendered_path,
-                    output_path=None,
-                    metadata=metadata,
-                    return_content=True
-                )
+            # Extract content from filing
+            logging.info(f"Processing filing to extract content for LLM format")
+            extract_result = self.extractor.process_filing(
+                rendered_path,
+                metadata=metadata
+            )
             
             # Add extraction stage to results
             result["stages"]["extract"] = {
@@ -886,23 +863,18 @@ class SECFilingPipeline:
                     logging.warning(f"No fiscal year determined, using current year {fiscal_year} for GCS path")
                 
                 if filing_type == "10-K" or fiscal_period == "annual":
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
                 elif fiscal_period:
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/llm.txt"
                 else:
                     # Fallback to fiscal year only if we can't determine quarter
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
                 
-                # Log the paths for debugging
-                logging.info(f"Using GCS paths: {gcs_text_path} and {gcs_llm_path}")
+                # Log the path for debugging
+                logging.info(f"Using GCS path: {gcs_llm_path}")
                 
-                # Modified logic to handle each file individually
-                # Always upload the text file if it doesn't exist
+                # Track upload results
                 upload_results = {
-                    "text_upload": None,
                     "llm_upload": None,
                     "metadata": None
                 }
@@ -922,25 +894,18 @@ class SECFilingPipeline:
                 # Modify the GCS paths for amended filings to use "/a" subdirectory
                 if is_amended and use_amendment_subdirectory:
                     # Create paths with "/a" subdirectory
-                    parts = gcs_text_path.split("/")
+                    parts = gcs_llm_path.split("/")
                     if len(parts) >= 3:
                         # Insert "a" before the final component
-                        filename = parts[-1]  # text.txt or llm.txt
+                        filename = parts[-1]  # llm.txt
                         base_path = "/".join(parts[:-1])  # everything before the filename
-                        amended_gcs_text_path = f"{base_path}/a/{filename}"
-                        
-                        parts = gcs_llm_path.split("/")
-                        filename = parts[-1]
-                        base_path = "/".join(parts[:-1])
                         amended_gcs_llm_path = f"{base_path}/a/{filename}"
                         
-                        # Update the paths for this upload
-                        logging.info(f"Using amended filing paths: {amended_gcs_text_path} and {amended_gcs_llm_path}")
-                        gcs_text_path = amended_gcs_text_path
+                        # Update the path for this upload
+                        logging.info(f"Using amended filing path: {amended_gcs_llm_path}")
                         gcs_llm_path = amended_gcs_llm_path
                         
-                        # Store the amended paths in the filing info for later reference
-                        filing_info["amended_gcs_text_path"] = amended_gcs_text_path
+                        # Store the amended path in the filing info for later reference
                         filing_info["amended_gcs_llm_path"] = amended_gcs_llm_path
                 
                 # Check if we should skip GCP upload entirely
@@ -1318,11 +1283,9 @@ class SECFilingPipeline:
             
             # Use fiscal information in filenames to prevent overwriting
             if fiscal_year and fiscal_quarter and filing_type == "10-Q":
-                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_text.txt"
                 llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_quarter}_llm.txt"
                 logging.info(f"Using fiscal period in local filenames: {fiscal_year}_{fiscal_quarter}")
             elif fiscal_year:
-                text_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_text.txt"
                 llm_path = company_dir / f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"
                 logging.info(f"Using fiscal year in local filenames: {fiscal_year}")
             else:
@@ -1340,14 +1303,12 @@ class SECFilingPipeline:
                 
                 # If we still don't have a year, use the current year
                 if calculated_fiscal_year:
-                    text_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_text.txt"
                     llm_path = company_dir / f"{ticker}_{filing_type}_{calculated_fiscal_year}_llm.txt"
                     logging.info(f"Using extracted year in local filenames: {calculated_fiscal_year}")
                 else:
                     # Last resort fallback to current year
                     import datetime
                     current_year = str(datetime.datetime.now().year)
-                    text_path = company_dir / f"{ticker}_{filing_type}_{current_year}_text.txt"
                     llm_path = company_dir / f"{ticker}_{filing_type}_{current_year}_llm.txt"
                     logging.warning(f"No year information available, using current year {current_year} in filenames")
             
@@ -1362,10 +1323,9 @@ class SECFilingPipeline:
                 "source_url": filing_info.get("primary_doc_url")
             }
             
-            # Extract text
+            # Extract content from filing
             extract_result = self.extractor.process_filing(
                 rendered_path,
-                output_path=text_path,
                 metadata=metadata
             )
             
@@ -1710,22 +1670,18 @@ class SECFilingPipeline:
                 # Construct GCS paths using the proper folder structure
                 # Prefer using fiscal_period (which is more consistent) but fall back to fiscal_quarter for compatibility
                 if filing_type == "10-K" or (fiscal_period == "annual" or fiscal_quarter == "annual"):
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
                 elif fiscal_period:
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_period}/llm.txt"
                 elif fiscal_quarter:
                     # Legacy fallback if fiscal_period is not available but fiscal_quarter is
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/{fiscal_quarter}/llm.txt"
                 else:
                     # Fallback to fiscal year only if we can't determine quarter
-                    gcs_text_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/text.txt"
                     gcs_llm_path = f"companies/{ticker}/{filing_type}/{fiscal_year}/llm.txt"
                 
-                # Log the paths for debugging
-                logging.info(f"Using GCS paths: {gcs_text_path} and {gcs_llm_path}")
+                # Log the path for debugging
+                logging.info(f"Using GCS path: {gcs_llm_path}")
                 
                 # Track upload results
                 upload_results = {

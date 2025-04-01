@@ -52,9 +52,5 @@ HTML_OPTIMIZATION = {
     "enable_logging": True
 }
 
-# Output format configuration
-OUTPUT_FORMAT = {
-    # Whether to generate text.txt files (raw extracted text)
-    # Set to False to only generate LLM-formatted files (llm.txt)
-    "GENERATE_TEXT_FILES": False  # Disabled text.txt generation
-}
+# The text.txt output format has been completely removed
+# All output is now in LLM format only (llm.txt)
