@@ -56,5 +56,5 @@ HTML_OPTIMIZATION = {
 OUTPUT_FORMAT = {
     # Whether to generate text.txt files (raw extracted text)
     # Set to False to only generate LLM-formatted files (llm.txt)
-    "GENERATE_TEXT_FILES": True  # Default to True for backward compatibility
+    "GENERATE_TEXT_FILES": False  # Disabled text.txt generation
 }
