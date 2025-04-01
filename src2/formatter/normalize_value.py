@@ -177,3 +177,23 @@ def normalize_value(value_str, decimals=None):
     # Check if normalization actually changed anything
     was_changed = (formatted != original)
     return formatted, was_changed
+
+def safe_parse_decimals(decimals):
+    """
+    Safely parse decimals attribute, handling special values like 'INF'
+    """
+    if not decimals:
+        return None
+    
+    # Convert to string and normalize
+    decimals_str = str(decimals).strip().upper()
+    
+    # Handle special values
+    if decimals_str == 'INF':
+        return float('inf')  # Return Python's infinity
+    
+    # Try to convert to int
+    try:
+        return int(decimals)
+    except (ValueError, TypeError):
+        return None  # Return None for unparseable values

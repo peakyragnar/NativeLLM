@@ -9,6 +9,18 @@ import logging
 import json
 import re
 import datetime
+from .normalize_value import normalize_value, safe_parse_decimals
+
+def safe_parse_decimals(decimals):
+    '''Safely parse decimals value, handling 'INF' special case'''
+    if not decimals:
+        return None
+    if str(decimals).strip().upper() == 'INF':
+        return float('inf')  # Return Python's infinity
+    try:
+        return int(decimals)
+    except (ValueError, TypeError):
+        return None  # Return None for unparseable values
 
 class LLMFormatter:
     """
@@ -441,7 +453,7 @@ class LLMFormatter:
             
             if decimals:
                 try:
-                    decimal_val = int(decimals)
+                    decimal_val = safe_parse_decimals(decimals)
                     if decimal_val not in decimals_info:
                         decimals_info[decimal_val] = 0
                     decimals_info[decimal_val] += 1
@@ -993,11 +1005,11 @@ class LLMFormatter:
                                                         formatted_value = value
                                                         
                                                     # Add scale indicator if specified
-                                                    if decimals and int(decimals) == -6:
+                                                    if decimals and safe_parse_decimals(decimals) == -6:
                                                         formatted_value += " [M]"  # Millions
-                                                    elif decimals and int(decimals) == -3:
+                                                    elif decimals and safe_parse_decimals(decimals) == -3:
                                                         formatted_value += " [K]"  # Thousands
-                                                    elif decimals and int(decimals) == -9:
+                                                    elif decimals and safe_parse_decimals(decimals) == -9:
                                                         formatted_value += " [B]"  # Billions
                                                 elif unit_ref and unit_ref.lower() == "shares":
                                                     formatted_value = f"{value} shares"
@@ -1020,11 +1032,11 @@ class LLMFormatter:
                                                         formatted_value = value
                                                     
                                                     # Add scale indicator
-                                                    if decimals and int(decimals) == -6:
+                                                    if decimals and safe_parse_decimals(decimals) == -6:
                                                         formatted_value += " [M]"  # Millions
-                                                    elif decimals and int(decimals) == -3:
+                                                    elif decimals and safe_parse_decimals(decimals) == -3:
                                                         formatted_value += " [K]"  # Thousands
-                                                    elif decimals and int(decimals) == -9:
+                                                    elif decimals and safe_parse_decimals(decimals) == -9:
                                                         formatted_value += " [B]"  # Billions
                                                 elif unit_ref and unit_ref.lower() == "shares":
                                                     formatted_value = f"{value} shares"
