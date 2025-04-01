@@ -879,6 +879,7 @@ class SECFilingPipeline:
                     "metadata": None
                 }
                 
+                llm_upload_result = None  # Initialize to prevent reference error
                 # Get LLM file size if it exists
                 llm_size = 0
                 if llm_result.get("success", False) and os.path.exists(str(llm_path)):
