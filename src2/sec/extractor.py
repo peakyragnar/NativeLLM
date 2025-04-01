@@ -341,7 +341,6 @@ class SECExtractor:
             
             return {
                 'success': True,
-                'output_path': str(output_path),
                 'file_size': file_size,
                 'file_size_mb': file_size / (1024 * 1024),
                 'word_count': len(extracted_text.split()),
@@ -389,7 +388,6 @@ if __name__ == "__main__":
     # Print result
     if result['success']:
         print(f"\nProcessing complete!")
-        print(f"Output file: {result['output_path']}")
         print(f"File size: {result['file_size_mb']:.2f} MB")
         print(f"Word count: {result['word_count']}")
     else:
