@@ -578,7 +578,7 @@ class SECFilingPipeline:
                 
             # (This is to avoid duplicating all the code)
             return self._continue_processing_after_render(
-                result, rendered_path, text_path, llm_path, 
+                result, rendered_path, llm_path, 
                 ticker, cik, filing_type, filing_info, 
                 save_intermediate, start_time
             )
@@ -590,7 +590,7 @@ class SECFilingPipeline:
             result["total_time_seconds"] = time.time() - start_time
             return result
     
-    def _continue_processing_after_render(self, result, rendered_path, text_path, llm_path,
+    def _continue_processing_after_render(self, result, rendered_path, llm_path,
                                          ticker, cik, filing_type, filing_info,
                                          save_intermediate, start_time):
         """
@@ -932,30 +932,25 @@ class SECFilingPipeline:
                             filing_identifier += f"_{fiscal_period}"
                         filing_identifier += "_amended"
                         
-                        amended_text_path = amendments_dir / f"{filing_identifier}_text.txt"
                         amended_llm_path = amendments_dir / f"{filing_identifier}_llm.txt"
                         
-                        # Copy the files to the amendments directory
+                        # Copy the llm file to the amendments directory
                         import shutil
                         try:
-                            shutil.copy2(text_path, amended_text_path)
                             if os.path.exists(llm_path):
                                 shutil.copy2(llm_path, amended_llm_path)
-                            logging.info(f"Stored amended filing in {amendments_dir}")
+                                logging.info(f"Stored amended filing in {amendments_dir}")
                             
                             # Store the path in filing_info for reporting
-                            filing_info["amended_text_path"] = str(amended_text_path)
                             filing_info["amended_llm_path"] = str(amended_llm_path)
                         except Exception as e:
                             logging.warning(f"Failed to store amended filing in amendments directory: {e}")
                         
-                        # Create a result with the amendments path for reporting
+                        # Create a result for reporting
                         text_upload_result = {
                             "success": True,
                             "skipped": True,
-                            "reason": "amended_filing",
-                            "local_path": str(text_path),
-                            "amended_path": str(amended_text_path)
+                            "reason": "amended_filing"
                         }
                     else:
                         logging.info(f"SKIPPING GCP UPLOAD as requested in filing_info")
@@ -963,47 +958,21 @@ class SECFilingPipeline:
                         text_upload_result = {
                             "success": True,
                             "skipped": True,
-                            "local_path": str(text_path)
+                            "reason": "skip_gcp_upload_flag"
                         }
                 else:
                     # Normal GCP upload flow
-                    # Check if files already exist in GCS
-                    files_exist = self.gcp_storage.check_files_exist([gcs_text_path, gcs_llm_path])
+                    # Check if file already exists in GCS
+                    files_exist = self.gcp_storage.check_files_exist([gcs_llm_path])
                     
-                    # Handle text file upload based on existence and force_upload flag
-                    # First check if text_path is None (skip-text-files mode)
-                    from src2.config import OUTPUT_FORMAT
-                    generate_text_files = OUTPUT_FORMAT.get("GENERATE_TEXT_FILES", True)
-                    
-                    if not generate_text_files:
-                        logging.info(f"Skipping text file upload to GCS (text file generation disabled)")
-                        text_upload_result = {
-                            "success": True,
-                            "skipped": True,
-                            "reason": "text_files_disabled"
-                        }
-                    elif files_exist.get(gcs_text_path, False) and not force_upload:
-                        logging.info(f"Text file already exists in GCS: {gcs_text_path}")
-                        text_upload_result = {
-                            "success": True,
-                            "gcs_path": gcs_text_path,
-                            "already_exists": True
-                        }
-                    else:
-                        if files_exist.get(gcs_text_path, False) and force_upload:
-                            logging.info(f"Force upload: Text file exists but uploading again: {gcs_text_path}")
-                        else:
-                            logging.info(f"Uploading text file to GCS: {gcs_text_path}")
-                        
-                        # Only attempt to upload if text_path exists
-                        if text_path and os.path.exists(str(text_path)):
-                            text_upload_result = self.gcp_storage.upload_file(str(text_path), gcs_text_path)
-                        else:
-                            text_upload_result = {
-                                "success": True,
-                                "skipped": True,
-                                "reason": "text_path_not_available"
-                            }
+                    # Create a placeholder for text upload (for compatibility with existing code)
+                    # We no longer generate text.txt files
+                    logging.info(f"Skipping text file upload to GCS (text.txt functionality removed)")
+                    text_upload_result = {
+                        "success": True,
+                        "skipped": True,
+                        "reason": "text_files_disabled"
+                    }
                 
                 # Add text upload result
                 upload_results["text_upload"] = text_upload_result
