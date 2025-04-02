@@ -1,0 +1,4688 @@
+@DOCUMENT: NVDA-10-Q-2021-05-02
+@FILING_DATE: 2021-05-26
+@COMPANY: NVDA
+@CIK: 1045810
+
+@STRUCTURE: Financial_Statement
+@MAIN_CATEGORIES: Revenues, Cost_of_Revenues, Gross_Profit, Operating_Expenses, Operating_Income, Net_Income
+@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement
+@DOCUMENT_PARTS: Part_I (Items_1-2), Part_II (Items_3-6)
+@ALL_SECTIONS: Item_1_Financial_Statements, Item_2_MD&A, Item_3_Market_Risk, Item_4_Controls, Item_1_Legal_Proceedings, Item_1A_Risk_Factors, Item_2_Unregistered_Sales, Item_3_Defaults, Item_4_Mine_Safety, Item_5_Other, Item_6_Exhibits
+@SUBCATEGORIES_REVENUES: Product_Revenue, Service_Revenue, Total_Revenue
+@SUBCATEGORIES_EXPENSES: Cost_of_Revenue, Research_Development, Sales_Marketing, General_Administrative
+
+@DATA_DICTIONARY: CONTEXTS
+
+@UNITS_AND_SCALING
+@MONETARY_SCALE: millions
+@SCALE_NOTE: All dollar amounts are in millions unless otherwise specified
+@DECIMALS_USAGE:
+  -9: Values rounded to billions
+  -8: Values rounded to 100000000 decimal places
+  -7: Values rounded to 10000000 decimal places
+  -6: Values rounded to millions
+  -5: Values rounded to 100000 decimal places
+  0: Exact values
+  2: Values rounded to 0.01 decimal places
+  3: Values rounded to 0.001 decimal places
+  4: Values rounded to 0.0001 decimal places
+  7: Values rounded to 1e-07 decimal places
+  inf: Values rounded to 0.0 decimal places
+
+@SECTION: INCOME_STATEMENT
+
+@TABLE_CONTENT: INCOME STATEMENT TABLE (9999)
+@TABLE_TYPE: INCOME STATEMENT
+Concept | Key | Context i0189995e508f419591dbed4ebb082be6_D20190128-20200126 | Context i08a3d69ead47413a9e3c33876311581d_I20210502 | Context i1b323a942df1417c8b62827b88857312_I20210131 | Context i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502 | Context i263f4d21edc941889a424066999c37f0_D20200127-20200426 | Context i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131 | Context i54118d75cb8347fdb329310ab55d9908_D20200127-20200426 | Context i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502 | Context icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426 | Context if4411b9715174966bbdb58744ef21517_D20210201-20210502 | Context ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+------- | --- | ------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------
+<Revenue> |  |  |  |  |  |  |  |  |  |  |  | 
+  Revenues | - | - | - | - | $5,661 [M] | $— [M] | - | - | - | $3,080 [M] | $— [M] | -
+  Cost Of Revenue | - | - | - | - | $2,032 [M] | - | - | - | - | $1,076 [M] | - | -
+  Business Acquisitions Pro Forma Revenue | - | - | - | - | - | - | - | - | - | $3,509 [M] | - | -
+  Contract With Customer Liability Revenue Recognized | - | - | - | - | $123 [M] | - | - | - | - | $70 [M] | - | -
+  Revenue Remaining Performance Obligation | - | - | $680 [M] | - | - | - | - | - | - | - | - | -
+</Revenue> |  |  |  |  |  |  |  |  |  |  |  | 
+<Expenses> |  |  |  |  |  |  |  |  |  |  |  | 
+  Research And Development Expense | - | - | - | - | $1,153 [M] | - | - | - | - | $735 [M] | - | -
+  Selling General And Administrative Expense | - | - | - | - | $520 [M] | - | - | - | - | $293 [M] | - | -
+  Interest Expense | - | - | - | - | $53 [M] | - | - | - | - | $25 [M] | - | -
+  Other Nonoperating Income Expense | - | - | - | - | $135 [M] | - | - | - | - | $1 [M] | - | -
+  Nonoperating Income Expense | - | - | - | - | $88 [M] | - | - | - | - | $5 [M] | - | -
+  Income Tax Expense Benefit | - | - | - | - | $132 [M] | - | - | - | - | $64 [M] | - | -
+  Prepaid Expense And Other Assets Current | - | - | $444 [M] | $239 [M] | - | - | - | - | - | - | - | -
+  Deferred Income Tax Expense Benefit | - | - | - | - | $24 [M] | - | - | - | - | $16 [M] | - | -
+  Other Noncash Income Expense | - | - | - | - | $3 [M] | - | - | - | - | $1 [M] | - | -
+  Increase Decrease In Prepaid Deferred Expense And Other Assets | - | - | - | - | $2 [M] | - | - | - | - | $8 [M] | - | -
+  Proceeds From Debt Net Of Issuance Costs | - | - | - | - | $— [M] | - | - | - | - | $4,979 [M] | - | -
+  Available For Sale Debt Securities Amortized Cost Basis | - | - | $12,375 [M] | $11,348 [M] | - | - | - | - | - | - | - | -
+  Available For Sale Securities Debt Maturities Within One Year Amortized Cost | - | - | $11,499 [M] | $10,782 [M] | - | - | - | - | - | - | - | -
+  Available For Sale Securities Debt Maturities After One Through Five Years Amortized Cost | - | - | $876 [M] | $566 [M] | - | - | - | - | - | - | - | -
+  Finite Lived Intangible Assets Amortization Expense Remainder Of Fiscal Year | - | - | $412 [M] | - | - | - | - | - | - | - | - | -
+  Finite Lived Intangible Assets Amortization Expense Next Twelve Months | - | - | $546 [M] | - | - | - | - | - | - | - | - | -
+  Finite Lived Intangible Assets Amortization Expense Year Two | - | - | $424 [M] | - | - | - | - | - | - | - | - | -
+  Finite Lived Intangible Assets Amortization Expense Year Three | - | - | $370 [M] | - | - | - | - | - | - | - | - | -
+  Finite Lived Intangible Assets Amortization Expense Year Four | - | - | $99 [M] | - | - | - | - | - | - | - | - | -
+  Finite Lived Intangible Assets Amortization Expense After Year Four | - | - | $132 [M] | - | - | - | - | - | - | - | - | -
+  Prepaid Expense Current | - | - | $179 [M] | $142 [M] | - | - | - | - | - | - | - | -
+  Debt Instrument Unamortized Discount Premium And Debt Issuance Costs Net | - | - | $37 [M] | $37 [M] | - | - | - | - | - | - | - | -
+  Aggregatedcostofsharesrepurchased | - | - | $7.08 | - | - | - | - | - | - | - | - | -
+  Acquisition Related And Other Costs | - | - | - | - | - | $5 [M] | - | - | - | - | $167 [M] | -
+  Unallocated Corporate Opex And Other Expenses | - | - | - | - | - | $82 [M] | - | - | - | - | $90 [M] | -
+  Iprelated Costs | - | - | - | - | - | $— [M] | - | - | - | - | $5 [M] | -
+@TOTAL: Operating Expenses | - | - | - | - | $1,673 [M] | - | - | - | - | $1,028 [M] | - | -
+@TOTAL: Operating Lease Cost | - | - | - | - | $39 [M] | - | - | - | - | $31 [M] | - | -
+@TOTAL: Employee Service Share Based Compensation Nonvested Awards Total Compensation Cost Not Yet Recognized | - | - | $3.32 | - | - | - | - | - | - | - | - | -
+</Expenses> |  |  |  |  |  |  |  |  |  |  |  | 
+<Income> |  |  |  |  |  |  |  |  |  |  |  | 
+  Investment Income Interest | - | - | - | - | $6 [M] | - | - | - | - | $31 [M] | - | -
+  Earnings Per Share Basic | - | 1.15 | - | - | 3.08 | - | 1.76 | 0.37 | 0.77 | 1.49 | - | 1.70
+  Earnings Per Share Diluted | - | 1.13 | - | - | 3.03 | - | 1.72 | 0.37 | 0.76 | 1.47 | - | 1.66
+  Other Comprehensive Income Loss Cash Flow Hedge Gain Loss Before Reclassification After Tax | - | - | - | - | $14 [M] | - | - | - | - | $10 [M] | - | -
+  Other Comprehensive Income Loss Cash Flow Hedge Gain Loss Reclassification After Tax | - | - | - | - | $9 [M] | - | - | - | - | $1 [M] | - | -
+  Other Comprehensive Income Loss Cash Flow Hedge Gain Loss After Reclassification And Tax | - | - | - | - | $5 [M] | - | - | - | - | $11 [M] | - | -
+  Comprehensive Income Net Of Tax | - | - | - | - | $1,907 [M] | - | - | - | - | $906 [M] | - | -
+  Accumulated Other Comprehensive Income Loss Net Of Tax | - | - | $14 [M] | $19 [M] | - | - | - | - | - | - | - | -
+  Retained Earnings Accumulated Deficit | - | - | $20,721 [M] | $18,908 [M] | - | - | - | - | - | - | - | -
+  Other Comprehensive Income Loss Net Of Tax | - | - | - | - | $5 [M] | - | - | - | - | $11 [M] | - | -
+  Business Acquisitions Pro Forma Net Income Loss | - | - | - | - | - | - | - | - | - | $918 [M] | - | -
+  Antidilutive Securities Excluded From Computation Of Earnings Per Share Amount | - | - | - | - | 1 shares | - | - | - | - | 1 shares | - | -
+  Effective Income Tax Rate Continuing Operations | - | - | - | - | 6.5 | - | - | - | - | 6.6 | - | -
+  Undistributed Earnings Of Foreign Subsidiaries | - | - | $1.3 | - | - | - | - | - | - | - | - | -
+  Accrued Income Taxes Noncurrent | - | - | $864 [M] | $836 [M] | - | - | - | - | - | - | - | -
+  Unrecognized Tax Benefits Income Tax Penalties And Interest Accrued | - | - | $48 [M] | - | - | - | - | - | - | - | - | -
+  Foreign Income Taxes Payable Noncurrent | - | - | $158 [M] | - | - | - | - | - | - | - | - | -
+@TOTAL: Operating Income Loss | - | - | - | - | $1,956 [M] | $311 [M] | - | - | - | $976 [M] | $691 [M] | -
+@TOTAL: Net Income Loss | - | $2,796 [M] | - | - | $1,912 [M] | - | $4,332 [M] | $917 [M] | $1,912 [M] | $917 [M] | - | $4,141 [M]
+</Income> |  |  |  |  |  |  |  |  |  |  |  | 
+Deferred Income Tax Assets Net | - | - | $778 [M] | $806 [M] | - | - | - | - | - | - | - | -
+Deferred Income Tax Liabilities Net | - | - | $234 [M] | $241 [M] | - | - | - | - | - | - | - | -
+Income Loss From Continuing Operations Before Income Taxes Minority Interest And Income Loss From Equity Method Investments | - | - | - | - | $2,044 [M] | - | - | - | - | $981 [M] | - | -
+<Other> |  |  |  |  |  |  |  |  |  |  |  | 
+  Proceeds From Maturities Prepayments And Calls Of Available For Sale Securities | - | - | - | - | $3,140 [M] | - | - | - | - | $— [M] | - | -
+  Proceeds From Sale Of Available For Sale Securities Debt | - | - | - | - | $358 [M] | - | - | - | - | $1 [M] | - | -
+  Payments To Acquire Available For Sale Securities Debt | - | - | - | - | $4,470 [M] | - | - | - | - | $861 [M] | - | -
+  Available For Sale Securities Debt Securities | - | - | $12,379 [M] | $11,351 [M] | - | - | - | - | - | - | - | -
+  Available For Sale Securities Debt Maturities Within One Year Fair Value | - | - | $11,502 [M] | $10,783 [M] | - | - | - | - | - | - | - | -
+  Available For Sale Securities Debt Maturities After One Through Five Years Fair Value | - | - | $877 [M] | $568 [M] | - | - | - | - | - | - | - | -
+</Other> |  |  |  |  |  |  |  |  |  |  |  | 
+
+@CONCEPT: nvda:AcquisitionRelatedAndOtherCosts
+@COMMON_NAME: Acquisition Related And Other Costs
+@VALUE: 167
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: nvda:AcquisitionRelatedAndOtherCosts
+@COMMON_NAME: Acquisition Related And Other Costs
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: nvda:Aggregatedcostofsharesrepurchased
+@COMMON_NAME: Aggregatedcostofsharesrepurchased
+@VALUE: 7.08
+@UNIT_REF: usd
+@DECIMALS: -7
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:FiniteLivedIntangibleAssetsAmortizationExpenseAfterYearFour
+@COMMON_NAME: Finite Lived Intangible Assets Amortization Expense After Year Four
+@VALUE: 132
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:ForeignIncomeTaxesPayableNoncurrent
+@COMMON_NAME: Foreign Income Taxes Payable Noncurrent
+@VALUE: 158
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:IPRelatedCosts
+@COMMON_NAME: Iprelated Costs
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: nvda:IPRelatedCosts
+@COMMON_NAME: Iprelated Costs
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: nvda:UnallocatedCorporateOpexAndOtherExpenses
+@COMMON_NAME: Unallocated Corporate Opex And Other Expenses
+@VALUE: 90
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: nvda:UnallocatedCorporateOpexAndOtherExpenses
+@COMMON_NAME: Unallocated Corporate Opex And Other Expenses
+@VALUE: 82
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: us-gaap:AccruedIncomeTaxesNoncurrent
+@VALUE: 864
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccruedIncomeTaxesNoncurrent
+@VALUE: 836
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax
+@VALUE: 14
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax
+@VALUE: 19
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount
+@VALUE: 1
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount
+@VALUE: 1
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 5,240
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7a2e7c782de547a8bb29ba37dc5f9e21_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 3,045
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i51e2a5f1ccf44b88bab1a7de37342b59_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 2,820
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icafb5de13ff646e29a7089e8cf99868e_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 884
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4aaf5051e0af4976bfd545fa651c62c3_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 319
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icd8ceab08ea34c40994a87b8fde3e386_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i91ddd110434f400caeaa6c9123acc470_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 12,375
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 4,442
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i18a498a645fc4cd2be4273b2bfbbbfd5_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 2,975
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i317f8c8223dd42afbe29c0d6b3a3ea45_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 2,846
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i665b6259693841f2bfae63d8d61c3df3_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 705
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5cda771dbda24a53af7a97d5aeb5e978_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 313
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iad4ba500f79347899720f298488ab993_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i94578dd4d7314226abc9656f6de0535c_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 11,348
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 12,375
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 11,348
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesAfterOneThroughFiveYearsAmortizedCost
+@VALUE: 876
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesAfterOneThroughFiveYearsAmortizedCost
+@VALUE: 566
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesAfterOneThroughFiveYearsFairValue
+@VALUE: 877
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesAfterOneThroughFiveYearsFairValue
+@VALUE: 568
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearAmortizedCost
+@VALUE: 11,499
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearAmortizedCost
+@VALUE: 10,782
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearFairValue
+@VALUE: 11,502
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearFairValue
+@VALUE: 10,783
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 5,242
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7a2e7c782de547a8bb29ba37dc5f9e21_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 3,046
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i51e2a5f1ccf44b88bab1a7de37342b59_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 2,821
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icafb5de13ff646e29a7089e8cf99868e_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 884
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4aaf5051e0af4976bfd545fa651c62c3_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 319
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icd8ceab08ea34c40994a87b8fde3e386_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i91ddd110434f400caeaa6c9123acc470_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 12,379
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 4,444
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i18a498a645fc4cd2be4273b2bfbbbfd5_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 2,976
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i317f8c8223dd42afbe29c0d6b3a3ea45_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 2,846
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i665b6259693841f2bfae63d8d61c3df3_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 705
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5cda771dbda24a53af7a97d5aeb5e978_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 313
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iad4ba500f79347899720f298488ab993_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i94578dd4d7314226abc9656f6de0535c_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 11,351
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 12,379
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 11,351
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 319
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i55097e19f4dc4317a56cbe6b86f3d8ee_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 313
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i98e72ed5cdac4557bd482ed825b34143_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 5,242
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: id7a2623e913b443493493d6cbe947e6e_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 4,444
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icaed53d85331416aaafad23f298de6e1_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 3,046
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i9d8db331ffe440399f23b65b72b63e28_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 2,976
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ibb64586177594e3da4914fe1de0d734d_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 2,821
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i3215d7b27e4e4dfe87840de3dbc6dc64_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 2,846
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i720a633ba90f4672acd67d5588b8566d_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 884
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7e205ffc995144ac9a77072bb143aaed_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 705
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic7f7336439164c3ba116b5cd8c5bca56_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ibb61867392a04fbf81d483a5343471a2_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie81d0d7738174f8f93c9d97809759f98_I20210131
+
+@CONCEPT: us-gaap:BusinessAcquisitionsProFormaNetIncomeLoss
+@VALUE: 918
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:BusinessAcquisitionsProFormaRevenue
+@VALUE: 3,509
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ComprehensiveIncomeNetOfTax
+@VALUE: 1,907
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ComprehensiveIncomeNetOfTax
+@VALUE: 906
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityRevenueRecognized
+@VALUE: 123
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityRevenueRecognized
+@VALUE: 70
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:CostOfRevenue
+@VALUE: 2,032
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:CostOfRevenue
+@VALUE: 1,076
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:DebtInstrumentUnamortizedDiscountPremiumAndDebtIssuanceCostsNet
+@VALUE: 37
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentUnamortizedDiscountPremiumAndDebtIssuanceCostsNet
+@VALUE: 37
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:DeferredIncomeTaxAssetsNet
+@VALUE: 778
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:DeferredIncomeTaxAssetsNet
+@VALUE: 806
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:DeferredIncomeTaxExpenseBenefit
+@VALUE: 24
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:DeferredIncomeTaxExpenseBenefit
+@VALUE: 16
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:DeferredIncomeTaxLiabilitiesNet
+@VALUE: 234
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:DeferredIncomeTaxLiabilitiesNet
+@VALUE: 241
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 3.08
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.49
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 3.08
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.49
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 0.77
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 0.37
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i54118d75cb8347fdb329310ab55d9908_D20200127-20200426
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.76
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.15
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i0189995e508f419591dbed4ebb082be6_D20190128-20200126
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.70
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 3.03
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.47
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 3.03
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.47
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 0.76
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 0.37
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i54118d75cb8347fdb329310ab55d9908_D20200127-20200426
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.72
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.13
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i0189995e508f419591dbed4ebb082be6_D20190128-20200126
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.66
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+
+@CONCEPT: us-gaap:EffectiveIncomeTaxRateContinuingOperations
+@VALUE: 6.5
+@UNIT_REF: number
+@DECIMALS: 3
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:EffectiveIncomeTaxRateContinuingOperations
+@VALUE: 6.6
+@UNIT_REF: number
+@DECIMALS: 3
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognized
+@VALUE: 3.32
+@UNIT_REF: usd
+@DECIMALS: -7
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAmortizationExpenseNextTwelveMonths
+@VALUE: 546
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAmortizationExpenseRemainderOfFiscalYear
+@VALUE: 412
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAmortizationExpenseYearFour
+@VALUE: 99
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAmortizationExpenseYearThree
+@VALUE: 370
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAmortizationExpenseYearTwo
+@VALUE: 424
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments
+@VALUE: 2,044
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments
+@VALUE: 981
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncomeTaxExpenseBenefit
+@VALUE: 132
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncomeTaxExpenseBenefit
+@VALUE: 64
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncomeTaxExpenseBenefit
+@VALUE: 132
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncomeTaxExpenseBenefit
+@VALUE: 64
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets
+@VALUE: 8
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:InterestExpense
+@VALUE: 53
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:InterestExpense
+@VALUE: 25
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:InvestmentIncomeInterest
+@VALUE: 6
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:InvestmentIncomeInterest
+@VALUE: 31
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i8efd9c4a090b42339886c99b97005a35_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie8efa345a85749589599fa9dd76d974b_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 1,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 917
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i54118d75cb8347fdb329310ab55d9908_D20200127-20200426
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 4,332
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 2,796
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0189995e508f419591dbed4ebb082be6_D20190128-20200126
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 4,141
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+
+@CONCEPT: us-gaap:NonoperatingIncomeExpense
+@VALUE: 88
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NonoperatingIncomeExpense
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingExpenses
+@VALUE: 1,673
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingExpenses
+@VALUE: 1,028
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 1,956
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 976
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 1,786
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0578ff41eb884238b93fcd17223abb79_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 861
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i98b3f9591dbb4ca8ba9102c7023dcad0_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 691
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 1,956
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 836
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iaa3783e7ae6d478eb5ce6ec8835320bb_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 451
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i682721e2d686431b986b55d94b6ec668_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 311
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 976
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 691
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 311
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingLeaseCost
+@VALUE: 39
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingLeaseCost
+@VALUE: 31
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationAndTax
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationAndTax
+@VALUE: 11
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossCashFlowHedgeGainLossBeforeReclassificationAfterTax
+@VALUE: 14
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossCashFlowHedgeGainLossBeforeReclassificationAfterTax
+@VALUE: 10
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossCashFlowHedgeGainLossReclassificationAfterTax
+@VALUE: 9
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossCashFlowHedgeGainLossReclassificationAfterTax
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTax
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2710ca190b9a4fc89699775b20ae782c_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTax
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTax
+@VALUE: 11
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if8ad308fdbdc4317a4da214154564294_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTax
+@VALUE: 11
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherNoncashIncomeExpense
+@VALUE: 3
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherNoncashIncomeExpense
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OtherNonoperatingIncomeExpense
+@VALUE: 135
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherNonoperatingIncomeExpense
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt
+@VALUE: 4,470
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt
+@VALUE: 861
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:PrepaidExpenseAndOtherAssetsCurrent
+@VALUE: 444
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:PrepaidExpenseAndOtherAssetsCurrent
+@VALUE: 239
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:PrepaidExpenseAndOtherAssetsCurrent
+@VALUE: 444
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:PrepaidExpenseAndOtherAssetsCurrent
+@VALUE: 239
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:PrepaidExpenseCurrent
+@VALUE: 179
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:PrepaidExpenseCurrent
+@VALUE: 142
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:ProceedsFromDebtNetOfIssuanceCosts
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ProceedsFromDebtNetOfIssuanceCosts
+@VALUE: 4,979
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities
+@VALUE: 3,140
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt
+@VALUE: 358
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ResearchAndDevelopmentExpense
+@VALUE: 1,153
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ResearchAndDevelopmentExpense
+@VALUE: 735
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:RetainedEarningsAccumulatedDeficit
+@VALUE: 20,721
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:RetainedEarningsAccumulatedDeficit
+@VALUE: 18,908
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:RevenueRemainingPerformanceObligation
+@VALUE: 680
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:RevenueRemainingPerformanceObligationPercentage
+@VALUE: 48
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: iae3b0065c34546e28640aa8b2608fb5d_I20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 5,661
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 3,080
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 3,451
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0578ff41eb884238b93fcd17223abb79_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 2,210
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i98b3f9591dbb4ca8ba9102c7023dcad0_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 5,661
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,906
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iaa3783e7ae6d478eb5ce6ec8835320bb_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,174
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i682721e2d686431b986b55d94b6ec668_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 3,080
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,784
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i538da179c6d247e4a315c7fd7ebf673e_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 813
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i705e1884bceb41b090c0e3017f3a62fa_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,391
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i8b23459e8fa94cc2a2ffa593198e53ad_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 758
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic263f12977274dc28dbb57da2f4f27d2_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,001
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i12f5b16ac62949c7a778dfc4439bdda3_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 607
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i04b9782c4e324183a7d66e7813597f2f_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 768
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: id70baa4f6f93455fb4b6b4677756df99_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 497
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i765ff03fea99403abdeac3729ae5485b_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 381
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2eb7e236cda049b0906ec43f3f28c7da_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 254
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2323bc668a92462baba17670f6d5ea0e_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 336
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5b09701ea5374f63b2e6e61fd1a6579b_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 151
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie8670fa584ef4c8284013d378b862ec6_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 5,661
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 3,080
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 2,760
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i400f4d65aae44d64b7eb08def60c6997_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,339
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i251a38b386c24802a3f24eb43b85bdb9_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 2,048
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i149b984074124c47b6fa052fa5ab9e9a_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 1,141
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4a87a895110841549b1a50f280f0033b_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 372
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie78b3bd1f284487e87198aba2dc93f75_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 307
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i8ef6bce10b9d42438295313353f845f1_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 154
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i64cfe48c7de94c6aabc25640d4fa1d18_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 155
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i61b9d25f02a244d39a1c02d1efd7c70e_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 327
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if64c334c8f234dc2a084b4eaf6e6d875_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 138
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4ce18cdc646744f889aa31ac90bc5938_D20200127-20200426
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 5,661
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:Revenues
+@VALUE: 3,080
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:SellingGeneralAndAdministrativeExpense
+@VALUE: 520
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:SellingGeneralAndAdministrativeExpense
+@VALUE: 293
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:UndistributedEarningsOfForeignSubsidiaries
+@VALUE: 1.3
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:UnrecognizedTaxBenefitsIncomeTaxPenaltiesAndInterestAccrued
+@VALUE: 48
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@SECTION: BALANCE_SHEET
+
+@TABLE_CONTENT: BALANCE SHEET TABLE (9999)
+@TABLE_TYPE: BALANCE SHEET
+Concept | Key | Context i08a3d69ead47413a9e3c33876311581d_I20210502 | Context i0e770610a31a4d68ba603bb363093a14_I20210131 | Context i14e7274821b145eda02a4f32b982bd95_I20210502 | Context i1b323a942df1417c8b62827b88857312_I20210131 | Context i2052535a397044b2bdd0f572bc243476_I20210131 | Context i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502 | Context i32be6d9ca74d4fbfaef9bfc2dd014670_I20210502 | Context i88f1c89109764b1d82c615d1dc3c935f_D20210201-20210502 | Context ib67e6fa290824233a3fae32fe0d52f06_I20210502 | Context ic276806af4be4b38bc9c5dfc437f3a90_I20210502 | Context icccbe3b4418b4e8d8a201cb8459364ee_I20210502 | Context icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426 | Context id87cb9218f844570a6a1c7f7442a81d3_I20210502 | Context ie3aa13b5e86d4478b7040f26235901bc_I20210502 | Context if2bee18417954bd3891de94d5f121059_I20210502
+------- | --- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------
+<Assets> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Assets Current | - | $18,127 [M] | - | - | $16,055 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Intangible Assets Net Excluding Goodwill | - | $2,613 [M] | - | - | $2,737 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Other Assets Noncurrent | - | $2,090 [M] | - | - | $2,144 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Assets | - | $30,796 [M] | - | - | $28,791 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Payments To Acquire Productive Assets | - | - | - | - | - | - | $298 [M] | - | - | - | - | - | $155 [M] | - | - | -
+  Right Of Use Asset Obtained In Exchange For Operating Lease Liability | - | - | - | - | - | - | $54 [M] | - | - | - | - | - | $3 [M] | - | - | -
+  Finite Lived Intangible Assets Gross | - | $3,999 [M] | $706 [M] | - | $3,986 [M] | $3,280 [M] | - | - | - | $3,280 [M] | - | - | - | - | $719 [M] | -
+  Finite Lived Intangible Assets Accumulated Amortization | - | $1,386 [M] | $475 [M] | - | $1,249 [M] | $774 [M] | - | - | - | $904 [M] | - | - | - | - | $482 [M] | -
+  Finite Lived Intangible Assets Net | - | $2,613 [M] | $231 [M] | - | $2,737 [M] | $2,506 [M] | - | - | - | $2,376 [M] | - | - | - | - | $237 [M] | -
+  Amortization Of Intangible Assets | - | - | - | - | - | - | $137 [M] | - | - | - | - | - | $7 [M] | - | - | -
+  Other Assets Current | - | $132 [M] | - | - | $97 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Deposits Assets | - | $123 [M] | - | - | $136 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Other Assets Miscellaneous Noncurrent | - | $36 [M] | - | - | $67 [M] | - | - | - | - | - | - | - | - | - | - | -
+@TOTAL: Operating Lease Right Of Use Asset | - | $727 [M] | - | - | $707 [M] | - | - | - | - | - | - | - | - | - | - | -
+</Assets> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Liabilities> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Liabilities And Stockholders Equity | - | $30,796 [M] | - | - | $28,791 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Remainder Of Fiscal Year | - | $106 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Due Next Twelve Months | - | $144 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Due Year Two | - | $123 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Due Year Three | - | $102 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Due Year Four | - | $94 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Due After Year Four | - | $306 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Payments Due | - | $875 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Lessee Operating Lease Liability Undiscounted Excess Amount | - | $100 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Contract With Customer Liability Current | - | $333 [M] | - | - | $288 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Contract With Customer Liability Noncurrent | - | $173 [M] | - | - | $163 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Deferred Compensation Liability Classified Noncurrent | - | $34 [M] | - | - | $33 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Contract With Customer Liability | - | $506 [M] | - | - | $451 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Contract With Customer Liability Additions | - | - | - | - | - | - | $178 [M] | - | - | - | - | - | $110 [M] | - | - | -
+@TOTAL: Operating Lease Liability Noncurrent | - | $640 [M] | - | - | $634 [M] | - | - | - | - | - | - | - | - | - | - | -
+@TOTAL: Operating Lease Liability | - | $775 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+@TOTAL: Operating Lease Liability Current | - | $135 [M] | - | - | $121 [M] | - | - | - | - | - | - | - | - | - | - | -
+</Liabilities> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Equity> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Stockholders Equity | - | $18,774 [M] | - | - | $16,893 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Grants In Period | - | - | - | - | - | - | - | - | 1 shares | - | - | - | - | - | - | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Grants In Period Weighted Average Grant Date Fair Value | - | - | - | - | - | - | - | - | 535.82 | - | - | - | - | - | - | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Vested In Period | - | - | - | - | - | - | - | - | 4 shares | - | - | - | - | - | - | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Vested In Period Weighted Average Grant Date Fair Value | - | - | - | - | - | - | - | - | 252.22 | - | - | - | - | - | - | -
+  Equity Securities Fv Ni | - | $133 [M] | - | - | $— [M] | - | - | - | - | - | - | - | - | - | - | -
+  Equity Securities Fv Ni Unrealized Gain | - | - | - | - | - | - | $124 [M] | - | - | - | - | - | - | - | - | -
+  Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax | - | $130 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+</Equity> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Other> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Accounts Receivable Net Current | - | $3,024 [M] | - | - | $2,429 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Inventory Net | - | $1,992 [M] | - | - | $1,826 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Accounts Payable Current | - | $1,218 [M] | - | - | $1,201 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Debt Current | - | $999 [M] | - | - | $999 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt Noncurrent | - | $5,964 [M] | - | - | $5,964 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Increase Decrease In Accounts Receivable | - | - | - | - | - | - | $595 [M] | - | - | - | - | - | $249 [M] | - | - | -
+  Increase Decrease In Accounts Payable | - | - | - | - | - | - | $70 [M] | - | - | - | - | - | $71 [M] | - | - | -
+  Available For Sale Debt Securities Accumulated Gross Unrealized Gain Before Tax | - | $4 [M] | - | - | $3 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Available For Sale Debt Securities Accumulated Gross Unrealized Loss Before Tax | - | $— [M] | - | - | $— [M] | - | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt Percentage Bearing Fixed Interest Rate | - | - | - | 3.20 | - | - | - | 3.70 | - | - | 2.85 | 3.50 | - | 2.20 | - | 3.50
+  Inventory Raw Materials Net Of Reserves | - | $734 [M] | - | - | $632 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Inventory Work In Process Net Of Reserves | - | $504 [M] | - | - | $457 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Inventory Finished Goods Net Of Reserves | - | $754 [M] | - | - | $737 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Taxes Payable Current | - | $96 [M] | - | - | $61 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Interest Payable Current | - | $19 [M] | - | - | $74 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Licensespayablenoncurrent | - | $59 [M] | - | - | $56 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Onetimetransitiontaxpayablenoncurrent | - | $284 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Debt Instrument Carrying Amount | - | - | - | $1,000 [M] | - | - | - | $500 [M] | - | - | $1,500 [M] | $2,000 [M] | - | $1,000 [M] | - | $1,000 [M]
+  Long Term Debt | - | $6,963 [M] | - | - | $6,963 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt Current | - | $999 [M] | - | - | $999 [M] | - | - | - | - | - | - | - | - | - | - | -
+  Outstanding Inventory Purchase Obligation | - | $3.46 | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+</Other> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+
+@CONCEPT: nvda:BusinessCombinationContingentConsiderationLiabilityShares
+@COMMON_NAME: Business Combination Contingent Consideration Liability Shares
+@VALUE: 10.3
+@UNIT_REF: shares
+@DECIMALS: -5
+@CONTEXT_REF: i8536eeb5be294b71a66044e1af9d3580_I20200913
+
+@CONCEPT: nvda:BusinessCombinationPotentialRefundReceivable
+@COMMON_NAME: Business Combination Potential Refund Receivable
+@VALUE: 1.25
+@UNIT_REF: usd
+@DECIMALS: 7
+@CONTEXT_REF: idc4175b83534468d9c73ee6f141c7921_I20200913
+
+@CONCEPT: nvda:BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedPrepaidRoyalties
+@COMMON_NAME: Business Combination Recognized Identifiable Assets Acquired And Liabilities Assumed Prepaid Royalties
+@VALUE: 0.47
+@UNIT_REF: usd
+@DECIMALS: 7
+@CONTEXT_REF: idc4175b83534468d9c73ee6f141c7921_I20200913
+
+@CONCEPT: nvda:ContractWithCustomerLiabilityAdditions
+@COMMON_NAME: Contract With Customer Liability Additions
+@VALUE: 178
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: nvda:ContractWithCustomerLiabilityAdditions
+@COMMON_NAME: Contract With Customer Liability Additions
+@VALUE: 110
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: nvda:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: 130
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: 130
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:LesseeOperatingLeaseLiabilityPaymentsDueAfterYearFour
+@COMMON_NAME: Lessee Operating Lease Liability Payments Due After Year Four
+@VALUE: 306
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:Licensespayablenoncurrent
+@COMMON_NAME: Licensespayablenoncurrent
+@VALUE: 59
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:Licensespayablenoncurrent
+@COMMON_NAME: Licensespayablenoncurrent
+@VALUE: 56
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:Onetimetransitiontaxpayablenoncurrent
+@COMMON_NAME: Onetimetransitiontaxpayablenoncurrent
+@VALUE: 284
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:OutstandingInventoryPurchaseObligation
+@COMMON_NAME: Outstanding Inventory Purchase Obligation
+@VALUE: 3.46
+@UNIT_REF: usd
+@DECIMALS: -7
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccountsPayableCurrent
+@VALUE: 1,218
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccountsPayableCurrent
+@VALUE: 1,201
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AccountsReceivableNetCurrent
+@VALUE: 3,024
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccountsReceivableNetCurrent
+@VALUE: 2,429
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AmortizationOfIntangibleAssets
+@VALUE: 137
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:AmortizationOfIntangibleAssets
+@VALUE: 7
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:Assets
+@VALUE: 30,796
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:Assets
+@VALUE: 28,791
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AssetsCurrent
+@VALUE: 18,127
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AssetsCurrent
+@VALUE: 16,055
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7a2e7c782de547a8bb29ba37dc5f9e21_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i51e2a5f1ccf44b88bab1a7de37342b59_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icafb5de13ff646e29a7089e8cf99868e_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4aaf5051e0af4976bfd545fa651c62c3_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icd8ceab08ea34c40994a87b8fde3e386_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i91ddd110434f400caeaa6c9123acc470_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 4
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i18a498a645fc4cd2be4273b2bfbbbfd5_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i317f8c8223dd42afbe29c0d6b3a3ea45_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i665b6259693841f2bfae63d8d61c3df3_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5cda771dbda24a53af7a97d5aeb5e978_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iad4ba500f79347899720f298488ab993_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i94578dd4d7314226abc9656f6de0535c_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 3
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7a2e7c782de547a8bb29ba37dc5f9e21_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i51e2a5f1ccf44b88bab1a7de37342b59_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icafb5de13ff646e29a7089e8cf99868e_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4aaf5051e0af4976bfd545fa651c62c3_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icd8ceab08ea34c40994a87b8fde3e386_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i91ddd110434f400caeaa6c9123acc470_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i18a498a645fc4cd2be4273b2bfbbbfd5_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i317f8c8223dd42afbe29c0d6b3a3ea45_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i665b6259693841f2bfae63d8d61c3df3_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5cda771dbda24a53af7a97d5aeb5e978_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iad4ba500f79347899720f298488ab993_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i94578dd4d7314226abc9656f6de0535c_I20210131
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:BusinessAcquisitionEquityInterestsIssuedOrIssuableNumberOfSharesIssued
+@VALUE: 44.3
+@UNIT_REF: shares
+@DECIMALS: -5
+@CONTEXT_REF: id93ee7912c2b45e095040337e0499f21_D20220101-20220331
+
+@CONCEPT: us-gaap:BusinessCombinationConsiderationTransferredEquityInterestsIssuedAndIssuable
+@VALUE: 21.5
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: id93ee7912c2b45e095040337e0499f21_D20220101-20220331
+
+@CONCEPT: us-gaap:BusinessCombinationContingentConsiderationLiability
+@VALUE: 5
+@UNIT_REF: usd
+@DECIMALS: -9
+@CONTEXT_REF: i8536eeb5be294b71a66044e1af9d3580_I20200913
+
+@CONCEPT: us-gaap:BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedIndefiniteLivedIntangibleAssets
+@VALUE: 630
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i12afe6e60a5848c6b7692886f308aab3_I20210502
+
+@CONCEPT: us-gaap:BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedIntangibles
+@VALUE: 0.17
+@UNIT_REF: usd
+@DECIMALS: 7
+@CONTEXT_REF: i495db5774b8b485d88054ad0e6e3deba_I20200913
+
+@CONCEPT: us-gaap:ContractWithCustomerLiability
+@VALUE: 451
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:ContractWithCustomerLiability
+@VALUE: 201
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic322b924b91c413cadee02c177adf898_I20200126
+
+@CONCEPT: us-gaap:ContractWithCustomerLiability
+@VALUE: 506
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:ContractWithCustomerLiability
+@VALUE: 241
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0e6f6d4f45014748ac504272c40e7e7c_I20200426
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityCurrent
+@VALUE: 333
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityCurrent
+@VALUE: 288
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityNoncurrent
+@VALUE: 173
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityNoncurrent
+@VALUE: 163
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:DebtCurrent
+@VALUE: 999
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:DebtCurrent
+@VALUE: 999
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: id87cb9218f844570a6a1c7f7442a81d3_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5be5645196de472196033d88e684f1e9_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i14e7274821b145eda02a4f32b982bd95_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ib2df51b9c32649d59a8402c2bcbe0ca7_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,500
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic276806af4be4b38bc9c5dfc437f3a90_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,500
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie12feacfa48841c09cb05f4cc970b46d_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if2bee18417954bd3891de94d5f121059_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 1,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iffc352f3ed6945de91387974447fd51a_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 2,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icccbe3b4418b4e8d8a201cb8459364ee_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 2,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ia2765d3859184cd8b4d16c512695812e_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 500
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i32be6d9ca74d4fbfaef9bfc2dd014670_I20210502
+
+@CONCEPT: us-gaap:DebtInstrumentCarryingAmount
+@VALUE: 500
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: id3bf80111df24dffa8decc0857f58d03_I20210131
+
+@CONCEPT: us-gaap:DebtInstrumentFaceAmount
+@VALUE: 1.50
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i8f5f8f2e1034429d9613a8665465c271_I20200331
+
+@CONCEPT: us-gaap:DebtInstrumentFaceAmount
+@VALUE: 1.00
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i0b8e806e322548f0b36f711af77f3001_I20200331
+
+@CONCEPT: us-gaap:DebtInstrumentFaceAmount
+@VALUE: 2.00
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i9e50acf3893944938c6541c8e0d9d162_I20200331
+
+@CONCEPT: us-gaap:DebtInstrumentFaceAmount
+@VALUE: 500
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i4781cbf5221d422d89d56b7cc3a794b1_I20200331
+
+@CONCEPT: us-gaap:DebtInstrumentFaceAmount
+@VALUE: 1.00
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: ifda484ac7338481fa7602cbfd32c2deb_I20160930
+
+@CONCEPT: us-gaap:DebtInstrumentFaceAmount
+@VALUE: 1.00
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: if2121c73b2cb46ddbc20cb8abb28f1d1_I20160930
+
+@CONCEPT: us-gaap:DebtInstrumentInterestRateDuringPeriod
+@VALUE: 2.38
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: id8679126edb243a8b3df2264b50b5701_D20210201-20210502
+
+@CONCEPT: us-gaap:DebtInstrumentInterestRateDuringPeriod
+@VALUE: 3.31
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: i21a7443904b94137a7de85b89bbdccf8_D20210201-20210502
+
+@CONCEPT: us-gaap:DebtInstrumentInterestRateDuringPeriod
+@VALUE: 2.93
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: i3b4d15f2e45a4ae786b19f9a73682a8b_D20210201-20210502
+
+@CONCEPT: us-gaap:DebtInstrumentInterestRateDuringPeriod
+@VALUE: 3.54
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: ie441dd95e0b84eab9f421d1e0c7f2824_D20210201-20210502
+
+@CONCEPT: us-gaap:DebtInstrumentInterestRateDuringPeriod
+@VALUE: 3.54
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: i7a411c4358774b1ab5d846285f833055_D20210201-20210502
+
+@CONCEPT: us-gaap:DebtInstrumentInterestRateDuringPeriod
+@VALUE: 3.73
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: i0bbe496891a643e5975294b7141b0e54_D20210201-20210502
+
+@CONCEPT: us-gaap:DeferredCompensationLiabilityClassifiedNoncurrent
+@VALUE: 34
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:DeferredCompensationLiabilityClassifiedNoncurrent
+@VALUE: 33
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:DepositsAssets
+@VALUE: 123
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:DepositsAssets
+@VALUE: 136
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNi
+@VALUE: 133
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if2d3bc98840040f796de788b3c34591f_I20210502
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNi
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: id96d7dbc5cb746798175c892fa9ba2e0_I20210131
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNi
+@VALUE: 133
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNi
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiUnrealizedGain
+@VALUE: 124
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiUnrealizedGain
+@VALUE: 124
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAccumulatedAmortization
+@VALUE: 904
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ib67e6fa290824233a3fae32fe0d52f06_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAccumulatedAmortization
+@VALUE: 774
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2052535a397044b2bdd0f572bc243476_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAccumulatedAmortization
+@VALUE: 482
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie3aa13b5e86d4478b7040f26235901bc_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAccumulatedAmortization
+@VALUE: 475
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0e770610a31a4d68ba603bb363093a14_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAccumulatedAmortization
+@VALUE: 1,386
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsAccumulatedAmortization
+@VALUE: 1,249
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsGross
+@VALUE: 3,280
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ib67e6fa290824233a3fae32fe0d52f06_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsGross
+@VALUE: 3,280
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2052535a397044b2bdd0f572bc243476_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsGross
+@VALUE: 719
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie3aa13b5e86d4478b7040f26235901bc_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsGross
+@VALUE: 706
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0e770610a31a4d68ba603bb363093a14_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsGross
+@VALUE: 3,999
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsGross
+@VALUE: 3,986
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsNet
+@VALUE: 2,376
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ib67e6fa290824233a3fae32fe0d52f06_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsNet
+@VALUE: 2,506
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2052535a397044b2bdd0f572bc243476_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsNet
+@VALUE: 237
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie3aa13b5e86d4478b7040f26235901bc_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsNet
+@VALUE: 231
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0e770610a31a4d68ba603bb363093a14_I20210131
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsNet
+@VALUE: 2,613
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:FiniteLivedIntangibleAssetsNet
+@VALUE: 2,737
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsPayable
+@VALUE: 70
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsPayable
+@VALUE: 71
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsReceivable
+@VALUE: 595
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsReceivable
+@VALUE: 249
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IntangibleAssetsNetExcludingGoodwill
+@VALUE: 2,613
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:IntangibleAssetsNetExcludingGoodwill
+@VALUE: 2,737
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:InterestPayableCurrent
+@VALUE: 19
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:InterestPayableCurrent
+@VALUE: 74
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:InventoryFinishedGoodsNetOfReserves
+@VALUE: 754
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:InventoryFinishedGoodsNetOfReserves
+@VALUE: 737
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:InventoryNet
+@VALUE: 1,992
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:InventoryNet
+@VALUE: 1,826
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:InventoryNet
+@VALUE: 1,992
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:InventoryNet
+@VALUE: 1,826
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:InventoryRawMaterialsNetOfReserves
+@VALUE: 734
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:InventoryRawMaterialsNetOfReserves
+@VALUE: 632
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:InventoryWorkInProcessNetOfReserves
+@VALUE: 504
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:InventoryWorkInProcessNetOfReserves
+@VALUE: 457
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityPaymentsDue
+@VALUE: 875
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityPaymentsDueNextTwelveMonths
+@VALUE: 144
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityPaymentsDueYearFour
+@VALUE: 94
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityPaymentsDueYearThree
+@VALUE: 102
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityPaymentsDueYearTwo
+@VALUE: 123
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityPaymentsRemainderOfFiscalYear
+@VALUE: 106
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LesseeOperatingLeaseLiabilityUndiscountedExcessAmount
+@VALUE: 100
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LiabilitiesAndStockholdersEquity
+@VALUE: 30,796
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LiabilitiesAndStockholdersEquity
+@VALUE: 28,791
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LongTermDebt
+@VALUE: 6,963
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LongTermDebt
+@VALUE: 6,963
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtCurrent
+@VALUE: 999
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtCurrent
+@VALUE: 999
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,006
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ibad70898f2324e4e9b134f73e69006b8_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,011
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1f4e57f2828545848d95e179ae683196_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,101
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i42cd357e3b5946d7876561b790e79942_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,124
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i787cf49cf38b40eebe8d947dc75dcefc_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,592
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i9c2d6fa68353483fbef85141d3645c98_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,654
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2967321e874946d3931dc2d1b8941694_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,095
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i3af14a33d08e4e5292e958304308850d_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 1,152
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ibde37437a37147dfa71b76323af5a03b_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 2,158
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ia8d7de3001c947d89cb492bb355bc57b_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 2,308
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i06e2e34d62e74e8c97c6fdadf1428e0b_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 552
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2616767750204ebda47825e3911a149e_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 602
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i386bb9e37c3847a49f1b8f24316c865a_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtNoncurrent
+@VALUE: 5,964
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtNoncurrent
+@VALUE: 5,964
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtNoncurrent
+@VALUE: 5,964
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtNoncurrent
+@VALUE: 5,964
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 2.20
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: id87cb9218f844570a6a1c7f7442a81d3_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.20
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i14e7274821b145eda02a4f32b982bd95_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 2.85
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: ic276806af4be4b38bc9c5dfc437f3a90_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.50
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: if2bee18417954bd3891de94d5f121059_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.50
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: icccbe3b4418b4e8d8a201cb8459364ee_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.70
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i32be6d9ca74d4fbfaef9bfc2dd014670_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 2.85
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i8f5f8f2e1034429d9613a8665465c271_I20200331
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.50
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i0b8e806e322548f0b36f711af77f3001_I20200331
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.50
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i9e50acf3893944938c6541c8e0d9d162_I20200331
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.70
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i4781cbf5221d422d89d56b7cc3a794b1_I20200331
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 2.20
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: ifda484ac7338481fa7602cbfd32c2deb_I20160930
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.20
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: if2121c73b2cb46ddbc20cb8abb28f1d1_I20160930
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 2.20
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: id87cb9218f844570a6a1c7f7442a81d3_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.20
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i14e7274821b145eda02a4f32b982bd95_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 2.85
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: ic276806af4be4b38bc9c5dfc437f3a90_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.50
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: if2bee18417954bd3891de94d5f121059_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.50
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: icccbe3b4418b4e8d8a201cb8459364ee_I20210502
+
+@CONCEPT: us-gaap:LongTermDebtPercentageBearingFixedInterestRate
+@VALUE: 3.70
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i32be6d9ca74d4fbfaef9bfc2dd014670_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseLiability
+@VALUE: 775
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseLiabilityCurrent
+@VALUE: 135
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseLiabilityCurrent
+@VALUE: 135
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseLiabilityCurrent
+@VALUE: 121
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OperatingLeaseLiabilityNoncurrent
+@VALUE: 640
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseLiabilityNoncurrent
+@VALUE: 634
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OperatingLeaseLiabilityNoncurrent
+@VALUE: 640
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseRightOfUseAsset
+@VALUE: 727
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseRightOfUseAsset
+@VALUE: 707
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherAssetsCurrent
+@VALUE: 132
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherAssetsCurrent
+@VALUE: 97
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherAssetsMiscellaneousNoncurrent
+@VALUE: 36
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherAssetsMiscellaneousNoncurrent
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherAssetsNoncurrent
+@VALUE: 2,090
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherAssetsNoncurrent
+@VALUE: 2,144
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherAssetsNoncurrent
+@VALUE: 2,090
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherAssetsNoncurrent
+@VALUE: 2,144
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:PaymentsToAcquireProductiveAssets
+@VALUE: 298
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsToAcquireProductiveAssets
+@VALUE: 155
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:RightOfUseAssetObtainedInExchangeForOperatingLeaseLiability
+@VALUE: 54
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:RightOfUseAssetObtainedInExchangeForOperatingLeaseLiability
+@VALUE: 3
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriod
+@VALUE: 1
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i88f1c89109764b1d82c615d1dc3c935f_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriodWeightedAverageGrantDateFairValue
+@VALUE: 535.82
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i88f1c89109764b1d82c615d1dc3c935f_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber
+@VALUE: 15
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i1c102045f5f941d2a6629ca96705f4c4_I20210131
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber
+@VALUE: 12
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i33bc3fabf52048e3b48d09812ba57d79_I20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue
+@VALUE: 264.69
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i1c102045f5f941d2a6629ca96705f4c4_I20210131
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue
+@VALUE: 279.79
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i33bc3fabf52048e3b48d09812ba57d79_I20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriod
+@VALUE: 4
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i88f1c89109764b1d82c615d1dc3c935f_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodWeightedAverageGrantDateFairValue
+@VALUE: 252.22
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: i88f1c89109764b1d82c615d1dc3c935f_D20210201-20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 18,774
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 16,893
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i13fbb7b3e5884a1b8452452da106d4e0_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 8,721
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i830804621fdc4cc481fe73784d89c3b5_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 10,756
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i3703fd2f1e554c9eb463e5729b1b1869_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 19
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i9afb0521e92e46d9a86d1720fed6e0f2_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 18,908
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1c9fe07a4f9b4c9c9488d2a1abfde749_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 16,893
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i20731278418b453d86af82076fb70e4f_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 9,280
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i3b400eb34ec04bbc9cd227ebd248b308_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 11,242
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i9af9bf45a52c4be4988499d3164446ad_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 14
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5e9233787b35443e854b3a7a2135bfd6_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 20,721
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4ad2a1a38969482e9ec58962110e06f6_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 18,774
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic15ee73d881d4390afeff04d3ac98898_I20200126
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 7,045
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i6145e229775b4c8ea7c2ba62115abfad_I20200126
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 9,814
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i45294901f36c487f9b661cf2182cfde4_I20200126
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie66429189736433a8062fb393d3a44a5_I20200126
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 14,971
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie47a44bd9cda4b839cc0283c8dea0a4c_I20200126
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 12,204
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic322b924b91c413cadee02c177adf898_I20200126
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i26b710eb613e4d1488de663b5635d118_I20200426
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 7,354
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i453e255daf1f4e6b8528970540657eb9_I20200426
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 10,036
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0519f8495e7048d99916e285d4b34b4c_I20200426
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 10
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: idb8a368904c7433689b312248dd40cf7_I20200426
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 15,790
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iac9f6f59caa74784810ffe107c98ffc7_I20200426
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 13,099
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0e6f6d4f45014748ac504272c40e7e7c_I20200426
+
+@CONCEPT: us-gaap:StockholdersEquityNoteStockSplitConversionRatio1
+@VALUE: four
+@UNIT_REF: number
+@DECIMALS: INF
+@CONTEXT_REF: i22a29b5941d54695b65f8168e61d7b12_D20210603-20210603
+
+@CONCEPT: us-gaap:TaxesPayableCurrent
+@VALUE: 96
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:TaxesPayableCurrent
+@VALUE: 61
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@SECTION: CASH_FLOW
+
+@TABLE_CONTENT: CASH FLOW TABLE (9999)
+@TABLE_TYPE: CASH FLOW
+Concept | Key | Context i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502 | Context icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+------- | --- | ------------------------------------------------------------ | ------------------------------------------------------------
+Increase Decrease In Accrued Liabilities And Other Operating Liabilities | - | $1 [M] | $32 [M]
+<Cash_Flow> |  |  | 
+@TOTAL: Net Cash Provided By Used In Operating Activities | - | $1,874 [M] | $909 [M]
+@TOTAL: Net Cash Provided By Used In Investing Activities | - | $1,272 [M] | $1,055 [M]
+@TOTAL: Net Cash Provided By Used In Financing Activities | - | $471 [M] | $4,744 [M]
+</Cash_Flow> |  |  | 
+<Other> |  |  | 
+  Payments For Proceeds From Other Investing Activities | - | $2 [M] | $6 [M]
+  Payments For Financed Property Plant And Equipment Financing Activities | - | $19 [M] | $— [M]
+  Proceeds From Payments For Other Financing Activities | - | $2 [M] | $3 [M]
+@TOTAL: Operating Lease Payments | - | $39 [M] | $31 [M]
+</Other> |  |  | 
+
+@CONCEPT: nvda:NotionalamountofFXforwardcontractdesignatedascashflowhedges
+@COMMON_NAME: Notionalamountof Fxforwardcontractdesignatedascashflowhedges
+@VALUE: 888
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:NotionalamountofFXforwardcontractdesignatedascashflowhedges
+@COMMON_NAME: Notionalamountof Fxforwardcontractdesignatedascashflowhedges
+@VALUE: 840
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:PaymentsForFinancedPropertyPlantAndEquipmentFinancingActivities
+@COMMON_NAME: Payments For Financed Property Plant And Equipment Financing Activities
+@VALUE: 19
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: nvda:PaymentsForFinancedPropertyPlantAndEquipmentFinancingActivities
+@COMMON_NAME: Payments For Financed Property Plant And Equipment Financing Activities
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities
+@VALUE: 32
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInFinancingActivities
+@VALUE: 471
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInFinancingActivities
+@VALUE: 4,744
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInInvestingActivities
+@VALUE: 1,272
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInInvestingActivities
+@VALUE: 1,055
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInOperatingActivities
+@VALUE: 1,874
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInOperatingActivities
+@VALUE: 909
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingLeasePayments
+@VALUE: 39
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OperatingLeasePayments
+@VALUE: 31
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:OperatingLeaseWeightedAverageDiscountRatePercent
+@VALUE: 2.77
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OperatingLeaseWeightedAverageDiscountRatePercent
+@VALUE: 2.87
+@UNIT_REF: number
+@DECIMALS: 4
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:PaymentsForProceedsFromOtherInvestingActivities
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsForProceedsFromOtherInvestingActivities
+@VALUE: 6
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ProceedsFromPaymentsForOtherFinancingActivities
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ProceedsFromPaymentsForOtherFinancingActivities
+@VALUE: 3
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@SECTION: OTHER_FINANCIAL
+
+@TABLE_CONTENT: OTHER FINANCIAL TABLE (9999)
+@TABLE_TYPE: OTHER FINANCIAL
+Concept | Key | Context i0189995e508f419591dbed4ebb082be6_D20190128-20200126 | Context i08a3d69ead47413a9e3c33876311581d_I20210502 | Context i1b323a942df1417c8b62827b88857312_I20210131 | Context i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502 | Context i3ffb91a136034fa582a8e64e7deb0082_I20210502 | Context i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131 | Context i54118d75cb8347fdb329310ab55d9908_D20200127-20200426 | Context i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502 | Context icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426 | Context ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+------- | --- | ------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------
+@TOTAL: Gross Profit | - | - | - | - | $3,629 [M] | - | - | - | - | $2,004 [M] | -
+<Liabilities> |  |  |  |  |  |  |  |  |  |  | 
+  Accrued Liabilities Current | - | - | $1,787 [M] | $1,725 [M] | - | - | - | - | - | - | -
+  Liabilities Current | - | - | $4,004 [M] | $3,925 [M] | - | - | - | - | - | - | -
+  Other Liabilities Noncurrent | - | - | $1,414 [M] | $1,375 [M] | - | - | - | - | - | - | -
+  Liabilities | - | - | $12,022 [M] | $11,898 [M] | - | - | - | - | - | - | -
+  Increase Decrease In Other Noncurrent Liabilities | - | - | - | - | $47 [M] | - | - | - | - | $10 [M] | -
+  Employee Related Liabilities Current | - | - | $265 [M] | $297 [M] | - | - | - | - | - | - | -
+  Other Accrued Liabilities Current | - | - | $65 [M] | $61 [M] | - | - | - | - | - | - | -
+  Other Sundry Liabilities Noncurrent | - | - | $50 [M] | $46 [M] | - | - | - | - | - | - | -
+</Liabilities> |  |  |  |  |  |  |  |  |  |  | 
+<Cash_Flow> |  |  |  |  |  |  |  |  |  |  | 
+  Cash And Cash Equivalents At Carrying Value | - | - | $978 [M] | $847 [M] | - | - | - | - | - | - | -
+  Dividends Common Stock Cash | - | - | - | - | $99 [M] | - | - | - | - | $98 [M] | -
+  Payments To Acquire Businesses Net Of Cash Acquired | - | - | - | - | $— [M] | - | - | - | - | $34 [M] | -
+  Cash Cash Equivalents Restricted Cash And Restricted Cash Equivalents Period Increase Decrease Including Exchange Rate Effect | - | - | - | - | $131 [M] | - | - | - | - | $4,598 [M] | -
+  Cash Cash Equivalents Restricted Cash And Restricted Cash Equivalents | - | - | $978 [M] | $847 [M] | - | - | - | - | - | - | -
+  Cash Equivalents At Carrying Value | - | - | $690 [M] | $637 [M] | - | - | - | - | - | - | -
+</Cash_Flow> |  |  |  |  |  |  |  |  |  |  | 
+<Other> |  |  |  |  |  |  |  |  |  |  | 
+  Weighted Average Number Of Shares Outstanding Basic | - | 2,436 shares | - | - | 621 shares | - | 2,468 shares | 2,456 shares | 2,484 shares | 614 shares | 2,432 shares
+  Weighted Average Number Of Diluted Shares Outstanding | - | 2,472 shares | - | - | 632 shares | - | 2,512 shares | 2,488 shares | 2,528 shares | 622 shares | 2,500 shares
+  Marketable Securities Current | - | - | $11,689 [M] | $10,714 [M] | - | - | - | - | - | - | -
+  Property Plant And Equipment Net | - | - | $2,268 [M] | $2,149 [M] | - | - | - | - | - | - | -
+  Goodwill | - | - | $4,193 [M] | $4,193 [M] | - | - | - | - | - | - | -
+  Commitments And Contingencies | - | - | $ | $ | - | - | - | - | - | - | -
+  Preferred Stock Value Outstanding | - | - | $— [M] | $— [M] | - | - | - | - | - | - | -
+  Common Stock Value | - | - | $1 [M] | $1 [M] | - | - | - | - | - | - | -
+  Additional Paid In Capital | - | - | $9,280 [M] | $8,721 [M] | - | - | - | - | - | - | -
+  Treasury Stock Value | - | - | $11,242 [M] | $10,756 [M] | - | - | - | - | - | - | -
+  Stock Issued During Period Value Employee Stock Ownership Plan | - | - | - | - | $126 [M] | - | - | - | - | $88 [M] | -
+  Adjustments Related To Tax Withholding For Share Based Compensation | - | - | - | - | $486 [M] | - | - | - | - | $222 [M] | -
+  Common Stock Dividends Per Share Declared | - | - | - | - | 0.16 | - | - | - | - | 0.16 | -
+  Adjustments To Additional Paid In Capital Sharebased Compensation Requisite Service Period Recognition Value | - | - | - | - | $433 [M] | - | - | - | - | $221 [M] | -
+  Share Based Compensation | - | - | - | - | $429 [M] | - | - | - | - | $224 [M] | -
+  Depreciation And Amortization | - | - | - | - | $281 [M] | - | - | - | - | $107 [M] | -
+  Gain Loss On Investments | - | - | - | - | $133 [M] | - | - | - | - | $3 [M] | -
+  Increase Decrease In Inventories | - | - | - | - | $159 [M] | - | - | - | - | $151 [M] | -
+  Payments Related To Tax Withholding For Share Based Compensation | - | - | - | - | $477 [M] | - | - | - | - | $222 [M] | -
+  Payments Of Dividends | - | - | - | - | $99 [M] | - | - | - | - | $98 [M] | -
+  Business Combination Advanced Consideration | - | - | $1,357 [M] | $1,357 [M] | - | - | - | - | - | - | -
+  Weighted Average Number Diluted Shares Outstanding Adjustment | - | 36 shares | - | - | 11 shares | - | 44 shares | 32 shares | 44 shares | 8 shares | 68 shares
+  Marketable Securities | - | - | $11,689 [M] | $10,714 [M] | - | - | - | - | - | - | -
+  Other Long Term Investments | - | - | $146 [M] | $144 [M] | - | - | - | - | - | - | -
+  Goodwill Period Increase Decrease | - | - | - | - | $no | - | - | - | - | - | -
+  Prepaid Royalties Noncurrent | - | - | $428 [M] | $440 [M] | - | - | - | - | - | - | -
+  Accrued Customer Programs Current | - | - | $700 [M] | $630 [M] | - | - | - | - | - | - | -
+  Accrued Licenses And Royalties | - | - | $96 [M] | $128 [M] | - | - | - | - | - | - | -
+  Product Warranty And Return Provisions | - | - | $45 [M] | $39 [M] | - | - | - | - | - | - | -
+  Accrued Professional Fees Current And Noncurrent | - | - | $33 [M] | $26 [M] | - | - | - | - | - | - | -
+  Unrecognized Tax Benefit Noncurrent | - | - | $374 [M] | - | - | - | - | - | - | - | -
+  Notionalamountof Fxforwardcontractnotdesignatedforhedgeaccounting | - | - | $402 [M] | $441 [M] | - | - | - | - | - | - | -
+  Line Of Credit Facility Maximum Borrowing Capacity | - | - | - | - | - | $575 | - | - | - | - | -
+  Additionalborrowingcapacityfrom Revolving Credit Facility | - | - | - | - | - | $425 | - | - | - | - | -
+  Line Of Credit | - | - | - | - | - | $no | - | - | - | - | -
+  Commercial Paper | - | - | $no | - | - | - | - | - | - | - | -
+  Outstanding Purchase Obligations Other | - | - | $396 [M] | - | - | - | - | - | - | - | -
+  Product Warranty Accrual | - | - | $30 [M] | $22 [M] | - | - | - | - | - | - | -
+  Aggregatenumberofsharesrepurchasedunderstockrepurchaseplan | - | - | 260 shares | - | - | - | - | - | - | - | -
+  Stock Repurchase Program Remaining Authorized Repurchase Amount1 | - | - | $7.24 | - | - | - | - | - | - | - | -
+  Number Of Reportable Segments | - | - | - | - | two | - | - | - | - | - | -
+  Common Stock Shares Authorized | - | - | 2 shares | - | - | - | - | - | - | - | -
+@TOTAL: Netproceedspaymentsrelatedtoemployeestockplans | - | - | - | - | $126 [M] | - | - | - | - | $88 [M] | -
+</Other> |  |  |  |  |  |  |  |  |  |  | 
+
+@CONCEPT: DocumentType
+@VALUE: 10-Q
+@CONTEXT_REF: AsOf
+
+@CONCEPT: EntityRegistrantName
+@VALUE: NVDA
+@CONTEXT_REF: AsOf
+
+@CONCEPT: dei:EntityCommonStockSharesOutstanding
+@COMMON_NAME: Entity Common Stock Shares Outstanding
+@VALUE: 623
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i368d389b3847469c9d3ae2fc98571ecf_I20210521
+
+@CONCEPT: nvda:AccruedCustomerProgramsCurrent
+@COMMON_NAME: Accrued Customer Programs Current
+@VALUE: 700
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:AccruedCustomerProgramsCurrent
+@COMMON_NAME: Accrued Customer Programs Current
+@VALUE: 630
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:AccruedLicensesAndRoyalties
+@COMMON_NAME: Accrued Licenses And Royalties
+@VALUE: 96
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:AccruedLicensesAndRoyalties
+@COMMON_NAME: Accrued Licenses And Royalties
+@VALUE: 128
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:AdditionalborrowingcapacityfromRevolvingCreditFacility
+@COMMON_NAME: Additionalborrowingcapacityfrom Revolving Credit Facility
+@VALUE: 425
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i3ffb91a136034fa582a8e64e7deb0082_I20210502
+
+@CONCEPT: nvda:Aggregatenumberofsharesrepurchasedunderstockrepurchaseplan
+@COMMON_NAME: Aggregatenumberofsharesrepurchasedunderstockrepurchaseplan
+@VALUE: 260
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:BusinessCombinationAdvancedConsideration
+@COMMON_NAME: Business Combination Advanced Consideration
+@VALUE: 1.36
+@UNIT_REF: usd
+@DECIMALS: 7
+@CONTEXT_REF: idc4175b83534468d9c73ee6f141c7921_I20200913
+
+@CONCEPT: nvda:BusinessCombinationAdvancedConsideration
+@COMMON_NAME: Business Combination Advanced Consideration
+@VALUE: 1,357
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:BusinessCombinationAdvancedConsideration
+@COMMON_NAME: Business Combination Advanced Consideration
+@VALUE: 1,357
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:BusinessCombinationMaximumRestrictedStockUnitsIssuable
+@COMMON_NAME: Business Combination Maximum Restricted Stock Units Issuable
+@VALUE: 1.5
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: idc4175b83534468d9c73ee6f141c7921_I20200913
+
+@CONCEPT: nvda:Netproceedspaymentsrelatedtoemployeestockplans
+@COMMON_NAME: Netproceedspaymentsrelatedtoemployeestockplans
+@VALUE: 126
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: nvda:Netproceedspaymentsrelatedtoemployeestockplans
+@COMMON_NAME: Netproceedspaymentsrelatedtoemployeestockplans
+@VALUE: 88
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: nvda:NotionalamountofFXforwardcontractnotdesignatedforhedgeaccounting
+@COMMON_NAME: Notionalamountof Fxforwardcontractnotdesignatedforhedgeaccounting
+@VALUE: 402
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:NotionalamountofFXforwardcontractnotdesignatedforhedgeaccounting
+@COMMON_NAME: Notionalamountof Fxforwardcontractnotdesignatedforhedgeaccounting
+@VALUE: 441
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:OutstandingPurchaseObligationsOther
+@COMMON_NAME: Outstanding Purchase Obligations Other
+@VALUE: 396
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:PrepaidRoyaltiesNoncurrent
+@COMMON_NAME: Prepaid Royalties Noncurrent
+@VALUE: 428
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:PrepaidRoyaltiesNoncurrent
+@COMMON_NAME: Prepaid Royalties Noncurrent
+@VALUE: 440
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:ProductWarrantyAndReturnProvisions
+@COMMON_NAME: Product Warranty And Return Provisions
+@VALUE: 45
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: nvda:ProductWarrantyAndReturnProvisions
+@COMMON_NAME: Product Warranty And Return Provisions
+@VALUE: 39
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: nvda:UnrecognizedTaxBenefitNoncurrent
+@COMMON_NAME: Unrecognized Tax Benefit Noncurrent
+@VALUE: 374
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccruedLiabilitiesCurrent
+@VALUE: 1,787
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccruedLiabilitiesCurrent
+@VALUE: 1,725
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AccruedLiabilitiesCurrent
+@VALUE: 1,787
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccruedLiabilitiesCurrent
+@VALUE: 1,725
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AccruedProfessionalFeesCurrentAndNoncurrent
+@VALUE: 33
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AccruedProfessionalFeesCurrentAndNoncurrent
+@VALUE: 26
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AdditionalPaidInCapital
+@VALUE: 9,280
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:AdditionalPaidInCapital
+@VALUE: 8,721
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 486
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2ff3d08f25fd46f2bc98ea8f2b15f565_D20210201-20210502
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 486
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 222
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i918e2fac96854366b99040a31872b171_D20200127-20200426
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 222
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue
+@VALUE: 433
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2d82c61b51da4eb4a200ade580c5e468_D20210201-20210502
+
+@CONCEPT: us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue
+@VALUE: 433
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue
+@VALUE: 221
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2d23ec7da3d24303b4c0a1ef725dd18d_D20200127-20200426
+
+@CONCEPT: us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue
+@VALUE: 221
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:BusinessCombinationConsiderationTransferred1
+@VALUE: 40
+@UNIT_REF: usd
+@DECIMALS: -9
+@CONTEXT_REF: id93ee7912c2b45e095040337e0499f21_D20220101-20220331
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 978
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 847
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 847
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 10,896
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ic322b924b91c413cadee02c177adf898_I20200126
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 978
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 15,494
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i0e6f6d4f45014748ac504272c40e7e7c_I20200426
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect
+@VALUE: 131
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect
+@VALUE: 4,598
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 323
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7a2e7c782de547a8bb29ba37dc5f9e21_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i51e2a5f1ccf44b88bab1a7de37342b59_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icafb5de13ff646e29a7089e8cf99868e_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 48
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4aaf5051e0af4976bfd545fa651c62c3_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 319
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icd8ceab08ea34c40994a87b8fde3e386_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i91ddd110434f400caeaa6c9123acc470_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 690
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 234
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i18a498a645fc4cd2be4273b2bfbbbfd5_I20210131
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 28
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i317f8c8223dd42afbe29c0d6b3a3ea45_I20210131
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 25
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i665b6259693841f2bfae63d8d61c3df3_I20210131
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 37
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5cda771dbda24a53af7a97d5aeb5e978_I20210131
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 313
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iad4ba500f79347899720f298488ab993_I20210131
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i94578dd4d7314226abc9656f6de0535c_I20210131
+
+@CONCEPT: us-gaap:CashEquivalentsAtCarryingValue
+@VALUE: 637
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:CommercialPaper
+@VALUE: no
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CommitmentsAndContingencies
+@VALUE: 
+@UNIT_REF: usd
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CommitmentsAndContingencies
+@VALUE: 
+@UNIT_REF: usd
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:CommonStockDividendsPerShareDeclared
+@VALUE: 0.16
+@UNIT_REF: usdPerShare
+@DECIMALS: INF
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:CommonStockDividendsPerShareDeclared
+@VALUE: 0.16
+@UNIT_REF: usdPerShare
+@DECIMALS: INF
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:CommonStockSharesAuthorized
+@VALUE: 2
+@UNIT_REF: shares
+@DECIMALS: INF
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CommonStockSharesAuthorized
+@VALUE: 4
+@UNIT_REF: shares
+@DECIMALS: INF
+@CONTEXT_REF: i50b745b4da9143b3a307535cd7599ba8_I20210603
+
+@CONCEPT: us-gaap:CommonStockSharesOutstanding
+@VALUE: 620
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i13fbb7b3e5884a1b8452452da106d4e0_I20210131
+
+@CONCEPT: us-gaap:CommonStockSharesOutstanding
+@VALUE: 623
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i20731278418b453d86af82076fb70e4f_I20210502
+
+@CONCEPT: us-gaap:CommonStockSharesOutstanding
+@VALUE: 612
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: ic15ee73d881d4390afeff04d3ac98898_I20200126
+
+@CONCEPT: us-gaap:CommonStockSharesOutstanding
+@VALUE: 615
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i26b710eb613e4d1488de663b5635d118_I20200426
+
+@CONCEPT: us-gaap:CommonStockValue
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:CommonStockValue
+@VALUE: 1
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 13
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: ia895f45c1de7409db91fb967c10fc439_D20210201-20210502
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 16
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: i55ac5ead92664c76b6dd69162bc0a9f5_D20190128-20200126
+
+@CONCEPT: us-gaap:DepreciationAndAmortization
+@VALUE: 281
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:DepreciationAndAmortization
+@VALUE: 107
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:DividendsCommonStockCash
+@VALUE: 99
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i8efd9c4a090b42339886c99b97005a35_D20210201-20210502
+
+@CONCEPT: us-gaap:DividendsCommonStockCash
+@VALUE: 99
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:DividendsCommonStockCash
+@VALUE: 98
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie8efa345a85749589599fa9dd76d974b_D20200127-20200426
+
+@CONCEPT: us-gaap:DividendsCommonStockCash
+@VALUE: 98
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:EmployeeRelatedLiabilitiesCurrent
+@VALUE: 265
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:EmployeeRelatedLiabilitiesCurrent
+@VALUE: 297
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:GainLossOnInvestments
+@VALUE: 133
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:GainLossOnInvestments
+@VALUE: 3
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:Goodwill
+@VALUE: 4,193
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:Goodwill
+@VALUE: 4,193
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:GoodwillPeriodIncreaseDecrease
+@VALUE: no
+@UNIT_REF: usd
+@DECIMALS: 0
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:GrossProfit
+@VALUE: 3,629
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:GrossProfit
+@VALUE: 2,004
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncreaseDecreaseInInventories
+@VALUE: 159
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncreaseDecreaseInInventories
+@VALUE: 151
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherNoncurrentLiabilities
+@VALUE: 47
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherNoncurrentLiabilities
+@VALUE: 10
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:Liabilities
+@VALUE: 12,022
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:Liabilities
+@VALUE: 11,898
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LiabilitiesCurrent
+@VALUE: 4,004
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:LiabilitiesCurrent
+@VALUE: 3,925
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:LineOfCredit
+@VALUE: no
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i3ffb91a136034fa582a8e64e7deb0082_I20210502
+
+@CONCEPT: us-gaap:LineOfCreditFacilityMaximumBorrowingCapacity
+@VALUE: 575
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: i3ffb91a136034fa582a8e64e7deb0082_I20210502
+
+@CONCEPT: us-gaap:LineOfCreditFacilityMaximumBorrowingCapacity
+@VALUE: 575
+@UNIT_REF: usd
+@DECIMALS: INF
+@CONTEXT_REF: ia4c2b831d63a4367915276dc913fc932_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 4,919
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i7a2e7c782de547a8bb29ba37dc5f9e21_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 3,046
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i51e2a5f1ccf44b88bab1a7de37342b59_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 2,821
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icafb5de13ff646e29a7089e8cf99868e_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 836
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i4aaf5051e0af4976bfd545fa651c62c3_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icd8ceab08ea34c40994a87b8fde3e386_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i91ddd110434f400caeaa6c9123acc470_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 11,689
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 4,210
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i18a498a645fc4cd2be4273b2bfbbbfd5_I20210131
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 2,948
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i317f8c8223dd42afbe29c0d6b3a3ea45_I20210131
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 2,821
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i665b6259693841f2bfae63d8d61c3df3_I20210131
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 668
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i5cda771dbda24a53af7a97d5aeb5e978_I20210131
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iad4ba500f79347899720f298488ab993_I20210131
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 67
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i94578dd4d7314226abc9656f6de0535c_I20210131
+
+@CONCEPT: us-gaap:MarketableSecurities
+@VALUE: 10,714
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 11,689
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 10,714
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:NumberOfReportableSegments
+@VALUE: two
+@UNIT_REF: segment
+@DECIMALS: INF
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:NumberOfReportableSegments
+@VALUE: two
+@UNIT_REF: segment
+@DECIMALS: INF
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:OtherAccruedLiabilitiesCurrent
+@VALUE: 65
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherAccruedLiabilitiesCurrent
+@VALUE: 61
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherLiabilitiesNoncurrent
+@VALUE: 1,414
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherLiabilitiesNoncurrent
+@VALUE: 1,375
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherLiabilitiesNoncurrent
+@VALUE: 1,414
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherLiabilitiesNoncurrent
+@VALUE: 1,375
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherLongTermInvestments
+@VALUE: 146
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2bdf66a724cb4b39857eab1a1ae133b9_I20210502
+
+@CONCEPT: us-gaap:OtherLongTermInvestments
+@VALUE: 144
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: ie42e93c5b0c640888a8303850ed4a211_I20210131
+
+@CONCEPT: us-gaap:OtherLongTermInvestments
+@VALUE: 146
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherLongTermInvestments
+@VALUE: 144
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:OtherSundryLiabilitiesNoncurrent
+@VALUE: 50
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:OtherSundryLiabilitiesNoncurrent
+@VALUE: 46
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:PaymentsOfDividends
+@VALUE: 99
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsOfDividends
+@VALUE: 98
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:PaymentsOfDividends
+@VALUE: 99
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 477
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 222
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:PaymentsToAcquireBusinessesGross
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -9
+@CONTEXT_REF: i603b8445a24d42c58df78d06c3fade0a_D20200913-20200913
+
+@CONCEPT: us-gaap:PaymentsToAcquireBusinessesGross
+@VALUE: 10
+@UNIT_REF: usd
+@DECIMALS: -9
+@CONTEXT_REF: id93ee7912c2b45e095040337e0499f21_D20220101-20220331
+
+@CONCEPT: us-gaap:PaymentsToAcquireBusinessesGross
+@VALUE: 2
+@UNIT_REF: usd
+@DECIMALS: -9
+@CONTEXT_REF: i603b8445a24d42c58df78d06c3fade0a_D20200913-20200913
+
+@CONCEPT: us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired
+@VALUE: 34
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired
+@VALUE: 7.13
+@UNIT_REF: usd
+@DECIMALS: -7
+@CONTEXT_REF: i48076cd5391a4143905d3c5439daf088_D20200427-20200427
+
+@CONCEPT: us-gaap:PreferredStockValueOutstanding
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:PreferredStockValueOutstanding
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:ProductWarrantyAccrual
+@VALUE: 30
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:ProductWarrantyAccrual
+@VALUE: 22
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentNet
+@VALUE: 2,268
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentNet
+@VALUE: 2,149
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 429
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 224
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 25
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i3ff1810967064b69badf823fe22796ab_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 21
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: idf4516584e5b4262ae05bdb4e8fd5009_D20200127-20200426
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 276
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: iff9a3a9764064918a2775dee5b71da9a_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 134
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i6e9f86b3c6a14e9391f2071d1e503007_D20200127-20200426
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 128
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if2481610eaea4ec1ae10b3e74be4265c_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 69
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i6fddcdcf8e0f4f14b913f76925fe246f_D20200127-20200426
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 429
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 224
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 429
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: if4411b9715174966bbdb58744ef21517_D20210201-20210502
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 224
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i263f4d21edc941889a424066999c37f0_D20200127-20200426
+
+@CONCEPT: us-gaap:SharesPaidForTaxWithholdingForShareBasedCompensation
+@VALUE: 1
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i7cd2dc991a6541168df363cd73c384cf_D20210201-20210502
+
+@CONCEPT: us-gaap:SharesPaidForTaxWithholdingForShareBasedCompensation
+@VALUE: 1
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i6ca0d03f36674893874397a1db2059f6_D20200127-20200426
+
+@CONCEPT: us-gaap:StockIssuedDuringPeriodSharesEmployeeStockOwnershipPlan
+@VALUE: 4
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i7cd2dc991a6541168df363cd73c384cf_D20210201-20210502
+
+@CONCEPT: us-gaap:StockIssuedDuringPeriodSharesEmployeeStockOwnershipPlan
+@VALUE: 4
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i6ca0d03f36674893874397a1db2059f6_D20200127-20200426
+
+@CONCEPT: us-gaap:StockIssuedDuringPeriodValueEmployeeStockOwnershipPlan
+@VALUE: 126
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2d82c61b51da4eb4a200ade580c5e468_D20210201-20210502
+
+@CONCEPT: us-gaap:StockIssuedDuringPeriodValueEmployeeStockOwnershipPlan
+@VALUE: 126
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:StockIssuedDuringPeriodValueEmployeeStockOwnershipPlan
+@VALUE: 88
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i2d23ec7da3d24303b4c0a1ef725dd18d_D20200127-20200426
+
+@CONCEPT: us-gaap:StockIssuedDuringPeriodValueEmployeeStockOwnershipPlan
+@VALUE: 88
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:StockRepurchaseProgramRemainingAuthorizedRepurchaseAmount1
+@VALUE: 7.24
+@UNIT_REF: usd
+@DECIMALS: -7
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:TreasuryStockValue
+@VALUE: 11,242
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i08a3d69ead47413a9e3c33876311581d_I20210502
+
+@CONCEPT: us-gaap:TreasuryStockValue
+@VALUE: 10,756
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: i1b323a942df1417c8b62827b88857312_I20210131
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 11
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 8
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 44
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 32
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i54118d75cb8347fdb329310ab55d9908_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 44
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 36
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i0189995e508f419591dbed4ebb082be6_D20190128-20200126
+
+@CONCEPT: us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment
+@VALUE: 68
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 632
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 622
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 632
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 622
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 2,528
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 2,488
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i54118d75cb8347fdb329310ab55d9908_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 2,512
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 2,472
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i0189995e508f419591dbed4ebb082be6_D20190128-20200126
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 2,500
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 621
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 614
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 621
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i258a4c4c4e8a41e4950cd798ec0e10e0_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 614
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: icf3a2ac6f65242bbbc1e12e9dfa55a25_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 2,484
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i9610e9203b564ab895ccfa4119b979ba_D20210201-20210502
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 2,456
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i54118d75cb8347fdb329310ab55d9908_D20200127-20200426
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 2,468
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i528a6fb858a3443cb28f6a01a17892bc_D20200127-20210131
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 2,436
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: i0189995e508f419591dbed4ebb082be6_D20190128-20200126
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 2,432
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: ifb4297f009fd44378364a6d26ec68f3b_D20180129-20190127
+
+@SECTION: ITEM_1A_RISK_FACTORS
+@SECTION_TITLE: Risk Factors
+
+@NARRATIVE_TEXT: Other than the risk factors listed below, there have been no material changes from the risk factors previously described under Item 1A of our Annual Report on Form 10-K for the fiscal year ended January 31, 2021.
+
+@NARRATIVE_TEXT: Before you buy our common stock, you should know that making such an investment involves some risks including, but not limited to, the risks described in Item 1A of our Annual Report on Form 10-K for the fiscal year ended January 31, 2021. Additionally, any one of those risks could harm our business, financial condition and results of operations, which could cause our stock price to decline. Additional risks and uncertainties not presently known to us or that we currently deem immaterial may also impair our business operations.
+
+@NARRATIVE_TEXT: The COVID-19 pandemic continues to impact our business and could materially adversely affect our financial condition and results of operations.
+
+@NARRATIVE_TEXT: COVID-19 has spread worldwide, resulting in government authorities implementing numerous measures to try to contain the disease, such as travel bans and restrictions, quarantines, shelter-in-place orders and shutdowns. These measures have impacted, and may further impact, our workforce and operations, the operations of our customers and our partners, and those of our respective vendors and suppliers (including our subcontractors and third-party contract manufacturers). Our critical business operations, including our headquarters, most of our finished goods inventory and many of our key suppliers, are located in regions which have been impacted by COVID-19. Our customers and suppliers worldwide have also been affected and may continue to be affected by COVID-19 related restrictions and closures.
+
+@NARRATIVE_TEXT: The COVID-19 pandemic continues to evolve and affect our business and financial results and it has increased the duration and impact of economic and demand uncertainty. In the first quarter of fiscal year 2022, our Gaming and Data Center market platforms benefited from stronger demand as people continue to work, learn, and play from home. In Professional Visualization, notebook workstations continue to benefit from work-from-home trends and desktop workstations have started to recover as employees return onsite in certain markets.
+
+@SECTION: ITEM_1_FINANCIAL_STATEMENTS
+@SECTION_TITLE: Financial Statements
+
+@NARRATIVE_TEXT: (Unaudited) Three Months Ended May 2,April 26,20212020Revenue$5,661 $3,080 Cost of revenue2,032 1,076 Gross profit3,629 2,004 Operating expenses  Research and development1,153 735 Sales, general and administrative520 293 Total operating expenses1,673 1,028 Income from operations1,956 976 Interest income6 31 Interest expense(53)(25)Other, net135 (1)Other income (expense), net88 5 Income before income tax2,044 981 Income tax expense132 64 Net income$1,912 $917 Net income per share:Basic$3.08 $1.49 Diluted$3.03 $1.47 Weighted average shares used in per share computation:Basic621 614 Diluted632 622
+
+@NARRATIVE_TEXT: (Unaudited) Three Months Ended May 2,April 26,20212020 Net income$1,912 $917 Other comprehensive loss, net of taxCash flow hedges:Net unrealized loss(14)(10)Reclassification adjustments for net realized gain (loss) included in net income9 (1)Net change in unrealized loss(5)(11)Total comprehensive income$1,907 $906
+
+@NARRATIVE_TEXT: (Unaudited)May 2,January 31, 20212021ASSETSCurrent assets:  Cash and cash equivalents$978 $847 Marketable securities11,689 10,714 Accounts receivable, net3,024 2,429 Inventories1,992 1,826 Prepaid expenses and other current assets444 239 Total current assets18,127 16,055 Property and equipment, net2,268 2,149 Operating lease assets727 707 Goodwill4,193 4,193 Intangible assets, net2,613 2,737 Deferred income tax assets778 806 Other assets2,090 2,144 Total assets$30,796 $28,791 LIABILITIES AND SHAREHOLDERS’ EQUITY  Current liabilities:  Accounts payable$1,218 $1,201 Accrued and other current liabilities1,787 1,725 Short-term debt999 999 Total current liabilities4,004 3,925 Long-term debt5,964 5,964 Long-term operating lease liabilities640 634 Other long-term liabilities1,414 1,375 Total liabilities12,022 11,898 Commitments and contingencies - see Note 13Shareholders’ equity:  Preferred stock— — Common stock1 1 Additional paid-in capital9,280 8,721 Treasury stock, at cost(11,242)(10,756)Accumulated other comprehensive income14 19 Retained earnings20,721 18,908 Total shareholders' equity18,774 16,893 Total liabilities and shareholders' equity$30,796 $28,791
+
+@NARRATIVE_TEXT: (Unaudited) Common StockOutstandingAdditional Paid-in CapitalTreasury StockAccumulated Other Comprehensive Income (Loss)Retained EarningsTotal Shareholders' Equity(In millions, except per share data)SharesAmountBalances, January 31, 2021620 $1 $8,721 $(10,756)$19 $18,908 $16,893 Net income— — — — — 1,912 1,912 Other comprehensive loss— — — — (5)— (5)Issuance of common stock from stock plans 4 — 126 — — — 126 Tax withholding related to vesting of restricted stock units(1)— — (486)— — (486)Cash dividends declared and paid ($0.16 per common share)— — — — — (99)(99)Stock-based compensation— — 433 — — — 433 Balances, May 2, 2021623 $1 $9,280 $(11,242)$14 $20,721 $18,774 Balances, January 26, 2020612 $1 $7,045 $(9,814)$1 $14,971 $12,204 Net income— — — — — 917 917 Other comprehensive loss— — — — (11)— (11)Issuance of common stock from stock plans 4 — 88 — — — 88 Tax withholding related to vesting of restricted stock units(1)— — (222)— — (222)Cash dividends declared and paid ($0.16 per common share)— — — — — (98)(98)Stock-based compensation— — 221 — — — 221 Balances, April 26, 2020615 $1 $7,354 $(10,036)$(10)$15,790 $13,099
+
+@NARRATIVE_TEXT: (Unaudited) Three Months EndedMay 2,April 26, 20212020Cash flows from operating activities:  Net income$1,912 $917 Adjustments to reconcile net income to net cash provided by operating activities:Stock-based compensation expense429 224 Depreciation and amortization281 107 Deferred income taxes24 16 (Gains) losses on investments in non-affiliates, net(133)3 Other(3)1 Changes in operating assets and liabilities, net of acquisitions:Accounts receivable(595)(249)Inventories(159)(151)Prepaid expenses and other assets2 (8)Accounts payable70 71 Accrued and other current liabilities(1)(32)Other long-term liabilities47 10 Net cash provided by operating activities1,874 909 Cash flows from investing activities:  Proceeds from maturities of marketable securities3,140 — Proceeds from sales of marketable securities358 1 Purchases of marketable securities(4,470)(861)Purchases related to property and equipment and intangible assets(298)(155)Investments and other, net(2)(6)Acquisitions, net of cash acquired— (34)Net cash used in investing activities(1,272)(1,055)Cash flows from financing activities:  Proceeds related to employee stock plans126 88 Payments related to tax on restricted stock units(477)(222)Dividends paid(99)(98)Principal payments on property and equipment(19)— Other(2)(3)Issuance of debt, net of issuance costs— 4,979 Net cash provided by (used in) financing activities(471)4,744 Change in cash and cash equivalents131 4,598 Cash and cash equivalents at beginning of period847 10,896 Cash and cash equivalents at end of period$978 $15,494
+
+@SECTION: ITEM_2_MD_AND_A
+@SECTION_TITLE: Management's Discussion and Analysis
+
+@NARRATIVE_TEXT: This Quarterly Report on Form 10-Q contains forward-looking statements within the meaning of Section 27A of the Securities Act of 1933, as amended, and Section 21E of the Securities Exchange Act of 1934, as amended, which are subject to the “safe harbor” created by those sections. Forward-looking statements are based on our management’s beliefs and assumptions and on information currently available to our management. In some cases, you can identify forward-looking statements by terms such as “may,” “will,” “should,” “could,” “goal,” “would,” “expect,” “plan,” “anticipate,” “believe,” “estimate,” “project,” “predict,” “potential” and similar expressions intended to identify forward-looking statements. Other statements in this Quarterly Report on Form 10-Q regarding the potential future impact of the COVID-19 pandemic on the Company’s business and results of operations are forward-looking statements. These statements involve known and unknown risks, uncertainties and other factors, which may cause our actual results, performance, time frames or achievements to be materially different from any future results, performance, time frames or achievements expressed or implied by the forward-looking statements. We discuss many of these risks, uncertainties and other factors in this Quarterly Report on Form 10-Q and in our Annual Report on Form 10-K for the fiscal year ended January 31, 2021 in greater detail under the heading “Risk Factors” of such reports. Given these risks, uncertainties and other factors, you should not place undue reliance on these forward-looking statements. Also, these forward-looking statements represent our estimates and assumptions only as of the date of this filing. You should read this Quarterly Report on Form 10-Q completely and with the understanding that our actual future results may be materially different from what we expect. We hereby qualify our forward-looking statements by these cautionary statements. Except as required by law, we assume no obligation to update these forward-looking statements publicly, or to update the reasons actual results could differ materially from those anticipated in these forward-looking statements, even if new information becomes available in the future.
+
+@NARRATIVE_TEXT: All references to “NVIDIA,” “we,” “us,” “our” or the “Company” mean NVIDIA Corporation and its subsidiaries.
+
+@NARRATIVE_TEXT: NVIDIA, the NVIDIA logo, GeForce, GeForce NOW, GeForce RTX, Maxine, Mellanox, NVIDIA DRIVE, NVIDIA DRIVE Hyperion, NVIDIA DRIVE Orin, NVIDIA Grace, NVIDIA GRID, NVIDIA Jetson, NVIDIA Omniverse, NVIDIA RTX, Quadro and Quadro RTX are trademarks and/or registered trademarks of NVIDIA Corporation in the United States and/or other countries. Other company and product names may be trademarks of the respective companies with which they are associated. Features, pricing, availability, and specifications are subject to change without notice.
+
+@NARRATIVE_TEXT: The following discussion and analysis of our financial condition and results of operations should be read in conjunction with the risk factors set forth in Item 1A. “Risk Factors” of our Annual Report on Form 10-K for the fiscal year ended January 31, 2021 and Part II, Item 1A. “Risk Factors” of this Quarterly Report on Form 10-Q and our Condensed Consolidated Financial Statements and related Notes thereto, as well as other cautionary statements and risks described elsewhere in this Quarterly Report on Form 10-Q, before deciding to purchase or sell shares of our common stock.
+
+@NARRATIVE_TEXT: NVIDIA pioneered accelerated computing to help solve the most challenging computational problems. Since our original focus on PC graphics, we have expanded to several other large and important computationally intensive fields. Fueled by the sustained demand for exceptional 3D graphics and the scale of the gaming market, NVIDIA has leveraged its GPU architecture to create platforms for scientific computing, AI, data science, autonomous vehicles, or AV, robotics, and augmented and virtual reality, or AR and VR.
+
+@SECTION: ITEM_3_MARKET_RISK
+@SECTION_TITLE: Quantitative and Qualitative Disclosures About Market Risk
+
+@NARRATIVE_TEXT: Financial market risks related to investment and interest rate risk are described in our Annual Report on Form 10-K for the fiscal year ended January 31, 2021. As of May 2, 2021, there have been no material changes, including the impact of the COVID-19 pandemic, to the financial market risks described as of January 31, 2021.
+
+@NARRATIVE_TEXT: The impact of foreign currency transactions related to foreign exchange rate risk is described in our Annual Report on Form 10-K for the fiscal year ended January 31, 2021. As of May 2, 2021, there have been no material changes, including the impact of the COVID-19 pandemic, to the foreign exchange rate risks described as of January 31, 2021.
+
+@NARRATIVE_TEXT: Refer to Note 11 of the Notes to Condensed Consolidated Financial Statements for additional information.
+
+@NARRATIVE_TEXT: Based on their evaluation as of May 2, 2021, our management, including our Chief Executive Officer and Chief Financial Officer, has concluded that our disclosure controls and procedures (as defined in Rule 13a-15(e) under the Securities Exchange Act of 1934, as amended) were effective to provide reasonable assurance.
+
+@NARRATIVE_TEXT: There were no changes in our internal control over financial reporting during the first quarter of fiscal year 2022 that have materially affected, or are reasonably likely to materially affect, our internal control over financial reporting.
+
+@SECTION: ITEM_4_CONTROLS
+@SECTION_TITLE: Controls and Procedures
+
+@NARRATIVE_TEXT: Based on their evaluation as of May 2, 2021, our management, including our Chief Executive Officer and Chief Financial Officer, has concluded that our disclosure controls and procedures (as defined in Rule 13a-15(e) under the Securities Exchange Act of 1934, as amended) were effective to provide reasonable assurance.
+
+@NARRATIVE_TEXT: There were no changes in our internal control over financial reporting during the first quarter of fiscal year 2022 that have materially affected, or are reasonably likely to materially affect, our internal control over financial reporting.
+
+@NARRATIVE_TEXT: Our management, including our Chief Executive Officer and Chief Financial Officer, does not expect that our disclosure controls and procedures or our internal controls, will prevent all error and all fraud. A control system, no matter how well conceived and operated, can provide only reasonable, not absolute, assurance that the objectives of the control system are met. Further, the design of a control system must reflect the fact that there are resource constraints, and the benefits of controls must be considered relative to their costs. Because of the inherent limitations in all control systems, no evaluation of controls can provide absolute assurance that all control issues and instances of fraud, if any, within NVIDIA have been detected.
+
+@NARRATIVE_TEXT: Refer to Part I, Item 1, Note 13 of the Notes to Condensed Consolidated Financial Statements for a discussion of significant developments in our legal proceedings since January 31, 2021. Also refer to Item 3, “Legal Proceedings” in our Annual Report on Form 10-K for the fiscal year ended January 31, 2021 for a prior discussion of our legal proceedings.
+
+@NARRATIVE_TEXT: Other than the risk factors listed below, there have been no material changes from the risk factors previously described under Item 1A of our Annual Report on Form 10-K for the fiscal year ended January 31, 2021.
+
+@DATA_INTEGRITY_REPORT
+Table preservation metrics:
+- XBRL facts: 688
+- XBRL tables created: 4
+- Text tables detected: 0
+- Total tables included: 4
+- Table preservation rate: 100.0%
+- Total table rows: 226
+- Narrative paragraphs: 370
+- Narrative paragraphs included: 25
+
+@DOCUMENT_COVERAGE
+10-Q Coverage: 50.0% of standard sections found
+Found 4 of 8 standard 10-Q sections:
+Item 1 FINANCIAL STATEMENTS, Item 2 MD AND A, Item 3 MARKET RISK, Item 4 CONTROLS
+Missing 4 section(s):
+Item 1A RISK FACTORS, Item 4 MINE SAFETY, Item 5 OTHER INFORMATION, Item 6 EXHIBITS
+Note: Missing sections may not exist in the original document
+
+@CONTEXT_REFERENCE_GUIDE
+This section provides a consolidated reference for all time periods used in this document.
+
+@DATA_DICTIONARY:
+Context_Code | Semantic_Code | Category | Type | Segment | Period | Description
+------------|---------------|----------|------|---------|--------|------------
+Note: No detailed context information available for this filing
+
+@VERIFICATION_KEYS:
+These formulas can be used to verify data consistency:
+- No context information available for formula verification
+
+@PERIOD_CONTEXTS
+No detailed period context information available
+
+@INSTANT_CONTEXTS
+No detailed instant context information available
+
+@EXAMPLE_EXTRACTION
+Example of how to extract and format data from this document:
+
+```python
+# Extract revenue information for specific period with hierarchy awareness
+def extract_revenue(document, context_code):
+    # Find the Revenue section
+    revenue_section = find_section(document, '<Revenue>')
+    
+    # Extract all line items with their context codes
+    revenue_data = {}
+    totals = {}
+    parent_child_map = {}
+    
+    # First pass: collect all items and identify parent-child relationships
+    for line in revenue_section:
+        if context_code in line.split('|')[1].strip():
+            columns = line.split('|')
+            raw_item_name = columns[0].strip()
+            
+            # Parse hierarchy information
+            if raw_item_name.startswith('@TOTAL:'):
+                # This is a total item
+                item_name = raw_item_name.replace('@TOTAL:', '').strip()
+                is_total = True
+                level = 0  # Top level
+            elif raw_item_name.startswith('@SUBTOTAL:'):
+                # This is a subtotal item
+                item_name = raw_item_name.replace('@SUBTOTAL:', '').strip()
+                is_total = True
+                level = 1  # Mid level
+            elif '@CHILD_OF:' in raw_item_name:
+                # This is a child item, extract its parent
+                parts = raw_item_name.split('@CHILD_OF:')
+                item_name = parts[0].replace('↳', '').strip()
+                parent_name = parts[1].strip()
+                parent_child_map[item_name] = parent_name
+                is_total = False
+                level = 2  # Child level
+            else:
+                # Regular item
+                item_name = raw_item_name.strip()
+                is_total = False
+                level = 1  # Base level
+            
+            # Find the value corresponding to the context code
+            value = get_value_for_context(columns, context_code)
+            
+            # Store with hierarchy information
+            if is_total:
+                totals[item_name] = {
+                    'value': value,
+                    'level': level,
+                    'components': []  # Will be filled in second pass
+                }
+            else:
+                revenue_data[item_name] = {
+                    'value': value,
+                    'level': level,
+                    'parent': parent_child_map.get(item_name)
+                }
+    
+    # Second pass: associate children with their parent totals
+    for item_name, item_data in revenue_data.items():
+        parent = item_data.get('parent')
+        if parent and parent in totals:
+            totals[parent]['components'].append(item_name)
+    
+    # Combine the data structures
+    result = {
+        'line_items': revenue_data,
+        'totals': totals,
+        # Include verification formulas
+        'verify': {
+            'sum_components': 'Sum of all components should equal the total',
+            'formula': 'Total_Revenue = Product_Revenue + Service_Revenue + Other_Revenue'
+        }
+    }
+    return result
+```
+
+Example hierarchical data format for extraction:
+
+```json
+{
+  "line_items": {
+    "Product_Revenue": {
+      "value": 72480,
+      "level": 1,
+      "parent": "Total_Revenue"
+    },
+    "Service_Revenue": {
+      "value": 16320,
+      "level": 1,
+      "parent": "Total_Revenue"
+    },
+    "Automotive_Revenue": {
+      "value": 52300,
+      "level": 2,
+      "parent": "Product_Revenue"
+    },
+    "Energy_Revenue": {
+      "value": 20180,
+      "level": 2,
+      "parent": "Product_Revenue"
+    }
+  },
+  "totals": {
+    "Total_Revenue": {
+      "value": 88800,
+      "level": 0,
+      "components": ["Product_Revenue", "Service_Revenue"],
+      "contexts": {
+        "c-1": 88800,           // Using short code
+        "FY2023": 88800,        // Using semantic code
+        "Consolidated_2023": 88800  // Using segment information
+      }
+    },
+    "Product_Revenue": {
+      "value": 72480,
+      "level": 1,
+      "components": ["Automotive_Revenue", "Energy_Revenue"]
+    }
+  },
+  "verify": {
+    "equations": [
+      "Total_Revenue = Product_Revenue + Service_Revenue",
+      "Product_Revenue = Automotive_Revenue + Energy_Revenue"
+    ],
+    "verified": true
+  },
+  "metadata": {
+    "statement_type": "Income_Statement",
+    "period": "FY2023",
+    "hierarchical": true
+  }
+}
+```
+
+Note: This hierarchical structure makes parent-child relationships explicit, enabling accurate calculation and validation of totals. The hierarchy levels indicate:
+- Level 0: Main totals (like Total Revenue)
+- Level 1: Major categories (like Product Revenue)
+- Level 2: Subcategories (like Automotive Revenue)
+
+You can use either the numeric short codes (c-1, c-2) or the semantic codes (FY2023, BS_2023_12_31) to access context values. The semantic codes are more descriptive and self-explanatory.

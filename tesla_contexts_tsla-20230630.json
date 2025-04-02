@@ -1,0 +1,2140 @@
+{
+  "C_2c9b8fa0-4a67-4528-903e-92d0f81e7d82": {
+    "id": "C_2c9b8fa0-4a67-4528-903e-92d0f81e7d82",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_edfd0d36-1af9-44a2-b2ae-9d5cd2138a90": {
+    "id": "C_edfd0d36-1af9-44a2-b2ae-9d5cd2138a90",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_08478125-d23a-40b2-8810-03e4b7451a62": {
+    "id": "C_08478125-d23a-40b2-8810-03e4b7451a62",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_985df6ff-166e-421d-8f82-6c4b2336d303": {
+    "id": "C_985df6ff-166e-421d-8f82-6c4b2336d303",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_6109aff3-1f23-4afb-be52-15c7e1ef1926": {
+    "id": "C_6109aff3-1f23-4afb-be52-15c7e1ef1926",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_ea8c9740-4f39-446a-a4c2-f547370749ac": {
+    "id": "C_ea8c9740-4f39-446a-a4c2-f547370749ac",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_3c6afc22-e1c9-49a0-9e99-5edd2d4973c0": {
+    "id": "C_3c6afc22-e1c9-49a0-9e99-5edd2d4973c0",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_50ca5138-d18e-44ca-b2db-c95842b4f997": {
+    "id": "C_50ca5138-d18e-44ca-b2db-c95842b4f997",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_b12a533e-43b8-4e2b-9895-7a039040b7d0": {
+    "id": "C_b12a533e-43b8-4e2b-9895-7a039040b7d0",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_1f643cfe-df18-4eb5-8f77-c0b26232b084": {
+    "id": "C_1f643cfe-df18-4eb5-8f77-c0b26232b084",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_b00b9c41-f88a-411e-b880-cb37cda32163": {
+    "id": "C_b00b9c41-f88a-411e-b880-cb37cda32163",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_2c4381aa-617c-4ff6-9091-7a422374beec": {
+    "id": "C_2c4381aa-617c-4ff6-9091-7a422374beec",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_caed3526-482a-4825-a3e4-93eefb7a86b9": {
+    "id": "C_caed3526-482a-4825-a3e4-93eefb7a86b9",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_0b10f2a6-bc0a-48ac-b9b4-6034bf309dda": {
+    "id": "C_0b10f2a6-bc0a-48ac-b9b4-6034bf309dda",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8743c2e3-f456-4ea0-ba18-552d840f35e3": {
+    "id": "C_8743c2e3-f456-4ea0-ba18-552d840f35e3",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_18858fcc-eacf-4c1d-b9b0-4d13960cb76c": {
+    "id": "C_18858fcc-eacf-4c1d-b9b0-4d13960cb76c",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_985393ef-f57c-4f15-928a-1dffd881e613": {
+    "id": "C_985393ef-f57c-4f15-928a-1dffd881e613",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_55e7a7aa-b3a7-4495-a15f-a2b2f35c5f2b": {
+    "id": "C_55e7a7aa-b3a7-4495-a15f-a2b2f35c5f2b",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_f9a89c05-b986-42c6-a2aa-06ab00a52cb0": {
+    "id": "C_f9a89c05-b986-42c6-a2aa-06ab00a52cb0",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_d5bae973-f228-4437-87ba-e41862f86da6": {
+    "id": "C_d5bae973-f228-4437-87ba-e41862f86da6",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_363221df-2ce3-4cc7-88e1-7c46836bccec": {
+    "id": "C_363221df-2ce3-4cc7-88e1-7c46836bccec",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_c51b7564-059f-498b-aac3-b9e1f710b985": {
+    "id": "C_c51b7564-059f-498b-aac3-b9e1f710b985",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_edab41ae-65b6-4a97-9e2f-d1c40642bcce": {
+    "id": "C_edab41ae-65b6-4a97-9e2f-d1c40642bcce",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_e1a27e5f-d68a-46a6-9fe2-da1645280bf9": {
+    "id": "C_e1a27e5f-d68a-46a6-9fe2-da1645280bf9",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_55d12fda-18ec-45e4-b26c-323a7fce8adb": {
+    "id": "C_55d12fda-18ec-45e4-b26c-323a7fce8adb",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_17d81f71-916f-4fdb-9e07-95920f890d5f": {
+    "id": "C_17d81f71-916f-4fdb-9e07-95920f890d5f",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_4a5f751f-232a-492b-bac8-55f92f8f4b0f": {
+    "id": "C_4a5f751f-232a-492b-bac8-55f92f8f4b0f",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8f953f9e-2e5c-40e1-ac33-5522ce78c7eb": {
+    "id": "C_8f953f9e-2e5c-40e1-ac33-5522ce78c7eb",
+    "period": {
+      "startDate": "2023-04-03",
+      "endDate": "2023-04-03"
+    }
+  },
+  "C_2400e3c7-c7f0-4de8-b0f7-682ccf176559": {
+    "id": "C_2400e3c7-c7f0-4de8-b0f7-682ccf176559",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_c11e969f-2250-4493-a0c0-9170f9c92607": {
+    "id": "C_c11e969f-2250-4493-a0c0-9170f9c92607",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_89374998-87f0-494e-b569-52f3f3fb9b90": {
+    "id": "C_89374998-87f0-494e-b569-52f3f3fb9b90",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_58671911-14cd-4281-b5b3-7dcc5f2dfb99": {
+    "id": "C_58671911-14cd-4281-b5b3-7dcc5f2dfb99",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_79c1e4d4-cf7e-41ba-87e6-04184cdec7a9": {
+    "id": "C_79c1e4d4-cf7e-41ba-87e6-04184cdec7a9",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_6f849d86-ad54-4bb4-a64a-e15abf7acbee": {
+    "id": "C_6f849d86-ad54-4bb4-a64a-e15abf7acbee",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_3f10a4b7-bdcd-4d04-808e-40b561e10606": {
+    "id": "C_3f10a4b7-bdcd-4d04-808e-40b561e10606",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5d044d1a-9fec-4bc7-a12d-dacbd232272b": {
+    "id": "C_5d044d1a-9fec-4bc7-a12d-dacbd232272b",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5ab2b9a3-d252-4c26-8814-fe1d97f186ef": {
+    "id": "C_5ab2b9a3-d252-4c26-8814-fe1d97f186ef",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_f551db03-3c81-448c-9ab5-04b31f93ddb8": {
+    "id": "C_f551db03-3c81-448c-9ab5-04b31f93ddb8",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_e4328b96-da85-4bbb-a4f0-ea86a375fbfa": {
+    "id": "C_e4328b96-da85-4bbb-a4f0-ea86a375fbfa",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_1a248f84-ea9b-4850-9e2a-c1f27cf9ca17": {
+    "id": "C_1a248f84-ea9b-4850-9e2a-c1f27cf9ca17",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_a86f9a04-38e2-43a4-b958-55ecbf0e53a8": {
+    "id": "C_a86f9a04-38e2-43a4-b958-55ecbf0e53a8",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_99356707-ffac-47c4-98e8-4f0b3cc12c22": {
+    "id": "C_99356707-ffac-47c4-98e8-4f0b3cc12c22",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_88ce3237-31f9-4488-9b66-4dfd50b0d0e8": {
+    "id": "C_88ce3237-31f9-4488-9b66-4dfd50b0d0e8",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_e0bc4d63-cd9f-41b3-a517-3e376d186141": {
+    "id": "C_e0bc4d63-cd9f-41b3-a517-3e376d186141",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_ef222274-3650-4ff8-b255-43620daa619d": {
+    "id": "C_ef222274-3650-4ff8-b255-43620daa619d",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_15fc91e2-4741-4820-8288-4796a465ca24": {
+    "id": "C_15fc91e2-4741-4820-8288-4796a465ca24",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_68569e63-4e01-4fec-b9b9-6e5ba33b4ea7": {
+    "id": "C_68569e63-4e01-4fec-b9b9-6e5ba33b4ea7",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_41c9e98c-15f1-4d1e-a68f-c9cb2d9bb3e9": {
+    "id": "C_41c9e98c-15f1-4d1e-a68f-c9cb2d9bb3e9",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_9cc86fc9-d8e7-4d7d-9859-d7e59e36bdd8": {
+    "id": "C_9cc86fc9-d8e7-4d7d-9859-d7e59e36bdd8",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_abb27d08-5dca-4f64-874e-c1e8deb77aa9": {
+    "id": "C_abb27d08-5dca-4f64-874e-c1e8deb77aa9",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_82f45443-6a94-4557-b0ae-989778b281b5": {
+    "id": "C_82f45443-6a94-4557-b0ae-989778b281b5",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_13769b36-1bbb-4a79-8f6e-72aa0c6c49ee": {
+    "id": "C_13769b36-1bbb-4a79-8f6e-72aa0c6c49ee",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_424beb3d-efab-4980-a92b-8b45c3a6cf48": {
+    "id": "C_424beb3d-efab-4980-a92b-8b45c3a6cf48",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_c3d61489-caa1-4cb0-89a5-c3089f840970": {
+    "id": "C_c3d61489-caa1-4cb0-89a5-c3089f840970",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_9ffb095c-1598-48c0-930e-1727cd09c0a5": {
+    "id": "C_9ffb095c-1598-48c0-930e-1727cd09c0a5",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_dc5cce17-19f7-481e-bb1d-f29ed7fc21bb": {
+    "id": "C_dc5cce17-19f7-481e-bb1d-f29ed7fc21bb",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_fb8c34cb-1e7f-42e7-b567-d68a7526a056": {
+    "id": "C_fb8c34cb-1e7f-42e7-b567-d68a7526a056",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_a6c87024-7950-4a34-bddf-488042170606": {
+    "id": "C_a6c87024-7950-4a34-bddf-488042170606",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_b25bbc56-4a7d-4343-9cec-4f5dfaff9793": {
+    "id": "C_b25bbc56-4a7d-4343-9cec-4f5dfaff9793",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_8d848242-f619-4a72-8fa6-bbb8c902efc1": {
+    "id": "C_8d848242-f619-4a72-8fa6-bbb8c902efc1",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a8f8d77a-39ec-4ff5-b56c-e2111c7f584e": {
+    "id": "C_a8f8d77a-39ec-4ff5-b56c-e2111c7f584e",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_1ab6f8a4-172f-4970-a56b-e92cee8cad02": {
+    "id": "C_1ab6f8a4-172f-4970-a56b-e92cee8cad02",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5e44d789-856e-4b63-aaee-0d08f65240ce": {
+    "id": "C_5e44d789-856e-4b63-aaee-0d08f65240ce",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_691e11e8-3d5a-45ad-ba45-589a2b255700": {
+    "id": "C_691e11e8-3d5a-45ad-ba45-589a2b255700",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_3db7c237-7c31-4fbb-8174-37cb763df8d3": {
+    "id": "C_3db7c237-7c31-4fbb-8174-37cb763df8d3",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_93456b2a-63b6-48c1-9b27-bc7c6ecfe005": {
+    "id": "C_93456b2a-63b6-48c1-9b27-bc7c6ecfe005",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_daccbca2-b03a-4068-aa00-8020a16a6e71": {
+    "id": "C_daccbca2-b03a-4068-aa00-8020a16a6e71",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_748578d5-7888-4bea-8762-c5aa28f00b36": {
+    "id": "C_748578d5-7888-4bea-8762-c5aa28f00b36",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_e1dadd29-4878-463c-9984-01ad5cba7fe6": {
+    "id": "C_e1dadd29-4878-463c-9984-01ad5cba7fe6",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_3b36f120-a221-48ac-913d-c39ebf760783": {
+    "id": "C_3b36f120-a221-48ac-913d-c39ebf760783",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_b0a03065-345f-4757-947e-7824058da96b": {
+    "id": "C_b0a03065-345f-4757-947e-7824058da96b",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_6eb36a3a-9908-4809-97fc-d701b9fb99e8": {
+    "id": "C_6eb36a3a-9908-4809-97fc-d701b9fb99e8",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_4278a13d-91a7-4951-9907-d4e463e7802a": {
+    "id": "C_4278a13d-91a7-4951-9907-d4e463e7802a",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_0e260896-984d-477f-a3a2-5d46e46f13e5": {
+    "id": "C_0e260896-984d-477f-a3a2-5d46e46f13e5",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_2bdda95a-2152-4a0d-b43f-1c4855030561": {
+    "id": "C_2bdda95a-2152-4a0d-b43f-1c4855030561",
+    "period": {
+      "startDate": "2018-10-17",
+      "endDate": "2021-03-08"
+    }
+  },
+  "C_0c83343e-a925-4148-a6c5-4779a0487bdc": {
+    "id": "C_0c83343e-a925-4148-a6c5-4779a0487bdc",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_54a8b3b8-3c2a-4615-be5c-f2ca8bad4388": {
+    "id": "C_54a8b3b8-3c2a-4615-be5c-f2ca8bad4388",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_093becb0-251b-44d0-9a0d-648bacb9b2a4": {
+    "id": "C_093becb0-251b-44d0-9a0d-648bacb9b2a4",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_c814c22b-1898-4bfc-99b2-4b4e09ae540f": {
+    "id": "C_c814c22b-1898-4bfc-99b2-4b4e09ae540f",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_9f37658e-859f-4543-918d-6891c08caf22": {
+    "id": "C_9f37658e-859f-4543-918d-6891c08caf22",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_082c565b-d284-410e-9482-c5ce45b2e9f0": {
+    "id": "C_082c565b-d284-410e-9482-c5ce45b2e9f0",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_70fed3fb-8fba-42b4-8470-cbf4ba04646c": {
+    "id": "C_70fed3fb-8fba-42b4-8470-cbf4ba04646c",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_8f694ac2-6c63-4429-9ce5-ccb8ee0428d4": {
+    "id": "C_8f694ac2-6c63-4429-9ce5-ccb8ee0428d4",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_3efc97e0-b5a5-48bb-83df-f97bccacf2e6": {
+    "id": "C_3efc97e0-b5a5-48bb-83df-f97bccacf2e6",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_67bfe196-947d-492a-8cf7-fd9bc1931ba1": {
+    "id": "C_67bfe196-947d-492a-8cf7-fd9bc1931ba1",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_1c246db4-2116-436a-9062-0d551ae5f2ba": {
+    "id": "C_1c246db4-2116-436a-9062-0d551ae5f2ba",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_d6c7e8c7-cb86-49a2-aaf7-f042bd132703": {
+    "id": "C_d6c7e8c7-cb86-49a2-aaf7-f042bd132703",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_6349c80d-bc91-4f43-a6b9-06e505f48648": {
+    "id": "C_6349c80d-bc91-4f43-a6b9-06e505f48648",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_8ef8197d-1cb0-45cb-bf6d-77da173041d5": {
+    "id": "C_8ef8197d-1cb0-45cb-bf6d-77da173041d5",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_a0693043-7659-469d-964b-9571b7ad5115": {
+    "id": "C_a0693043-7659-469d-964b-9571b7ad5115",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_0cdef38c-8a60-49c7-a333-1ad0cbc2e9f5": {
+    "id": "C_0cdef38c-8a60-49c7-a333-1ad0cbc2e9f5",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_142f0237-4c9f-494e-89bc-ea44e93d2c5f": {
+    "id": "C_142f0237-4c9f-494e-89bc-ea44e93d2c5f",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_e0d63daf-9f1d-44c9-9fca-38ceefc17180": {
+    "id": "C_e0d63daf-9f1d-44c9-9fca-38ceefc17180",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_90d6d40b-2475-4580-b9f5-39098e59e9bb": {
+    "id": "C_90d6d40b-2475-4580-b9f5-39098e59e9bb",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_ebf0b90e-9390-4abb-bd67-7595c74f0b3d": {
+    "id": "C_ebf0b90e-9390-4abb-bd67-7595c74f0b3d",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_dc3e7441-c1b9-4487-8d89-63d1dbfb19c6": {
+    "id": "C_dc3e7441-c1b9-4487-8d89-63d1dbfb19c6",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_b3eb11d7-22f3-49c8-96cc-7a2a6c7b5b85": {
+    "id": "C_b3eb11d7-22f3-49c8-96cc-7a2a6c7b5b85",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_68b0a4f9-a939-40e5-bc27-0911e216285b": {
+    "id": "C_68b0a4f9-a939-40e5-bc27-0911e216285b",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_ad8122b8-7ca8-4c8d-ad58-1bb6b80ddfe8": {
+    "id": "C_ad8122b8-7ca8-4c8d-ad58-1bb6b80ddfe8",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_8fa73c0b-3a6d-4d19-a198-717509ff38af": {
+    "id": "C_8fa73c0b-3a6d-4d19-a198-717509ff38af",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_d5e0d903-765c-49ba-a7a6-4b28fa1c02a7": {
+    "id": "C_d5e0d903-765c-49ba-a7a6-4b28fa1c02a7",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_e5995055-9583-4bcd-aa96-13eba4d750a5": {
+    "id": "C_e5995055-9583-4bcd-aa96-13eba4d750a5",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_c18170c2-4432-4033-a3b9-49a3b9084f9c": {
+    "id": "C_c18170c2-4432-4033-a3b9-49a3b9084f9c",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_61db9c0a-2133-4350-b7c5-5b8b9fbf4c0a": {
+    "id": "C_61db9c0a-2133-4350-b7c5-5b8b9fbf4c0a",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_f7dc3b80-7faf-4207-9ea6-108baef2cbb4": {
+    "id": "C_f7dc3b80-7faf-4207-9ea6-108baef2cbb4",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_b52136ea-ed5f-4a1c-ba2a-4e407a013017": {
+    "id": "C_b52136ea-ed5f-4a1c-ba2a-4e407a013017",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5149ec7f-fd24-4915-86d9-8c4b27125c64": {
+    "id": "C_5149ec7f-fd24-4915-86d9-8c4b27125c64",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_542c8030-dbf2-4d94-b917-33101799862a": {
+    "id": "C_542c8030-dbf2-4d94-b917-33101799862a",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_8fbf4fc3-3c97-44de-8a10-e8ce00f9ef47": {
+    "id": "C_8fbf4fc3-3c97-44de-8a10-e8ce00f9ef47",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_1355b0d5-8f76-43d9-a052-82c178c8cb9e": {
+    "id": "C_1355b0d5-8f76-43d9-a052-82c178c8cb9e",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_52d98cd8-718d-4415-82c3-ffc07b83056c": {
+    "id": "C_52d98cd8-718d-4415-82c3-ffc07b83056c",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_bc693a01-ef07-4626-a20a-0108093861a9": {
+    "id": "C_bc693a01-ef07-4626-a20a-0108093861a9",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_0b0c18fa-ff21-4583-b191-03456a8e612c": {
+    "id": "C_0b0c18fa-ff21-4583-b191-03456a8e612c",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_34337789-cf19-4273-a127-16581c71ec70": {
+    "id": "C_34337789-cf19-4273-a127-16581c71ec70",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_eb4de0a0-2342-4630-a76a-c0462eb7f881": {
+    "id": "C_eb4de0a0-2342-4630-a76a-c0462eb7f881",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_18a0976b-a73f-4e8a-b038-89f4cab18b05": {
+    "id": "C_18a0976b-a73f-4e8a-b038-89f4cab18b05",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_a6b4bced-bab3-4782-baa8-dd85de020d24": {
+    "id": "C_a6b4bced-bab3-4782-baa8-dd85de020d24",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_d905cc9c-f67c-4a0d-ab90-69759f1ab934": {
+    "id": "C_d905cc9c-f67c-4a0d-ab90-69759f1ab934",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_86d6a577-0b89-45ce-bffb-51d6f6ca01a7": {
+    "id": "C_86d6a577-0b89-45ce-bffb-51d6f6ca01a7",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_5420f562-95cf-467a-aab3-426476bd59d4": {
+    "id": "C_5420f562-95cf-467a-aab3-426476bd59d4",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_ca4f87dd-3da1-4db2-95dd-a88d15c7ed4b": {
+    "id": "C_ca4f87dd-3da1-4db2-95dd-a88d15c7ed4b",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5aa14946-8ef5-443a-afed-a5ec93f77564": {
+    "id": "C_5aa14946-8ef5-443a-afed-a5ec93f77564",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_cc390b1b-de5e-4c99-80d8-8b939ec7cc92": {
+    "id": "C_cc390b1b-de5e-4c99-80d8-8b939ec7cc92",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_81d689c1-7608-44c5-a7ea-736bbcd903e7": {
+    "id": "C_81d689c1-7608-44c5-a7ea-736bbcd903e7",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_71d085ea-2953-4d74-83b9-142566a30b56": {
+    "id": "C_71d085ea-2953-4d74-83b9-142566a30b56",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_1332403e-d8e4-4b09-ba12-15480b27f982": {
+    "id": "C_1332403e-d8e4-4b09-ba12-15480b27f982",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_500a50a7-0f09-4bf4-b9ee-ff2efcfc0835": {
+    "id": "C_500a50a7-0f09-4bf4-b9ee-ff2efcfc0835",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_402b55d3-c406-4c20-a28d-52f48e5ebf8a": {
+    "id": "C_402b55d3-c406-4c20-a28d-52f48e5ebf8a",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_6f37bcf9-93da-4794-b199-e1025e4647ac": {
+    "id": "C_6f37bcf9-93da-4794-b199-e1025e4647ac",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_992c6164-f591-45dc-8ff8-5fc0d0078179": {
+    "id": "C_992c6164-f591-45dc-8ff8-5fc0d0078179",
+    "period": {
+      "startDate": "2022-04-13",
+      "endDate": "2022-04-13"
+    }
+  },
+  "C_6a8cb6c8-e982-4c1e-8547-be94551727c0": {
+    "id": "C_6a8cb6c8-e982-4c1e-8547-be94551727c0",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_c06aaded-6db5-4b47-850d-d406f655601e": {
+    "id": "C_c06aaded-6db5-4b47-850d-d406f655601e",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_d1dd7326-ce7b-4cc0-b0aa-2bc075bbafc2": {
+    "id": "C_d1dd7326-ce7b-4cc0-b0aa-2bc075bbafc2",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_50959b0b-2010-4f4c-9d9a-ceb97011b11d": {
+    "id": "C_50959b0b-2010-4f4c-9d9a-ceb97011b11d",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_ed157bee-851f-4b77-a2a1-bdfc24f2b695": {
+    "id": "C_ed157bee-851f-4b77-a2a1-bdfc24f2b695",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_082a2fb6-8f31-4543-8abe-9afa3bd46580": {
+    "id": "C_082a2fb6-8f31-4543-8abe-9afa3bd46580",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_0deb6daf-8d49-4f2e-9c9c-c242bd1625dc": {
+    "id": "C_0deb6daf-8d49-4f2e-9c9c-c242bd1625dc",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_37a794e9-568e-4cca-b6e9-7344f94a0890": {
+    "id": "C_37a794e9-568e-4cca-b6e9-7344f94a0890",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8cb7acf0-c54a-453b-b747-166814977618": {
+    "id": "C_8cb7acf0-c54a-453b-b747-166814977618",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_88ad1670-9d93-47da-8560-34b70f45eb0b": {
+    "id": "C_88ad1670-9d93-47da-8560-34b70f45eb0b",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_7538b2da-41c1-4163-a135-68747b191e44": {
+    "id": "C_7538b2da-41c1-4163-a135-68747b191e44",
+    "period": {
+      "startDate": "2022-08-16",
+      "endDate": "2022-08-16"
+    }
+  },
+  "C_ac37e686-63ce-4033-a548-c615e642af81": {
+    "id": "C_ac37e686-63ce-4033-a548-c615e642af81",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_72fcb41d-b4e1-48ae-bd18-7471cea25459": {
+    "id": "C_72fcb41d-b4e1-48ae-bd18-7471cea25459",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_bd73cd16-520a-4a1f-8295-569737c44f0f": {
+    "id": "C_bd73cd16-520a-4a1f-8295-569737c44f0f",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_df22bf90-5a6f-40a0-a7c9-f5f433aeeab5": {
+    "id": "C_df22bf90-5a6f-40a0-a7c9-f5f433aeeab5",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_7cabfb8f-cbed-41df-9435-76a5d18d1473": {
+    "id": "C_7cabfb8f-cbed-41df-9435-76a5d18d1473",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a173fa04-8b7c-4297-8d82-74edd4bad439": {
+    "id": "C_a173fa04-8b7c-4297-8d82-74edd4bad439",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_dc1e4ef7-824c-4fe3-aba9-e89d0aea5c72": {
+    "id": "C_dc1e4ef7-824c-4fe3-aba9-e89d0aea5c72",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a064e3ea-6476-4d97-8469-bd7f5160d2f1": {
+    "id": "C_a064e3ea-6476-4d97-8469-bd7f5160d2f1",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_01fa6b7d-f1c8-4e7e-992e-349d5be53df4": {
+    "id": "C_01fa6b7d-f1c8-4e7e-992e-349d5be53df4",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_ff5106ca-32bd-4d90-9e61-7d5cb5ed8778": {
+    "id": "C_ff5106ca-32bd-4d90-9e61-7d5cb5ed8778",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_8ab2d81c-c418-4e0c-94d7-3c72678d3f29": {
+    "id": "C_8ab2d81c-c418-4e0c-94d7-3c72678d3f29",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_e405c4ab-b37e-4c5b-8b51-c38a1058f894": {
+    "id": "C_e405c4ab-b37e-4c5b-8b51-c38a1058f894",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_274edc8c-4efd-4ec4-af13-9dece1d1ba78": {
+    "id": "C_274edc8c-4efd-4ec4-af13-9dece1d1ba78",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_98001137-a127-4300-8c43-db1295d77f13": {
+    "id": "C_98001137-a127-4300-8c43-db1295d77f13",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_09e0ab92-d58e-4d5b-8051-198f3307e6ee": {
+    "id": "C_09e0ab92-d58e-4d5b-8051-198f3307e6ee",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_2cca302e-7c05-44f7-b2e0-d2b8a3e45bf5": {
+    "id": "C_2cca302e-7c05-44f7-b2e0-d2b8a3e45bf5",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_53a243d6-dc39-40c5-a785-4bb0c53d926f": {
+    "id": "C_53a243d6-dc39-40c5-a785-4bb0c53d926f",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_cbaa5935-6c36-4de4-b405-fd119cfb1883": {
+    "id": "C_cbaa5935-6c36-4de4-b405-fd119cfb1883",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_b53a48a7-250d-457c-9d39-1a6243e5db4a": {
+    "id": "C_b53a48a7-250d-457c-9d39-1a6243e5db4a",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_ee9428c6-7c2e-4d95-9578-a5b6557e444c": {
+    "id": "C_ee9428c6-7c2e-4d95-9578-a5b6557e444c",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_be5deb23-8042-4a47-b6c5-bdfb9dbb943a": {
+    "id": "C_be5deb23-8042-4a47-b6c5-bdfb9dbb943a",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_8306eb4b-e388-4917-873a-51462676de11": {
+    "id": "C_8306eb4b-e388-4917-873a-51462676de11",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_bdc87ddb-643f-4af8-a15d-9ee87ac3a3f6": {
+    "id": "C_bdc87ddb-643f-4af8-a15d-9ee87ac3a3f6",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_f8018201-593d-4df8-9bea-92a14ca3fca4": {
+    "id": "C_f8018201-593d-4df8-9bea-92a14ca3fca4",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_7c965c67-cf5b-461c-bba6-a1036433c6cf": {
+    "id": "C_7c965c67-cf5b-461c-bba6-a1036433c6cf",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_35e22cbe-59cc-4bb0-a7c5-d415a4ab62f6": {
+    "id": "C_35e22cbe-59cc-4bb0-a7c5-d415a4ab62f6",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_63a20784-f823-4e83-a657-bbed67327bc5": {
+    "id": "C_63a20784-f823-4e83-a657-bbed67327bc5",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_0511b53d-e83b-4ee4-a9b6-b7f99b33fcbb": {
+    "id": "C_0511b53d-e83b-4ee4-a9b6-b7f99b33fcbb",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_a9813e34-61b1-48b2-9951-f00945a3cc8c": {
+    "id": "C_a9813e34-61b1-48b2-9951-f00945a3cc8c",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_da50d5b5-6135-48a1-991d-bb30c9409f16": {
+    "id": "C_da50d5b5-6135-48a1-991d-bb30c9409f16",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_7f5f72f3-0bea-4e7d-8f4b-45217a2b191d": {
+    "id": "C_7f5f72f3-0bea-4e7d-8f4b-45217a2b191d",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_708a56f1-58eb-4238-bca6-bbb3f9840afe": {
+    "id": "C_708a56f1-58eb-4238-bca6-bbb3f9840afe",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_21057184-c76d-4835-9452-bd065355cf82": {
+    "id": "C_21057184-c76d-4835-9452-bd065355cf82",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_9e5b8383-b8bb-4a01-bf66-47a7d2ddb6a6": {
+    "id": "C_9e5b8383-b8bb-4a01-bf66-47a7d2ddb6a6",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_e114f7eb-0b53-4e7f-8495-9144ad559636": {
+    "id": "C_e114f7eb-0b53-4e7f-8495-9144ad559636",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_16eaba53-a914-4bfa-8327-767c00e264fa": {
+    "id": "C_16eaba53-a914-4bfa-8327-767c00e264fa",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5df9cadc-0bac-44e9-a6b6-1102871d3e85": {
+    "id": "C_5df9cadc-0bac-44e9-a6b6-1102871d3e85",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_9a2f63de-7752-4545-97a9-a8dbb470c505": {
+    "id": "C_9a2f63de-7752-4545-97a9-a8dbb470c505",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_695e5b92-9d92-49cc-b9bc-4c582631edcf": {
+    "id": "C_695e5b92-9d92-49cc-b9bc-4c582631edcf",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_f1ede042-3c79-4898-ba88-9a30dc119175": {
+    "id": "C_f1ede042-3c79-4898-ba88-9a30dc119175",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_0ebd1e53-e8fe-4102-bd0f-6551df327599": {
+    "id": "C_0ebd1e53-e8fe-4102-bd0f-6551df327599",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_e519308e-efc8-414b-91f6-de5b6035ff81": {
+    "id": "C_e519308e-efc8-414b-91f6-de5b6035ff81",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_d1d5c35d-26aa-4275-89bb-6927ad15fb10": {
+    "id": "C_d1d5c35d-26aa-4275-89bb-6927ad15fb10",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_a2a0e167-74d2-4069-88a6-2cf8d015e274": {
+    "id": "C_a2a0e167-74d2-4069-88a6-2cf8d015e274",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_5ef165b7-6e1b-43d5-aee7-103b959ee920": {
+    "id": "C_5ef165b7-6e1b-43d5-aee7-103b959ee920",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a5e579c6-ed83-443c-bc71-9f2502f543db": {
+    "id": "C_a5e579c6-ed83-443c-bc71-9f2502f543db",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_e2d4764c-bba6-479c-adb2-8e66a6a1a795": {
+    "id": "C_e2d4764c-bba6-479c-adb2-8e66a6a1a795",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_4fb634eb-49d5-4017-9f7e-1e29242b9f49": {
+    "id": "C_4fb634eb-49d5-4017-9f7e-1e29242b9f49",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_d9baa791-5a3d-4a61-bb49-a7d71554ed36": {
+    "id": "C_d9baa791-5a3d-4a61-bb49-a7d71554ed36",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_0b3ed4c2-28c6-4574-9f88-636c395ff4ee": {
+    "id": "C_0b3ed4c2-28c6-4574-9f88-636c395ff4ee",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_06265361-dc1b-466f-9e7e-afe747da5900": {
+    "id": "C_06265361-dc1b-466f-9e7e-afe747da5900",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_dc1ab3aa-7aec-4209-b34d-9d071d427036": {
+    "id": "C_dc1ab3aa-7aec-4209-b34d-9d071d427036",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_c203ad7c-55ac-46ec-93b2-0b2d0b0bb42d": {
+    "id": "C_c203ad7c-55ac-46ec-93b2-0b2d0b0bb42d",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_3b3d8f61-cc72-4467-9ecc-d5ffb26a4364": {
+    "id": "C_3b3d8f61-cc72-4467-9ecc-d5ffb26a4364",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_b8f87f83-8219-4ed9-8eae-1af6ce9026ab": {
+    "id": "C_b8f87f83-8219-4ed9-8eae-1af6ce9026ab",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_14a92dfa-755c-4766-b445-4b4d7559a03d": {
+    "id": "C_14a92dfa-755c-4766-b445-4b4d7559a03d",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_33a5f383-7925-46ef-9361-f49c2bad0c07": {
+    "id": "C_33a5f383-7925-46ef-9361-f49c2bad0c07",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_69e7ab1c-4ec9-4784-b97d-a5daf888de1f": {
+    "id": "C_69e7ab1c-4ec9-4784-b97d-a5daf888de1f",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8a6c47bb-3e86-424d-80cc-ff22a944ddf1": {
+    "id": "C_8a6c47bb-3e86-424d-80cc-ff22a944ddf1",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_c0a3a102-4de1-4cf3-a9fc-12aff449c6ce": {
+    "id": "C_c0a3a102-4de1-4cf3-a9fc-12aff449c6ce",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_c5cd2d7c-5883-4d08-9406-cab08ad4db0b": {
+    "id": "C_c5cd2d7c-5883-4d08-9406-cab08ad4db0b",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_c22634f7-1e61-45b2-b238-bb426460d4b8": {
+    "id": "C_c22634f7-1e61-45b2-b238-bb426460d4b8",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_dbb6394a-dc41-4ee5-a1d4-d10e3dde8cd4": {
+    "id": "C_dbb6394a-dc41-4ee5-a1d4-d10e3dde8cd4",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_96f49d30-b30e-4074-9413-5efe0b44eeba": {
+    "id": "C_96f49d30-b30e-4074-9413-5efe0b44eeba",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_a5fc1c5f-2b40-40cf-b4a2-a263d337774d": {
+    "id": "C_a5fc1c5f-2b40-40cf-b4a2-a263d337774d",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_770c233b-4895-4f86-9345-96d462a73d7c": {
+    "id": "C_770c233b-4895-4f86-9345-96d462a73d7c",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8dfd2c78-9a2e-4f32-9a0a-0eaa994d591b": {
+    "id": "C_8dfd2c78-9a2e-4f32-9a0a-0eaa994d591b",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_e13cfed8-7a84-4ad5-b289-e129665801e6": {
+    "id": "C_e13cfed8-7a84-4ad5-b289-e129665801e6",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_61827a82-ab95-4f0f-9f96-3b60781d3f7c": {
+    "id": "C_61827a82-ab95-4f0f-9f96-3b60781d3f7c",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_51aaa709-32f2-4041-93c1-f3411bf541a8": {
+    "id": "C_51aaa709-32f2-4041-93c1-f3411bf541a8",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_21bcd5f6-ef9d-431b-9a81-9e2377b07fed": {
+    "id": "C_21bcd5f6-ef9d-431b-9a81-9e2377b07fed",
+    "period": {
+      "startDate": "2018-08-10",
+      "endDate": "2018-09-06"
+    }
+  },
+  "C_858a5813-8d51-4a12-988b-666fe5f58043": {
+    "id": "C_858a5813-8d51-4a12-988b-666fe5f58043",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_e1471045-61cc-4f9b-8d6f-97726f512089": {
+    "id": "C_e1471045-61cc-4f9b-8d6f-97726f512089",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_1bb49af0-09b4-4242-a1bc-1ce35ca4b305": {
+    "id": "C_1bb49af0-09b4-4242-a1bc-1ce35ca4b305",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_57f8bc08-db70-40ad-924e-95703bef4e3b": {
+    "id": "C_57f8bc08-db70-40ad-924e-95703bef4e3b",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_b68ef042-55c3-4fdd-9be1-d6da0e003d9f": {
+    "id": "C_b68ef042-55c3-4fdd-9be1-d6da0e003d9f",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_f8ce8b82-a8a9-4da4-868e-2b2dc6620d26": {
+    "id": "C_f8ce8b82-a8a9-4da4-868e-2b2dc6620d26",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_7b65d054-5886-4908-974d-ae663643ec19": {
+    "id": "C_7b65d054-5886-4908-974d-ae663643ec19",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_f6e2dda4-0d4c-4b63-a4f9-8d79decb2d16": {
+    "id": "C_f6e2dda4-0d4c-4b63-a4f9-8d79decb2d16",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a83a2da6-995d-4751-99be-562fb913d48d": {
+    "id": "C_a83a2da6-995d-4751-99be-562fb913d48d",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_1aec2d1b-883e-4090-b583-a06f7f584bd2": {
+    "id": "C_1aec2d1b-883e-4090-b583-a06f7f584bd2",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_4de09697-fd0e-4a4e-b7af-039447e5ae64": {
+    "id": "C_4de09697-fd0e-4a4e-b7af-039447e5ae64",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_b3874533-c35f-4bdb-aa9c-a17bc02e545d": {
+    "id": "C_b3874533-c35f-4bdb-aa9c-a17bc02e545d",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8348a343-998f-4bdb-a64d-3c9f83ada4f5": {
+    "id": "C_8348a343-998f-4bdb-a64d-3c9f83ada4f5",
+    "period": {
+      "startDate": "2023-03-27",
+      "endDate": "2023-03-27"
+    }
+  },
+  "C_ad9948f8-ed71-49d8-93e7-ac62831f86f0": {
+    "id": "C_ad9948f8-ed71-49d8-93e7-ac62831f86f0",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_685a4368-9487-4bd7-b859-217dee395f6c": {
+    "id": "C_685a4368-9487-4bd7-b859-217dee395f6c",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_e7ff8c5a-1a68-4b28-af70-eafe17d00af0": {
+    "id": "C_e7ff8c5a-1a68-4b28-af70-eafe17d00af0",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_c30d25c6-244e-4c78-99a6-c3fd71c789e6": {
+    "id": "C_c30d25c6-244e-4c78-99a6-c3fd71c789e6",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_11c341df-c0fc-49f2-a612-1e1aca0b6ec9": {
+    "id": "C_11c341df-c0fc-49f2-a612-1e1aca0b6ec9",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_fcfb7624-d81f-4846-af20-5cafe8b0e034": {
+    "id": "C_fcfb7624-d81f-4846-af20-5cafe8b0e034",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_d62d1118-3fc2-439d-8f8a-fac82915b983": {
+    "id": "C_d62d1118-3fc2-439d-8f8a-fac82915b983",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_22bad141-0e89-4287-a7df-4d1806e884dc": {
+    "id": "C_22bad141-0e89-4287-a7df-4d1806e884dc",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_5ef2e1df-88e8-4a78-bd79-bfa80ff6b407": {
+    "id": "C_5ef2e1df-88e8-4a78-bd79-bfa80ff6b407",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_79d2f7f4-4f07-4cfa-a0f8-e8a5028b9dd3": {
+    "id": "C_79d2f7f4-4f07-4cfa-a0f8-e8a5028b9dd3",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_673cd977-784b-4333-a79a-ab246f15bb56": {
+    "id": "C_673cd977-784b-4333-a79a-ab246f15bb56",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_663bc7b7-0483-4beb-b296-7dd903c4821f": {
+    "id": "C_663bc7b7-0483-4beb-b296-7dd903c4821f",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_3fefdeb1-5d40-4029-82bd-5468504a9c90": {
+    "id": "C_3fefdeb1-5d40-4029-82bd-5468504a9c90",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_0c8c2de9-5b66-4670-abe7-43fce5040b37": {
+    "id": "C_0c8c2de9-5b66-4670-abe7-43fce5040b37",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_abf723c2-1ce7-42f0-a912-f4858edcd0b2": {
+    "id": "C_abf723c2-1ce7-42f0-a912-f4858edcd0b2",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_cfec30ff-f1f1-49fa-ba37-0f303985681c": {
+    "id": "C_cfec30ff-f1f1-49fa-ba37-0f303985681c",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_a3cc67ad-eb82-4ddf-9e3b-79ddab03e118": {
+    "id": "C_a3cc67ad-eb82-4ddf-9e3b-79ddab03e118",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_1793531a-a207-4366-bc48-8cc0a30b225b": {
+    "id": "C_1793531a-a207-4366-bc48-8cc0a30b225b",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_c992245a-594a-4611-a1d2-73defb77fef0": {
+    "id": "C_c992245a-594a-4611-a1d2-73defb77fef0",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_1998f29e-7649-4c0f-9c6d-59ee2b339ae7": {
+    "id": "C_1998f29e-7649-4c0f-9c6d-59ee2b339ae7",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_02ac1a1f-3c44-4cd0-908d-2c4bf92f9b78": {
+    "id": "C_02ac1a1f-3c44-4cd0-908d-2c4bf92f9b78",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_0816cfe7-62d8-4121-947c-da74bb6438e8": {
+    "id": "C_0816cfe7-62d8-4121-947c-da74bb6438e8",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_cb680be5-e62c-4f18-9d9e-e6a95ec67e71": {
+    "id": "C_cb680be5-e62c-4f18-9d9e-e6a95ec67e71",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_12f33593-e0d8-4c08-a28c-f91d91896e2f": {
+    "id": "C_12f33593-e0d8-4c08-a28c-f91d91896e2f",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_070466d4-3650-4008-b9e0-0961cc62f888": {
+    "id": "C_070466d4-3650-4008-b9e0-0961cc62f888",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_0bb66701-3828-4314-a407-f8ddce7688c4": {
+    "id": "C_0bb66701-3828-4314-a407-f8ddce7688c4",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_41b04f4a-2c19-489b-9e15-f582c86d42a1": {
+    "id": "C_41b04f4a-2c19-489b-9e15-f582c86d42a1",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_d935d41b-1ba8-4c8f-ab8f-d1b529128873": {
+    "id": "C_d935d41b-1ba8-4c8f-ab8f-d1b529128873",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_5a629838-3f25-4a78-a6ac-e65a17f4a4bf": {
+    "id": "C_5a629838-3f25-4a78-a6ac-e65a17f4a4bf",
+    "period": {
+      "startDate": "2022-06-16",
+      "endDate": "2022-06-16"
+    }
+  },
+  "C_94d99914-9679-420d-9b55-a8cf5522064a": {
+    "id": "C_94d99914-9679-420d-9b55-a8cf5522064a",
+    "period": {
+      "instant": "2022-08-16"
+    }
+  },
+  "C_5f425b7f-5f0b-4e7a-acc0-6a295548b555": {
+    "id": "C_5f425b7f-5f0b-4e7a-acc0-6a295548b555",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_d0d65e6d-11a1-49d3-98e0-8314ffd77c54": {
+    "id": "C_d0d65e6d-11a1-49d3-98e0-8314ffd77c54",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_2b39351d-33fe-45c8-88e4-78731287ed14": {
+    "id": "C_2b39351d-33fe-45c8-88e4-78731287ed14",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_1ced48d0-dcbc-4450-aaaf-10517c1fdac7": {
+    "id": "C_1ced48d0-dcbc-4450-aaaf-10517c1fdac7",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_a618fb9e-3d4a-4f35-9c56-5c0f475f10ea": {
+    "id": "C_a618fb9e-3d4a-4f35-9c56-5c0f475f10ea",
+    "period": {
+      "startDate": "2016-09-01",
+      "endDate": "2016-10-05"
+    }
+  },
+  "C_33e8e869-b451-4deb-82d1-92b7b75ea329": {
+    "id": "C_33e8e869-b451-4deb-82d1-92b7b75ea329",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_673fc24b-26b7-4dd8-a375-5ad2f9daaddd": {
+    "id": "C_673fc24b-26b7-4dd8-a375-5ad2f9daaddd",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_dfb93c07-94cd-4e9d-afb2-ed1777a0e1d0": {
+    "id": "C_dfb93c07-94cd-4e9d-afb2-ed1777a0e1d0",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_d376043d-37ac-430a-8297-58e7d85d8978": {
+    "id": "C_d376043d-37ac-430a-8297-58e7d85d8978",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_77565e51-1995-45ec-b1fb-c51e4fb393e8": {
+    "id": "C_77565e51-1995-45ec-b1fb-c51e4fb393e8",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_3c472ecf-291b-4668-ad9c-ecc240195d59": {
+    "id": "C_3c472ecf-291b-4668-ad9c-ecc240195d59",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_188f1bf0-117e-4650-9755-a3e3986fa6a9": {
+    "id": "C_188f1bf0-117e-4650-9755-a3e3986fa6a9",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_5da09a5e-d8d1-4f84-9a39-ed542bed56e5": {
+    "id": "C_5da09a5e-d8d1-4f84-9a39-ed542bed56e5",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_3bff3dcb-d6c1-46f2-aad3-b17a702c3eec": {
+    "id": "C_3bff3dcb-d6c1-46f2-aad3-b17a702c3eec",
+    "period": {
+      "instant": "2023-03-31"
+    }
+  },
+  "C_d41fa7fb-4907-4c98-8ab7-16c3e07e9225": {
+    "id": "C_d41fa7fb-4907-4c98-8ab7-16c3e07e9225",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_40050d49-7b08-4ff9-9fb7-e9d593909a61": {
+    "id": "C_40050d49-7b08-4ff9-9fb7-e9d593909a61",
+    "period": {
+      "startDate": "2022-07-22",
+      "endDate": "2022-07-22"
+    }
+  },
+  "C_a19ecbea-74de-4f4e-bc8f-4e2add5b1318": {
+    "id": "C_a19ecbea-74de-4f4e-bc8f-4e2add5b1318",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_fa2583fb-0745-40c0-87ed-63da0e9e5c81": {
+    "id": "C_fa2583fb-0745-40c0-87ed-63da0e9e5c81",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_4503e317-e344-431c-b02e-6bc0e431ea52": {
+    "id": "C_4503e317-e344-431c-b02e-6bc0e431ea52",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_1e993335-5487-4175-803c-2dfdad913759": {
+    "id": "C_1e993335-5487-4175-803c-2dfdad913759",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_d713c9c0-dcab-4019-bb04-11cbf7861704": {
+    "id": "C_d713c9c0-dcab-4019-bb04-11cbf7861704",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_8b24a5a8-e725-4e70-a47d-6cb8473b2b83": {
+    "id": "C_8b24a5a8-e725-4e70-a47d-6cb8473b2b83",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_8fe31d77-4c68-4fec-bd9c-fd5034c8d70d": {
+    "id": "C_8fe31d77-4c68-4fec-bd9c-fd5034c8d70d",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_13f2d4c3-b9d3-4aaa-8092-dd285dac96df": {
+    "id": "C_13f2d4c3-b9d3-4aaa-8092-dd285dac96df",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_532a60ab-71d8-43cd-9cc2-6d8edfcea2ff": {
+    "id": "C_532a60ab-71d8-43cd-9cc2-6d8edfcea2ff",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_7d9c3110-04c0-49bd-b8d3-2cd33949a38e": {
+    "id": "C_7d9c3110-04c0-49bd-b8d3-2cd33949a38e",
+    "period": {
+      "instant": "2022-03-31"
+    }
+  },
+  "C_a7170769-bf91-4b72-8037-70226c78e614": {
+    "id": "C_a7170769-bf91-4b72-8037-70226c78e614",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_2f089c21-ce96-49f4-abd8-6f9c7d75f8f4": {
+    "id": "C_2f089c21-ce96-49f4-abd8-6f9c7d75f8f4",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_7c120f80-09ba-470f-93e3-6c25ed3a611f": {
+    "id": "C_7c120f80-09ba-470f-93e3-6c25ed3a611f",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a98a3d98-9405-4cc6-98e8-048a00edf56e": {
+    "id": "C_a98a3d98-9405-4cc6-98e8-048a00edf56e",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_f6d7346d-5e36-4592-a7a1-b71d84323cca": {
+    "id": "C_f6d7346d-5e36-4592-a7a1-b71d84323cca",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_98db12a3-3453-49f5-a577-5072fd4c845c": {
+    "id": "C_98db12a3-3453-49f5-a577-5072fd4c845c",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_7d941159-cbb6-4923-866d-80020f3b75d5": {
+    "id": "C_7d941159-cbb6-4923-866d-80020f3b75d5",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_789bcdf4-d2e1-426c-baff-6177386e5327": {
+    "id": "C_789bcdf4-d2e1-426c-baff-6177386e5327",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_de099d8a-22af-478b-956a-41792efd0755": {
+    "id": "C_de099d8a-22af-478b-956a-41792efd0755",
+    "period": {
+      "startDate": "2020-09-16",
+      "endDate": "2020-09-16"
+    }
+  },
+  "C_ad09ff19-b248-419c-944a-43bde21b22b5": {
+    "id": "C_ad09ff19-b248-419c-944a-43bde21b22b5",
+    "period": {
+      "instant": "2023-07-17"
+    }
+  },
+  "C_3136ca2c-97dd-4963-b57d-c22b4f3ea3d6": {
+    "id": "C_3136ca2c-97dd-4963-b57d-c22b4f3ea3d6",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_8f264d5f-93f4-4ff4-a0d4-8d168bfffdff": {
+    "id": "C_8f264d5f-93f4-4ff4-a0d4-8d168bfffdff",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_113a654d-0107-4007-a79a-d80db41c9adb": {
+    "id": "C_113a654d-0107-4007-a79a-d80db41c9adb",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_4e5523c9-f448-45ce-a198-afc72d17fcc3": {
+    "id": "C_4e5523c9-f448-45ce-a198-afc72d17fcc3",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_24fcf2de-bee1-430d-808a-f6fac716f5e3": {
+    "id": "C_24fcf2de-bee1-430d-808a-f6fac716f5e3",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_d7205bdf-8d9a-4526-88f6-b4add66328ca": {
+    "id": "C_d7205bdf-8d9a-4526-88f6-b4add66328ca",
+    "period": {
+      "startDate": "2018-10-25",
+      "endDate": "2019-02-11"
+    }
+  },
+  "C_98ef2094-64cb-4976-97c1-7e93657bbe70": {
+    "id": "C_98ef2094-64cb-4976-97c1-7e93657bbe70",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_6beb43dd-86e9-477f-8155-6bc3b9972e22": {
+    "id": "C_6beb43dd-86e9-477f-8155-6bc3b9972e22",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_e85ce853-ec19-4603-9d22-78bf68d7ccc7": {
+    "id": "C_e85ce853-ec19-4603-9d22-78bf68d7ccc7",
+    "period": {
+      "startDate": "2021-10-01",
+      "endDate": "2021-12-31"
+    }
+  },
+  "C_d99bc5be-c13e-40cb-bbcb-bf758864131e": {
+    "id": "C_d99bc5be-c13e-40cb-bbcb-bf758864131e",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_064175d6-5abd-418e-a452-97862da83dce": {
+    "id": "C_064175d6-5abd-418e-a452-97862da83dce",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_e6b5bf73-d298-4e02-80c3-87f4eb94ef0e": {
+    "id": "C_e6b5bf73-d298-4e02-80c3-87f4eb94ef0e",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_7c2a6e96-ea92-44b8-9680-c8bce0ace84a": {
+    "id": "C_7c2a6e96-ea92-44b8-9680-c8bce0ace84a",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_516122a7-76f5-4c3a-93f1-03b381e1795a": {
+    "id": "C_516122a7-76f5-4c3a-93f1-03b381e1795a",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_3f34f4ba-8f04-4ed1-a561-6db1a84b0adc": {
+    "id": "C_3f34f4ba-8f04-4ed1-a561-6db1a84b0adc",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_3a3e05e4-219d-4c9f-ad5a-85813de11844": {
+    "id": "C_3a3e05e4-219d-4c9f-ad5a-85813de11844",
+    "period": {
+      "instant": "2021-11-15"
+    }
+  },
+  "C_b97aa85e-445c-4937-bc61-78626283b455": {
+    "id": "C_b97aa85e-445c-4937-bc61-78626283b455",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_5155a87e-b1bf-4357-a759-87176d013781": {
+    "id": "C_5155a87e-b1bf-4357-a759-87176d013781",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_9129d889-daaf-46ff-ad16-167cb7d86c8a": {
+    "id": "C_9129d889-daaf-46ff-ad16-167cb7d86c8a",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_08215cba-b699-48f4-8634-ad5cab995e36": {
+    "id": "C_08215cba-b699-48f4-8634-ad5cab995e36",
+    "period": {
+      "startDate": "2021-10-04",
+      "endDate": "2021-10-04"
+    }
+  },
+  "C_c4488ab4-74f7-43d4-bcb1-c0682a2a4edb": {
+    "id": "C_c4488ab4-74f7-43d4-bcb1-c0682a2a4edb",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_9e4b172a-05c2-4c8c-8154-bb38dae5c408": {
+    "id": "C_9e4b172a-05c2-4c8c-8154-bb38dae5c408",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_37da0cec-6662-4107-bf2e-e1c36a86a82d": {
+    "id": "C_37da0cec-6662-4107-bf2e-e1c36a86a82d",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    }
+  },
+  "C_c64f2fe0-bc29-473f-ac91-47cdfbf912d1": {
+    "id": "C_c64f2fe0-bc29-473f-ac91-47cdfbf912d1",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_9cea0fa3-42e2-4ec0-b9ce-e3177cc8afc7": {
+    "id": "C_9cea0fa3-42e2-4ec0-b9ce-e3177cc8afc7",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_b89922d6-d758-414e-a88b-680e56b7620f": {
+    "id": "C_b89922d6-d758-414e-a88b-680e56b7620f",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_5b0042de-d48c-47a2-a900-4f07e8ce6298": {
+    "id": "C_5b0042de-d48c-47a2-a900-4f07e8ce6298",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_2a3a0eff-498c-4e18-90c1-0761c336eecf": {
+    "id": "C_2a3a0eff-498c-4e18-90c1-0761c336eecf",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_62912966-e9ba-450a-9a5d-e321dbad14c3": {
+    "id": "C_62912966-e9ba-450a-9a5d-e321dbad14c3",
+    "period": {
+      "instant": "2021-12-31"
+    }
+  },
+  "C_5295d3c2-0050-4f74-87cf-1a0289a6d24c": {
+    "id": "C_5295d3c2-0050-4f74-87cf-1a0289a6d24c",
+    "period": {
+      "startDate": "2023-04-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_cc26c4ae-337e-4148-924b-8a4ea48c9da6": {
+    "id": "C_cc26c4ae-337e-4148-924b-8a4ea48c9da6",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_601d7478-3208-440a-87a7-e681334c3175": {
+    "id": "C_601d7478-3208-440a-87a7-e681334c3175",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_0a1ab2dd-b8b3-406f-b8cc-3bd188140a6a": {
+    "id": "C_0a1ab2dd-b8b3-406f-b8cc-3bd188140a6a",
+    "period": {
+      "startDate": "2022-04-01",
+      "endDate": "2022-06-30"
+    }
+  },
+  "C_b86dbe68-b9db-410b-93ae-5287e9aed117": {
+    "id": "C_b86dbe68-b9db-410b-93ae-5287e9aed117",
+    "period": {
+      "instant": "2022-06-30"
+    }
+  },
+  "C_50cdd4e6-d7a3-47aa-aab2-6377f2e858d4": {
+    "id": "C_50cdd4e6-d7a3-47aa-aab2-6377f2e858d4",
+    "period": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-30"
+    }
+  },
+  "C_a3596c2c-ea5b-4404-9a17-3dbe2ceea328": {
+    "id": "C_a3596c2c-ea5b-4404-9a17-3dbe2ceea328",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_c5ca3bad-0ddd-4691-a091-81ed5e4637e9": {
+    "id": "C_c5ca3bad-0ddd-4691-a091-81ed5e4637e9",
+    "period": {
+      "instant": "2023-06-30"
+    }
+  },
+  "C_de408657-3a0a-44e3-b102-dda9acddbed3": {
+    "id": "C_de408657-3a0a-44e3-b102-dda9acddbed3",
+    "period": {
+      "instant": "2022-12-31"
+    }
+  },
+  "C_a0c76266-cbf2-4e43-8e6f-da32cc6b294f": {
+    "id": "C_a0c76266-cbf2-4e43-8e6f-da32cc6b294f",
+    "period": {
+      "startDate": "2022-01-01",
+      "endDate": "2022-06-30"
+    }
+  }
+}

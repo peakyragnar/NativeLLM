@@ -1,0 +1,29 @@
+{
+  "accession_number": "0000320193-22-000059",
+  "filing_date": "2022-04-29",
+  "filing_type": "10-Q",
+  "description": "Quarterly report [Sections 13 or 15(d)]Acc-no: 0000320193-22-000059\u00a0(34 Act)\u00a0 Size: 6 MB",
+  "file_number": "001-3674322868650",
+  "documents_url": "/Archives/edgar/data/320193/000032019322000059/0000320193-22-000059-index.htm",
+  "cik": "320193",
+  "ticker": "AAPL",
+  "is_amended": false,
+  "original_filing_type": "10-Q",
+  "period_end_date": "2022-03-26",
+  "period_end_date_raw": "2022-03-26",
+  "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-02T08:43:58.797086",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-02T08:43:58.797093",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2022-03-26",
+    "normalized_value": "2022-03-26"
+  },
+  "index_url": "/Archives/edgar/data/320193/000032019322000059/0000320193-22-000059-index.htm",
+  "fiscal_year": "2022",
+  "fiscal_period": "Q2",
+  "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000059/aapl-20220326.htm",
+  "primary_doc_name": "aapl-20220326.htm",
+  "ixbrl_url": "/ix?doc=/Archives/edgar/data/320193/000032019322000059/aapl-20220326.htm"
+}

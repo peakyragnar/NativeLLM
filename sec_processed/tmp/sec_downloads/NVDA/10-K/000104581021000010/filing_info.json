@@ -1,0 +1,29 @@
+{
+  "accession_number": "0001045810-21-000010",
+  "filing_date": "2021-02-26",
+  "filing_type": "10-K",
+  "description": "Annual report [Section 13 and 15(d), not S-K Item 405]Acc-no: 0001045810-21-000010\u00a0(34 Act)\u00a0 Size: 11 MB",
+  "file_number": "000-2398521690665",
+  "documents_url": "/Archives/edgar/data/1045810/000104581021000010/0001045810-21-000010-index.htm",
+  "cik": "1045810",
+  "ticker": "NVDA",
+  "is_amended": false,
+  "original_filing_type": "10-K",
+  "period_end_date": "2021-01-31",
+  "period_end_date_raw": "2021-01-31",
+  "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-02T07:21:06.031065",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-02T07:21:06.031069",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2021-01-31",
+    "normalized_value": "2021-01-31"
+  },
+  "index_url": "/Archives/edgar/data/1045810/000104581021000010/0001045810-21-000010-index.htm",
+  "fiscal_year": "2021",
+  "fiscal_period": "annual",
+  "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581021000010/nvda-20210131.htm",
+  "primary_doc_name": "nvda-20210131.htm",
+  "ixbrl_url": "/ix?doc=/Archives/edgar/data/1045810/000104581021000010/nvda-20210131.htm"
+}

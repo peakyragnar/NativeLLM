@@ -1,0 +1,37 @@
+{
+  "ticker": "MSFT",
+  "filing_type": "10-K",
+  "year": 2024,
+  "quarter": null,
+  "verification_results": {
+    "total_raw_facts": 1726
+  },
+  "verification_output": [
+    "=== Verification Results ===",
+    "Raw XBRL JSON: sec_processed/tmp/sec_downloads/MSFT/10-K/000095017024087843/_xbrl_extracted_data.json",
+    "LLM File: sec_processed/MSFT/MSFT_10-K_2024_llm.txt",
+    "----------------------------------------",
+    "Total Raw XBRL Facts: 1726",
+    "Total LLM Facts Parsed: 0",
+    "Facts Matched: 0",
+    "Facts Missing in LLM: 1726",
+    "Facts with Value Mismatches: 0",
+    "Extra Facts in LLM: 0",
+    "----------------------------------------",
+    "Completeness: 0.00%",
+    "",
+    "=== Sample Missing Facts ===",
+    "  Raw Key: (CurrentFiscalYearEndDate, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None) = --06-30",
+    "  Expected LLM Key: (CurrentFiscalYearEndDate, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None)",
+    "  Raw Key: (DocumentFiscalPeriodFocus, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None) = FY",
+    "  Expected LLM Key: (DocumentFiscalPeriodFocus, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None)",
+    "  Raw Key: (EntityCentralIndexKey, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None) = 0000789019",
+    "  Expected LLM Key: (EntityCentralIndexKey, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None)",
+    "  Raw Key: (AmendmentFlag, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None) = false",
+    "  Expected LLM Key: (AmendmentFlag, C_6dbdb3a2-9baf-41b4-922d-f59879124337, None)",
+    "  Raw Key: (CommitmentsAndContingencies, C_910b395a-5d62-4894-aa42-1da4086261cc, U_USD) = ",
+    "  Expected LLM Key: (CommitmentsAndContingencies, C_910b395a-5d62-4894-aa42-1da4086261cc, U_USD)"
+  ],
+  "exit_code": 1,
+  "error_output": "2025-04-02 12:40:11,460 - INFO - Loaded 1856 facts and 465 contexts from sec_processed/tmp/sec_downloads/MSFT/10-K/000095017024087843/_xbrl_extracted_data.json\n2025-04-02 12:40:11,461 - INFO - Loaded LLM file: sec_processed/MSFT/MSFT_10-K_2024_llm.txt\n2025-04-02 12:40:11,463 - ERROR - Did not find the expected XBRL table header: 'Concept | Value | Units | Period'\n2025-04-02 12:40:11,463 - INFO - Parsed 0 facts from the LLM XBRL data table.\n2025-04-02 12:40:11,464 - WARNING - Could not find @DATA_DICTIONARY table within the context guide section.\n"
+}

@@ -1,0 +1,29 @@
+{
+  "accession_number": "0000950170-23-035122",
+  "filing_date": "2023-07-27",
+  "filing_type": "10-K",
+  "description": "Annual report [Section 13 and 15(d), not S-K Item 405]Acc-no: 0000950170-23-035122\u00a0(34 Act)\u00a0 Size: 40 MB",
+  "file_number": "001-37845231118330",
+  "documents_url": "/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm",
+  "cik": "789019",
+  "ticker": "MSFT",
+  "is_amended": false,
+  "original_filing_type": "10-K",
+  "period_end_date": "2023-06-30",
+  "period_end_date_raw": "2023-06-30",
+  "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-02T08:34:47.896829",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-02T08:34:47.896838",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2023-06-30",
+    "normalized_value": "2023-06-30"
+  },
+  "index_url": "/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm",
+  "fiscal_year": "2023",
+  "fiscal_period": "annual",
+  "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm",
+  "primary_doc_name": "msft-20230630.htm",
+  "ixbrl_url": "/ix?doc=/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm"
+}

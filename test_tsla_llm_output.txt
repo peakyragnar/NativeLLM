@@ -1,0 +1,1478 @@
+@DOCUMENT: TSLA-10-K-2023-12-31
+@FILING_DATE: 2024-01-31
+@COMPANY: Tesla, Inc.
+@CIK: 0001318605
+@FISCAL_YEAR: 2023
+@FISCAL_PERIOD: FY
+
+@STRUCTURE: Financial_Statement
+@MAIN_CATEGORIES: Revenues, Cost_of_Revenues, Gross_Profit, Operating_Expenses, Operating_Income, Net_Income
+@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement, Stockholders_Equity
+@DOCUMENT_PARTS: Part_I (Items_1-4), Part_II (Items_5-9), Part_III (Items_10-14), Part_IV (Items_15-16)
+@ALL_SECTIONS: Item_1_Business, Item_1A_Risk_Factors, Item_1B_Unresolved_Comments, Item_1C_Cybersecurity, Item_2_Properties, Item_3_Legal, Item_4_Mine_Safety, Item_5_Market, Item_6_Selected_Financial, Item_7_MD&A, Item_7A_Market_Risk, Item_8_Financial_Statements, Item_9_Accountant_Changes, Item_9A_Controls, Item_9B_Other, Item_9C_Foreign_Jurisdictions, Item_10_Directors, Item_11_Compensation, Item_12_Security_Ownership, Item_13_Related_Transactions, Item_14_Accountant_Fees, Item_15_Exhibits, Item_16_Summary
+@SUBCATEGORIES_REVENUES: Product_Revenue, Service_Revenue, Total_Revenue
+@SUBCATEGORIES_EXPENSES: Cost_of_Revenue, Research_Development, Sales_Marketing, General_Administrative
+
+@DATA_DICTIONARY: CONTEXTS
+c-1 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-2 | @CODE: BS_2023_06_30 | Annual_2023_End | Instant: 2023-06-30
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Jun 30, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-3 | @CODE: BS_2024_01_22 | Annual_2024_End | Instant: 2024-01-22
+  @SEGMENT: Consolidated | @LABEL: FY2024_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Jan 22, 2024
+  @STATEMENT_TYPE: Balance_Sheet
+c-4 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-5 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-6 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-7 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-8 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-9 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-10 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-11 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-12 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-13 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-14 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-15 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-16 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-17 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-18 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-19 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-20 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-21 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-22 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-23 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-24 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-25 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-26 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-27 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-28 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-29 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-30 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-31 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-32 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-33 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-34 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-35 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-36 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-37 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-38 | @CODE: FY2020 | Annual_2020 | Period: 2020-01-01 to 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020
+  @DESCRIPTION: Consolidated – Year ended 2020-12-31
+c-39 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-40 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-41 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-42 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-43 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-44 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-45 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-46 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-47 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-48 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-49 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-50 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-51 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-52 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-53 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-54 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-55 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-56 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-57 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-58 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-59 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-60 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-61 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-62 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-63 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-64 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-65 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-66 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-67 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-68 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-69 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-70 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-71 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-72 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-73 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-74 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-75 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-76 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-77 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-78 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-79 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-80 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-81 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-82 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-83 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-84 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-85 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-86 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-87 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-88 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-89 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-90 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-91 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-92 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-93 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-94 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-95 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-96 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-97 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-98 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-99 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-100 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-101 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-102 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-103 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-104 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-105 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-106 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-107 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-108 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-109 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-110 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-111 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-112 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-113 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-114 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-115 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-116 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-117 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-118 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-119 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-120 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-121 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-122 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-123 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-124 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-125 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-126 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-127 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-128 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-129 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-130 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-131 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-132 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-133 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-134 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-135 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-136 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-137 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-138 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-139 | @CODE: BS_2020_12_31 | Annual_2020_End | Instant: 2020-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2020_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2020
+  @STATEMENT_TYPE: Balance_Sheet
+c-140 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-141 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-142 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-143 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-144 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-145 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-146 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-147 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-148 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-149 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-150 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-151 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-152 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-153 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-154 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-155 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-156 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-157 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-158 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-159 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-160 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-161 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-162 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-163 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-164 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-165 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-166 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-167 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-168 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-169 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-170 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-171 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-172 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-173 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-174 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-175 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-176 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-177 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-178 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-179 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-180 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-181 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-182 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-183 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-184 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-185 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-186 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-187 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-188 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-189 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-190 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-191 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-192 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-193 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-194 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-195 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-196 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-197 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-198 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-199 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-200 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-201 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-202 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-203 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-204 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-205 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-206 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-207 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-208 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-209 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-210 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-211 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-212 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-213 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-214 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-215 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-216 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-217 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-218 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-219 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-220 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-221 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-222 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-223 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-224 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-225 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-226 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-227 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-228 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-229 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-230 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-231 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-232 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-233 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-234 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-235 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-236 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-237 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-238 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-239 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-240 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-241 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-242 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-243 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-244 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-245 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-246 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-247 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-248 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-249 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-250 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-251 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-252 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-253 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-254 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-255 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-256 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-257 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-258 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-259 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-260 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-261 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-262 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-263 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-264 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-265 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-266 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-267 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-268 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-269 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-270 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-271 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-272 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-273 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-274 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-275 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-276 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-277 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-278 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-279 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-280 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-281 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-282 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-283 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-284 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-285 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-286 | @CODE: FY2015 | Annual_2015 | Period: 2015-06-01 to 2015-06-30
+  @SEGMENT: Consolidated | @LABEL: FY2015
+  @DESCRIPTION: Consolidated – Year ended 2015-06-30
+c-287 | @CODE: FY2015 | Annual_2015 | Period: 2015-06-01 to 2015-06-30
+  @SEGMENT: Consolidated | @LABEL: FY2015
+  @DESCRIPTION: Consolidated – Year ended 2015-06-30
+c-288 | @CODE: FY2015 | Annual_2015 | Period: 2015-06-01 to 2015-06-30
+  @SEGMENT: Consolidated | @LABEL: FY2015
+  @DESCRIPTION: Consolidated – Year ended 2015-06-30
+c-289 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-01-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-01-31
+c-290 | @CODE: BS_2023_01_31 | Annual_2023_End | Instant: 2023-01-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Jan 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-291 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-01-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-01-31
+c-292 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-01-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-01-31
+c-293 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-294 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-295 | @CODE: BS_2016_12_31 | Annual_2016_End | Instant: 2016-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2016_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2016
+  @STATEMENT_TYPE: Balance_Sheet
+c-296 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-297 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-298 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-299 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-300 | @CODE: FY2019 | Annual_2019 | Period: 2019-05-01 to 2019-05-31
+  @SEGMENT: Consolidated | @LABEL: FY2019
+  @DESCRIPTION: Consolidated – Year ended 2019-05-31
+c-301 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-302 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-303 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-304 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-305 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-306 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-307 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-308 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-309 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-310 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-311 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-312 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-313 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-314 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-315 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-316 | @CODE: BS_2021_12_31 | Annual_2021_End | Instant: 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-317 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-318 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-319 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-320 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-321 | @CODE: FY2018 | Annual_2018 | Period: 2018-03-01 to 2018-03-31
+  @SEGMENT: Consolidated | @LABEL: FY2018
+  @DESCRIPTION: Consolidated – Year ended 2018-03-31
+c-322 | @CODE: BS_2018_03_31 | Annual_2018_End | Instant: 2018-03-31
+  @SEGMENT: Consolidated | @LABEL: FY2018_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Mar 31, 2018
+  @STATEMENT_TYPE: Balance_Sheet
+c-323 | @CODE: BS_2018_03_31 | Annual_2018_End | Instant: 2018-03-31
+  @SEGMENT: Consolidated | @LABEL: FY2018_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Mar 31, 2018
+  @STATEMENT_TYPE: Balance_Sheet
+c-324 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-325 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-326 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-327 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-328 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-329 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-330 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-331 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-332 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-333 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-334 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-335 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-336 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-337 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-338 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-339 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-340 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-341 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-342 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-343 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-344 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-345 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-346 | @CODE: FY2018 | Annual_2018 | Period: 2018-08-10 to 2018-09-06
+  @SEGMENT: Consolidated | @LABEL: FY2018
+  @DESCRIPTION: Consolidated – Year ended 2018-09-06
+c-347 | @CODE: FY2021 | Annual_2021 | Period: 2018-10-17 to 2021-03-08
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-03-08
+c-348 | @CODE: FY2019 | Annual_2019 | Period: 2018-10-25 to 2019-02-11
+  @SEGMENT: Consolidated | @LABEL: FY2019
+  @DESCRIPTION: Consolidated – Year ended 2019-02-11
+c-349 | @CODE: BS_2021_11_15 | Annual_2021_End | Instant: 2021-11-15
+  @SEGMENT: Consolidated | @LABEL: FY2021_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Nov 15, 2021
+  @STATEMENT_TYPE: Balance_Sheet
+c-350 | @CODE: FY2023 | Annual_2023 | Period: 2023-03-27 to 2023-03-27
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-03-27
+c-351 | @CODE: FY2021 | Annual_2021 | Period: 2021-10-04 to 2021-10-04
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-10-04
+c-352 | @CODE: FY2022 | Annual_2022 | Period: 2022-04-13 to 2022-04-13
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-04-13
+c-353 | @CODE: FY2023 | Annual_2023 | Period: 2023-04-03 to 2023-04-03
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-04-03
+c-354 | @CODE: FY2022 | Annual_2022 | Period: 2022-06-16 to 2022-06-16
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-06-16
+c-355 | @CODE: FY2022 | Annual_2022 | Period: 2022-07-22 to 2022-07-22
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-07-22
+c-356 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-357 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-358 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-359 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-360 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-361 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-362 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-363 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-364 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-365 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-366 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-367 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-368 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-369 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-370 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-371 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-372 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-373 | @CODE: FY2022 | Annual_2022 | Period: 2022-01-01 to 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-12-31
+c-374 | @CODE: FY2021 | Annual_2021 | Period: 2021-01-01 to 2021-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2021
+  @DESCRIPTION: Consolidated – Year ended 2021-12-31
+c-375 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-376 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-377 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-378 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-379 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-380 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-381 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-382 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-383 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-384 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-385 | @CODE: BS_2022_12_31 | Annual_2022_End | Instant: 2022-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2022_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2022
+  @STATEMENT_TYPE: Balance_Sheet
+c-386 | @CODE: FY2022 | Annual_2022 | Period: 2022-04-01 to 2022-06-30
+  @SEGMENT: Consolidated | @LABEL: FY2022
+  @DESCRIPTION: Consolidated – Year ended 2022-06-30
+c-387 | @CODE: FY2023 | Annual_2023 | Period: 2023-10-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-388 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-389 | @CODE: FY2023 | Annual_2023 | Period: 2023-10-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-390 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+c-391 | @CODE: FY2023 | Annual_2023 | Period: 2023-01-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-392 | @CODE: FY2023 | Annual_2023 | Period: 2023-10-01 to 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023
+  @DESCRIPTION: Consolidated – Year ended 2023-12-31
+c-393 | @CODE: BS_2023_12_31 | Annual_2023_End | Instant: 2023-12-31
+  @SEGMENT: Consolidated | @LABEL: FY2023_END
+  @DESCRIPTION: Consolidated – Balance Sheet as of Dec 31, 2023
+  @STATEMENT_TYPE: Balance_Sheet
+
+@UNITS_AND_SCALING
+@MONETARY_SCALE: millions
+@SCALE_NOTE: All dollar amounts are in millions unless otherwise specified
+@UNIT_DEF: USD | United States Dollars (USD)
+@DECIMALS_USAGE:
+  -6: Values rounded to millions
+
+@SECTION: FINANCIAL_DATA
+
+@SUBSECTION: OTHER_FINANCIAL_DATA
+@FACT: Test Concept0
+  c-1: 1000 USD (millions)
+
+@FACT: Test Concept1
+  c-2: 2000 USD (millions)
+
+@FACT: Test Concept2
+  c-3: 3000 USD (millions)
+
+@FACT: Test Concept3
+  c-4: 4000 USD (millions)
+
+@FACT: Test Concept4
+  c-5: 5000 USD (millions)
+
+@FACT: Test Concept5
+  c-6: 6000 USD (millions)
+
+@FACT: Test Concept6
+  c-7: 7000 USD (millions)
+
+@FACT: Test Concept7
+  c-8: 8000 USD (millions)
+
+@FACT: Test Concept8
+  c-9: 9000 USD (millions)
+
+@FACT: Test Concept9
+  c-10: 10000 USD (millions)
+
+
+@SECTION: DATA_INTEGRITY
+
+@XBRL_FACTS: 10
+@CONTEXTS: 393
+@SECTIONS: 0

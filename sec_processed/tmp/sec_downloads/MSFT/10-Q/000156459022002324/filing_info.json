@@ -1,0 +1,29 @@
+{
+  "accession_number": "0001564590-22-002324",
+  "filing_date": "2022-01-25",
+  "filing_type": "10-Q",
+  "description": "Quarterly report [Sections 13 or 15(d)]Acc-no: 0001564590-22-002324\u00a0(34 Act)\u00a0 Size: 21 MB",
+  "file_number": "001-3784522554019",
+  "documents_url": "/Archives/edgar/data/789019/000156459022002324/0001564590-22-002324-index.htm",
+  "cik": "789019",
+  "ticker": "MSFT",
+  "is_amended": false,
+  "original_filing_type": "10-Q",
+  "period_end_date": "2021-12-31",
+  "period_end_date_raw": "2021-12-31",
+  "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-02T08:42:25.891447",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-02T08:42:25.891456",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2021-12-31",
+    "normalized_value": "2021-12-31"
+  },
+  "index_url": "/Archives/edgar/data/789019/000156459022002324/0001564590-22-002324-index.htm",
+  "fiscal_year": "2022",
+  "fiscal_period": "Q2",
+  "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/789019/000156459022002324/msft-10q_20211231.htm",
+  "primary_doc_name": "msft-10q_20211231.htm",
+  "ixbrl_url": "/ix?doc=/Archives/edgar/data/789019/000156459022002324/msft-10q_20211231.htm"
+}

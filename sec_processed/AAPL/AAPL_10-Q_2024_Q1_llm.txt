@@ -1,0 +1,3734 @@
+@DOCUMENT: AAPL-10-Q-2023-12-30
+@FILING_DATE: 2024-02-02
+@COMPANY: AAPL
+@CIK: 320193
+
+@STRUCTURE: Financial_Statement
+@MAIN_CATEGORIES: Revenues, Cost_of_Revenues, Gross_Profit, Operating_Expenses, Operating_Income, Net_Income
+@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement
+@DOCUMENT_PARTS: Part_I (Items_1-2), Part_II (Items_3-6)
+@ALL_SECTIONS: Item_1_Financial_Statements, Item_2_MD&A, Item_3_Market_Risk, Item_4_Controls, Item_1_Legal_Proceedings, Item_1A_Risk_Factors, Item_2_Unregistered_Sales, Item_3_Defaults, Item_4_Mine_Safety, Item_5_Other, Item_6_Exhibits
+@SUBCATEGORIES_REVENUES: Product_Revenue, Service_Revenue, Total_Revenue
+@SUBCATEGORIES_EXPENSES: Cost_of_Revenue, Research_Development, Sales_Marketing, General_Administrative
+
+@DATA_DICTIONARY: CONTEXTS
+
+@UNITS_AND_SCALING
+@MONETARY_SCALE: millions
+@SCALE_NOTE: All dollar amounts are in millions unless otherwise specified
+@DECIMALS_USAGE:
+  -8: Values rounded to 100000000 decimal places
+  -6: Values rounded to millions
+  -3: Values rounded to thousands
+  2: Values rounded to 0.01 decimal places
+  inf: Values rounded to 0.0 decimal places
+
+@SECTION: INCOME_STATEMENT
+
+@TABLE_CONTENT: INCOME STATEMENT TABLE (9999)
+@TABLE_TYPE: INCOME STATEMENT
+Concept | Key | Context c-1 | Context c-14 | Context c-15 | Context c-16 | Context c-17 | Context c-18
+------- | --- | ----------- | ------------ | ------------ | ------------ | ------------ | ------------
+<Revenue> |  |  |  |  |  |  | 
+  Revenue From Contract With Customer Excluding Assessed Tax | - | $119,575 [M] | $23,117 [M] | $20,766 [M] | $117,154 [M] | - | -
+  Contract With Customer Liability Revenue Recognized | - | $3.5 | - | - | $3.4 | - | -
+</Revenue> |  |  |  |  |  |  | 
+<Expenses> |  |  |  |  |  |  | 
+  Cost Of Goods And Services Sold | - | $64,720 [M] | $6,280 [M] | $6,057 [M] | $66,822 [M] | - | -
+  Research And Development Expense | - | $7,696 [M] | - | - | $7,709 [M] | - | -
+  Selling General And Administrative Expense | - | $6,786 [M] | - | - | $6,607 [M] | - | -
+  Nonoperating Income Expense | - | $50 [M] | - | - | $393 [M] | - | -
+  Income Tax Expense Benefit | - | $6,407 [M] | - | - | $5,625 [M] | - | -
+  Other Noncash Income Expense | - | $989 [M] | - | - | $317 [M] | - | -
+  Cash Cash Equivalents And Marketable Securities Cost | - | - | - | - | - | $180,248 [M] | $173,752 [M]
+  Allocated Share Based Compensation Expense | - | $2,997 [M] | - | - | $2,905 [M] | - | -
+  Employee Service Share Based Compensation Tax Benefit From Compensation Expense | - | $1,235 [M] | - | - | $1,178 [M] | - | -
+@TOTAL: Operating Expenses | - | $14,482 [M] | - | - | $14,316 [M] | - | -
+</Expenses> |  |  |  |  |  |  | 
+<Income> |  |  |  |  |  |  | 
+  Income Loss From Continuing Operations Before Income Taxes Extraordinary Items Noncontrolling Interest | - | $40,323 [M] | - | - | $35,623 [M] | - | -
+  Earnings Per Share Basic | - | 2.19 | - | - | 1.89 | - | -
+  Earnings Per Share Diluted | - | 2.18 | - | - | 1.88 | - | -
+  Other Comprehensive Income Loss Foreign Currency Transaction And Translation Adjustment Net Of Tax | - | $308 [M] | - | - | $14 [M] | - | -
+  Other Comprehensive Income Loss Derivative Instrument Gain Lossbefore Reclassificationafter Tax | - | $531 [M] | - | - | $988 [M] | - | -
+  Other Comprehensive Income Loss Derivative Instrument Gain Loss Reclassification After Tax | - | $823 [M] | - | - | $1,766 [M] | - | -
+  Other Comprehensive Income Loss Derivative Instrument Gain Lossafter Reclassificationand Tax | - | $1,354 [M] | - | - | $2,754 [M] | - | -
+  Other Comprehensive Income Unrealized Holding Gain Loss On Securities Arising During Period Net Of Tax | - | $3,045 [M] | - | - | $900 [M] | - | -
+  Other Comprehensive Income Loss Reclassification Adjustment From Aocifor Sale Of Securities Net Of Tax | - | $75 [M] | - | - | $65 [M] | - | -
+  Other Comprehensive Income Loss Available For Sale Securities Adjustment Net Of Tax | - | $3,120 [M] | - | - | $965 [M] | - | -
+  Other Comprehensive Income Loss Net Of Tax Portion Attributable To Parent | - | $2,074 [M] | - | - | $1,803 [M] | - | -
+  Comprehensive Income Net Of Tax | - | $35,990 [M] | - | - | $28,195 [M] | - | -
+  Retained Earnings Accumulated Deficit | - | - | - | - | - | $8,242 [M] | $214 [M]
+  Accumulated Other Comprehensive Income Loss Net Of Tax | - | - | - | - | - | $9,378 [M] | $11,452 [M]
+  Income Taxes Paid Net | - | $7,255 [M] | - | - | $828 [M] | - | -
+@TOTAL: Operating Income Loss | - | $40,373 [M] | - | - | $36,016 [M] | - | -
+@TOTAL: Net Income Loss | - | $33,916 [M] | - | - | $29,998 [M] | - | -
+</Income> |  |  |  |  |  |  | 
+<Other> |  |  |  |  |  |  | 
+  Payments To Acquire Available For Sale Securities Debt | - | $9,780 [M] | - | - | $5,153 [M] | - | -
+  Proceeds From Maturities Prepayments And Calls Of Available For Sale Securities | - | $13,046 [M] | - | - | $7,127 [M] | - | -
+  Proceeds From Sale Of Available For Sale Securities Debt | - | $1,337 [M] | - | - | $509 [M] | - | -
+  Available For Sale Securities Debt Maturities Rolling Year Two Through Five Fair Value | - | - | - | - | - | $72,994 [M] | -
+  Available For Sale Securities Debt Maturities Rolling Year Six Through Ten Fair Value | - | - | - | - | - | $9,368 [M] | -
+  Available For Sale Securities Debt Maturities Rolling After Year Ten Fair Value | - | - | - | - | - | $17,113 [M] | -
+  Available For Sale Securities Debt Maturities Single Maturity Date | - | - | - | - | - | $99,475 [M] | -
+</Other> |  |  |  |  |  |  | 
+
+@CONCEPT: aapl:CashCashEquivalentsAndMarketableSecuritiesCost
+@COMMON_NAME: Cash Cash Equivalents And Marketable Securities Cost
+@VALUE: 180,248
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: aapl:CashCashEquivalentsAndMarketableSecuritiesCost
+@COMMON_NAME: Cash Cash Equivalents And Marketable Securities Cost
+@VALUE: 173,752
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax
+@COMMON_NAME: Other Comprehensive Income Loss Derivative Instrument Gain Loss Reclassification After Tax
+@VALUE: 823
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax
+@COMMON_NAME: Other Comprehensive Income Loss Derivative Instrument Gain Loss Reclassification After Tax
+@VALUE: 1,766
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax
+@COMMON_NAME: Other Comprehensive Income Loss Derivative Instrument Gain Lossafter Reclassificationand Tax
+@VALUE: 1,354
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax
+@COMMON_NAME: Other Comprehensive Income Loss Derivative Instrument Gain Lossafter Reclassificationand Tax
+@VALUE: 2,754
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax
+@COMMON_NAME: Other Comprehensive Income Loss Derivative Instrument Gain Lossbefore Reclassificationafter Tax
+@VALUE: 531
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax
+@COMMON_NAME: Other Comprehensive Income Loss Derivative Instrument Gain Lossbefore Reclassificationafter Tax
+@VALUE: 988
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax
+@VALUE: 9,378
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax
+@VALUE: 11,452
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:AllocatedShareBasedCompensationExpense
+@VALUE: 2,997
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:AllocatedShareBasedCompensationExpense
+@VALUE: 2,905
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount
+@VALUE: 89
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: c-51
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 24,041
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 5,791
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 17,326
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 1,448
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 1,361
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 75,360
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 562
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 22,369
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 148,258
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 19,406
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 5,736
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 17,533
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 1,354
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 608
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 76,840
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 628
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 22,365
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis
+@VALUE: 144,470
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesRollingAfterYearTenFairValue
+@VALUE: 17,113
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesRollingYearSixThroughTenFairValue
+@VALUE: 9,368
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesRollingYearTwoThroughFiveFairValue
+@VALUE: 72,994
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtMaturitiesSingleMaturityDate
+@VALUE: 99,475
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 23,133
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 5,343
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 16,705
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 1,448
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 1,361
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 71,508
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 548
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 20,515
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 140,561
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 18,114
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 5,136
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 16,491
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 1,354
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 608
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 70,890
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 602
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 19,636
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:AvailableForSaleSecuritiesDebtSecurities
+@VALUE: 132,831
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:ComprehensiveIncomeNetOfTax
+@VALUE: 35,990
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ComprehensiveIncomeNetOfTax
+@VALUE: 28,195
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityRevenueRecognized
+@VALUE: 3.5
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityRevenueRecognized
+@VALUE: 3.4
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:CostOfGoodsAndServicesSold
+@VALUE: 58,440
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-12
+
+@CONCEPT: us-gaap:CostOfGoodsAndServicesSold
+@VALUE: 60,765
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-13
+
+@CONCEPT: us-gaap:CostOfGoodsAndServicesSold
+@VALUE: 6,280
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-14
+
+@CONCEPT: us-gaap:CostOfGoodsAndServicesSold
+@VALUE: 6,057
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-15
+
+@CONCEPT: us-gaap:CostOfGoodsAndServicesSold
+@VALUE: 64,720
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:CostOfGoodsAndServicesSold
+@VALUE: 66,822
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 2.19
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.89
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 2.19
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:EarningsPerShareBasic
+@VALUE: 1.89
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 2.18
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.88
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 2.18
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:EarningsPerShareDiluted
+@VALUE: 1.88
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognized
+@VALUE: 27.4
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-98
+
+@CONCEPT: us-gaap:EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense
+@VALUE: 1,235
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense
+@VALUE: 1,178
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCost
+@VALUE: 2,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCost
+@VALUE: 448
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCost
+@VALUE: 2,448
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCost
+@VALUE: 481
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCost
+@VALUE: 442
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCost
+@VALUE: 923
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest
+@VALUE: 40,323
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest
+@VALUE: 35,623
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncomeTaxExpenseBenefit
+@VALUE: 6,407
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncomeTaxExpenseBenefit
+@VALUE: 5,625
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncomeTaxesPaidNet
+@VALUE: 7,255
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncomeTaxesPaidNet
+@VALUE: 828
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 33,916
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 29,998
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 33,916
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 29,998
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 33,916
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-28
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 29,998
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-29
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 33,916
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 29,998
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 33,916
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetIncomeLoss
+@VALUE: 29,998
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NonoperatingIncomeExpense
+@VALUE: 50
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NonoperatingIncomeExpense
+@VALUE: 393
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OperatingExpenses
+@VALUE: 14,482
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OperatingExpenses
+@VALUE: 14,316
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 40,373
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 36,016
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 20,357
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-100
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 17,864
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-101
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 12,711
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-102
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 10,017
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-103
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 8,622
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-104
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 10,437
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-105
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 3,819
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-106
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 3,236
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-107
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 4,579
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-108
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 3,851
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-109
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 50,088
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-110
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 45,405
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-111
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 40,373
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OperatingIncomeLoss
+@VALUE: 36,016
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax
+@VALUE: 3,120
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax
+@VALUE: 965
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax
+@VALUE: 308
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax
+@VALUE: 14
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent
+@VALUE: 2,074
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent
+@VALUE: 1,803
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent
+@VALUE: 2,074
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-34
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent
+@VALUE: 1,803
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-35
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax
+@VALUE: 75
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax
+@VALUE: 65
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax
+@VALUE: 3,045
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax
+@VALUE: 900
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:OtherGeneralAndAdministrativeExpense
+@VALUE: 2,019
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-114
+
+@CONCEPT: us-gaap:OtherGeneralAndAdministrativeExpense
+@VALUE: 1,680
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-115
+
+@CONCEPT: us-gaap:OtherNoncashIncomeExpense
+@VALUE: 989
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:OtherNoncashIncomeExpense
+@VALUE: 317
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt
+@VALUE: 9,780
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt
+@VALUE: 5,153
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities
+@VALUE: 13,046
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities
+@VALUE: 7,127
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt
+@VALUE: 1,337
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt
+@VALUE: 509
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ResearchAndDevelopmentExpense
+@VALUE: 7,696
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ResearchAndDevelopmentExpense
+@VALUE: 7,709
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ResearchAndDevelopmentExpense
+@VALUE: 7,696
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-112
+
+@CONCEPT: us-gaap:ResearchAndDevelopmentExpense
+@VALUE: 7,709
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-113
+
+@CONCEPT: us-gaap:RetainedEarningsAccumulatedDeficit
+@VALUE: 8,242
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:RetainedEarningsAccumulatedDeficit
+@VALUE: 214
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 96,458
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-12
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 96,388
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-13
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 23,117
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-14
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 20,766
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-15
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 119,575
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 117,154
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 69,702
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-39
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 65,775
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-40
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 7,780
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-41
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 7,735
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-42
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 7,023
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-43
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 9,396
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-44
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 11,953
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-45
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 13,482
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-46
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 23,117
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-14
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 20,766
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-15
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 119,575
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 117,154
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 50,430
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-100
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 49,278
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-101
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 30,397
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-102
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 27,681
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-103
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 20,819
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-104
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 23,905
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-105
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 7,767
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-106
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 6,755
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-107
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 10,162
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-108
+
+@CONCEPT: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+@VALUE: 9,535
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-109
+
+@CONCEPT: us-gaap:RevenueRemainingPerformanceObligationPercentage
+@VALUE: 66
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-47
+
+@CONCEPT: us-gaap:RevenueRemainingPerformanceObligationPercentage
+@VALUE: 26
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-48
+
+@CONCEPT: us-gaap:RevenueRemainingPerformanceObligationPercentage
+@VALUE: 7
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-49
+
+@CONCEPT: us-gaap:RevenueRemainingPerformanceObligationPercentage
+@VALUE: 1
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-50
+
+@CONCEPT: us-gaap:SellingGeneralAndAdministrativeExpense
+@VALUE: 6,786
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:SellingGeneralAndAdministrativeExpense
+@VALUE: 6,607
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@SECTION: BALANCE_SHEET
+
+@TABLE_CONTENT: BALANCE SHEET TABLE (9999)
+@TABLE_TYPE: BALANCE SHEET
+Concept | Key | Context c-1 | Context c-16 | Context c-17 | Context c-18 | Context c-53 | Context c-54 | Context c-55 | Context c-64 | Context c-66 | Context c-67 | Context c-68 | Context c-77 | Context c-97 | Context c-98
+------- | --- | ----------- | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------
+<Assets> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Other Assets Current | - | - | - | $13,979 [M] | $14,695 [M] | - | - | - | - | - | - | - | - | - | -
+  Assets Current | - | - | - | $143,692 [M] | $143,566 [M] | - | - | - | - | - | - | - | - | - | -
+  Other Assets Noncurrent | - | - | - | $66,681 [M] | $64,758 [M] | - | - | - | - | - | - | - | - | - | -
+  Assets Noncurrent | - | - | - | $209,822 [M] | $209,017 [M] | - | - | - | - | - | - | - | - | - | -
+  Assets | - | - | - | $353,514 [M] | $352,583 [M] | - | - | - | - | - | - | - | - | - | -
+  Increase Decrease In Other Operating Assets | - | $1,457 [M] | $4,099 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Hedged Asset Fair Value Hedge | - | - | - | $15,102 [M] | $14,433 [M] | - | - | - | - | - | - | - | - | - | -
+</Assets> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Liabilities> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Contract With Customer Liability Current | - | - | - | $8,264 [M] | $8,061 [M] | - | - | - | - | - | - | - | - | - | -
+  Liabilities And Stockholders Equity | - | - | - | $353,514 [M] | $352,583 [M] | - | - | - | - | - | - | - | - | - | -
+  Contract With Customer Liability | - | - | - | $12.5 | $12.1 | - | - | - | - | - | - | - | - | - | -
+  Hedged Liability Fair Value Hedge | - | - | - | $18,661 [M] | $18,247 [M] | - | - | - | - | - | - | - | - | - | -
+</Liabilities> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Equity> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Stockholders Equity | - | - | - | $74,100 [M] | $62,146 [M] | - | - | - | - | - | - | - | - | - | -
+  Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax | - | - | - | - | - | $— [M] | $35 [M] | $35 [M] | - | $— [M] | $12 [M] | $12 [M] | - | - | -
+  Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax | - | - | - | - | - | $— [M] | $11 [M] | $11 [M] | - | $— [M] | $26 [M] | $26 [M] | - | - | -
+  Equity Securities Fv Ni Current And Noncurrent | - | - | - | - | - | $2,000 [M] | $472 [M] | $2,472 [M] | - | $481 [M] | $428 [M] | $909 [M] | - | - | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Nonvested Number | - | - | - | - | - | - | - | - | - | - | - | - | - | - | 208,972 shares
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Nonvested Weighted Average Grant Date Fair Value | - | - | - | - | - | - | - | - | - | - | - | - | - | - | 154.09
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Grants In Period | - | - | - | - | - | - | - | - | - | - | - | - | - | 74,241 shares | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Grants In Period Weighted Average Grant Date Fair Value | - | - | - | - | - | - | - | - | - | - | - | - | - | 171.58 | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Vested In Period | - | - | - | - | - | - | - | - | - | - | - | - | - | 42,490 shares | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Vested In Period Weighted Average Grant Date Fair Value | - | - | - | - | - | - | - | - | - | - | - | - | - | 110.75 | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Forfeited In Period | - | - | - | - | - | - | - | - | - | - | - | - | - | 3,026 shares | -
+  Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Forfeitures Weighted Average Grant Date Fair Value | - | - | - | - | - | - | - | - | - | - | - | - | - | 109.05 | -
+  Sharebased Compensation Arrangement By Sharebased Payment Award Equity Instruments Other Than Options Aggregate Intrinsic Value Nonvested | - | - | - | - | - | - | - | - | - | - | - | - | - | - | $40,233 [M]
+@TOTAL: Share Based Compensation Arrangement By Share Based Payment Award Equity Instruments Other Than Options Vested In Period Total Fair Value | - | - | - | - | - | - | - | - | - | - | - | - | - | $7.7 | -
+</Equity> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Other> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Accounts Receivable Net Current | - | - | - | $23,194 [M] | $29,508 [M] | - | - | - | - | - | - | - | - | - | -
+  Nontrade Receivables Current | - | - | - | $26,908 [M] | $31,477 [M] | - | - | - | - | - | - | - | - | - | -
+  Inventory Net | - | - | - | $6,511 [M] | $6,331 [M] | - | - | - | - | - | - | - | - | - | -
+  Accounts Payable Current | - | - | - | $58,146 [M] | $62,611 [M] | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt Current | - | - | - | $10,954 [M] | $9,822 [M] | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt Noncurrent | - | - | - | $95,088 [M] | $95,281 [M] | - | - | - | - | - | - | - | - | - | -
+  Increase Decrease In Accounts Receivable | - | $6,555 [M] | $4,275 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Increase Decrease In Other Receivables | - | $4,569 [M] | $2,320 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Increase Decrease In Accounts Payable | - | $4,542 [M] | $6,075 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Repayments Of Long Term Debt | - | $— [M] | $1,401 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Available For Sale Debt Securities Accumulated Gross Unrealized Gain Before Tax | - | - | - | - | - | - | - | - | $231 [M] | - | - | - | $18 [M] | - | -
+  Available For Sale Debt Securities Accumulated Gross Unrealized Loss Before Tax | - | - | - | - | - | - | - | - | $7,928 [M] | - | - | - | $11,657 [M] | - | -
+  Debt Securities Available For Sale Restricted | - | - | - | $13.9 | $13.8 | - | - | - | - | - | - | - | - | - | -
+  Proceeds From Repayments Of Short Term Debt Maturing In Three Months Or Less | - | $3,984 [M] | $5,569 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Repayments Of Short Term Debt Maturing In More Than Three Months | - | $— [M] | $2,645 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt | - | - | - | $106.0 | $105.1 | - | - | - | - | - | - | - | - | - | -
+  Long Term Debt Fair Value | - | - | - | - | - | - | - | - | $96.7 | - | - | - | $90.8 | - | -
+</Other> |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: 35
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: 35
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: 12
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Gain Before Tax
+@VALUE: 12
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax
+@VALUE: 11
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax
+@VALUE: 11
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax
+@VALUE: 26
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Equity Securities Fvniaccumulated Gross Unrealized Loss Before Tax
+@VALUE: 26
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: us-gaap:AccountsPayableCurrent
+@VALUE: 58,146
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AccountsPayableCurrent
+@VALUE: 62,611
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:AccountsReceivableNetCurrent
+@VALUE: 23,194
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AccountsReceivableNetCurrent
+@VALUE: 29,508
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:Assets
+@VALUE: 353,514
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:Assets
+@VALUE: 352,583
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:AssetsCurrent
+@VALUE: 143,692
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AssetsCurrent
+@VALUE: 143,566
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:AssetsNoncurrent
+@VALUE: 209,822
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AssetsNoncurrent
+@VALUE: 209,017
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 12
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 54
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 112
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 53
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 231
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 6
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 6
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 6
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@VALUE: 18
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 920
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 448
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 675
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 3,964
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 14
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 1,907
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 7,928
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 1,292
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 600
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 1,048
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 5,956
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 26
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 2,735
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@VALUE: 11,657
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:ContractWithCustomerLiability
+@VALUE: 12.5
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:ContractWithCustomerLiability
+@VALUE: 12.1
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityCurrent
+@VALUE: 8,264
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:ContractWithCustomerLiabilityCurrent
+@VALUE: 8,061
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:DebtSecuritiesAvailableForSaleRestricted
+@VALUE: 13.9
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:DebtSecuritiesAvailableForSaleRestricted
+@VALUE: 13.8
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent
+@VALUE: 2,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent
+@VALUE: 472
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent
+@VALUE: 2,472
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent
+@VALUE: 481
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent
+@VALUE: 428
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent
+@VALUE: 909
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: us-gaap:HedgedAssetFairValueHedge
+@VALUE: 15,102
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:HedgedAssetFairValueHedge
+@VALUE: 14,433
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:HedgedLiabilityFairValueHedge
+@VALUE: 18,661
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:HedgedLiabilityFairValueHedge
+@VALUE: 18,247
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsPayable
+@VALUE: 4,542
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsPayable
+@VALUE: 6,075
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsReceivable
+@VALUE: 6,555
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncreaseDecreaseInAccountsReceivable
+@VALUE: 4,275
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherOperatingAssets
+@VALUE: 1,457
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherOperatingAssets
+@VALUE: 4,099
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherReceivables
+@VALUE: 4,569
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherReceivables
+@VALUE: 2,320
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:InventoryNet
+@VALUE: 6,511
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:InventoryNet
+@VALUE: 6,331
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:LiabilitiesAndStockholdersEquity
+@VALUE: 353,514
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:LiabilitiesAndStockholdersEquity
+@VALUE: 352,583
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:LongTermDebt
+@VALUE: 106.0
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:LongTermDebt
+@VALUE: 105.1
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:LongTermDebtCurrent
+@VALUE: 10,954
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:LongTermDebtCurrent
+@VALUE: 9,822
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 96.7
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:LongTermDebtFairValue
+@VALUE: 90.8
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:LongTermDebtNoncurrent
+@VALUE: 95,088
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:LongTermDebtNoncurrent
+@VALUE: 95,281
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:NontradeReceivablesCurrent
+@VALUE: 26,908
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:NontradeReceivablesCurrent
+@VALUE: 31,477
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:OtherAssetsCurrent
+@VALUE: 13,979
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:OtherAssetsCurrent
+@VALUE: 14,695
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:OtherAssetsNoncurrent
+@VALUE: 66,681
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:OtherAssetsNoncurrent
+@VALUE: 64,758
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess
+@VALUE: 3,984
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess
+@VALUE: 5,569
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:RepaymentsOfLongTermDebt
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:RepaymentsOfLongTermDebt
+@VALUE: 1,401
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths
+@VALUE: 2,645
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsForfeitedInPeriod
+@VALUE: 3,026
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsForfeituresWeightedAverageGrantDateFairValue
+@VALUE: 109.05
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriod
+@VALUE: 74,241
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriodWeightedAverageGrantDateFairValue
+@VALUE: 171.58
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber
+@VALUE: 180,247
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-96
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber
+@VALUE: 208,972
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-98
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue
+@VALUE: 135.91
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-96
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue
+@VALUE: 154.09
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-98
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriod
+@VALUE: 42,490
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue
+@VALUE: 7.7
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue
+@VALUE: 6.8
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-99
+
+@CONCEPT: us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodWeightedAverageGrantDateFairValue
+@VALUE: 110.75
+@UNIT_REF: usdPerShare
+@DECIMALS: 2
+@CONTEXT_REF: c-97
+
+@CONCEPT: us-gaap:SharebasedCompensationArrangementBySharebasedPaymentAwardEquityInstrumentsOtherThanOptionsAggregateIntrinsicValueNonvested
+@VALUE: 40,233
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-98
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 74,100
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 62,146
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 62,146
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 50,672
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-19
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 73,812
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-20
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 64,849
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-21
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 75,236
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-24
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 66,399
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-25
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 214
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-26
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 3,068
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-27
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 8,242
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-30
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 3,240
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-31
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 11,452
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-32
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 11,109
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-33
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 9,378
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-36
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 12,912
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-37
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 74,100
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:StockholdersEquity
+@VALUE: 56,727
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-38
+
+@SECTION: CASH_FLOW
+
+@TABLE_CONTENT: CASH FLOW TABLE (9999)
+@TABLE_TYPE: CASH FLOW
+Concept | Key | Context c-1 | Context c-16
+------- | --- | ----------- | ------------
+Increase Decrease In Other Operating Liabilities | - | $3,865 [M] | $3,889 [M]
+<Cash_Flow> |  |  | 
+@TOTAL: Net Cash Provided By Used In Operating Activities | - | $39,895 [M] | $34,005 [M]
+@TOTAL: Net Cash Provided By Used In Investing Activities | - | $1,927 [M] | $1,445 [M]
+@TOTAL: Net Cash Provided By Used In Financing Activities | - | $30,585 [M] | $35,563 [M]
+</Cash_Flow> |  |  | 
+<Other> |  |  | 
+  Payments For Proceeds From Other Investing Activities | - | $284 [M] | $141 [M]
+  Proceeds From Payments For Other Financing Activities | - | $46 [M] | $389 [M]
+</Other> |  |  | 
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherOperatingLiabilities
+@VALUE: 3,865
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncreaseDecreaseInOtherOperatingLiabilities
+@VALUE: 3,889
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInFinancingActivities
+@VALUE: 30,585
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInFinancingActivities
+@VALUE: 35,563
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInInvestingActivities
+@VALUE: 1,927
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInInvestingActivities
+@VALUE: 1,445
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInOperatingActivities
+@VALUE: 39,895
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:NetCashProvidedByUsedInOperatingActivities
+@VALUE: 34,005
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:PaymentsForProceedsFromOtherInvestingActivities
+@VALUE: 284
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:PaymentsForProceedsFromOtherInvestingActivities
+@VALUE: 141
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ProceedsFromPaymentsForOtherFinancingActivities
+@VALUE: 46
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ProceedsFromPaymentsForOtherFinancingActivities
+@VALUE: 389
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@SECTION: OTHER_FINANCIAL
+
+@TABLE_CONTENT: OTHER FINANCIAL TABLE (9999)
+@TABLE_TYPE: OTHER FINANCIAL
+Concept | Key | Context c-1 | Context c-16 | Context c-17 | Context c-18 | Context c-28 | Context c-29 | Context c-52 | Context c-53 | Context c-54 | Context c-55 | Context c-56 | Context c-57 | Context c-58 | Context c-59 | Context c-60 | Context c-61 | Context c-62 | Context c-63 | Context c-64 | Context c-65 | Context c-66 | Context c-67 | Context c-68 | Context c-69 | Context c-70 | Context c-71 | Context c-72 | Context c-73 | Context c-74 | Context c-75 | Context c-76 | Context c-77
+------- | --- | ----------- | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------
+@TOTAL: Gross Profit | - | $54,855 [M] | $50,332 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+<Liabilities> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Other Liabilities Current | - | - | - | $54,611 [M] | $58,829 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Liabilities Current | - | - | - | $133,973 [M] | $145,308 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Other Liabilities Noncurrent | - | - | - | $50,353 [M] | $49,848 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Liabilities Noncurrent | - | - | - | $145,441 [M] | $145,129 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Liabilities | - | - | - | $279,414 [M] | $290,437 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+</Liabilities> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Cash_Flow> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Cash And Cash Equivalents At Carrying Value | - | - | - | $40,760 [M] | $29,965 [M] | - | - | $29,542 [M] | $2,000 [M] | $— [M] | $2,000 [M] | $7,303 [M] | $243 [M] | $— [M] | $1,119 [M] | $472 [M] | $81 [M] | $— [M] | $— [M] | $9,218 [M] | $28,359 [M] | $481 [M] | $— [M] | $481 [M] | $35 [M] | $36 [M] | $— [M] | $1,034 [M] | $— [M] | $20 [M] | $— [M] | $— [M] | $1,125 [M]
+  Cash Cash Equivalents Restricted Cash And Restricted Cash Equivalents | - | - | - | $41,974 [M] | $30,737 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Cash Cash Equivalents Restricted Cash And Restricted Cash Equivalents Period Increase Decrease Including Exchange Rate Effect | - | $11,237 [M] | $3,003 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Cash | - | - | - | - | - | - | - | $29,542 [M] | - | - | - | - | - | - | - | - | - | - | - | - | $28,359 [M] | - | - | - | - | - | - | - | - | - | - | - | -
+  Cash Equivalents And Marketable Securities Accumulated Gross Unrealized Gain Before Tax | - | - | - | $266 [M] | $30 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Cash Equivalents And Marketable Securities Accumulated Gross Unrealized Loss Before Tax | - | - | - | $7,939 [M] | $11,683 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Cash Cash Equivalents And Marketable Securities | - | - | - | $172,575 [M] | $162,099 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+</Cash_Flow> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+<Other> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+  Weighted Average Number Of Shares Outstanding Basic | - | 15,509,763 shares | 15,892,723 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Weighted Average Number Of Diluted Shares Outstanding | - | 15,576,641 shares | 15,955,718 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Marketable Securities Current | - | - | - | $32,340 [M] | $31,590 [M] | - | - | $— [M] | $— [M] | $472 [M] | $472 [M] | $4,858 [M] | $98 [M] | $11,175 [M] | $329 [M] | $889 [M] | $13,909 [M] | $185 [M] | $425 [M] | $31,868 [M] | $— [M] | $— [M] | $428 [M] | $428 [M] | $5,468 [M] | $271 [M] | $11,332 [M] | $320 [M] | $608 [M] | $12,627 [M] | $192 [M] | $344 [M] | $31,162 [M]
+  Marketable Securities Noncurrent | - | - | - | $99,475 [M] | $100,544 [M] | - | - | $— [M] | $— [M] | $— [M] | $— [M] | $10,972 [M] | $5,002 [M] | $5,530 [M] | $— [M] | $— [M] | $57,518 [M] | $363 [M] | $20,090 [M] | $99,475 [M] | $— [M] | $— [M] | $— [M] | $— [M] | $12,611 [M] | $4,829 [M] | $5,159 [M] | $— [M] | $— [M] | $58,243 [M] | $410 [M] | $19,292 [M] | $100,544 [M]
+  Property Plant And Equipment Net | - | - | - | $43,666 [M] | $43,715 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Commercial Paper | - | - | - | $1,998 [M] | $5,985 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Commitments And Contingencies | - | - | - | $ | $ | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Common Stock Par Or Stated Value Per Share | - | - | - | 0.00001 | 0.00001 | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Common Stock Shares Authorized | - | - | - | 50,400,000 shares | 50,400,000 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Common Stock Shares Issued | - | - | - | 15,460,223 shares | 15,550,061 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Common Stock Shares Outstanding | - | - | - | 15,460,223 shares | 15,550,061 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Common Stocks Including Additional Paid In Capital | - | - | - | $75,236 [M] | $73,812 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Adjustments Related To Tax Withholding For Share Based Compensation | - | - | - | - | - | $1,018 [M] | $978 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Dividends | - | - | - | - | - | $3,774 [M] | $3,712 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Stock Repurchased And Retired During Period Value | - | $20.5 | - | - | - | $20,668 [M] | $19,000 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Common Stock Dividends Per Share Declared | - | 0.24 | 0.23 | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Depreciation Depletion And Amortization | - | $2,848 [M] | $2,916 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Share Based Compensation | - | $2,997 [M] | $2,905 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Increase Decrease In Inventories | - | $137 [M] | $1,807 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Payments To Acquire Property Plant And Equipment | - | $2,392 [M] | $3,787 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Payments Related To Tax Withholding For Share Based Compensation | - | $2,591 [M] | $2,316 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Payments Of Dividends | - | $3,825 [M] | $3,768 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Payments For Repurchase Of Common Stock | - | $20,139 [M] | $19,475 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Proceeds From Repayments Of Commercial Paper | - | $3,984 [M] | $8,214 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Incremental Common Shares Attributable To Share Based Payment Arrangements | - | 66,878 shares | 62,995 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Property Plant And Equipment Gross | - | - | - | $116,176 [M] | $114,599 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Accumulated Depreciation Depletion And Amortization Property Plant And Equipment | - | - | - | $72,510 [M] | $70,884 [M] | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+  Stock Repurchased And Retired During Period Shares | - | 118 shares | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
+</Other> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+
+@CONCEPT: DocumentType
+@VALUE: 10-Q
+@CONTEXT_REF: AsOf
+
+@CONCEPT: EntityRegistrantName
+@VALUE: AAPL
+@CONTEXT_REF: AsOf
+
+@CONCEPT: aapl:CashCashEquivalentsAndMarketableSecurities
+@COMMON_NAME: Cash Cash Equivalents And Marketable Securities
+@VALUE: 172,575
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: aapl:CashCashEquivalentsAndMarketableSecurities
+@COMMON_NAME: Cash Cash Equivalents And Marketable Securities
+@VALUE: 162,099
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Cash Equivalents And Marketable Securities Accumulated Gross Unrealized Gain Before Tax
+@VALUE: 266
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedGainBeforeTax
+@COMMON_NAME: Cash Equivalents And Marketable Securities Accumulated Gross Unrealized Gain Before Tax
+@VALUE: 30
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Cash Equivalents And Marketable Securities Accumulated Gross Unrealized Loss Before Tax
+@VALUE: 7,939
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedLossBeforeTax
+@COMMON_NAME: Cash Equivalents And Marketable Securities Accumulated Gross Unrealized Loss Before Tax
+@VALUE: 11,683
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: aapl:NumberOfSignificantVendors
+@COMMON_NAME: Number Of Significant Vendors
+@VALUE: two
+@UNIT_REF: vendor
+@DECIMALS: INF
+@CONTEXT_REF: c-88
+
+@CONCEPT: aapl:NumberOfSignificantVendors
+@COMMON_NAME: Number Of Significant Vendors
+@VALUE: two
+@UNIT_REF: vendor
+@DECIMALS: INF
+@CONTEXT_REF: c-91
+
+@CONCEPT: dei:EntityCommonStockSharesOutstanding
+@COMMON_NAME: Entity Common Stock Shares Outstanding
+@VALUE: 15,441,881,000
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-11
+
+@CONCEPT: us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment
+@VALUE: 72,510
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment
+@VALUE: 70,884
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 1,660
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-22
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 1,434
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-23
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 1,018
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-28
+
+@CONCEPT: us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 978
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-29
+
+@CONCEPT: us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue
+@VALUE: 3,084
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-22
+
+@CONCEPT: us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue
+@VALUE: 2,984
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-23
+
+@CONCEPT: us-gaap:Cash
+@VALUE: 29,542
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-52
+
+@CONCEPT: us-gaap:Cash
+@VALUE: 29,542
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-52
+
+@CONCEPT: us-gaap:Cash
+@VALUE: 28,359
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-65
+
+@CONCEPT: us-gaap:Cash
+@VALUE: 28,359
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-65
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 40,760
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 29,965
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 29,542
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-52
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 2,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 2,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 7,303
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 243
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 1,119
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 472
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 81
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 9,218
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 40,760
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 28,359
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-65
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 481
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 481
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 35
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 36
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 1,034
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 20
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 1,125
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:CashAndCashEquivalentsAtCarryingValue
+@VALUE: 29,965
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 30,737
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 24,977
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-19
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 41,974
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+@VALUE: 21,974
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-38
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect
+@VALUE: 11,237
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect
+@VALUE: 3,003
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:CommercialPaper
+@VALUE: 1,998
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommercialPaper
+@VALUE: 5,985
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CommercialPaper
+@VALUE: 2.0
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-94
+
+@CONCEPT: us-gaap:CommercialPaper
+@VALUE: 6.0
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-95
+
+@CONCEPT: us-gaap:CommitmentsAndContingencies
+@VALUE: 
+@UNIT_REF: usd
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommitmentsAndContingencies
+@VALUE: 
+@UNIT_REF: usd
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CommonStockDividendsPerShareDeclared
+@VALUE: 0.24
+@UNIT_REF: usdPerShare
+@DECIMALS: INF
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:CommonStockDividendsPerShareDeclared
+@VALUE: 0.23
+@UNIT_REF: usdPerShare
+@DECIMALS: INF
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:CommonStockParOrStatedValuePerShare
+@VALUE: 0.00001
+@UNIT_REF: usdPerShare
+@DECIMALS: INF
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommonStockParOrStatedValuePerShare
+@VALUE: 0.00001
+@UNIT_REF: usdPerShare
+@DECIMALS: INF
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CommonStockSharesAuthorized
+@VALUE: 50,400,000
+@UNIT_REF: shares
+@DECIMALS: INF
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommonStockSharesAuthorized
+@VALUE: 50,400,000
+@UNIT_REF: shares
+@DECIMALS: INF
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CommonStockSharesIssued
+@VALUE: 15,460,223
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommonStockSharesIssued
+@VALUE: 15,550,061
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CommonStockSharesOutstanding
+@VALUE: 15,460,223
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommonStockSharesOutstanding
+@VALUE: 15,550,061
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:CommonStocksIncludingAdditionalPaidInCapital
+@VALUE: 75,236
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:CommonStocksIncludingAdditionalPaidInCapital
+@VALUE: 73,812
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 34
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-86
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 41
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-87
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 50
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-89
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 20
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-90
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 48
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-92
+
+@CONCEPT: us-gaap:ConcentrationRiskPercentage1
+@VALUE: 23
+@UNIT_REF: number
+@DECIMALS: 2
+@CONTEXT_REF: c-93
+
+@CONCEPT: us-gaap:DepreciationDepletionAndAmortization
+@VALUE: 2,848
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:DepreciationDepletionAndAmortization
+@VALUE: 2,916
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:DerivativeNotionalAmount
+@VALUE: 66,735
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-80
+
+@CONCEPT: us-gaap:DerivativeNotionalAmount
+@VALUE: 74,730
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-81
+
+@CONCEPT: us-gaap:DerivativeNotionalAmount
+@VALUE: 19,375
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-82
+
+@CONCEPT: us-gaap:DerivativeNotionalAmount
+@VALUE: 19,375
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-83
+
+@CONCEPT: us-gaap:DerivativeNotionalAmount
+@VALUE: 102,108
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-84
+
+@CONCEPT: us-gaap:DerivativeNotionalAmount
+@VALUE: 104,777
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-85
+
+@CONCEPT: us-gaap:Dividends
+@VALUE: 3,774
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-28
+
+@CONCEPT: us-gaap:Dividends
+@VALUE: 3,712
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-29
+
+@CONCEPT: us-gaap:GrossProfit
+@VALUE: 54,855
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:GrossProfit
+@VALUE: 50,332
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncreaseDecreaseInInventories
+@VALUE: 137
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncreaseDecreaseInInventories
+@VALUE: 1,807
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:IncrementalCommonSharesAttributableToShareBasedPaymentArrangements
+@VALUE: 66,878
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:IncrementalCommonSharesAttributableToShareBasedPaymentArrangements
+@VALUE: 62,995
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:Liabilities
+@VALUE: 279,414
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:Liabilities
+@VALUE: 290,437
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:LiabilitiesCurrent
+@VALUE: 133,973
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:LiabilitiesCurrent
+@VALUE: 145,308
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:LiabilitiesNoncurrent
+@VALUE: 145,441
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:LiabilitiesNoncurrent
+@VALUE: 145,129
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 32,340
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 31,590
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-52
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 472
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 472
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 4,858
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 98
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 11,175
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 329
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 889
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 13,909
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 185
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 425
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 31,868
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 32,340
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-65
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 428
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 428
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 5,468
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 271
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 11,332
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 320
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 608
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 12,627
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 192
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 344
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 31,162
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:MarketableSecuritiesCurrent
+@VALUE: 31,590
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 99,475
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 100,544
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-52
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-53
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-54
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-55
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 10,972
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-56
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 5,002
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-57
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 5,530
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-58
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-59
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-60
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 57,518
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-61
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 363
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-62
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 20,090
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-63
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 99,475
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-64
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 99,475
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-65
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-66
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-67
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-68
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 12,611
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-69
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 4,829
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-70
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 5,159
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-71
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-72
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: —
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-73
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 58,243
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-74
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 410
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-75
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 19,292
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-76
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 100,544
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-77
+
+@CONCEPT: us-gaap:MarketableSecuritiesNoncurrent
+@VALUE: 100,544
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:OtherLiabilitiesCurrent
+@VALUE: 54,611
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:OtherLiabilitiesCurrent
+@VALUE: 58,829
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:OtherLiabilitiesNoncurrent
+@VALUE: 50,353
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:OtherLiabilitiesNoncurrent
+@VALUE: 49,848
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:PaymentsForRepurchaseOfCommonStock
+@VALUE: 20,139
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:PaymentsForRepurchaseOfCommonStock
+@VALUE: 19,475
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:PaymentsOfDividends
+@VALUE: 3,825
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:PaymentsOfDividends
+@VALUE: 3,768
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 2,591
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation
+@VALUE: 2,316
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:PaymentsToAcquirePropertyPlantAndEquipment
+@VALUE: 2,392
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:PaymentsToAcquirePropertyPlantAndEquipment
+@VALUE: 3,787
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ProceedsFromRepaymentsOfCommercialPaper
+@VALUE: 3,984
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ProceedsFromRepaymentsOfCommercialPaper
+@VALUE: 8,214
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:ProceedsFromRepaymentsOfCommercialPaper
+@VALUE: 3,984
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ProceedsFromRepaymentsOfCommercialPaper
+@VALUE: 8,214
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentGross
+@VALUE: 116,176
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentGross
+@VALUE: 114,599
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentNet
+@VALUE: 43,666
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentNet
+@VALUE: 43,715
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentNet
+@VALUE: 43,666
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-17
+
+@CONCEPT: us-gaap:PropertyPlantAndEquipmentNet
+@VALUE: 43,715
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-18
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 2,997
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:ShareBasedCompensation
+@VALUE: 2,905
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:StockRepurchasedAndRetiredDuringPeriodShares
+@VALUE: 118
+@UNIT_REF: shares
+@DECIMALS: -6
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:StockRepurchasedAndRetiredDuringPeriodValue
+@VALUE: 20,668
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-28
+
+@CONCEPT: us-gaap:StockRepurchasedAndRetiredDuringPeriodValue
+@VALUE: 19,000
+@UNIT_REF: usd
+@DECIMALS: -6
+@CONTEXT_REF: c-29
+
+@CONCEPT: us-gaap:StockRepurchasedAndRetiredDuringPeriodValue
+@VALUE: 20.5
+@UNIT_REF: usd
+@DECIMALS: -8
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 15,576,641
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 15,955,718
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 15,576,641
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding
+@VALUE: 15,955,718
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 15,509,763
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 15,892,723
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-16
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 15,509,763
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-1
+
+@CONCEPT: us-gaap:WeightedAverageNumberOfSharesOutstandingBasic
+@VALUE: 15,892,723
+@UNIT_REF: shares
+@DECIMALS: -3
+@CONTEXT_REF: c-16
+
+@SECTION: ITEM_1A_RISK_FACTORS
+@SECTION_TITLE: Risk Factors
+
+@NARRATIVE_TEXT: The Company’s business, reputation, results of operations, financial condition and stock price can be affected by a number of factors, whether currently known or unknown, including those described in Part I, Item 1A of the 2023 Form 10-K under the heading “Risk Factors.” When any one or more of these risks materialize from time to time, the Company’s business, reputation, results of operations, financial condition and stock price can be materially and adversely affected. Except as set forth below, there have been no material changes to the Company’s risk factors since the 2023 Form 10-K.
+
+@NARRATIVE_TEXT: The technology industry, including, in some instances, the Company, is subject to intense media, political and regulatory scrutiny, which exposes the Company to increasing regulation, government investigations, legal actions and penalties.
+
+@NARRATIVE_TEXT: From time to time, the Company has made changes to its App Store, including actions taken in response to litigation, competition, market conditions and legal and regulatory requirements. The Company expects to make further business changes in the future. For example, in the U.S. the Company has implemented changes to how developers communicate with consumers within apps on the U.S. storefront of the iOS and iPadOS App Store regarding alternative purchasing mechanisms.
+
+@NARRATIVE_TEXT: In January 2024, the Company announced changes to iOS, the App Store and Safari® in the European Union to comply with the Digital Markets Act (the “DMA”), including new business terms and alternative fee structures for iOS apps, alternative methods of distribution for iOS apps, alternative payment processing for apps across the Company’s operating systems, and additional tools and application programming interfaces (“APIs”) for developers. Although the Company’s compliance plan is intended to address the DMA’s obligations, it is still subject to potential challenge by the European Commission or private litigants. In addition, other jurisdictions may seek to require the Company to make changes to its business. While the changes introduced by the Company in the European Union are intended to reduce new privacy and security risks the DMA poses to European Union users, many risks will remain.
+
+@NARRATIVE_TEXT: The Company is also currently subject to antitrust investigations in various jurisdictions around the world, which can result in legal proceedings and claims against the Company that could, individually or in the aggregate, have a materially adverse impact on the Company’s business, results of operations and financial condition. For example, the Company is the subject of investigations in Europe and other jurisdictions relating to App Store terms and conditions. If such investigations result in adverse findings against the Company, the Company could be exposed to significant fines and may be required to make further changes to its App Store business, all of which could materially adversely affect the Company’s business, results of operations and financial condition.
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 19
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 20
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 21
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 22
+
+@SECTION: ITEM_1_FINANCIAL_STATEMENTS
+@SECTION_TITLE: Financial Statements
+
+@NARRATIVE_TEXT: Three Months EndedDecember 30,2023December 31,2022Net sales:   Products$96,458 $96,388    Services23,117 20,766 Total net sales119,575 117,154 Cost of sales:   Products58,440 60,765    Services6,280 6,057 Total cost of sales64,720 66,822 Gross margin54,855 50,332 Operating expenses:Research and development7,696 7,709 Selling, general and administrative6,786 6,607 Total operating expenses14,482 14,316 Operating income40,373 36,016 Other income/(expense), net(50)(393)Income before provision for income taxes40,323 35,623 Provision for income taxes6,407 5,625 Net income$33,916 $29,998 Earnings per share:Basic$2.19 $1.89 Diluted$2.18 $1.88 Shares used in computing earnings per share:Basic15,509,763 15,892,723 Diluted15,576,641 15,955,718
+
+@NARRATIVE_TEXT: Three Months EndedDecember 30,2023December 31,2022Net income$33,916 $29,998 Other comprehensive income/(loss):Change in foreign currency translation, net of tax308 (14)Change in unrealized gains/losses on derivative instruments, net of tax:Change in fair value of derivative instruments(531)(988)Adjustment for net (gains)/losses realized and included in net income(823)(1,766)Total change in unrealized gains/losses on derivative instruments(1,354)(2,754)Change in unrealized gains/losses on marketable debt securities, net of tax:Change in fair value of marketable debt securities3,045 900 Adjustment for net (gains)/losses realized and included in net income75 65 Total change in unrealized gains/losses on marketable debt securities3,120 965 Total other comprehensive income/(loss)2,074 (1,803)Total comprehensive income$35,990 $28,195
+
+@NARRATIVE_TEXT: December 30,2023September 30,2023ASSETS:Current assets:Cash and cash equivalents$40,760 $29,965 Marketable securities32,340 31,590 Accounts receivable, net23,194 29,508 Vendor non-trade receivables26,908 31,477 Inventories6,511 6,331 Other current assets13,979 14,695 Total current assets143,692 143,566 Non-current assets:Marketable securities99,475 100,544 Property, plant and equipment, net43,666 43,715 Other non-current assets66,681 64,758 Total non-current assets209,822 209,017 Total assets$353,514 $352,583 LIABILITIES AND SHAREHOLDERS’ EQUITY:Current liabilities:Accounts payable$58,146 $62,611 Other current liabilities54,611 58,829 Deferred revenue8,264 8,061 Commercial paper1,998 5,985 Term debt10,954 9,822 Total current liabilities133,973 145,308 Non-current liabilities:Term debt95,088 95,281 Other non-current liabilities50,353 49,848 Total non-current liabilities145,441 145,129 Total liabilities279,414 290,437 Commitments and contingenciesShareholders’ equity:Common stock and additional paid-in capital, $0.00001 par value: 50,400,000 shares authorized; 15,460,223 and 15,550,061 shares issued and outstanding, respectively75,236 73,812 Retained earnings/(Accumulated deficit)8,242 (214)Accumulated other comprehensive loss(9,378)(11,452)Total shareholders’ equity74,100 62,146 Total liabilities and shareholders’ equity$353,514 $352,583
+
+@NARRATIVE_TEXT: Three Months EndedDecember 30,2023December 31,2022Total shareholders’ equity, beginning balances$62,146 $50,672 Common stock and additional paid-in capital:Beginning balances73,812 64,849 Common stock withheld related to net share settlement of equity awards(1,660)(1,434)Share-based compensation3,084 2,984 Ending balances75,236 66,399 Retained earnings/(Accumulated deficit):Beginning balances(214)(3,068)Net income33,916 29,998 Dividends and dividend equivalents declared(3,774)(3,712)Common stock withheld related to net share settlement of equity awards(1,018)(978)Common stock repurchased(20,668)(19,000)Ending balances8,242 3,240 Accumulated other comprehensive income/(loss):Beginning balances(11,452)(11,109)Other comprehensive income/(loss)2,074 (1,803)Ending balances(9,378)(12,912)Total shareholders’ equity, ending balances$74,100 $56,727 Dividends and dividend equivalents declared per share or RSU$0.24 $0.23
+
+@NARRATIVE_TEXT: Three Months EndedDecember 30,2023December 31,2022Cash, cash equivalents and restricted cash, beginning balances$30,737 $24,977 Operating activities:Net income33,916 29,998 Adjustments to reconcile net income to cash generated by operating activities:Depreciation and amortization2,848 2,916 Share-based compensation expense2,997 2,905 Other(989)(317)Changes in operating assets and liabilities:Accounts receivable, net6,555 4,275 Vendor non-trade receivables4,569 2,320 Inventories(137)(1,807)Other current and non-current assets(1,457)(4,099)Accounts payable(4,542)(6,075)Other current and non-current liabilities(3,865)3,889 Cash generated by operating activities39,895 34,005 Investing activities:Purchases of marketable securities(9,780)(5,153)Proceeds from maturities of marketable securities13,046 7,127 Proceeds from sales of marketable securities1,337 509 Payments for acquisition of property, plant and equipment(2,392)(3,787)Other(284)(141)Cash generated by/(used in) investing activities1,927 (1,445)Financing activities:Payments for taxes related to net share settlement of equity awards(2,591)(2,316)Payments for dividends and dividend equivalents(3,825)(3,768)Repurchases of common stock(20,139)(19,475)Repayments of term debt— (1,401)Repayments of commercial paper, net(3,984)(8,214)Other(46)(389)Cash used in financing activities(30,585)(35,563)Increase/(Decrease) in cash, cash equivalents and restricted cash11,237 (3,003)Cash, cash equivalents and restricted cash, ending balances$41,974 $21,974 Supplemental cash flow disclosure:Cash paid for income taxes, net$7,255 $828
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 1
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 2
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 3
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 4
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 5
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 6
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 7
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 8
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 9
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 10
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 11
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 12
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 13
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 14
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 15
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 16
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 17
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 18
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 19
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 20
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 21
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 22
+
+@SECTION: ITEM_2_MD_AND_A
+@SECTION_TITLE: Management's Discussion and Analysis
+
+@NARRATIVE_TEXT: This Item and other sections of this Quarterly Report on Form 10-Q (“Form 10-Q”) contain forward-looking statements, within the meaning of the Private Securities Litigation Reform Act of 1995, that involve risks and uncertainties. Forward-looking statements provide current expectations of future events based on certain assumptions and include any statement that does not directly relate to any historical or current fact. For example, statements in this Form 10-Q regarding the potential future impact of macroeconomic conditions on the Company’s business and results of operations are forward-looking statements. Forward-looking statements can also be identified by words such as “future,” “anticipates,” “believes,” “estimates,” “expects,” “intends,” “plans,” “predicts,” “will,” “would,” “could,” “can,” “may,” and similar terms. Forward-looking statements are not guarantees of future performance and the Company’s actual results may differ significantly from the results discussed in the forward-looking statements. Factors that might cause such differences include, but are not limited to, those discussed in Part I, Item 1A of the 2023 Form 10-K under the heading “Risk Factors.” The Company assumes no obligation to revise or update any forward-looking statements for any reason, except as required by law.
+
+@NARRATIVE_TEXT: Unless otherwise stated, all information presented herein is based on the Company’s fiscal calendar, and references to particular years, quarters, months or periods refer to the Company’s fiscal years ended in September and the associated quarters, months and periods of those fiscal years.
+
+@NARRATIVE_TEXT: The following discussion should be read in conjunction with the 2023 Form 10-K filed with the U.S. Securities and Exchange Commission (the “SEC”) and the condensed consolidated financial statements and accompanying notes included in Part I, Item 1 of this Form 10-Q.
+
+@NARRATIVE_TEXT: The Company periodically provides certain information for investors on its corporate website, www.apple.com, and its investor relations website, investor.apple.com. This includes press releases and other information about financial performance, information on environmental, social and governance matters, and details related to the Company’s annual meeting of shareholders. The information contained on the websites referenced in this Form 10-Q is not incorporated by reference into this filing. Further, the Company’s references to website URLs are intended to be inactive textual references only.
+
+@NARRATIVE_TEXT: The Company has historically experienced higher net sales in its first quarter compared to other quarters in its fiscal year due in part to seasonal holiday demand. Additionally, new product and service introductions can significantly impact net sales, cost of sales and operating expenses. The timing of product introductions can also impact the Company’s net sales to its indirect distribution channels as these channels are filled with new inventory following a product launch, and channel inventory of an older product often declines as the launch of a newer product approaches. Net sales can also be affected when consumers and distributors anticipate a product introduction.
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 13
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 14
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 15
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 16
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 17
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 18
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 19
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 20
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 21
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 22
+
+@SECTION: ITEM_3_MARKET_RISK
+@SECTION_TITLE: Quantitative and Qualitative Disclosures About Market Risk
+
+@NARRATIVE_TEXT: There have been no material changes to the Company’s market risk during the first three months of 2024. For a discussion of the Company’s exposure to market risk, refer to the Company’s market risk disclosures set forth in Part II, Item 7A, “Quantitative and Qualitative Disclosures About Market Risk” of the 2023 Form 10-K.
+
+@NARRATIVE_TEXT: Based on an evaluation under the supervision and with the participation of the Company’s management, the Company’s principal executive officer and principal financial officer have concluded that the Company’s disclosure controls and procedures as defined in Rules 13a-15(e) and 15d-15(e) under the Exchange Act were effective as of December 30, 2023 to provide reasonable assurance that information required to be disclosed by the Company in reports that it files or submits under the Exchange Act is (i) recorded, processed, summarized and reported within the time periods specified in the SEC rules and forms and (ii) accumulated and communicated to the Company’s management, including its principal executive officer and principal financial officer, as appropriate to allow timely decisions regarding required disclosure.
+
+@NARRATIVE_TEXT: There were no changes in the Company’s internal control over financial reporting during the first quarter of 2024, which were identified in connection with management’s evaluation required by paragraph (d) of Rules 13a-15 and 15d-15 under the Exchange Act, that have materially affected, or are reasonably likely to materially affect, the Company’s internal control over financial reporting.
+
+@NARRATIVE_TEXT: Epic Games, Inc. (“Epic”) filed a lawsuit in the U.S. District Court for the Northern District of California (the “District Court”) against the Company alleging violations of federal and state antitrust laws and California’s unfair competition law based upon the Company’s operation of its App Store®. On September 10, 2021, the District Court ruled in favor of the Company with respect to nine out of the ten counts included in Epic’s claim. The District Court found that certain provisions of the Company’s App Store Review Guidelines violate California’s unfair competition law and issued an injunction enjoining the Company from prohibiting developers from including in their apps external links that direct customers to purchasing mechanisms other than Apple in-app purchasing. The injunction applies to apps on the U.S. storefront of the iOS and iPadOS® App Store. On April 24, 2023, the U.S. Court of Appeals for the Ninth Circuit (the “Circuit Court”) affirmed the District Court’s ruling. On June 7, 2023, the Company and Epic filed petitions with the Circuit Court requesting further review of the decision. On June 30, 2023, the Circuit Court denied both petitions. On July 17, 2023, the Circuit Court granted Apple’s motion to stay enforcement of the injunction pending appeal to the U.S. Supreme Court (the “Supreme Court”). On January 16, 2024, the Supreme Court denied both the Company’s and Epic’s petitions and the stay terminated. The Supreme Court’s denial of Epic’s petition confirms the District Court’s ruling in favor of the Company with respect to all of the antitrust claims. Following termination of the stay, the Company implemented a plan to comply with the injunction and filed a statement of compliance with the District Court. On January 31, 2024, Epic filed a notice with the District Court indicating its intent to dispute the Company’s compliance plan.
+
+@NARRATIVE_TEXT: Masimo Corporation and Cercacor Laboratories, Inc. (together, “Masimo”) filed a complaint before the U.S. International Trade Commission (the “ITC”) alleging infringement by the Company of five patents relating to the functionality of the blood oxygen feature in Apple Watch® Series 6 and 7. In its complaint, Masimo sought a permanent exclusion order prohibiting importation to the U.S. of certain Apple Watch models that include blood oxygen sensing functionality. On October 26, 2023, the ITC entered a limited exclusion order (the “Order”) prohibiting importation and sales in the U.S. of Apple Watch models with blood oxygen sensing functionality, which includes Apple Watch Series 9 and Apple Watch Ultra™ 2. The Company subsequently proposed a redesign of Apple Watch Series 9 and Apple Watch Ultra 2 to the U.S. Customs and Border Protection (the “CBP”) and appealed the Order. On January 12, 2024, the CBP found that the Company’s proposed redesign of Apple Watch Series 9 and Apple Watch Ultra 2 falls outside the scope of the Order, permitting the Company to import and sell the models in the U.S.
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 18
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 19
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 20
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 21
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 22
+
+@SECTION: ITEM_4_CONTROLS
+@SECTION_TITLE: Controls and Procedures
+
+@NARRATIVE_TEXT: Based on an evaluation under the supervision and with the participation of the Company’s management, the Company’s principal executive officer and principal financial officer have concluded that the Company’s disclosure controls and procedures as defined in Rules 13a-15(e) and 15d-15(e) under the Exchange Act were effective as of December 30, 2023 to provide reasonable assurance that information required to be disclosed by the Company in reports that it files or submits under the Exchange Act is (i) recorded, processed, summarized and reported within the time periods specified in the SEC rules and forms and (ii) accumulated and communicated to the Company’s management, including its principal executive officer and principal financial officer, as appropriate to allow timely decisions regarding required disclosure.
+
+@NARRATIVE_TEXT: There were no changes in the Company’s internal control over financial reporting during the first quarter of 2024, which were identified in connection with management’s evaluation required by paragraph (d) of Rules 13a-15 and 15d-15 under the Exchange Act, that have materially affected, or are reasonably likely to materially affect, the Company’s internal control over financial reporting.
+
+@NARRATIVE_TEXT: Epic Games, Inc. (“Epic”) filed a lawsuit in the U.S. District Court for the Northern District of California (the “District Court”) against the Company alleging violations of federal and state antitrust laws and California’s unfair competition law based upon the Company’s operation of its App Store®. On September 10, 2021, the District Court ruled in favor of the Company with respect to nine out of the ten counts included in Epic’s claim. The District Court found that certain provisions of the Company’s App Store Review Guidelines violate California’s unfair competition law and issued an injunction enjoining the Company from prohibiting developers from including in their apps external links that direct customers to purchasing mechanisms other than Apple in-app purchasing. The injunction applies to apps on the U.S. storefront of the iOS and iPadOS® App Store. On April 24, 2023, the U.S. Court of Appeals for the Ninth Circuit (the “Circuit Court”) affirmed the District Court’s ruling. On June 7, 2023, the Company and Epic filed petitions with the Circuit Court requesting further review of the decision. On June 30, 2023, the Circuit Court denied both petitions. On July 17, 2023, the Circuit Court granted Apple’s motion to stay enforcement of the injunction pending appeal to the U.S. Supreme Court (the “Supreme Court”). On January 16, 2024, the Supreme Court denied both the Company’s and Epic’s petitions and the stay terminated. The Supreme Court’s denial of Epic’s petition confirms the District Court’s ruling in favor of the Company with respect to all of the antitrust claims. Following termination of the stay, the Company implemented a plan to comply with the injunction and filed a statement of compliance with the District Court. On January 31, 2024, Epic filed a notice with the District Court indicating its intent to dispute the Company’s compliance plan.
+
+@NARRATIVE_TEXT: Masimo Corporation and Cercacor Laboratories, Inc. (together, “Masimo”) filed a complaint before the U.S. International Trade Commission (the “ITC”) alleging infringement by the Company of five patents relating to the functionality of the blood oxygen feature in Apple Watch® Series 6 and 7. In its complaint, Masimo sought a permanent exclusion order prohibiting importation to the U.S. of certain Apple Watch models that include blood oxygen sensing functionality. On October 26, 2023, the ITC entered a limited exclusion order (the “Order”) prohibiting importation and sales in the U.S. of Apple Watch models with blood oxygen sensing functionality, which includes Apple Watch Series 9 and Apple Watch Ultra™ 2. The Company subsequently proposed a redesign of Apple Watch Series 9 and Apple Watch Ultra 2 to the U.S. Customs and Border Protection (the “CBP”) and appealed the Order. On January 12, 2024, the CBP found that the Company’s proposed redesign of Apple Watch Series 9 and Apple Watch Ultra 2 falls outside the scope of the Order, permitting the Company to import and sell the models in the U.S.
+
+@NARRATIVE_TEXT: The Company is subject to other legal proceedings and claims that have not been fully resolved and that have arisen in the ordinary course of business. The Company settled certain matters during the first quarter of 2024 that did not individually or in the aggregate have a material impact on the Company’s financial condition or operating results. The outcome of litigation is inherently uncertain. If one or more legal matters were resolved against the Company in a reporting period for amounts above management’s expectations, the Company’s financial condition and operating results for that reporting period could be materially adversely affected.
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 18
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 19
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 20
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 21
+
+@TABLE_CONTENT: Apple Inc. | Q1 2024 Form 10-Q | 22
+
+@DATA_INTEGRITY_REPORT
+Table preservation metrics:
+- XBRL facts: 528
+- XBRL tables created: 4
+- Text tables detected: 46
+- Total tables included: 50
+- Table preservation rate: 100.0%
+- Total table rows: 209
+- Narrative paragraphs: 213
+- Narrative paragraphs included: 25
+
+@DOCUMENT_COVERAGE
+10-Q Coverage: 50.0% of standard sections found
+Found 4 of 8 standard 10-Q sections:
+Item 1 FINANCIAL STATEMENTS, Item 2 MD AND A, Item 3 MARKET RISK, Item 4 CONTROLS
+Missing 4 section(s):
+Item 1A RISK FACTORS, Item 4 MINE SAFETY, Item 5 OTHER INFORMATION, Item 6 EXHIBITS
+Note: Missing sections may not exist in the original document
+
+@CONTEXT_REFERENCE_GUIDE
+This section provides a consolidated reference for all time periods used in this document.
+
+@DATA_DICTIONARY:
+Context_Code | Semantic_Code | Category | Type | Segment | Period | Description
+------------|---------------|----------|------|---------|--------|------------
+Note: No detailed context information available for this filing
+
+@VERIFICATION_KEYS:
+These formulas can be used to verify data consistency:
+- No context information available for formula verification
+
+@PERIOD_CONTEXTS
+No detailed period context information available
+
+@INSTANT_CONTEXTS
+No detailed instant context information available
+
+@EXAMPLE_EXTRACTION
+Example of how to extract and format data from this document:
+
+```python
+# Extract revenue information for specific period with hierarchy awareness
+def extract_revenue(document, context_code):
+    # Find the Revenue section
+    revenue_section = find_section(document, '<Revenue>')
+    
+    # Extract all line items with their context codes
+    revenue_data = {}
+    totals = {}
+    parent_child_map = {}
+    
+    # First pass: collect all items and identify parent-child relationships
+    for line in revenue_section:
+        if context_code in line.split('|')[1].strip():
+            columns = line.split('|')
+            raw_item_name = columns[0].strip()
+            
+            # Parse hierarchy information
+            if raw_item_name.startswith('@TOTAL:'):
+                # This is a total item
+                item_name = raw_item_name.replace('@TOTAL:', '').strip()
+                is_total = True
+                level = 0  # Top level
+            elif raw_item_name.startswith('@SUBTOTAL:'):
+                # This is a subtotal item
+                item_name = raw_item_name.replace('@SUBTOTAL:', '').strip()
+                is_total = True
+                level = 1  # Mid level
+            elif '@CHILD_OF:' in raw_item_name:
+                # This is a child item, extract its parent
+                parts = raw_item_name.split('@CHILD_OF:')
+                item_name = parts[0].replace('↳', '').strip()
+                parent_name = parts[1].strip()
+                parent_child_map[item_name] = parent_name
+                is_total = False
+                level = 2  # Child level
+            else:
+                # Regular item
+                item_name = raw_item_name.strip()
+                is_total = False
+                level = 1  # Base level
+            
+            # Find the value corresponding to the context code
+            value = get_value_for_context(columns, context_code)
+            
+            # Store with hierarchy information
+            if is_total:
+                totals[item_name] = {
+                    'value': value,
+                    'level': level,
+                    'components': []  # Will be filled in second pass
+                }
+            else:
+                revenue_data[item_name] = {
+                    'value': value,
+                    'level': level,
+                    'parent': parent_child_map.get(item_name)
+                }
+    
+    # Second pass: associate children with their parent totals
+    for item_name, item_data in revenue_data.items():
+        parent = item_data.get('parent')
+        if parent and parent in totals:
+            totals[parent]['components'].append(item_name)
+    
+    # Combine the data structures
+    result = {
+        'line_items': revenue_data,
+        'totals': totals,
+        # Include verification formulas
+        'verify': {
+            'sum_components': 'Sum of all components should equal the total',
+            'formula': 'Total_Revenue = Product_Revenue + Service_Revenue + Other_Revenue'
+        }
+    }
+    return result
+```
+
+Example hierarchical data format for extraction:
+
+```json
+{
+  "line_items": {
+    "Product_Revenue": {
+      "value": 72480,
+      "level": 1,
+      "parent": "Total_Revenue"
+    },
+    "Service_Revenue": {
+      "value": 16320,
+      "level": 1,
+      "parent": "Total_Revenue"
+    },
+    "Automotive_Revenue": {
+      "value": 52300,
+      "level": 2,
+      "parent": "Product_Revenue"
+    },
+    "Energy_Revenue": {
+      "value": 20180,
+      "level": 2,
+      "parent": "Product_Revenue"
+    }
+  },
+  "totals": {
+    "Total_Revenue": {
+      "value": 88800,
+      "level": 0,
+      "components": ["Product_Revenue", "Service_Revenue"],
+      "contexts": {
+        "c-1": 88800,           // Using short code
+        "FY2023": 88800,        // Using semantic code
+        "Consolidated_2023": 88800  // Using segment information
+      }
+    },
+    "Product_Revenue": {
+      "value": 72480,
+      "level": 1,
+      "components": ["Automotive_Revenue", "Energy_Revenue"]
+    }
+  },
+  "verify": {
+    "equations": [
+      "Total_Revenue = Product_Revenue + Service_Revenue",
+      "Product_Revenue = Automotive_Revenue + Energy_Revenue"
+    ],
+    "verified": true
+  },
+  "metadata": {
+    "statement_type": "Income_Statement",
+    "period": "FY2023",
+    "hierarchical": true
+  }
+}
+```
+
+Note: This hierarchical structure makes parent-child relationships explicit, enabling accurate calculation and validation of totals. The hierarchy levels indicate:
+- Level 0: Main totals (like Total Revenue)
+- Level 1: Major categories (like Product Revenue)
+- Level 2: Subcategories (like Automotive Revenue)
+
+You can use either the numeric short codes (c-1, c-2) or the semantic codes (FY2023, BS_2023_12_31) to access context values. The semantic codes are more descriptive and self-explanatory.
