@@ -1025,7 +1025,17 @@ class BatchSECPipeline:
                             end_date = datetime.datetime.strptime(period_end, '%Y-%m-%d')
                             
                             # Check if the period end date matches expected month and year
-                            if end_date.year == calendar_year and end_date.month in calendar_months:
+                            # NVIDIA-specific handling for FY2022 Q1 and Q2 (May instead of April, August instead of July)
+                            nvidia_match = False
+                            if ticker == "NVDA" and year == 2022:
+                                if quarter == 1 and end_date.year == 2021 and end_date.month == 5:
+                                    nvidia_match = True
+                                    logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q1 with May date: {period_end}")
+                                elif quarter == 2 and end_date.year == 2021 and end_date.month == 8:
+                                    nvidia_match = True
+                                    logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q2 with August date: {period_end}")
+
+                            if end_date.year == calendar_year and end_date.month in calendar_months or nvidia_match:
                                 target_filing = filing
                                 logging.info(f"Found target filing for {ticker} FY{year} Q{quarter}: {period_end}")
                                 break
