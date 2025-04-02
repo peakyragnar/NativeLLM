@@ -10,6 +10,7 @@ import json
 import re
 import datetime
 from .normalize_value import normalize_value, safe_parse_decimals
+from .context_extractor import extract_contexts_from_html
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -205,6 +206,280 @@ class LLMFormatter:
         
         # Start context section with data dictionary format
         output.append("@DATA_DICTIONARY: CONTEXTS")
+        
+        # Check if we need to extract contexts from HTML content
+        if (not parsed_xbrl.get("contexts") or len(parsed_xbrl.get("contexts", {})) == 0):
+            # First try to extract from HTML if available
+            if "html_content" in filing_metadata or "doc_path" in filing_metadata:
+                html_path = filing_metadata.get("doc_path", "")
+                if html_path and os.path.exists(html_path):
+                    try:
+                        with open(html_path, 'r', encoding='utf-8', errors='ignore') as f:
+                            html_content = f.read()
+                            
+                        # Use the context extractor module to extract contexts
+                        extracted_contexts = extract_contexts_from_html(html_content, filing_metadata)
+                        
+                        if extracted_contexts:
+                            # Update the contexts in parsed_xbrl
+                            parsed_xbrl["contexts"] = extracted_contexts
+                            num_contexts = len(extracted_contexts)
+                            logging.info(f"Successfully extracted {num_contexts} contexts from HTML file")
+                            
+                            # Add a note to the output
+                            output.append(f"@NOTE: Found {num_contexts} contexts via direct HTML extraction")
+                    except Exception as e:
+                        logging.error(f"Error extracting contexts from HTML: {str(e)}")
+            
+            # If we still don't have contexts, try to extract from context_refs in facts
+            if not parsed_xbrl.get("contexts") or len(parsed_xbrl.get("contexts", {})) == 0:
+                # Try to extract context information from facts
+                context_refs = set()
+                extracted_contexts = {}
+                
+                for fact in parsed_xbrl.get("facts", []):
+                    context_ref = fact.get("context_ref", fact.get("contextRef", ""))
+                    if context_ref and context_ref not in context_refs:
+                        context_refs.add(context_ref)
+                        context_data = {"id": context_ref, "period": {}}
+                        
+                        # Try to extract date info from context_ref patterns
+                        # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
+                        c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_ref)
+                        
+                        # Format 2: C_0000789019_20200701 (instant with CIK)
+                        c_instant_match = re.search(r'C_\d+_(\d{8})$', context_ref)
+                        
+                        # Format 3: _D20200701-20210630 (standard duration)
+                        d_match = re.search(r'_D(\d{8})-(\d{8})', context_ref)
+                        
+                        # Format 4: _I20200701 (standard instant)
+                        i_match = re.search(r'_I(\d{8})', context_ref)
+                        
+                        # Format 5: Look for dates in context IDs with _I or _D prefixes
+                        id_match = re.search(r'_[DI](\d{8})', context_ref)
+                        
+                        # Format 6: Look for context IDs with "I" or "D" followed by date(s)
+                        date_match = re.search(r'[\s_]([DI])(\d{8})', context_ref)
+                        
+                        # Check each format
+                        if c_duration_match:
+                            start_date_str = c_duration_match.group(1)
+                            end_date_str = c_duration_match.group(2)
+                            formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                            formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                            context_data["period"] = {"startDate": formatted_start, "endDate": formatted_end}
+                        elif c_instant_match:
+                            date_str = c_instant_match.group(1)
+                            formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                            context_data["period"] = {"instant": formatted_date}
+                        elif d_match:
+                            start_date_str = d_match.group(1)
+                            end_date_str = d_match.group(2)
+                            formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                            formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                            context_data["period"] = {"startDate": formatted_start, "endDate": formatted_end}
+                        elif i_match:
+                            date_str = i_match.group(1)
+                            formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                            context_data["period"] = {"instant": formatted_date}
+                        
+                        # Store the context data
+                        if context_data["period"]:
+                            extracted_contexts[context_ref] = context_data
+                
+                # Update parsed_xbrl with the extracted contexts
+                if extracted_contexts:
+                    parsed_xbrl["contexts"] = extracted_contexts
+                    num_contexts = len(extracted_contexts)
+                    logging.info(f"Successfully extracted {num_contexts} contexts from fact context_refs")
+                    output.append(f"@NOTE: Found {num_contexts} contexts from context ID patterns")
+        
+        # Collect all unique context periods for the reference guide
+        period_contexts = []  # Duration contexts (with start and end dates)
+        instant_contexts = []  # Instant contexts (with a single date)
+        
+        # If there are no contexts but we have facts with context_refs, create implicit contexts from them
+        if (not parsed_xbrl.get("contexts") or len(parsed_xbrl.get("contexts", {})) == 0) and parsed_xbrl.get("facts"):
+            implicit_contexts = {}
+            for fact in parsed_xbrl.get("facts", []):
+                context_ref = fact.get("context_ref", fact.get("contextRef", ""))
+                if not context_ref:
+                    continue
+                    
+                # Only process each context_ref once
+                if context_ref in implicit_contexts:
+                    continue
+                    
+                # Create a minimal context entry
+                context_data = {"id": context_ref, "period": {}}
+                
+                # Try to extract date info from context_ref patterns
+                # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
+                c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_ref)
+                
+                # Format 2: C_0000789019_20200701 (instant with CIK)
+                c_instant_match = re.search(r'C_\d+_(\d{8})$', context_ref)
+                
+                # Format 3: _D20200701-20210630 (standard duration)
+                d_match = re.search(r'_D(\d{8})-(\d{8})', context_ref)
+                
+                # Format 4: _I20200701 (standard instant)
+                i_match = re.search(r'_I(\d{8})', context_ref)
+                
+                if c_duration_match:
+                    start_date_str = c_duration_match.group(1)
+                    end_date_str = c_duration_match.group(2)
+                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                    context_data["period"] = {"startDate": formatted_start, "endDate": formatted_end}
+                    
+                    # Add to period contexts 
+                    period_contexts.append({
+                        "context_id": context_ref,
+                        "start_date": formatted_start,
+                        "end_date": formatted_end,
+                        "description": f"Period from {formatted_start} to {formatted_end}",
+                        "segment": "Consolidated"  # Default value
+                    })
+                elif c_instant_match:
+                    date_str = c_instant_match.group(1)
+                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    context_data["period"] = {"instant": formatted_date}
+                    
+                    # Add to instant contexts
+                    instant_contexts.append({
+                        "context_id": context_ref,
+                        "date": formatted_date,
+                        "description": f"As of {formatted_date}",
+                        "segment": "Consolidated"  # Default value
+                    })
+                elif d_match:
+                    start_date_str = d_match.group(1)
+                    end_date_str = d_match.group(2)
+                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                    context_data["period"] = {"startDate": formatted_start, "endDate": formatted_end}
+                    
+                    # Add to period contexts
+                    period_contexts.append({
+                        "context_id": context_ref,
+                        "start_date": formatted_start,
+                        "end_date": formatted_end,
+                        "description": f"Period from {formatted_start} to {formatted_end}",
+                        "segment": "Consolidated"  # Default value
+                    })
+                elif i_match:
+                    date_str = i_match.group(1)
+                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    context_data["period"] = {"instant": formatted_date}
+                    
+                    # Add to instant contexts
+                    instant_contexts.append({
+                        "context_id": context_ref,
+                        "date": formatted_date,
+                        "description": f"As of {formatted_date}",
+                        "segment": "Consolidated"  # Default value
+                    })
+                
+                # Store the context data
+                if context_data["period"]:
+                    implicit_contexts[context_ref] = context_data
+            
+            if implicit_contexts:
+                logging.info(f"Created {len(implicit_contexts)} implicit contexts from context IDs")
+                output.append(f"@NOTE: Created {len(implicit_contexts)} implicit contexts from context IDs")
+                parsed_xbrl["contexts"] = implicit_contexts
+        
+        # Process all contexts for the reference guide
+        for context_id, context in parsed_xbrl.get("contexts", {}).items():
+            period_info = context.get("period", {})
+            
+            # First try to extract date information from context data
+            if "startDate" in period_info and "endDate" in period_info:
+                # Duration context
+                period_contexts.append({
+                    "context_id": context_id,
+                    "start_date": period_info["startDate"],
+                    "end_date": period_info["endDate"],
+                    "description": f"Period from {period_info['startDate']} to {period_info['endDate']}",
+                    "segment": self._get_segment_info(context)
+                })
+            elif "instant" in period_info:
+                # Instant context
+                instant_contexts.append({
+                    "context_id": context_id,
+                    "date": period_info["instant"],
+                    "description": f"As of {period_info['instant']}",
+                    "segment": self._get_segment_info(context)
+                })
+            else:
+                # Try to extract from context ID if period info not available
+                
+                # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
+                c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_id)
+                
+                # Format 2: C_0000789019_20200701 (instant with CIK)
+                c_instant_match = re.search(r'C_\d+_(\d{8})$', context_id)
+                
+                # Format 3: _D20200701-20210630 (standard duration)
+                d_match = re.search(r'_D(\d{8})-(\d{8})', context_id)
+                
+                # Format 4: _I20200701 (standard instant)
+                i_match = re.search(r'_I(\d{8})', context_id)
+                
+                if c_duration_match:
+                    # Duration with CIK
+                    start_date_str = c_duration_match.group(1)
+                    end_date_str = c_duration_match.group(2)
+                    
+                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                    
+                    period_contexts.append({
+                        "context_id": context_id,
+                        "start_date": formatted_start,
+                        "end_date": formatted_end,
+                        "description": f"Period from {formatted_start} to {formatted_end}",
+                        "segment": self._get_segment_info(context)
+                    })
+                elif c_instant_match:
+                    # Instant with CIK
+                    date_str = c_instant_match.group(1)
+                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    
+                    instant_contexts.append({
+                        "context_id": context_id,
+                        "date": formatted_date,
+                        "description": f"As of {formatted_date}",
+                        "segment": self._get_segment_info(context)
+                    })
+                elif d_match:
+                    # Standard duration
+                    start_date_str = d_match.group(1)
+                    end_date_str = d_match.group(2)
+                    
+                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                    
+                    period_contexts.append({
+                        "context_id": context_id,
+                        "start_date": formatted_start,
+                        "end_date": formatted_end,
+                        "description": f"Period from {formatted_start} to {formatted_end}",
+                        "segment": self._get_segment_info(context)
+                    })
+                elif i_match:
+                    # Standard instant
+                    date_str = i_match.group(1)
+                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    
+                    instant_contexts.append({
+                        "context_id": context_id,
+                        "date": formatted_date,
+                        "description": f"As of {formatted_date}",
+                        "segment": self._get_segment_info(context)
+                    })
         
         # Assign short codes to contexts for easier reference (c-1, c-2, etc.)
         context_counter = 0
@@ -1248,7 +1523,8 @@ class LLMFormatter:
                         output.append(f"@DECIMALS: {fact.get('decimals', '')}")
                     
                     # Use human-readable context labels
-                    context_ref = fact.get("context_ref", "")
+                    # Note: context references can be either "context_ref" or "contextRef" (camelCase)
+                    context_ref = fact.get("context_ref", fact.get("contextRef", ""))
                     if context_ref in context_map:
                         output.append(f"@CONTEXT_REF: {context_ref} | @CONTEXT: {context_map[context_ref]}")
                     else:
@@ -1325,6 +1601,156 @@ class LLMFormatter:
                         # Continue processing without date information
                     
                     output.append("")
+        
+        # Add the @CONTEXT_REFERENCE_GUIDE section
+        output.append("@CONTEXT_REFERENCE_GUIDE")
+        output.append("This section provides a consolidated reference for all time periods used in this document.")
+        output.append("")
+        
+        # Add Data Dictionary Header
+        output.append("@DATA_DICTIONARY:")
+        output.append("Context_Code | Semantic_Code | Category | Type | Segment | Period | Description")
+        output.append("------------|---------------|----------|------|---------|--------|------------")
+        
+        # Sort period contexts by date for better readability
+        period_contexts.sort(key=lambda x: x["start_date"])
+        instant_contexts.sort(key=lambda x: x["date"])
+        
+        # Add all contexts to the guide
+        
+        # Extract context information directly from context IDs if we have facts but no contexts
+        if not period_contexts and not instant_contexts and parsed_xbrl.get("facts"):
+            # Extract unique context IDs from facts
+            context_refs = set()
+            for fact in parsed_xbrl.get("facts", []):
+                context_ref = fact.get("context_ref", fact.get("contextRef", ""))
+                if context_ref:
+                    context_refs.add(context_ref)
+            
+            # Try to extract dates from context IDs
+            for i, context_ref in enumerate(sorted(context_refs)):
+                # Try different context ID patterns
+                # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
+                c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_ref)
+                # Format 2: C_0000789019_20200701 (instant with CIK)
+                c_instant_match = re.search(r'C_\d+_(\d{8})$', context_ref)
+                # Format 3: _D20200701-20210630 (standard duration)
+                d_match = re.search(r'_D(\d{8})-(\d{8})', context_ref)
+                # Format 4: _I20200701 (standard instant)
+                i_match = re.search(r'_I(\d{8})', context_ref)
+                
+                if c_duration_match or d_match:
+                    # Duration context
+                    code = f"P{i+1}"
+                    context_code_map[context_ref] = code
+                    
+                    # Extract dates based on pattern
+                    if c_duration_match:
+                        start_date_str = c_duration_match.group(1)
+                        end_date_str = c_duration_match.group(2)
+                    else:  # d_match
+                        start_date_str = d_match.group(1)
+                        end_date_str = d_match.group(2)
+                    
+                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                    
+                    semantic_code = f"Duration_{formatted_start}_{formatted_end}"
+                    category = self._get_fiscal_category(formatted_start, formatted_end, filing_type)
+                    
+                    # Add to output
+                    output.append(f"{code} | {semantic_code} | {category} | Duration | Consolidated | {formatted_start} to {formatted_end} | Period from {formatted_start} to {formatted_end}")
+                
+                elif c_instant_match or i_match:
+                    # Instant context
+                    code = f"I{i+1}"
+                    context_code_map[context_ref] = code
+                    
+                    # Extract date based on pattern
+                    if c_instant_match:
+                        date_str = c_instant_match.group(1)
+                    else:  # i_match
+                        date_str = i_match.group(1)
+                    
+                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    
+                    semantic_code = f"Instant_{formatted_date}"
+                    category = self._get_fiscal_category(formatted_date, formatted_date, filing_type)
+                    
+                    # Add to output
+                    output.append(f"{code} | {semantic_code} | {category} | Instant | Consolidated | {formatted_date} | As of {formatted_date}")
+        
+        elif period_contexts or instant_contexts:
+            for i, context in enumerate(period_contexts):
+                code = f"P{i+1}"
+                context_code_map[context["context_id"]] = code
+                semantic_code = f"Duration_{context['start_date']}_{context['end_date']}"
+                # Get fiscal year/quarter info if available
+                category = self._get_fiscal_category(context["start_date"], context["end_date"], filing_type)
+                output.append(f"{code} | {semantic_code} | {category} | Duration | {context['segment']} | {context['start_date']} to {context['end_date']} | {context['description']}")
+            
+            for i, context in enumerate(instant_contexts):
+                code = f"I{i+1}"
+                context_code_map[context["context_id"]] = code
+                semantic_code = f"Instant_{context['date']}"
+                # Get fiscal period info if available
+                category = self._get_fiscal_category(context["date"], context["date"], filing_type)
+                output.append(f"{code} | {semantic_code} | {category} | Instant | {context['segment']} | {context['date']} | {context['description']}")
+        else:
+            output.append("Note: No detailed context information available for this filing")
+        
+        output.append("")
+        
+        # Add Verification Keys section
+        output.append("@VERIFICATION_KEYS:")
+        output.append("These formulas can be used to verify data consistency:")
+        if period_contexts or instant_contexts:
+            # This is where you could add formulas that help verify data consistency
+            output.append("- Current Assets + Non-Current Assets = Total Assets")
+            output.append("- Current Liabilities + Non-Current Liabilities + Equity = Total Liabilities and Equity")
+            output.append("- Gross Profit = Revenue - Cost of Revenue")
+            output.append("- Net Income = Revenue - Expenses + Other Income/Expenses - Taxes")
+        else:
+            output.append("- No context information available for formula verification")
+        
+        output.append("")
+        
+        # Add Period Contexts section
+        output.append("@PERIOD_CONTEXTS")
+        if period_contexts:
+            for context in period_contexts:
+                output.append(f"{context_code_map[context['context_id']]}: {context['description']}")
+                if context['segment']:
+                    output.append(f"  Segment: {context['segment']}")
+        else:
+            output.append("No detailed period context information available")
+        
+        output.append("")
+        
+        # Add Instant Contexts section
+        output.append("@INSTANT_CONTEXTS")
+        if instant_contexts:
+            for context in instant_contexts:
+                output.append(f"{context_code_map[context['context_id']]}: {context['description']}")
+                if context['segment']:
+                    output.append(f"  Segment: {context['segment']}")
+        else:
+            output.append("No detailed instant context information available")
+        
+        output.append("")
+        
+        # Add Example Extraction section
+        output.append("@EXAMPLE_EXTRACTION")
+        output.append("Example of how to extract and format data from this document:")
+        if period_contexts or instant_contexts:
+            output.append("```")
+            output.append("// Example of extracting Revenue for the most recent period")
+            output.append("const revenue = extractData('Revenue', 'FY2023');")
+            output.append("```")
+        else:
+            output.append("No context examples available")
+        
+        output.append("")
         
         # Add narrative sections
         if extracted_sections:
@@ -1698,54 +2124,10 @@ class LLMFormatter:
         output.append("")
         
         # Enhanced Context Reference Guide and Data Dictionary
-        # Always include the context reference guide, even if empty
-        # This ensures the section is always present
-        output.append("@CONTEXT_REFERENCE_GUIDE")
-        output.append("This section provides a consolidated reference for all time periods used in this document.")
-        output.append("")
+        # This entire section was moved to earlier in the file 
+        # to properly populate the context reference guide
         
-        # Enhanced Data Dictionary Table for all context references
-        output.append("@DATA_DICTIONARY:")
-        context_dict_rows = []
-        context_dict_rows.append("Context_Code | Semantic_Code | Category | Type | Segment | Period | Description")
-        context_dict_rows.append("------------|---------------|----------|------|---------|--------|------------")
-        
-        # Include default row if no contexts found
-        if not context_reference_guide:
-            # Add a note explaining that no context information was available
-            context_dict_rows.append("Note: No detailed context information available for this filing")
-        else:
-            # Sort by context code for logical ordering
-            sorted_items = sorted([(info["code"], label) for label, info in context_reference_guide.items() if "code" in info])
-            
-            for code, label in sorted_items:
-                info = context_reference_guide[label]
-                category = info.get("category", "Unknown")
-                type_str = info.get("type", "Unknown")
-                semantic_code = info.get("semantic_code", code)
-                segment = info.get("segment", "Consolidated")
-                
-                # Format period information
-                if type_str == "period":
-                    period = f"{info.get('start_date', '')} to {info.get('end_date', '')}"
-                elif type_str == "instant":
-                    period = f"As of {info.get('date', '')}"
-                else:
-                    period = "Unknown"
-                
-                description = info.get("description", "")
-                
-                # Add statement type if available (like Balance_Sheet)
-                if "statement_type" in info:
-                    statement_type = info["statement_type"]
-                    description = f"{description} ({statement_type})"
-                
-                context_dict_rows.append(f"{code} | {semantic_code} | {category} | {type_str} | {segment} | {period} | {description}")
-        
-        output.append("\n".join(context_dict_rows))
-        output.append("")
-        
-        # Create a verification section with all verification formulas
+        # The verification section is now added independently
         output.append("@VERIFICATION_KEYS:")
         output.append("These formulas can be used to verify data consistency:")
         
@@ -1993,6 +2375,79 @@ class LLMFormatter:
         
         return "\n".join(output)
     
+    def _get_segment_info(self, context):
+        """Extract segment information from context in a readable format."""
+        segment_text = "Consolidated"  # Default if no segment info
+        
+        entity_info = context.get("entity", {})
+        segment_data = entity_info.get("segment", {})
+        
+        if segment_data:
+            segment_items = []
+            
+            # Look for common segment dimensions like business unit or geography
+            for dimension_key, dimension_value in segment_data.items():
+                if isinstance(dimension_value, str):
+                    # Clean up dimension names
+                    dim_name = dimension_key.split(":")[-1] if ":" in dimension_key else dimension_key
+                    dim_name = dim_name.replace("Segment", "").replace("Dimension", "")
+                    
+                    # Clean up dimension values
+                    dim_value = dimension_value.split(":")[-1] if ":" in dimension_value else dimension_value
+                    
+                    segment_items.append(f"{dim_name}: {dim_value}")
+            
+            if segment_items:
+                segment_text = ", ".join(segment_items)
+        
+        return segment_text
+    
+    def _get_fiscal_category(self, start_date, end_date, filing_type):
+        """Determine fiscal category (Annual, Q1, Q2, etc.) from date range."""
+        try:
+            # For instant dates, use the same date for both start and end
+            if start_date == end_date:
+                # This is likely a balance sheet date
+                date_obj = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+                year = date_obj.year
+                return f"FY{year}_End"
+            
+            # For duration contexts
+            start_obj = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            end_obj = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+            
+            # Calculate duration in days
+            duration_days = (end_obj - start_obj).days
+            
+            # Determine if it's annual or quarterly
+            if 350 <= duration_days <= 380 or filing_type == "10-K":
+                # Annual period
+                return f"Annual_FY{end_obj.year}"
+            elif 85 <= duration_days <= 95:
+                # Quarterly period - determine which quarter
+                end_month = end_obj.month
+                if 1 <= end_month <= 3:
+                    quarter = "Q1"
+                elif 4 <= end_month <= 6:
+                    quarter = "Q2"
+                elif 7 <= end_month <= 9:
+                    quarter = "Q3"
+                else:
+                    quarter = "Q4"
+                return f"Quarterly_{end_obj.year}_{quarter}"
+            elif 175 <= duration_days <= 190:
+                # Six-month period
+                return f"SixMonths_{end_obj.year}"
+            elif 265 <= duration_days <= 280:
+                # Nine-month period
+                return f"NineMonths_{end_obj.year}"
+            else:
+                # Default category if we can't determine
+                return f"Period_{start_date}_to_{end_date}"
+        except Exception as e:
+            # Default if any error occurs
+            return "Unknown"
+            
     def save_llm_format(self, llm_content, filing_metadata, output_path):
         """
         Save LLM format to a file
