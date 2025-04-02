@@ -262,6 +262,12 @@ class LLMFormatter:
                         # Format 6: Look for context IDs with "I" or "D" followed by date(s)
                         date_match = re.search(r'[\s_]([DI])(\d{8})', context_ref)
                         
+                        # Format 7: NVDA format with embedded dates (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_D20210201-20220130)
+                        nvda_duration_match = re.search(r'i[a-z0-9]+_D(\d{8})-(\d{8})', context_ref)
+                        
+                        # Format 8: NVDA format with embedded instant date (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_I20210201)
+                        nvda_instant_match = re.search(r'i[a-z0-9]+_I(\d{8})', context_ref)
+                        
                         # Check each format
                         if c_duration_match:
                             start_date_str = c_duration_match.group(1)
@@ -281,6 +287,16 @@ class LLMFormatter:
                             context_data["period"] = {"startDate": formatted_start, "endDate": formatted_end}
                         elif i_match:
                             date_str = i_match.group(1)
+                            formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                            context_data["period"] = {"instant": formatted_date}
+                        elif nvda_duration_match:
+                            start_date_str = nvda_duration_match.group(1)
+                            end_date_str = nvda_duration_match.group(2)
+                            formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                            formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                            context_data["period"] = {"startDate": formatted_start, "endDate": formatted_end}
+                        elif nvda_instant_match:
+                            date_str = nvda_instant_match.group(1)
                             formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
                             context_data["period"] = {"instant": formatted_date}
                         
@@ -428,6 +444,12 @@ class LLMFormatter:
                 # Format 4: _I20200701 (standard instant)
                 i_match = re.search(r'_I(\d{8})', context_id)
                 
+                # Format 7: NVDA format with embedded dates (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_D20210201-20220130)
+                nvda_duration_match = re.search(r'i[a-z0-9]+_D(\d{8})-(\d{8})', context_id)
+                
+                # Format 8: NVDA format with embedded instant date (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_I20210201)
+                nvda_instant_match = re.search(r'i[a-z0-9]+_I(\d{8})', context_id)
+                
                 if c_duration_match:
                     # Duration with CIK
                     start_date_str = c_duration_match.group(1)
@@ -472,6 +494,32 @@ class LLMFormatter:
                 elif i_match:
                     # Standard instant
                     date_str = i_match.group(1)
+                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    
+                    instant_contexts.append({
+                        "context_id": context_id,
+                        "date": formatted_date,
+                        "description": f"As of {formatted_date}",
+                        "segment": self._get_segment_info(context)
+                    })
+                elif nvda_duration_match:
+                    # NVDA duration format
+                    start_date_str = nvda_duration_match.group(1)
+                    end_date_str = nvda_duration_match.group(2)
+                    
+                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                    
+                    period_contexts.append({
+                        "context_id": context_id,
+                        "start_date": formatted_start,
+                        "end_date": formatted_end,
+                        "description": f"Period from {formatted_start} to {formatted_end}",
+                        "segment": self._get_segment_info(context)
+                    })
+                elif nvda_instant_match:
+                    # NVDA instant format
+                    date_str = nvda_instant_match.group(1)
                     formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
                     
                     instant_contexts.append({
@@ -1559,6 +1607,12 @@ class LLMFormatter:
                             # Format 4: _I20200701 (standard instant)
                             i_match = re.search(r'_I(\d{8})', context_ref)
                             
+                            # Format 7: NVDA format with embedded dates (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_D20210201-20220130)
+                            nvda_duration_match = re.search(r'i[a-z0-9]+_D(\d{8})-(\d{8})', context_ref)
+                            
+                            # Format 8: NVDA format with embedded instant date (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_I20210201)
+                            nvda_instant_match = re.search(r'i[a-z0-9]+_I(\d{8})', context_ref)
+                            
                             if c_duration_match:
                                 # Format 1: Duration with CIK
                                 start_date_str = c_duration_match.group(1)
@@ -1591,6 +1645,24 @@ class LLMFormatter:
                             elif i_match:
                                 # Format 4: Standard instant
                                 date_str = i_match.group(1)
+                                formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                                
+                                output.append(f"@DATE_TYPE: Instant")
+                                output.append(f"@DATE: {formatted_date}")
+                            elif nvda_duration_match:
+                                # Format 7: NVDA duration format
+                                start_date_str = nvda_duration_match.group(1)
+                                end_date_str = nvda_duration_match.group(2)
+                                
+                                formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                                formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                                
+                                output.append(f"@DATE_TYPE: Duration")
+                                output.append(f"@START_DATE: {formatted_start}")
+                                output.append(f"@END_DATE: {formatted_end}")
+                            elif nvda_instant_match:
+                                # Format 8: NVDA instant format
+                                date_str = nvda_instant_match.group(1)
                                 formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
                                 
                                 output.append(f"@DATE_TYPE: Instant")
@@ -2478,4 +2550,5 @@ class LLMFormatter:
             return {"error": f"Error saving LLM format: {str(e)}"}
 
 # Create a singleton instance
+# recreate the singleton instance with our updated code
 llm_formatter = LLMFormatter()
