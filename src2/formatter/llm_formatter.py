@@ -1253,6 +1253,77 @@ class LLMFormatter:
                         output.append(f"@CONTEXT_REF: {context_ref} | @CONTEXT: {context_map[context_ref]}")
                     else:
                         output.append(f"@CONTEXT_REF: {context_ref}")
+                    
+                    try:
+                        # First priority: Check context data from parsed XBRL
+                        context_data = parsed_xbrl.get("contexts", {}).get(context_ref, {})
+                        period_info = context_data.get("period", {})
+                        
+                        if "startDate" in period_info and "endDate" in period_info:
+                            # This is a duration context from parsed data
+                            output.append(f"@DATE_TYPE: Duration")
+                            output.append(f"@START_DATE: {period_info['startDate']}")
+                            output.append(f"@END_DATE: {period_info['endDate']}")
+                        elif "instant" in period_info:
+                            # This is an instant context from parsed data
+                            output.append(f"@DATE_TYPE: Instant")
+                            output.append(f"@DATE: {period_info['instant']}")
+                        else:
+                            # Second priority: Check for embedded dates in context_ref ID
+                            
+                            # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
+                            c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_ref)
+                            
+                            # Format 2: C_0000789019_20200701 (instant with CIK)
+                            c_instant_match = re.search(r'C_\d+_(\d{8})$', context_ref)
+                            
+                            # Format 3: _D20200701-20210630 (standard duration)
+                            d_match = re.search(r'_D(\d{8})-(\d{8})', context_ref)
+                            
+                            # Format 4: _I20200701 (standard instant)
+                            i_match = re.search(r'_I(\d{8})', context_ref)
+                            
+                            if c_duration_match:
+                                # Format 1: Duration with CIK
+                                start_date_str = c_duration_match.group(1)
+                                end_date_str = c_duration_match.group(2)
+                                
+                                formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                                formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                                
+                                output.append(f"@DATE_TYPE: Duration")
+                                output.append(f"@START_DATE: {formatted_start}")
+                                output.append(f"@END_DATE: {formatted_end}")
+                            elif c_instant_match:
+                                # Format 2: Instant with CIK
+                                date_str = c_instant_match.group(1)
+                                formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                                
+                                output.append(f"@DATE_TYPE: Instant")
+                                output.append(f"@DATE: {formatted_date}")
+                            elif d_match:
+                                # Format 3: Standard duration
+                                start_date_str = d_match.group(1)
+                                end_date_str = d_match.group(2)
+                                
+                                formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
+                                formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                                
+                                output.append(f"@DATE_TYPE: Duration")
+                                output.append(f"@START_DATE: {formatted_start}")
+                                output.append(f"@END_DATE: {formatted_end}")
+                            elif i_match:
+                                # Format 4: Standard instant
+                                date_str = i_match.group(1)
+                                formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                                
+                                output.append(f"@DATE_TYPE: Instant")
+                                output.append(f"@DATE: {formatted_date}")
+                    except Exception as e:
+                        # Catch any errors to prevent breaking the existing pipeline
+                        logging.warning(f"Error extracting date information from context: {context_ref}. Error: {str(e)}")
+                        # Continue processing without date information
+                    
                     output.append("")
         
         # Add narrative sections
