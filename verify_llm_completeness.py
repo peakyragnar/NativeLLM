@@ -89,14 +89,80 @@ def compare_values(raw_value, llm_value):
 
 def main():
     parser = argparse.ArgumentParser(description="Verify LLM file completeness against raw XBRL JSON.")
-    parser.add_argument("--temp-dir", required=True, help="Path to the temporary directory containing _xbrl_raw.json")
+    parser.add_argument("--temp-dir", help="Path to the temporary directory containing _xbrl_raw.json")
+    parser.add_argument("--xbrl-file", help="Direct path to the XBRL JSON file")
     parser.add_argument("--llm-file", required=True, help="Path to the final llm.txt file")
+    parser.add_argument("--downloads-dir", help="Path to the downloads directory (e.g., sec_processed/tmp/sec_downloads)")
     
     args = parser.parse_args()
     
-    # Construct the file paths
-    raw_json_path = Path(args.temp_dir) / "_xbrl_raw.json"
+    # Extract ticker and filing info from LLM filename
     llm_file_path = Path(args.llm_file)
+    llm_basename = os.path.basename(args.llm_file)
+    ticker = None
+    filing_type = None
+    
+    # Try to extract ticker and filing type from filename (e.g., MSFT_10-K_2024_llm.txt)
+    import re
+    file_match = re.match(r'([A-Z]+)_(\d+-[A-Z])_.*', llm_basename)
+    if file_match:
+        ticker = file_match.group(1)
+        filing_type = file_match.group(2)
+        logging.info(f"Extracted ticker={ticker}, filing_type={filing_type} from filename")
+    
+    # Determine the XBRL file path
+    raw_json_path = None
+    
+    # First try the specified XBRL file path if provided
+    if args.xbrl_file:
+        raw_json_path = Path(os.path.abspath(args.xbrl_file))
+        
+    # Then try the specified temp directory if provided
+    elif args.temp_dir:
+        raw_json_path = Path(os.path.abspath(args.temp_dir)) / "_xbrl_raw.json"
+        
+    # Then try to find XBRL file in downloads directory based on ticker and filing type
+    elif args.downloads_dir and ticker and filing_type:
+        downloads_base = os.path.abspath(args.downloads_dir)
+        filing_dir = os.path.join(downloads_base, ticker, filing_type)
+        
+        if os.path.exists(filing_dir):
+            # Find the most recent accession directory that has an XBRL file
+            accession_dirs = []
+            for entry in os.listdir(filing_dir):
+                potential_dir = os.path.join(filing_dir, entry)
+                potential_xbrl = os.path.join(potential_dir, "_xbrl_raw.json")
+                if os.path.isdir(potential_dir) and os.path.exists(potential_xbrl):
+                    accession_dirs.append((potential_dir, os.path.getmtime(potential_xbrl)))
+            
+            # Sort by modification time (latest first)
+            if accession_dirs:
+                accession_dirs.sort(key=lambda x: x[1], reverse=True)
+                raw_json_path = Path(os.path.join(accession_dirs[0][0], "_xbrl_raw.json"))
+                logging.info(f"Found XBRL file in downloads directory: {raw_json_path}")
+    
+    # If we still don't have a path, look for it in the standard downloads location
+    if not raw_json_path and ticker and filing_type:
+        # Try the standard downloads location
+        std_downloads = os.path.join("sec_processed", "tmp", "sec_downloads", ticker, filing_type)
+        if os.path.exists(std_downloads):
+            # Find the most recent accession directory that has an XBRL file
+            accession_dirs = []
+            for entry in os.listdir(std_downloads):
+                potential_dir = os.path.join(std_downloads, entry)
+                potential_xbrl = os.path.join(potential_dir, "_xbrl_raw.json")
+                if os.path.isdir(potential_dir) and os.path.exists(potential_xbrl):
+                    accession_dirs.append((potential_dir, os.path.getmtime(potential_xbrl)))
+            
+            # Sort by modification time (latest first)
+            if accession_dirs:
+                accession_dirs.sort(key=lambda x: x[1], reverse=True)
+                raw_json_path = Path(os.path.join(accession_dirs[0][0], "_xbrl_raw.json"))
+                logging.info(f"Found XBRL file in standard downloads directory: {raw_json_path}")
+    
+    if not raw_json_path:
+        logging.error("Could not determine XBRL file path. Provide --xbrl-file, --temp-dir, or --downloads-dir")
+        return 1
     
     # Check if files exist
     if not raw_json_path.exists():
