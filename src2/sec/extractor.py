@@ -354,6 +354,85 @@ class SECExtractor:
                 'error': str(e)
             }
 
+    def extract_inline_xbrl(self, html_path):
+        """
+        Extract inline XBRL data from an HTML document.
+
+        Args:
+            html_path: Path to the HTML file
+
+        Returns:
+            List of XBRL facts (dictionaries)
+        """
+        xbrl_facts = []
+        try:
+            logging.info(f"Extracting inline XBRL from main document: {html_path}")
+            with open(html_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+
+            soup = BeautifulSoup(html_content, 'lxml') # Use lxml for better performance if available
+
+            # Find all relevant iXBRL tags
+            ix_tags = soup.find_all(['ix:nonnumeric', 'ix:nonfraction'])
+
+            if not ix_tags:
+                logging.warning("No standard ix:nonNumeric or ix:nonFraction tags found.")
+                # Attempt to find tags with namespaces explicitly (might be needed sometimes)
+                try:
+                    ix_tags = soup.find_all(re.compile(r'.*:nonnumeric$|.*:nonfraction$'))
+                    if ix_tags:
+                         logging.info(f"Found {len(ix_tags)} tags using namespace wildcard search.")
+                    else:
+                         logging.warning("Still no iXBRL tags found even with namespace wildcard.")
+                except Exception as ns_err:
+                    logging.error(f"Error searching with namespace wildcard: {ns_err}")
+
+
+            for tag in ix_tags:
+                fact = {
+                    'name': tag.get('name'),
+                    'contextRef': tag.get('contextref'),
+                    'unitRef': tag.get('unitref'),
+                    'scale': tag.get('scale'),
+                    'format': tag.get('format'),
+                    'value': tag.get_text(strip=True),
+                    'tag_name': tag.name # e.g., 'ix:nonfraction'
+                }
+
+                # Clean up concept name (remove namespace prefix like 'us-gaap:')
+                if fact['name'] and ':' in fact['name']:
+                    fact['concept'] = fact['name'].split(':')[-1]
+                else:
+                     fact['concept'] = fact['name']
+
+                xbrl_facts.append(fact)
+
+            logging.info(f"Found {len(xbrl_facts)} inline XBRL tags")
+
+            # ---- START ADDED/MODIFIED CODE ----
+            if xbrl_facts:
+                try:
+                    # Determine the output path for the raw XBRL JSON
+                    html_file_path = Path(html_path)
+                    output_json_path = html_file_path.parent / "_xbrl_raw.json"
+
+                    # Save the extracted facts to the JSON file
+                    with open(output_json_path, 'w', encoding='utf-8') as f_json:
+                        json.dump(xbrl_facts, f_json, indent=2)
+                    logging.info(f"Saved raw XBRL data to: {output_json_path}")
+                except Exception as json_err:
+                    logging.error(f"Failed to save raw XBRL JSON: {str(json_err)}")
+            # ---- END ADDED/MODIFIED CODE ----
+
+            return xbrl_facts
+
+        except FileNotFoundError:
+            logging.error(f"HTML file not found for XBRL extraction: {html_path}")
+            return []
+        except Exception as e:
+            logging.error(f"Error extracting inline XBRL: {str(e)}", exc_info=True)
+            return []
+
 
 # Example usage
 if __name__ == "__main__":

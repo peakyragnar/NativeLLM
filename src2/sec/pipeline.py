@@ -693,44 +693,40 @@ class SECFilingPipeline:
                     
                     # Try to extract XBRL data from main document if no dedicated XBRL file
                     if not xbrl_path and doc_path:
-                        logging.info(f"Extracting inline XBRL from main document: {doc_path}")
+                        # ---- START MODIFIED CODE ----
+                        logging.info(f"Calling SECExtractor.extract_inline_xbrl for: {doc_path}")
                         try:
-                            # Extract inline XBRL data from HTML document
-                            from bs4 import BeautifulSoup
+                            # Call the extractor method which now saves the raw JSON
+                            extracted_facts = self.extractor.extract_inline_xbrl(doc_path)
                             
-                            with open(doc_path, 'r', encoding='utf-8') as f:
-                                html_content = f.read()
-                            
-                            soup = BeautifulSoup(html_content, 'html.parser')
-                            
-                            # Find all ix:* tags (inline XBRL tags)
-                            ix_tags = soup.find_all(lambda tag: tag.name and tag.name.startswith('ix:'))
-                            logging.info(f"Found {len(ix_tags)} inline XBRL tags")
-                            
-                            # Extract contexts, units, and facts
-                            # (This is the same code as in the original process_filing method)
-                            
-                            # Extract facts from inline XBRL
-                            for ix_tag in ix_tags:
-                                if ix_tag.name == 'ix:nonfraction':
-                                    fact = {
-                                        "concept": ix_tag.get('name', ''),
-                                        "value": ix_tag.text.strip(),
-                                        "context_ref": ix_tag.get('contextref', '')
-                                    }
-                                    
-                                    # Add optional attributes
-                                    if ix_tag.get('unitref'):
-                                        fact["unit_ref"] = ix_tag.get('unitref')
-                                    if ix_tag.get('decimals'):
-                                        fact["decimals"] = ix_tag.get('decimals')
-                                        
-                                    xbrl_data["facts"].append(fact)
-                            
+                            # Process the extracted facts (if needed for xbrl_data structure)
+                            # NOTE: The original code built xbrl_data['facts'] directly.
+                            # We might need to adapt this if the formatter expects a specific structure.
+                            # For now, let's assume the formatter can handle the list of facts
+                            # or we adapt the formatter later.
+                            # Let's rebuild the facts list here for compatibility for now.
+                            xbrl_data["facts"] = [] # Reset facts
+                            for fact_data in extracted_facts:
+                                fact = {
+                                    "concept": fact_data.get('name', ''), # Use full name from extractor
+                                    "value": fact_data.get('value', ''),
+                                    "context_ref": fact_data.get('contextRef', '')
+                                }
+                                # Add optional attributes if present in extracted_facts
+                                if fact_data.get('unitRef'):
+                                    fact["unit_ref"] = fact_data['unitRef']
+                                if fact_data.get('scale'): # Assuming scale might be needed?
+                                    fact["scale"] = fact_data['scale'] 
+                                # Add other attributes like decimals if the formatter needs them
+                                
+                                xbrl_data["facts"].append(fact)
+                            logging.info(f"Successfully processed {len(xbrl_data['facts'])} facts from extractor.")
+
                         except Exception as e:
-                            logging.error(f"Error extracting inline XBRL: {str(e)}")
-                            # Continue with basic XBRL data
-                    
+                            logging.error(f"Error calling/processing SECExtractor.extract_inline_xbrl: {str(e)}")
+                            # Continue with basic XBRL data or handle error
+                        # ---- END MODIFIED CODE ----
+
                     # Generate LLM format
                     llm_content = llm_formatter.generate_llm_format(xbrl_data, metadata)
                     
