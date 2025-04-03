@@ -139,13 +139,44 @@ class ArelleRenderer:
                     spec = importlib.util.find_spec("arelle")
                     if spec is not None:
                         module_dir = os.path.dirname(spec.origin)
-                        arelle_path = os.path.join(module_dir, "CntlrCmdLine.py")
-                        logging.info(f"Found Arelle module at: {arelle_path}")
+                        # Check for various possible locations of the command line module
+                        possible_paths = [
+                            os.path.join(module_dir, "CntlrCmdLine.py"),
+                            os.path.join(module_dir, "arelle", "CntlrCmdLine.py"),
+                            os.path.join(module_dir, "arelleCmdLine.py")
+                        ]
+
+                        for path in possible_paths:
+                            if os.path.exists(path):
+                                arelle_path = path
+                                logging.info(f"Found Arelle module at: {arelle_path}")
+                                break
+
+                        if not arelle_path:
+                            logging.warning(f"Could not find CntlrCmdLine in Arelle module directory: {module_dir}")
+                            # Just use the module approach
+                            arelle_path = "module"
                     else:
                         # Try direct import
                         import arelle
-                        arelle_path = os.path.join(os.path.dirname(arelle.__file__), "CntlrCmdLine.py")
-                        logging.info(f"Found Arelle module at: {arelle_path}")
+                        module_dir = os.path.dirname(arelle.__file__)
+                        # Check for various possible locations of the command line module
+                        possible_paths = [
+                            os.path.join(module_dir, "CntlrCmdLine.py"),
+                            os.path.join(module_dir, "arelle", "CntlrCmdLine.py"),
+                            os.path.join(module_dir, "arelleCmdLine.py")
+                        ]
+
+                        for path in possible_paths:
+                            if os.path.exists(path):
+                                arelle_path = path
+                                logging.info(f"Found Arelle module at: {arelle_path}")
+                                break
+
+                        if not arelle_path:
+                            logging.warning(f"Could not find CntlrCmdLine in Arelle module directory: {module_dir}")
+                            # Just use the module approach
+                            arelle_path = "module"
                 except ImportError:
                     logging.error("Arelle package installed but module not found")
                     return None
@@ -197,10 +228,29 @@ class ArelleRenderer:
             # First, try to import the module directly
             try:
                 import arelle
-                import arelle.CntlrCmdLine
-                logging.info("Arelle module imported successfully")
-                self.arelle_path = "module"  # Mark as module-based
-                return True
+                # The module structure might be different than expected
+                # Try to find the CntlrCmdLine module in various locations
+                try:
+                    import arelle.CntlrCmdLine
+                    logging.info("Arelle module imported successfully via arelle.CntlrCmdLine")
+                    self.arelle_path = "module"  # Mark as module-based
+                    return True
+                except ImportError:
+                    # Try alternative module paths
+                    if hasattr(arelle, 'CntlrCmdLine'):
+                        logging.info("Arelle module imported successfully via direct attribute")
+                        self.arelle_path = "module"  # Mark as module-based
+                        return True
+                    else:
+                        # Look for the file in the module directory
+                        module_dir = os.path.dirname(arelle.__file__)
+                        cmd_line_path = os.path.join(module_dir, "CntlrCmdLine.py")
+                        if os.path.exists(cmd_line_path):
+                            logging.info(f"Found Arelle CntlrCmdLine at: {cmd_line_path}")
+                            self.arelle_path = cmd_line_path
+                            return True
+                        else:
+                            logging.warning(f"Could not find CntlrCmdLine in Arelle module directory")
             except ImportError as ie:
                 logging.warning(f"Could not import Arelle module: {str(ie)}")
 
@@ -223,7 +273,11 @@ class ArelleRenderer:
                 logging.warning(f"Failed to validate Arelle as module: {str(module_e)}")
 
             # If module approach failed, try direct path
-            if self.arelle_path.endswith(".py"):
+            if self.arelle_path == "module":
+                # Skip validation if we're using module approach but couldn't validate
+                logging.warning("Skipping direct path validation for module-based Arelle")
+                return False
+            elif self.arelle_path.endswith(".py"):
                 # Python script
                 cmd = [sys.executable, self.arelle_path, "--help"]
             else:
@@ -264,7 +318,11 @@ class ArelleRenderer:
             Path to rendered output file
         """
         if not self.arelle_path:
-            raise ValueError("Arelle not found or not properly installed")
+            logging.error("Arelle not found or not properly installed")
+            # Since Arelle is not critical for the main pipeline, we'll continue without it
+            # Just log a warning and return None
+            logging.warning("Continuing without Arelle rendering. This will not affect data extraction.")
+            return None
 
         if not os.path.exists(input_file):
             raise ValueError(f"Input file not found: {input_file}")
@@ -288,8 +346,42 @@ class ArelleRenderer:
 
         # Determine how to run Arelle
         if self.arelle_path == "module":
-            # Run as Python module
-            cmd_base = [sys.executable, "-m", "arelle.CntlrCmdLine"]
+            # Try different module structures
+            try:
+                # Create a temporary script to run Arelle that handles different module structures
+                script_content = """
+#!/usr/bin/env python3
+import sys
+
+# Try different module structures
+try:
+    import arelle.CntlrCmdLine
+    arelle.CntlrCmdLine.main()
+except ImportError:
+    try:
+        import arelle
+        if hasattr(arelle, 'CntlrCmdLine'):
+            arelle.CntlrCmdLine.main()
+        else:
+            # Try direct module call
+            arelle.main()
+    except (ImportError, AttributeError):
+        print("Error: Could not import Arelle module")
+        sys.exit(1)
+"""
+                script_path = self.temp_dir / "run_arelle.py"
+                with open(script_path, 'w') as f:
+                    f.write(script_content)
+
+                # Make the script executable
+                os.chmod(script_path, 0o755)
+
+                # Build the command
+                cmd_base = [sys.executable, str(script_path)]
+            except Exception as e:
+                logging.error(f"Error setting up Arelle module script: {str(e)}")
+                # Fall back to standard module approach
+                cmd_base = [sys.executable, "-m", "arelle.CntlrCmdLine"]
         elif self.arelle_path.endswith(".py"):
             # Python script
             cmd_base = [sys.executable, self.arelle_path]
