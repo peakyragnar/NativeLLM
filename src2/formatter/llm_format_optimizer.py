@@ -36,7 +36,7 @@ class LLMFormatOptimizer:
         logging.info("Optimizing LLM file format")
 
         # Extract sections from the original file
-        header_section, context_section, facts_section, rest_section = self._extract_sections(content)
+        header_section, structure_section, context_section, facts_section, rest_section = self._extract_sections(content)
 
         # Parse context definitions
         context_defs = self._parse_context_definitions(context_section)
@@ -53,6 +53,7 @@ class LLMFormatOptimizer:
         # Generate optimized content
         optimized_content = self._generate_optimized_content(
             header_section,
+            structure_section,
             consolidated_contexts,
             facts_by_context,
             rest_section
@@ -69,7 +70,7 @@ class LLMFormatOptimizer:
 
         return optimized_content
 
-    def _extract_sections(self, content: str) -> Tuple[str, str, str, str]:
+    def _extract_sections(self, content: str) -> Tuple[str, str, str, str, str]:
         """
         Extract sections from the original file.
 
@@ -77,16 +78,20 @@ class LLMFormatOptimizer:
             content: The original LLM file content
 
         Returns:
-            Tuple of (header_section, context_section, facts_section, rest_section)
+            Tuple of (header_section, structure_section, context_section, facts_section, rest_section)
         """
         # Define section patterns
-        header_pattern = r'^.*?(?=@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
+        header_pattern = r'^.*?(?=@STRUCTURE:|@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
+        structure_pattern = r'(@STRUCTURE:.*?)(?=@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
         context_pattern = r'(@DATA_DICTIONARY: CONTEXTS.*?|@CONTEXTS.*?)(?=\n\n@CONCEPT:|\n\n@FACTS)'
         facts_pattern = r'(\n\n@CONCEPT:.*|\n\n@FACTS.*?)(?=\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
 
         # Extract sections
         header_match = re.search(header_pattern, content, re.DOTALL)
         header_section = header_match.group(0) if header_match else ""
+
+        structure_match = re.search(structure_pattern, content, re.DOTALL)
+        structure_section = structure_match.group(0) if structure_match else ""
 
         context_match = re.search(context_pattern, content, re.DOTALL)
         context_section = context_match.group(0) if context_match else ""
@@ -98,12 +103,14 @@ class LLMFormatOptimizer:
         rest_section = content
         if header_section:
             rest_section = rest_section.replace(header_section, "", 1)
+        if structure_section:
+            rest_section = rest_section.replace(structure_section, "", 1)
         if context_section:
             rest_section = rest_section.replace(context_section, "", 1)
         if facts_section:
             rest_section = rest_section.replace(facts_section, "", 1)
 
-        return header_section, context_section, facts_section, rest_section
+        return header_section, structure_section, context_section, facts_section, rest_section
 
     def _parse_context_definitions(self, context_section: str) -> Dict[str, Dict[str, Any]]:
         """
@@ -372,6 +379,7 @@ class LLMFormatOptimizer:
     def _generate_optimized_content(
         self,
         header_section: str,
+        structure_section: str,
         consolidated_contexts: Dict[str, Dict[str, Any]],
         facts_by_context: Dict[str, List[Dict[str, Any]]],
         rest_section: str
@@ -381,6 +389,7 @@ class LLMFormatOptimizer:
 
         Args:
             header_section: The header section of the LLM file
+            structure_section: The document structure section
             consolidated_contexts: Dictionary of consolidated context definitions
             facts_by_context: Dictionary of facts grouped by context reference
             rest_section: The rest of the LLM file content
@@ -392,6 +401,10 @@ class LLMFormatOptimizer:
 
         # Add header section
         output.append(header_section.strip())
+
+        # Add structure section
+        if structure_section.strip():
+            output.append(structure_section.strip())
 
         # Add consolidated context definitions
         output.append("\n@CONTEXTS")
