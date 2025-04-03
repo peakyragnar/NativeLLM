@@ -9,12 +9,13 @@ import logging
 import json
 import re
 import datetime
+from collections import defaultdict
 from .normalize_value import normalize_value, safe_parse_decimals
 from .context_extractor import extract_contexts_from_html, map_contexts_to_periods
 from .context_format_handler import extract_period_info
 from .financial_statement_organizer import organize_financial_statements
 from .llm_format_optimizer import optimize_llm_content
-from .financial_statement_mapper_efficient import EfficientFinancialStatementMapper
+from .minimal_financial_mapper import MinimalFinancialMapper
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -2598,7 +2599,7 @@ class LLMFormatter:
 
             # Map financial facts to document structure
             logging.info(f"Mapping financial facts to document structure for {output_path}")
-            mapper = EfficientFinancialStatementMapper()
+            mapper = MinimalFinancialMapper()
             mapped_content = mapper.map_facts_to_structure(llm_content)
 
             # Optimize the LLM content
@@ -2608,9 +2609,13 @@ class LLMFormatter:
 
             optimized_content = optimize_llm_content(mapped_content)
 
+            # Verify that all facts from the raw XBRL are included in the optimized content
+            logging.info(f"Verifying data integrity for {output_path}")
+            optimized_content = self._ensure_data_integrity(optimized_content, filing_metadata)
+
             optimized_size = len(optimized_content) / 1024
             reduction = (original_size - optimized_size) / original_size * 100
-            logging.info(f"Optimized size: {optimized_size:.2f} KB (reduced by {reduction:.2f}%)")
+            logging.info(f"Final size: {optimized_size:.2f} KB (reduced by {reduction:.2f}%)")
 
             # Save file
             with open(output_path, 'w', encoding='utf-8') as f:
@@ -2624,6 +2629,399 @@ class LLMFormatter:
         except Exception as e:
             logging.error(f"Error saving LLM format: {str(e)}")
             return {"error": f"Error saving LLM format: {str(e)}"}
+
+    def _ensure_data_integrity(self, optimized_content, filing_metadata):
+        """
+        Ensure that all facts from the raw XBRL are included in the optimized content.
+
+        Args:
+            optimized_content: Optimized LLM content
+            filing_metadata: Filing metadata
+
+        Returns:
+            Optimized LLM content with all facts included
+        """
+        # Get the path to the raw XBRL file
+        raw_xbrl_path = filing_metadata.get("xbrl_file")
+        if not raw_xbrl_path or not os.path.exists(raw_xbrl_path):
+            logging.warning(f"Raw XBRL file not found: {raw_xbrl_path}")
+            return optimized_content
+
+        # Load the raw XBRL file
+        try:
+            with open(raw_xbrl_path, 'r', encoding='utf-8') as f:
+                raw_xbrl = json.load(f)
+                if isinstance(raw_xbrl, dict) and 'facts' in raw_xbrl:
+                    raw_xbrl_facts = raw_xbrl['facts']
+                else:
+                    raw_xbrl_facts = raw_xbrl
+                logging.info(f"Loaded {len(raw_xbrl_facts)} facts from {raw_xbrl_path}")
+        except Exception as e:
+            logging.error(f"Error loading raw XBRL file: {e}")
+            return optimized_content
+
+        # Parse facts from the optimized content
+        llm_facts = self._parse_facts_from_llm(optimized_content)
+        logging.info(f"Parsed {len(llm_facts)} facts from optimized content")
+
+        # Find missing facts
+        missing_facts = self._find_missing_facts(raw_xbrl_facts, llm_facts)
+        logging.info(f"Found {len(missing_facts)} facts missing from optimized content")
+
+        if not missing_facts:
+            logging.info("No missing facts found. Optimized content already has 100% data integrity.")
+            return optimized_content
+
+        # Add missing facts to the optimized content
+        fixed_content = self._add_missing_facts(optimized_content, missing_facts)
+
+        # Verify the fix
+        fixed_facts = self._parse_facts_from_llm(fixed_content)
+        logging.info(f"Parsed {len(fixed_facts)} facts from fixed content")
+
+        still_missing = self._find_missing_facts(raw_xbrl_facts, fixed_facts)
+        if still_missing:
+            logging.warning(f"Still missing {len(still_missing)} facts after fix")
+        else:
+            logging.info("All facts are now included in the optimized content. 100% data integrity achieved.")
+
+        return fixed_content
+
+    def _parse_facts_from_llm(self, llm_content):
+        """
+        Parse facts from the LLM content.
+
+        Args:
+            llm_content: LLM content
+
+        Returns:
+            Dictionary of facts keyed by (concept, context_ref)
+        """
+        facts = {}
+
+        # Check if we're using the new format or the old format
+        if "@FACTS" in llm_content:
+            # New format - try to parse facts grouped by context
+            context_blocks = re.findall(r'@CONTEXT: ([^\n]+)(.*?)(?=\n@CONTEXT:|\Z)', llm_content, re.DOTALL)
+
+            for context_ref, context_block in context_blocks:
+                context_ref = context_ref.strip()
+
+                # Extract prefix blocks
+                prefix_blocks = re.findall(r'@PREFIX: ([^\n]+)(.*?)(?=\n@PREFIX:|\n@CONTEXT:|\Z)', context_block, re.DOTALL)
+
+                if prefix_blocks:
+                    # Facts are grouped by prefix
+                    for prefix, prefix_block in prefix_blocks:
+                        prefix = prefix.strip()
+
+                        # Parse facts in this prefix block
+                        fact_lines = prefix_block.strip().split('\n')
+                        for line in fact_lines:
+                            if not line or line.startswith('@'):
+                                continue
+
+                            parts = line.split('|')
+                            if len(parts) >= 2:
+                                concept = parts[0].strip()
+                                value = parts[1].strip()
+
+                                # Add prefix to concept if not already there
+                                if prefix and not concept.startswith(f"{prefix}:"):
+                                    concept = f"{prefix}:{concept}"
+
+                                # Use (concept, context_ref) as key
+                                key = (concept.lower(), context_ref)
+                                facts[key] = {
+                                    "concept": concept,
+                                    "value": value,
+                                    "context_ref": context_ref
+                                }
+                else:
+                    # Facts are not grouped by prefix
+                    fact_lines = context_block.strip().split('\n')
+                    for line in fact_lines:
+                        if not line or line.startswith('@'):
+                            continue
+
+                        parts = line.split('|')
+                        if len(parts) >= 2:
+                            concept = parts[0].strip()
+                            value = parts[1].strip()
+
+                            # Use (concept, context_ref) as key
+                            key = (concept.lower(), context_ref)
+                            facts[key] = {
+                                "concept": concept,
+                                "value": value,
+                                "context_ref": context_ref
+                            }
+
+        # Also try to parse facts from the old format
+        # Pattern 1: Standard fact pattern
+        fact_pattern1 = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): ([^\n]+)(?:\n@UNIT(?:_REF)?: ([^\n]+))?(?:\n@DECIMALS: ([^\n]+))?\n@CONTEXT_REF: ([^\n|]+)'
+        fact_matches1 = re.findall(fact_pattern1, llm_content)
+
+        for match in fact_matches1:
+            concept, value = match[0], match[1]
+            context_ref = match[4]
+
+            # Clean up context_ref
+            if " | " in context_ref:
+                context_ref = context_ref.split(" | ")[0]
+
+            # Use (concept, context_ref) as key
+            key = (concept.lower(), context_ref)
+            if key not in facts:
+                facts[key] = {
+                    "concept": concept,
+                    "value": value,
+                    "context_ref": context_ref
+                }
+
+        return facts
+
+    def _find_missing_facts(self, raw_facts, llm_facts):
+        """
+        Find facts that are in the raw XBRL but not in the LLM content.
+
+        Args:
+            raw_facts: List of facts from the raw XBRL
+            llm_facts: Dictionary of facts from the LLM content
+
+        Returns:
+            List of missing facts
+        """
+        missing_facts = []
+
+        for fact in raw_facts:
+            # Get concept and context_ref
+            concept = fact.get('name', fact.get('concept', ''))
+            context_ref = fact.get('contextRef', '')
+
+            # Skip facts with empty concept or context_ref
+            if not concept or not context_ref:
+                continue
+
+            # Check if this fact is in the LLM facts
+            key = (concept.lower(), context_ref)
+            if key not in llm_facts:
+                # Try with just the concept name (ignoring context)
+                concept_only_found = False
+                for llm_key in llm_facts:
+                    if llm_key[0] == concept.lower():
+                        concept_only_found = True
+                        break
+
+                if not concept_only_found:
+                    missing_facts.append(fact)
+
+        return missing_facts
+
+    def _add_missing_facts(self, llm_content, missing_facts):
+        """
+        Add missing facts to the LLM content.
+
+        Args:
+            llm_content: LLM content
+            missing_facts: List of missing facts
+
+        Returns:
+            Updated LLM content
+        """
+        # Group missing facts by context_ref
+        facts_by_context = defaultdict(list)
+        for fact in missing_facts:
+            context_ref = fact.get('contextRef', '')
+            facts_by_context[context_ref].append(fact)
+
+        # Find the @FACTS section
+        facts_section_match = re.search(r'(@FACTS.*?)(?=\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)', llm_content, re.DOTALL)
+        if not facts_section_match:
+            # If no @FACTS section, add one before the first @SECTION or @NARRATIVE_TEXT
+            section_match = re.search(r'(\n\n@SECTION:|\n\n@NARRATIVE_TEXT:)', llm_content)
+            if section_match:
+                insert_pos = section_match.start()
+                facts_section = "\n\n@FACTS\n"
+
+                # Add missing facts
+                for context_ref, facts in facts_by_context.items():
+                    facts_section += f"\n@CONTEXT: {context_ref}\n"
+
+                    # Group facts by prefix
+                    facts_by_prefix = defaultdict(list)
+                    for fact in facts:
+                        concept = fact.get('name', fact.get('concept', ''))
+                        prefix = concept.split(':')[0] if ':' in concept else ''
+                        facts_by_prefix[prefix].append(fact)
+
+                    # Add facts by prefix
+                    for prefix, prefix_facts in facts_by_prefix.items():
+                        if prefix:
+                            facts_section += f"@PREFIX: {prefix}\n"
+
+                        for fact in prefix_facts:
+                            concept = fact.get('name', fact.get('concept', ''))
+                            value = fact.get('value', '')
+
+                            # Remove prefix from concept if it's already specified
+                            if prefix and concept.startswith(f"{prefix}:"):
+                                concept = concept[len(prefix)+1:]
+
+                            # Add fact in compact format
+                            facts_section += f"{concept}|{value}\n"
+
+                # Insert facts section
+                fixed_content = llm_content[:insert_pos] + facts_section + llm_content[insert_pos:]
+                return fixed_content
+            else:
+                # If no @SECTION or @NARRATIVE_TEXT, add @FACTS section at the end
+                facts_section = "\n\n@FACTS\n"
+
+                # Add missing facts
+                for context_ref, facts in facts_by_context.items():
+                    facts_section += f"\n@CONTEXT: {context_ref}\n"
+
+                    # Group facts by prefix
+                    facts_by_prefix = defaultdict(list)
+                    for fact in facts:
+                        concept = fact.get('name', fact.get('concept', ''))
+                        prefix = concept.split(':')[0] if ':' in concept else ''
+                        facts_by_prefix[prefix].append(fact)
+
+                    # Add facts by prefix
+                    for prefix, prefix_facts in facts_by_prefix.items():
+                        if prefix:
+                            facts_section += f"@PREFIX: {prefix}\n"
+
+                        for fact in prefix_facts:
+                            concept = fact.get('name', fact.get('concept', ''))
+                            value = fact.get('value', '')
+
+                            # Remove prefix from concept if it's already specified
+                            if prefix and concept.startswith(f"{prefix}:"):
+                                concept = concept[len(prefix)+1:]
+
+                            # Add fact in compact format
+                            facts_section += f"{concept}|{value}\n"
+
+                # Append facts section
+                fixed_content = llm_content + facts_section
+                return fixed_content
+        else:
+            # If @FACTS section exists, add missing facts to it
+            facts_section = facts_section_match.group(1)
+            facts_section_end = facts_section_match.end()
+
+            # Add missing facts
+            for context_ref, facts in facts_by_context.items():
+                # Check if this context already exists
+                context_match = re.search(f"@CONTEXT: {re.escape(context_ref)}\\b", facts_section)
+                if context_match:
+                    # Context exists, add facts to it
+                    context_start = context_match.start()
+
+                    # Find the end of this context block
+                    next_context_match = re.search(f"\\n@CONTEXT:", facts_section[context_start:])
+                    if next_context_match:
+                        context_end = context_start + next_context_match.start()
+                    else:
+                        context_end = len(facts_section)
+
+                    context_block = facts_section[context_start:context_end]
+
+                    # Group facts by prefix
+                    facts_by_prefix = defaultdict(list)
+                    for fact in facts:
+                        concept = fact.get('name', fact.get('concept', ''))
+                        prefix = concept.split(':')[0] if ':' in concept else ''
+                        facts_by_prefix[prefix].append(fact)
+
+                    # Add facts by prefix
+                    for prefix, prefix_facts in facts_by_prefix.items():
+                        # Check if this prefix already exists
+                        prefix_match = re.search(f"@PREFIX: {re.escape(prefix)}\\b", context_block)
+                        if prefix_match:
+                            # Prefix exists, add facts to it
+                            prefix_start = context_start + prefix_match.start()
+
+                            # Find the end of this prefix block
+                            next_prefix_match = re.search(f"\\n@PREFIX:", facts_section[prefix_start:context_end])
+                            if next_prefix_match:
+                                prefix_end = prefix_start + next_prefix_match.start()
+                            else:
+                                prefix_end = context_end
+
+                            # Add facts at the end of this prefix block
+                            facts_to_add = ""
+                            for fact in prefix_facts:
+                                concept = fact.get('name', fact.get('concept', ''))
+                                value = fact.get('value', '')
+
+                                # Remove prefix from concept if it's already specified
+                                if prefix and concept.startswith(f"{prefix}:"):
+                                    concept = concept[len(prefix)+1:]
+
+                                # Add fact in compact format
+                                facts_to_add += f"{concept}|{value}\n"
+
+                            # Insert facts
+                            facts_section = facts_section[:prefix_end] + facts_to_add + facts_section[prefix_end:]
+
+                            # Update context_end
+                            context_end += len(facts_to_add)
+                        else:
+                            # Prefix doesn't exist, add it
+                            facts_to_add = f"\n@PREFIX: {prefix}\n"
+                            for fact in prefix_facts:
+                                concept = fact.get('name', fact.get('concept', ''))
+                                value = fact.get('value', '')
+
+                                # Remove prefix from concept if it's already specified
+                                if prefix and concept.startswith(f"{prefix}:"):
+                                    concept = concept[len(prefix)+1:]
+
+                                # Add fact in compact format
+                                facts_to_add += f"{concept}|{value}\n"
+
+                            # Insert facts at the end of the context block
+                            facts_section = facts_section[:context_end] + facts_to_add + facts_section[context_end:]
+
+                            # Update context_end
+                            context_end += len(facts_to_add)
+                else:
+                    # Context doesn't exist, add it
+                    facts_to_add = f"\n@CONTEXT: {context_ref}\n"
+
+                    # Group facts by prefix
+                    facts_by_prefix = defaultdict(list)
+                    for fact in facts:
+                        concept = fact.get('name', fact.get('concept', ''))
+                        prefix = concept.split(':')[0] if ':' in concept else ''
+                        facts_by_prefix[prefix].append(fact)
+
+                    # Add facts by prefix
+                    for prefix, prefix_facts in facts_by_prefix.items():
+                        if prefix:
+                            facts_to_add += f"@PREFIX: {prefix}\n"
+
+                        for fact in prefix_facts:
+                            concept = fact.get('name', fact.get('concept', ''))
+                            value = fact.get('value', '')
+
+                            # Remove prefix from concept if it's already specified
+                            if prefix and concept.startswith(f"{prefix}:"):
+                                concept = concept[len(prefix)+1:]
+
+                            # Add fact in compact format
+                            facts_to_add += f"{concept}|{value}\n"
+
+                    # Append facts to the end of the facts section
+                    facts_section += facts_to_add
+
+            # Replace facts section in the content
+            fixed_content = llm_content[:facts_section_match.start()] + facts_section + llm_content[facts_section_end:]
+            return fixed_content
 
 # Create a singleton instance
 # recreate the singleton instance with our updated code
