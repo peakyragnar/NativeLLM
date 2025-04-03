@@ -2596,15 +2596,15 @@ class LLMFormatter:
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
             # Optimize the LLM content
-            self.logger.info(f"Optimizing LLM content for {output_path}")
+            logging.info(f"Optimizing LLM content for {output_path}")
             original_size = len(llm_content) / 1024
-            self.logger.info(f"Original size: {original_size:.2f} KB")
+            logging.info(f"Original size: {original_size:.2f} KB")
 
             optimized_content = optimize_llm_content(llm_content)
 
             optimized_size = len(optimized_content) / 1024
             reduction = (original_size - optimized_size) / original_size * 100
-            self.logger.info(f"Optimized size: {optimized_size:.2f} KB (reduced by {reduction:.2f}%)")
+            logging.info(f"Optimized size: {optimized_size:.2f} KB (reduced by {reduction:.2f}%)")
 
             # Save file
             with open(output_path, 'w', encoding='utf-8') as f:
