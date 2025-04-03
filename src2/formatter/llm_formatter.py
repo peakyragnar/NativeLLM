@@ -11,6 +11,7 @@ import re
 import datetime
 from .normalize_value import normalize_value, safe_parse_decimals
 from .context_extractor import extract_contexts_from_html, map_contexts_to_periods
+from .context_format_handler import extract_period_info
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -1698,78 +1699,19 @@ class LLMFormatter:
                         else:
                             # Second priority: Check for embedded dates in context_ref ID
 
-                            # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
-                            c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_ref)
+                            # Use the context format handler to extract period info from the context ID
+                            period_info = extract_period_info(context_ref)
 
-                            # Format 2: C_0000789019_20200701 (instant with CIK)
-                            c_instant_match = re.search(r'C_\d+_(\d{8})$', context_ref)
-
-                            # Format 3: _D20200701-20210630 (standard duration)
-                            d_match = re.search(r'_D(\d{8})-(\d{8})', context_ref)
-
-                            # Format 4: _I20200701 (standard instant)
-                            i_match = re.search(r'_I(\d{8})', context_ref)
-
-                            # Format 7: NVDA format with embedded dates (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_D20210201-20220130)
-                            nvda_duration_match = re.search(r'i[a-z0-9]+_D(\d{8})-(\d{8})', context_ref)
-
-                            # Format 8: NVDA format with embedded instant date (e.g., i2c5e111a942340e08ad1e8d2e3b0fb71_I20210201)
-                            nvda_instant_match = re.search(r'i[a-z0-9]+_I(\d{8})', context_ref)
-
-                            if c_duration_match:
-                                # Format 1: Duration with CIK
-                                start_date_str = c_duration_match.group(1)
-                                end_date_str = c_duration_match.group(2)
-
-                                formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
-                                formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
-
-                                output.append(f"@DATE_TYPE: Duration")
-                                output.append(f"@START_DATE: {formatted_start}")
-                                output.append(f"@END_DATE: {formatted_end}")
-                            elif c_instant_match:
-                                # Format 2: Instant with CIK
-                                date_str = c_instant_match.group(1)
-                                formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
-
-                                output.append(f"@DATE_TYPE: Instant")
-                                output.append(f"@DATE: {formatted_date}")
-                            elif d_match:
-                                # Format 3: Standard duration
-                                start_date_str = d_match.group(1)
-                                end_date_str = d_match.group(2)
-
-                                formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
-                                formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
-
-                                output.append(f"@DATE_TYPE: Duration")
-                                output.append(f"@START_DATE: {formatted_start}")
-                                output.append(f"@END_DATE: {formatted_end}")
-                            elif i_match:
-                                # Format 4: Standard instant
-                                date_str = i_match.group(1)
-                                formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
-
-                                output.append(f"@DATE_TYPE: Instant")
-                                output.append(f"@DATE: {formatted_date}")
-                            elif nvda_duration_match:
-                                # Format 7: NVDA duration format
-                                start_date_str = nvda_duration_match.group(1)
-                                end_date_str = nvda_duration_match.group(2)
-
-                                formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
-                                formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
-
-                                output.append(f"@DATE_TYPE: Duration")
-                                output.append(f"@START_DATE: {formatted_start}")
-                                output.append(f"@END_DATE: {formatted_end}")
-                            elif nvda_instant_match:
-                                # Format 8: NVDA instant format
-                                date_str = nvda_instant_match.group(1)
-                                formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
-
-                                output.append(f"@DATE_TYPE: Instant")
-                                output.append(f"@DATE: {formatted_date}")
+                            if period_info:
+                                if "startDate" in period_info and "endDate" in period_info:
+                                    # Duration context
+                                    output.append(f"@DATE_TYPE: Duration")
+                                    output.append(f"@START_DATE: {period_info['startDate']}")
+                                    output.append(f"@END_DATE: {period_info['endDate']}")
+                                elif "instant" in period_info:
+                                    # Instant context
+                                    output.append(f"@DATE_TYPE: Instant")
+                                    output.append(f"@DATE: {period_info['instant']}")
                     except Exception as e:
                         # Catch any errors to prevent breaking the existing pipeline
                         logging.warning(f"Error extracting date information from context: {context_ref}. Error: {str(e)}")
@@ -1804,56 +1746,36 @@ class LLMFormatter:
 
             # Try to extract dates from context IDs
             for i, context_ref in enumerate(sorted(context_refs)):
-                # Try different context ID patterns
-                # Format 1: C_0000789019_20200701_20210630 (duration with CIK)
-                c_duration_match = re.search(r'C_\d+_(\d{8})_(\d{8})', context_ref)
-                # Format 2: C_0000789019_20200701 (instant with CIK)
-                c_instant_match = re.search(r'C_\d+_(\d{8})$', context_ref)
-                # Format 3: _D20200701-20210630 (standard duration)
-                d_match = re.search(r'_D(\d{8})-(\d{8})', context_ref)
-                # Format 4: _I20200701 (standard instant)
-                i_match = re.search(r'_I(\d{8})', context_ref)
+                # Use the context format handler to extract period info
+                period_info = extract_period_info(context_ref)
 
-                if c_duration_match or d_match:
-                    # Duration context
-                    code = f"P{i+1}"
-                    context_code_map[context_ref] = code
+                if period_info:
+                    if "startDate" in period_info and "endDate" in period_info:
+                        # Duration context
+                        code = f"P{i+1}"
+                        context_code_map[context_ref] = code
 
-                    # Extract dates based on pattern
-                    if c_duration_match:
-                        start_date_str = c_duration_match.group(1)
-                        end_date_str = c_duration_match.group(2)
-                    else:  # d_match
-                        start_date_str = d_match.group(1)
-                        end_date_str = d_match.group(2)
+                        formatted_start = period_info["startDate"]
+                        formatted_end = period_info["endDate"]
 
-                    formatted_start = f"{start_date_str[:4]}-{start_date_str[4:6]}-{start_date_str[6:8]}"
-                    formatted_end = f"{end_date_str[:4]}-{end_date_str[4:6]}-{end_date_str[6:8]}"
+                        semantic_code = f"Duration_{formatted_start}_{formatted_end}"
+                        category = self._get_fiscal_category(formatted_start, formatted_end, filing_type)
 
-                    semantic_code = f"Duration_{formatted_start}_{formatted_end}"
-                    category = self._get_fiscal_category(formatted_start, formatted_end, filing_type)
+                        # Add to output
+                        output.append(f"{code} | {semantic_code} | {category} | Duration | Consolidated | {formatted_start} to {formatted_end} | Period from {formatted_start} to {formatted_end}")
 
-                    # Add to output
-                    output.append(f"{code} | {semantic_code} | {category} | Duration | Consolidated | {formatted_start} to {formatted_end} | Period from {formatted_start} to {formatted_end}")
+                    elif "instant" in period_info:
+                        # Instant context
+                        code = f"I{i+1}"
+                        context_code_map[context_ref] = code
 
-                elif c_instant_match or i_match:
-                    # Instant context
-                    code = f"I{i+1}"
-                    context_code_map[context_ref] = code
+                        formatted_date = period_info["instant"]
 
-                    # Extract date based on pattern
-                    if c_instant_match:
-                        date_str = c_instant_match.group(1)
-                    else:  # i_match
-                        date_str = i_match.group(1)
+                        semantic_code = f"Instant_{formatted_date}"
+                        category = self._get_fiscal_category(formatted_date, formatted_date, filing_type)
 
-                    formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
-
-                    semantic_code = f"Instant_{formatted_date}"
-                    category = self._get_fiscal_category(formatted_date, formatted_date, filing_type)
-
-                    # Add to output
-                    output.append(f"{code} | {semantic_code} | {category} | Instant | Consolidated | {formatted_date} | As of {formatted_date}")
+                        # Add to output
+                        output.append(f"{code} | {semantic_code} | {category} | Instant | Consolidated | {formatted_date} | As of {formatted_date}")
 
         elif period_contexts or instant_contexts:
             for i, context in enumerate(period_contexts):
