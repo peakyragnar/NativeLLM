@@ -968,9 +968,10 @@ class BatchSECPipeline:
         logging.info(log_message)
 
         try:
-            # Special handling for NVDA 2024 10-K
-            if ticker == "NVDA" and filing_type == "10-K" and year == 2024:
-                logging.info("Using special handling for NVDA 2024 10-K")
+            # Special handling for companies with non-standard fiscal years
+            # This ensures we get the correct filing for the requested fiscal year
+            if filing_type in ["10-K", "10-Q"]:
+                logging.info(f"Using special handling for {ticker} {filing_type} {year} to ensure correct fiscal year")
 
                 # Create a custom filing info that targets the specific 10-K filing
                 from src2.sec.downloader import SECDownloader
@@ -1001,10 +1002,47 @@ class BatchSECPipeline:
 
                 logging.info(f"Retrieved {len(all_filings)} 10-K filings for NVDA")
 
-                # Look specifically for a filing with January 2024 period end date
+                # Look for a filing with the correct fiscal year end date
                 target_filing = None
                 # Make sure we have datetime available in this scope
                 import datetime
+
+                # Get fiscal year end month and day for this company
+                fiscal_year_end_month = 12  # Default to December
+                fiscal_year_end_day = 31  # Default to 31st
+
+                # Try to get company-specific fiscal year end date
+                from src2.sec.fiscal.fiscal_manager import CompanyFiscalModel
+                if ticker in CompanyFiscalModel.KNOWN_FISCAL_PATTERNS:
+                    pattern = CompanyFiscalModel.KNOWN_FISCAL_PATTERNS[ticker]
+                    if "fiscal_year_end" in pattern:
+                        fiscal_year_end = pattern["fiscal_year_end"]
+                        # Parse month and day from fiscal_year_end (format: MM-DD)
+                        try:
+                            fiscal_year_end_month = int(fiscal_year_end.split("-")[0])
+                            fiscal_year_end_day = int(fiscal_year_end.split("-")[1])
+                            logging.info(f"Using fiscal year end {fiscal_year_end_month:02d}-{fiscal_year_end_day:02d} from KNOWN_FISCAL_PATTERNS for {ticker}")
+                        except (ValueError, IndexError):
+                            logging.warning(f"Could not parse fiscal_year_end {fiscal_year_end} for {ticker}")
+
+                # For companies with fiscal year ending in first half of calendar year (like NVDA in January),
+                # their fiscal year X ends in calendar year X
+                # For companies with fiscal year ending in second half (like MSFT in June),
+                # their fiscal year X ends in calendar year X
+
+                # Calculate the expected period end date range for this fiscal year
+                if fiscal_year_end_month <= 6:  # First half of calendar year
+                    # Fiscal year 2022 would end in early 2022
+                    expected_year = year
+                else:  # Second half of calendar year
+                    # Fiscal year 2022 would end in mid/late 2022
+                    expected_year = year
+
+                logging.info(f"Looking for {ticker} {filing_type} for fiscal year {year} with period end date around {expected_year}-{fiscal_year_end_month:02d}-{fiscal_year_end_day:02d}")
+
+                # Find the filing with period end date closest to the expected date
+                best_match = None
+                smallest_diff = float('inf')
 
                 for filing in all_filings:
                     period_end = filing.get("period_end_date")
@@ -1013,19 +1051,22 @@ class BatchSECPipeline:
                             end_date = datetime.datetime.strptime(period_end, '%Y-%m-%d')
                             logging.info(f"Found a filing with period end date: {period_end}")
 
-                            # For NVDA's 2024 10-K, we expect a January 2024 period end date
-                            if end_date.year == 2024 and end_date.month == 1:
-                                target_filing = filing
-                                logging.info(f"Found NVDA 2024 10-K with period end date: {period_end}")
-                                break
-                            # Also check for late 2023 period end date, as it might be labeled that way
-                            elif end_date.year == 2023 and end_date.month >= 11:
-                                # This is potentially a candidate
-                                if not target_filing:
-                                    target_filing = filing
-                                    logging.info(f"Found potential NVDA 2024 10-K with period end date: {period_end}")
+                            # Calculate how close this filing's period end date is to the expected date
+                            expected_date = datetime.datetime(expected_year, fiscal_year_end_month, fiscal_year_end_day)
+                            date_diff = abs((end_date - expected_date).total_seconds())
+
+                            # If this is the closest match so far, save it
+                            if date_diff < smallest_diff:
+                                smallest_diff = date_diff
+                                best_match = filing
+                                logging.info(f"New best match: {period_end} (diff: {date_diff} seconds)")
                         except (ValueError, TypeError):
                             continue
+
+                # Use the best match as the target filing
+                if best_match:
+                    target_filing = best_match
+                    logging.info(f"Found best match for {ticker} {filing_type} {year}: {target_filing.get('period_end_date')}")
 
                 if target_filing:
                     # Ensure the fiscal year is properly set in the filing info
