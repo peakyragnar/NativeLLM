@@ -268,11 +268,12 @@ class LLMFormatOptimizer:
 
                             facts.append(fact)
         else:
-            # Old format
-            fact_pattern = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): ([^\n]+)(?:\n@UNIT(?:_REF)?: ([^\n]+))?(?:\n@DECIMALS: ([^\n]+))?\n@CONTEXT_REF: ([^\n|]+)(?:[^\n]*)?(?:\n@DATE_TYPE: ([^\n]+))?(?:\n@(?:DATE|START_DATE): ([^\n]+))?(?:\n@END_DATE: ([^\n]+))?'
-            fact_matches = re.findall(fact_pattern, facts_section)
+            # Old format - try multiple patterns to catch all facts
+            # Pattern 1: Standard fact pattern
+            fact_pattern1 = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): ([^\n]+)(?:\n@UNIT(?:_REF)?: ([^\n]+))?(?:\n@DECIMALS: ([^\n]+))?\n@CONTEXT_REF: ([^\n|]+)(?:[^\n]*)?(?:\n@DATE_TYPE: ([^\n]+))?(?:\n@(?:DATE|START_DATE): ([^\n]+))?(?:\n@END_DATE: ([^\n]+))?'
+            fact_matches1 = re.findall(fact_pattern1, facts_section)
 
-            for match in fact_matches:
+            for match in fact_matches1:
                 concept, value, unit, decimals, context_ref, date_type, start_date, end_date = match
 
                 # Clean up context_ref
@@ -281,7 +282,7 @@ class LLMFormatOptimizer:
 
                 fact = {
                     "concept": concept,
-                    "value": value,
+                    "value": value if value else "",
                     "unit": unit if unit else "",
                     "decimals": decimals if decimals else "",
                     "context_ref": context_ref,
@@ -291,6 +292,62 @@ class LLMFormatOptimizer:
                 }
 
                 facts.append(fact)
+
+            # Pattern 2: Facts with empty values
+            fact_pattern2 = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): \n@CONTEXT_REF: ([^\n|]+)'
+            fact_matches2 = re.findall(fact_pattern2, facts_section)
+
+            for match in fact_matches2:
+                concept, context_ref = match
+
+                # Clean up context_ref
+                if " | " in context_ref:
+                    context_ref = context_ref.split(" | ")[0]
+
+                fact = {
+                    "concept": concept,
+                    "value": "",
+                    "unit": "",
+                    "decimals": "",
+                    "context_ref": context_ref,
+                    "date_type": "",
+                    "start_date": "",
+                    "end_date": ""
+                }
+
+                facts.append(fact)
+
+            # Pattern 3: Facts with no unit
+            fact_pattern3 = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): ([^\n]+)\n@CONTEXT_REF: ([^\n|]+)'
+            fact_matches3 = re.findall(fact_pattern3, facts_section)
+
+            for match in fact_matches3:
+                concept, value, context_ref = match
+
+                # Clean up context_ref
+                if " | " in context_ref:
+                    context_ref = context_ref.split(" | ")[0]
+
+                # Check if this fact is already added
+                duplicate = False
+                for fact in facts:
+                    if fact["concept"] == concept and fact["context_ref"] == context_ref:
+                        duplicate = True
+                        break
+
+                if not duplicate:
+                    fact = {
+                        "concept": concept,
+                        "value": value if value else "",
+                        "unit": "",
+                        "decimals": "",
+                        "context_ref": context_ref,
+                        "date_type": "",
+                        "start_date": "",
+                        "end_date": ""
+                    }
+
+                    facts.append(fact)
 
         return facts
 
