@@ -36,7 +36,7 @@ class LLMFormatOptimizer:
         logging.info("Optimizing LLM file format")
 
         # Extract sections from the original file
-        header_section, structure_section, context_section, facts_section, rest_section = self._extract_sections(content)
+        header_section, structure_section, context_section, financial_statements_section, facts_section, rest_section = self._extract_sections(content)
 
         # Parse context definitions
         context_defs = self._parse_context_definitions(context_section)
@@ -56,6 +56,7 @@ class LLMFormatOptimizer:
             structure_section,
             consolidated_contexts,
             facts_by_context,
+            financial_statements_section,
             rest_section
         )
 
@@ -70,7 +71,7 @@ class LLMFormatOptimizer:
 
         return optimized_content
 
-    def _extract_sections(self, content: str) -> Tuple[str, str, str, str, str]:
+    def _extract_sections(self, content: str) -> Tuple[str, str, str, str, str, str]:
         """
         Extract sections from the original file.
 
@@ -78,12 +79,13 @@ class LLMFormatOptimizer:
             content: The original LLM file content
 
         Returns:
-            Tuple of (header_section, structure_section, context_section, facts_section, rest_section)
+            Tuple of (header_section, structure_section, context_section, financial_statements_section, facts_section, rest_section)
         """
         # Define section patterns
         header_pattern = r'^.*?(?=@STRUCTURE:|@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
         structure_pattern = r'(@STRUCTURE:.*?)(?=@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
-        context_pattern = r'(@DATA_DICTIONARY: CONTEXTS.*?|@CONTEXTS.*?)(?=\n\n@CONCEPT:|\n\n@FACTS)'
+        context_pattern = r'(@DATA_DICTIONARY: CONTEXTS.*?|@CONTEXTS.*?)(?=\n\n@CONCEPT:|\n\n@FACTS|\n\n@FINANCIAL_STATEMENTS_SECTION)'
+        financial_statements_pattern = r'(\n\n@FINANCIAL_STATEMENTS_SECTION.*?)(?=\n\n@CONCEPT:|\n\n@FACTS|\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
         facts_pattern = r'(\n\n@CONCEPT:.*|\n\n@FACTS.*?)(?=\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
 
         # Extract sections
@@ -96,6 +98,9 @@ class LLMFormatOptimizer:
         context_match = re.search(context_pattern, content, re.DOTALL)
         context_section = context_match.group(0) if context_match else ""
 
+        financial_statements_match = re.search(financial_statements_pattern, content, re.DOTALL)
+        financial_statements_section = financial_statements_match.group(0) if financial_statements_match else ""
+
         facts_match = re.search(facts_pattern, content, re.DOTALL)
         facts_section = facts_match.group(0) if facts_match else ""
 
@@ -107,10 +112,12 @@ class LLMFormatOptimizer:
             rest_section = rest_section.replace(structure_section, "", 1)
         if context_section:
             rest_section = rest_section.replace(context_section, "", 1)
+        if financial_statements_section:
+            rest_section = rest_section.replace(financial_statements_section, "", 1)
         if facts_section:
             rest_section = rest_section.replace(facts_section, "", 1)
 
-        return header_section, structure_section, context_section, facts_section, rest_section
+        return header_section, structure_section, context_section, financial_statements_section, facts_section, rest_section
 
     def _parse_context_definitions(self, context_section: str) -> Dict[str, Dict[str, Any]]:
         """
@@ -382,6 +389,7 @@ class LLMFormatOptimizer:
         structure_section: str,
         consolidated_contexts: Dict[str, Dict[str, Any]],
         facts_by_context: Dict[str, List[Dict[str, Any]]],
+        financial_statements_section: str,
         rest_section: str
     ) -> str:
         """
@@ -392,6 +400,7 @@ class LLMFormatOptimizer:
             structure_section: The document structure section
             consolidated_contexts: Dictionary of consolidated context definitions
             facts_by_context: Dictionary of facts grouped by context reference
+            financial_statements_section: The financial statements section
             rest_section: The rest of the LLM file content
 
         Returns:
@@ -420,6 +429,10 @@ class LLMFormatOptimizer:
                 output.append(f"  ALIASES: {', '.join(context_info['all_context_ids'][1:])}")
             elif "aliases" in context_info and context_info["aliases"]:
                 output.append(f"  ALIASES: {', '.join(context_info['aliases'])}")
+
+        # Add financial statements section if it exists
+        if financial_statements_section.strip():
+            output.append(financial_statements_section.strip())
 
         # Add facts grouped by context
         output.append("\n@FACTS")
