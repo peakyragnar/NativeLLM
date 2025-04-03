@@ -13,6 +13,7 @@ from .normalize_value import normalize_value, safe_parse_decimals
 from .context_extractor import extract_contexts_from_html, map_contexts_to_periods
 from .context_format_handler import extract_period_info
 from .financial_statement_organizer import organize_financial_statements
+from .llm_format_optimizer import optimize_llm_content
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -2594,9 +2595,20 @@ class LLMFormatter:
             # Ensure directory exists
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
+            # Optimize the LLM content
+            self.logger.info(f"Optimizing LLM content for {output_path}")
+            original_size = len(llm_content) / 1024
+            self.logger.info(f"Original size: {original_size:.2f} KB")
+
+            optimized_content = optimize_llm_content(llm_content)
+
+            optimized_size = len(optimized_content) / 1024
+            reduction = (original_size - optimized_size) / original_size * 100
+            self.logger.info(f"Optimized size: {optimized_size:.2f} KB (reduced by {reduction:.2f}%)")
+
             # Save file
             with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(llm_content)
+                f.write(optimized_content)
 
             return {
                 "success": True,
