@@ -80,9 +80,9 @@ class LLMFormatOptimizer:
             Tuple of (header_section, context_section, facts_section, rest_section)
         """
         # Define section patterns
-        header_pattern = r'^.*?(?=@DATA_DICTIONARY: CONTEXTS)'
-        context_pattern = r'@DATA_DICTIONARY: CONTEXTS.*?(?=\n\n@CONCEPT:)'
-        facts_pattern = r'(?:\n\n@CONCEPT:.*?)+'
+        header_pattern = r'^.*?(?=@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
+        context_pattern = r'(@DATA_DICTIONARY: CONTEXTS.*?|@CONTEXTS.*?)(?=\n\n@CONCEPT:|\n\n@FACTS)'
+        facts_pattern = r'(\n\n@CONCEPT:.*|\n\n@FACTS.*?)(?=\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
 
         # Extract sections
         header_match = re.search(header_pattern, content, re.DOTALL)
@@ -117,19 +117,41 @@ class LLMFormatOptimizer:
         """
         context_defs = {}
 
-        # Extract context definitions
-        context_pattern = r'([a-zA-Z0-9_-]+) \| @CODE: ([^|]+) \| ([^|]+) \| (Period|Instant): ([^\n]+)'
-        context_matches = re.findall(context_pattern, context_section)
+        # Check if we're using the new format or the old format
+        if context_section.startswith("@CONTEXTS"):
+            # New format
+            context_pattern = r'([a-zA-Z0-9_-]+)\|(Period|Instant)\|([^|]+)\|([^\n]+)(?:\n\s+ALIASES: ([^\n]+))?'
+            context_matches = re.findall(context_pattern, context_section)
 
-        for match in context_matches:
-            context_id, code, label, period_type, date_range = match
+            for match in context_matches:
+                context_id, period_type, date_range, label, aliases = match
 
-            context_defs[context_id] = {
-                "code": code,
-                "label": label,
-                "period_type": period_type,
-                "date_range": date_range
-            }
+                # Parse aliases
+                alias_list = []
+                if aliases:
+                    alias_list = [alias.strip() for alias in aliases.split(",")]
+
+                context_defs[context_id] = {
+                    "period_type": period_type,
+                    "date_range": date_range,
+                    "label": label,
+                    "aliases": alias_list
+                }
+        else:
+            # Old format
+            context_pattern = r'([a-zA-Z0-9_-]+) \| @CODE: ([^|]+) \| ([^|]+) \| (Period|Instant): ([^\n]+)'
+            context_matches = re.findall(context_pattern, context_section)
+
+            for match in context_matches:
+                context_id, code, label, period_type, date_range = match
+
+                context_defs[context_id] = {
+                    "code": code,
+                    "label": label,
+                    "period_type": period_type,
+                    "date_range": date_range,
+                    "aliases": []
+                }
 
         return context_defs
 
@@ -180,25 +202,95 @@ class LLMFormatOptimizer:
         """
         facts = []
 
-        # Extract facts
-        fact_pattern = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): ([^\n]+)(?:\n@UNIT(?:_REF)?: ([^\n]+))?(?:\n@DECIMALS: ([^\n]+))?\n@CONTEXT_REF: ([^\n|]+)(?:[^\n]*)?(?:\n@DATE_TYPE: ([^\n]+))?(?:\n@(?:DATE|START_DATE): ([^\n]+))?(?:\n@END_DATE: ([^\n]+))?'
-        fact_matches = re.findall(fact_pattern, facts_section)
+        # Check if we're using the new format or the old format
+        if facts_section.startswith("@FACTS"):
+            # New format - try to parse facts grouped by context
+            context_blocks = re.findall(r'@CONTEXT: ([^\n]+)(.*?)(?=\n@CONTEXT:|\Z)', facts_section, re.DOTALL)
 
-        for match in fact_matches:
-            concept, value, unit, decimals, context_ref, date_type, start_date, end_date = match
+            for context_ref, context_block in context_blocks:
+                # Parse facts in this context block
+                prefix_blocks = re.findall(r'@PREFIX: ([^\n]+)(.*?)(?=\n@PREFIX:|\n@CONTEXT:|\Z)', context_block, re.DOTALL)
 
-            fact = {
-                "concept": concept,
-                "value": value,
-                "unit": unit,
-                "decimals": decimals,
-                "context_ref": context_ref,
-                "date_type": date_type,
-                "start_date": start_date,
-                "end_date": end_date
-            }
+                if prefix_blocks:
+                    # Facts are grouped by prefix
+                    for prefix, prefix_block in prefix_blocks:
+                        # Parse facts in this prefix block
+                        fact_lines = prefix_block.strip().split('\n')
+                        for line in fact_lines:
+                            if not line or line.startswith('@'):
+                                continue
 
-            facts.append(fact)
+                            parts = line.split('|')
+                            if len(parts) >= 2:
+                                concept = parts[0].strip()
+                                value = parts[1].strip()
+                                unit = parts[2].strip() if len(parts) > 2 else ""
+
+                                # Add prefix to concept if not already there
+                                if prefix and not concept.startswith(f"{prefix}:"):
+                                    concept = f"{prefix}:{concept}"
+
+                                fact = {
+                                    "concept": concept,
+                                    "value": value,
+                                    "unit": unit,
+                                    "decimals": "",
+                                    "context_ref": context_ref.strip(),
+                                    "date_type": "",
+                                    "start_date": "",
+                                    "end_date": ""
+                                }
+
+                                facts.append(fact)
+                else:
+                    # Facts are not grouped by prefix
+                    fact_lines = context_block.strip().split('\n')
+                    for line in fact_lines:
+                        if not line or line.startswith('@'):
+                            continue
+
+                        parts = line.split('|')
+                        if len(parts) >= 2:
+                            concept = parts[0].strip()
+                            value = parts[1].strip()
+                            unit = parts[2].strip() if len(parts) > 2 else ""
+
+                            fact = {
+                                "concept": concept,
+                                "value": value,
+                                "unit": unit,
+                                "decimals": "",
+                                "context_ref": context_ref.strip(),
+                                "date_type": "",
+                                "start_date": "",
+                                "end_date": ""
+                            }
+
+                            facts.append(fact)
+        else:
+            # Old format
+            fact_pattern = r'@CONCEPT: ([^\n]+)\n@(?:VALUE|COMMON_NAME): ([^\n]+)(?:\n@UNIT(?:_REF)?: ([^\n]+))?(?:\n@DECIMALS: ([^\n]+))?\n@CONTEXT_REF: ([^\n|]+)(?:[^\n]*)?(?:\n@DATE_TYPE: ([^\n]+))?(?:\n@(?:DATE|START_DATE): ([^\n]+))?(?:\n@END_DATE: ([^\n]+))?'
+            fact_matches = re.findall(fact_pattern, facts_section)
+
+            for match in fact_matches:
+                concept, value, unit, decimals, context_ref, date_type, start_date, end_date = match
+
+                # Clean up context_ref
+                if " | " in context_ref:
+                    context_ref = context_ref.split(" | ")[0]
+
+                fact = {
+                    "concept": concept,
+                    "value": value,
+                    "unit": unit if unit else "",
+                    "decimals": decimals if decimals else "",
+                    "context_ref": context_ref,
+                    "date_type": date_type if date_type else "",
+                    "start_date": start_date if start_date else "",
+                    "end_date": end_date if end_date else ""
+                }
+
+                facts.append(fact)
 
         return facts
 
@@ -247,14 +339,17 @@ class LLMFormatOptimizer:
         # Add consolidated context definitions
         output.append("\n@CONTEXTS")
         for context_id, context_info in consolidated_contexts.items():
-            period_type = context_info["period_type"]
-            date_range = context_info["date_range"]
-            label = context_info["label"]
-            all_context_ids = context_info["all_context_ids"]
+            period_type = context_info.get("period_type", "")
+            date_range = context_info.get("date_range", "")
+            label = context_info.get("label", "")
 
             output.append(f"{context_id}|{period_type}|{date_range}|{label}")
-            if len(all_context_ids) > 1:
-                output.append(f"  ALIASES: {', '.join(all_context_ids[1:])}")
+
+            # Add aliases if any
+            if "all_context_ids" in context_info and len(context_info["all_context_ids"]) > 1:
+                output.append(f"  ALIASES: {', '.join(context_info['all_context_ids'][1:])}")
+            elif "aliases" in context_info and context_info["aliases"]:
+                output.append(f"  ALIASES: {', '.join(context_info['aliases'])}")
 
         # Add facts grouped by context
         output.append("\n@FACTS")
@@ -269,7 +364,7 @@ class LLMFormatOptimizer:
                 facts_by_prefix[prefix].append(fact)
 
             # Add facts by prefix
-            for prefix, prefix_facts in facts_by_prefix.items():
+            for prefix, prefix_facts in sorted(facts_by_prefix.items()):
                 if prefix:
                     output.append(f"@PREFIX: {prefix}")
 
