@@ -36,7 +36,7 @@ class LLMFormatOptimizer:
         logging.info("Optimizing LLM file format")
 
         # Extract sections from the original file
-        header_section, structure_section, context_section, financial_statements_section, facts_section, rest_section = self._extract_sections(content)
+        header_section, structure_section, context_section, financial_statements_section, financial_mapping_section, facts_section, narrative_section, rest_section = self._extract_sections(content)
 
         # Parse context definitions
         context_defs = self._parse_context_definitions(context_section)
@@ -50,13 +50,22 @@ class LLMFormatOptimizer:
         # Group facts by context
         facts_by_context = self._group_facts_by_context(facts)
 
+        # Generate minimal financial mapping if it doesn't exist
+        if not financial_mapping_section and structure_section:
+            financial_mapping_section = self._generate_minimal_financial_mapping(structure_section, facts)
+
+        # Optimize narrative section if it exists
+        if narrative_section:
+            narrative_section = self._optimize_narrative_section(narrative_section)
+
         # Generate optimized content
         optimized_content = self._generate_optimized_content(
             header_section,
             structure_section,
             consolidated_contexts,
             facts_by_context,
-            financial_statements_section,
+            financial_mapping_section,
+            narrative_section,
             rest_section
         )
 
@@ -71,7 +80,7 @@ class LLMFormatOptimizer:
 
         return optimized_content
 
-    def _extract_sections(self, content: str) -> Tuple[str, str, str, str, str, str]:
+    def _extract_sections(self, content: str) -> Tuple[str, str, str, str, str, str, str]:
         """
         Extract sections from the original file.
 
@@ -79,14 +88,16 @@ class LLMFormatOptimizer:
             content: The original LLM file content
 
         Returns:
-            Tuple of (header_section, structure_section, context_section, financial_statements_section, facts_section, rest_section)
+            Tuple of (header_section, structure_section, context_section, financial_statements_section, facts_section, narrative_section, rest_section)
         """
         # Define section patterns
         header_pattern = r'^.*?(?=@STRUCTURE:|@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
         structure_pattern = r'(@STRUCTURE:.*?)(?=@DATA_DICTIONARY: CONTEXTS|@CONTEXTS)'
-        context_pattern = r'(@DATA_DICTIONARY: CONTEXTS.*?|@CONTEXTS.*?)(?=\n\n@CONCEPT:|\n\n@FACTS|\n\n@FINANCIAL_STATEMENTS_SECTION)'
+        context_pattern = r'(@DATA_DICTIONARY: CONTEXTS.*?|@CONTEXTS.*?)(?=\n\n@CONCEPT:|\n\n@FACTS|\n\n@FINANCIAL_STATEMENTS_SECTION|\n\n@FINANCIAL_MAPPING)'
         financial_statements_pattern = r'(\n\n@FINANCIAL_STATEMENTS_SECTION.*?)(?=\n\n@CONCEPT:|\n\n@FACTS|\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
+        financial_mapping_pattern = r'(\n\n@FINANCIAL_MAPPING.*?)(?=\n\n@CONCEPT:|\n\n@FACTS|\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
         facts_pattern = r'(\n\n@CONCEPT:.*|\n\n@FACTS.*?)(?=\n\n@SECTION:|\n\n@NARRATIVE_TEXT:|\Z)'
+        narrative_pattern = r'(\n\n@SECTION:.*|\n\n@NARRATIVE_TEXT:.*)\Z'
 
         # Extract sections
         header_match = re.search(header_pattern, content, re.DOTALL)
@@ -101,8 +112,14 @@ class LLMFormatOptimizer:
         financial_statements_match = re.search(financial_statements_pattern, content, re.DOTALL)
         financial_statements_section = financial_statements_match.group(0) if financial_statements_match else ""
 
+        financial_mapping_match = re.search(financial_mapping_pattern, content, re.DOTALL)
+        financial_mapping_section = financial_mapping_match.group(0) if financial_mapping_match else ""
+
         facts_match = re.search(facts_pattern, content, re.DOTALL)
         facts_section = facts_match.group(0) if facts_match else ""
+
+        narrative_match = re.search(narrative_pattern, content, re.DOTALL)
+        narrative_section = narrative_match.group(0) if narrative_match else ""
 
         # Get the rest of the content
         rest_section = content
@@ -114,10 +131,14 @@ class LLMFormatOptimizer:
             rest_section = rest_section.replace(context_section, "", 1)
         if financial_statements_section:
             rest_section = rest_section.replace(financial_statements_section, "", 1)
+        if financial_mapping_section:
+            rest_section = rest_section.replace(financial_mapping_section, "", 1)
         if facts_section:
             rest_section = rest_section.replace(facts_section, "", 1)
+        if narrative_section:
+            rest_section = rest_section.replace(narrative_section, "", 1)
 
-        return header_section, structure_section, context_section, financial_statements_section, facts_section, rest_section
+        return header_section, structure_section, context_section, financial_statements_section, financial_mapping_section, facts_section, narrative_section, rest_section
 
     def _parse_context_definitions(self, context_section: str) -> Dict[str, Dict[str, Any]]:
         """
@@ -383,13 +404,157 @@ class LLMFormatOptimizer:
 
         return facts_by_context
 
+    def _generate_minimal_financial_mapping(self, structure_section: str, facts: List[Dict[str, Any]]) -> str:
+        """
+        Generate a minimal financial mapping section.
+
+        Args:
+            structure_section: The document structure section
+            facts: List of facts
+
+        Returns:
+            Minimal financial mapping section
+        """
+        # Extract statement types from structure section
+        statement_types = []
+        statement_types_match = re.search(r'@STATEMENT_TYPES: (.*)', structure_section)
+        if statement_types_match:
+            statement_types = statement_types_match.group(1).split(', ')
+
+        if not statement_types:
+            return ""
+
+        # Define mapping of concepts to statement types
+        statement_type_keywords = {
+            "Income_Statement": [
+                "Revenue", "Sales", "Income", "Expense", "Profit", "Loss", "Cost", "Tax", "Dividend", "EPS", "EBITDA",
+                "Earnings", "Margin", "Operating"
+            ],
+            "Balance_Sheet": [
+                "Asset", "Liability", "Equity", "Debt", "Cash", "Inventory", "Receivable", "Payable", "Property",
+                "Equipment", "Investment", "Capital", "Stock", "Retained", "Shareholder", "Stockholder"
+            ],
+            "Cash_Flow_Statement": [
+                "Cash", "Flow", "Operating", "Investing", "Financing", "Activities"
+            ],
+            "Statement_Of_Equity": [
+                "Equity", "Stock", "Capital", "Retained", "Earnings", "Comprehensive", "Shareholder", "Stockholder"
+            ]
+        }
+
+        # Keep only the statement types that are in the structure section
+        statement_type_keywords = {
+            statement_type: keywords
+            for statement_type, keywords in statement_type_keywords.items()
+            if statement_type in statement_types
+        }
+
+        # Create mapping
+        mapping = {}
+
+        for statement_type, keywords in statement_type_keywords.items():
+            mapping[statement_type] = set()
+
+            # Find facts that match this statement type
+            for fact in facts:
+                concept = fact["concept"].lower()
+
+                if any(keyword.lower() in concept for keyword in keywords):
+                    # Add the concept to the mapping
+                    mapping[statement_type].add(fact["concept"])
+
+        # Generate mapping section
+        output = []
+        output.append("@FINANCIAL_MAPPING")
+        output.append("@DESCRIPTION: Maps financial concepts to statement types defined in @STRUCTURE")
+
+        # Add each statement type
+        for statement_type in statement_types:
+            if statement_type not in mapping:
+                continue
+
+            concepts = mapping[statement_type]
+
+            if not concepts:
+                continue
+
+            output.append(f"\n@STATEMENT: {statement_type}")
+
+            # Add concepts in a compact format
+            # Group by prefix to make it more readable
+            concepts_by_prefix = defaultdict(list)
+            for concept in concepts:
+                prefix = concept.split(":")[0] if ":" in concept else ""
+                name = concept.split(":")[1] if ":" in concept else concept
+                concepts_by_prefix[prefix].append(name)
+
+            # Add concepts by prefix
+            for prefix, prefix_concepts in concepts_by_prefix.items():
+                if prefix:
+                    output.append(f"@PREFIX: {prefix}")
+                    output.append(f"@CONCEPTS: {','.join(sorted(prefix_concepts)[:50])}")  # Limit to 50 concepts per prefix
+                else:
+                    output.append(f"@CONCEPTS: {','.join(sorted(prefix_concepts)[:50])}")  # Limit to 50 concepts per prefix
+
+        return "\n".join(output)
+
+    def _optimize_narrative_section(self, narrative_section: str) -> str:
+        """
+        Optimize the narrative section.
+
+        Args:
+            narrative_section: The narrative section
+
+        Returns:
+            Optimized narrative section
+        """
+        # Extract sections
+        sections = []
+        section_blocks = re.split(r'\n\n@SECTION: ', narrative_section)
+
+        for section_block in section_blocks[1:]:  # Skip the first empty block
+            section_name = section_block.split('\n')[0]
+            section_content = section_block[len(section_name):].strip()
+
+            sections.append({
+                'name': section_name,
+                'content': section_content
+            })
+
+        # Filter out less important sections
+        important_sections = []
+        for section in sections:
+            # Keep only the most important sections
+            if any(keyword in section['name'].lower() for keyword in ['financial', 'statement', 'balance', 'income', 'cash', 'equity', 'risk', 'management']):
+                important_sections.append(section)
+
+        # If we've filtered out too many sections, keep at least 3
+        if len(important_sections) < 3 and len(sections) >= 3:
+            important_sections = sections[:3]
+
+        # Create optimized narrative section
+        output = []
+
+        for section in important_sections:
+            output.append(f"@SECTION: {section['name']}")
+
+            # Truncate section content if it's too long (more than 10KB)
+            content = section['content']
+            if len(content) > 10240:
+                content = content[:10240] + "\n[... truncated for brevity ...]\n"
+
+            output.append(content)
+
+        return "\n\n".join(output)
+
     def _generate_optimized_content(
         self,
         header_section: str,
         structure_section: str,
         consolidated_contexts: Dict[str, Dict[str, Any]],
         facts_by_context: Dict[str, List[Dict[str, Any]]],
-        financial_statements_section: str,
+        financial_mapping_section: str,
+        narrative_section: str,
         rest_section: str
     ) -> str:
         """
@@ -400,7 +565,8 @@ class LLMFormatOptimizer:
             structure_section: The document structure section
             consolidated_contexts: Dictionary of consolidated context definitions
             facts_by_context: Dictionary of facts grouped by context reference
-            financial_statements_section: The financial statements section
+            financial_mapping_section: The financial mapping section
+            narrative_section: The narrative section
             rest_section: The rest of the LLM file content
 
         Returns:
@@ -430,9 +596,9 @@ class LLMFormatOptimizer:
             elif "aliases" in context_info and context_info["aliases"]:
                 output.append(f"  ALIASES: {', '.join(context_info['aliases'])}")
 
-        # Add financial statements section if it exists
-        if financial_statements_section.strip():
-            output.append(financial_statements_section.strip())
+        # Add financial mapping section if it exists
+        if financial_mapping_section and financial_mapping_section.strip():
+            output.append("\n" + financial_mapping_section.strip())
 
         # Add facts grouped by context
         output.append("\n@FACTS")
@@ -466,6 +632,10 @@ class LLMFormatOptimizer:
                         fact_line += f"|{unit}"
 
                     output.append(fact_line)
+
+        # Add narrative section if it exists
+        if narrative_section and narrative_section.strip():
+            output.append("\n" + narrative_section.strip())
 
         # Add rest of the content
         if rest_section.strip():
