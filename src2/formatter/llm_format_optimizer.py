@@ -302,6 +302,11 @@ class LLMFormatOptimizer:
                             }
 
                             facts.append(fact)
+
+            # Check if we have any metadata fields (dei: prefix)
+            metadata_fields = [fact for fact in facts if any(fact['concept'].lower().startswith(prefix) for prefix in ['dei:', 'invest:', 'srt:'])]
+            if len(metadata_fields) < 10:  # We should have more metadata fields
+                logging.warning(f"Only found {len(metadata_fields)} metadata fields in the new format. This may indicate missing data.")
         else:
             # Old format - try multiple patterns to catch all facts
             # Pattern 1: Standard fact pattern
@@ -397,6 +402,14 @@ class LLMFormatOptimizer:
             Dictionary of facts grouped by context reference
         """
         facts_by_context = defaultdict(list)
+
+        # Check if we have metadata fields (dei: prefix)
+        metadata_fields = [fact for fact in facts if any(fact['concept'].lower().startswith(prefix) for prefix in ['dei:', 'invest:', 'srt:'])]
+        logging.info(f"Found {len(metadata_fields)} metadata fields in the facts")
+
+        # If we have very few metadata fields, this may indicate missing data
+        if len(metadata_fields) < 10:
+            logging.warning(f"Only found {len(metadata_fields)} metadata fields. This may indicate missing data.")
 
         for fact in facts:
             context_ref = fact["context_ref"]
