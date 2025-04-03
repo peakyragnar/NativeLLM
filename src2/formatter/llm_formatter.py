@@ -12,6 +12,7 @@ import datetime
 from .normalize_value import normalize_value, safe_parse_decimals
 from .context_extractor import extract_contexts_from_html, map_contexts_to_periods
 from .context_format_handler import extract_period_info
+from .financial_statement_organizer import organize_financial_statements
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -191,11 +192,11 @@ class LLMFormatter:
 
         # Expanded document structure information
         if filing_type == "10-K":
-            output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement, Stockholders_Equity")
+            output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement, Statement_Of_Equity")
             output.append("@DOCUMENT_PARTS: Part_I (Items_1-4), Part_II (Items_5-9), Part_III (Items_10-14), Part_IV (Items_15-16)")
             output.append("@ALL_SECTIONS: Item_1_Business, Item_1A_Risk_Factors, Item_1B_Unresolved_Comments, Item_1C_Cybersecurity, Item_2_Properties, Item_3_Legal, Item_4_Mine_Safety, Item_5_Market, Item_6_Selected_Financial, Item_7_MD&A, Item_7A_Market_Risk, Item_8_Financial_Statements, Item_9_Accountant_Changes, Item_9A_Controls, Item_9B_Other, Item_9C_Foreign_Jurisdictions, Item_10_Directors, Item_11_Compensation, Item_12_Security_Ownership, Item_13_Related_Transactions, Item_14_Accountant_Fees, Item_15_Exhibits, Item_16_Summary")
         else:
-            output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement")
+            output.append("@STATEMENT_TYPES: Income_Statement, Balance_Sheet, Cash_Flow_Statement, Statement_Of_Equity")
             output.append("@DOCUMENT_PARTS: Part_I (Items_1-2), Part_II (Items_3-6)")
             output.append("@ALL_SECTIONS: Item_1_Financial_Statements, Item_2_MD&A, Item_3_Market_Risk, Item_4_Controls, Item_1_Legal_Proceedings, Item_1A_Risk_Factors, Item_2_Unregistered_Sales, Item_3_Defaults, Item_4_Mine_Safety, Item_5_Other, Item_6_Exhibits")
 
@@ -947,14 +948,56 @@ class LLMFormatter:
             except Exception as e:
                 logging.warning(f"Could not extract sections from text file: {str(e)}")
 
-        # Add key financial facts with improved organization
-        # Group facts by type (Income Statement, Balance Sheet, etc.)
+        # Add key financial facts with improved organization using the financial statement organizer
+
+        # Track table data for integrity checks
+        self.data_integrity["xbrl_facts"] = len(parsed_xbrl.get("facts", []))
+        self.data_integrity["xbrl_tables_created"] = 0
+
+        # Organize financial statements
+        financial_statements = organize_financial_statements(parsed_xbrl)
+
+        # Add financial statements to the output
+        if financial_statements:
+            output.append("")
+            output.append("@FINANCIAL_STATEMENTS_SECTION")
+            output.append("")
+
+            # Add each financial statement
+            for statement_type, statement_lines in financial_statements.items():
+                output.extend(statement_lines)
+                output.append("")
+                output.append("-" * 80)  # Add a separator between statements
+                output.append("")
+
+            # Update data integrity metrics
+            self.data_integrity["xbrl_tables_created"] = len(financial_statements)
+            self.data_integrity["tables_detected"] += len(financial_statements)
+            self.data_integrity["tables_included"] += len(financial_statements)
+
+            # Count total rows in all statements
+            total_rows = sum(len(statement_lines) for statement_lines in financial_statements.values())
+            self.data_integrity["total_table_rows"] += total_rows
+
+        # Track facts by context reference to build tables
+        facts_by_context = {}
+        for fact in parsed_xbrl.get("facts", []):
+            context_ref = fact.get("context_ref", "")
+            if context_ref not in facts_by_context:
+                facts_by_context[context_ref] = []
+            facts_by_context[context_ref].append(fact)
+
+        # Add individual facts organized by section
+        output.append("")
+        output.append("@INDIVIDUAL_FACTS_SECTION")
+        output.append("")
 
         # Organize facts by section and store for sorting later
         financial_sections = {
             "INCOME_STATEMENT": [],
             "BALANCE_SHEET": [],
             "CASH_FLOW": [],
+            "EQUITY_STATEMENT": [],
             "OTHER_FINANCIAL": []
         }
 
@@ -967,12 +1010,10 @@ class LLMFormatter:
                 return "BALANCE_SHEET"
             elif any(term in concept_lower for term in ["cashflow", "cash flow", "financing", "investing", "operating"]):
                 return "CASH_FLOW"
+            elif any(term in concept_lower for term in ["stockholder", "shareholder", "comprehensive", "retained earnings"]):
+                return "EQUITY_STATEMENT"
             else:
                 return "OTHER_FINANCIAL"
-
-        # Track table data for integrity checks
-        self.data_integrity["xbrl_facts"] = len(parsed_xbrl.get("facts", []))
-        self.data_integrity["xbrl_tables_created"] = 0
 
         # Categorize facts by financial section
         for fact in parsed_xbrl.get("facts", []):
@@ -980,15 +1021,7 @@ class LLMFormatter:
             section = determine_section(concept)
             financial_sections[section].append(fact)
 
-        # Track facts by context reference to build tables
-        facts_by_context = {}
-        for fact in parsed_xbrl.get("facts", []):
-            context_ref = fact.get("context_ref", "")
-            if context_ref not in facts_by_context:
-                facts_by_context[context_ref] = []
-            facts_by_context[context_ref].append(fact)
-
-        # Add facts from each section - with both individual facts and tabular format
+        # Add facts from each section
         for section_name, section_facts in financial_sections.items():
             if section_facts:
                 output.append(f"@SECTION: {section_name}")
