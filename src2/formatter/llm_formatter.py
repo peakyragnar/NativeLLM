@@ -14,7 +14,7 @@ from .context_extractor import extract_contexts_from_html, map_contexts_to_perio
 from .context_format_handler import extract_period_info
 from .financial_statement_organizer import organize_financial_statements
 from .llm_format_optimizer import optimize_llm_content
-from .financial_statement_mapper import FinancialStatementMapper
+from .financial_statement_mapper_efficient import EfficientFinancialStatementMapper
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -2598,7 +2598,7 @@ class LLMFormatter:
 
             # Map financial facts to document structure
             logging.info(f"Mapping financial facts to document structure for {output_path}")
-            mapper = FinancialStatementMapper()
+            mapper = EfficientFinancialStatementMapper()
             mapped_content = mapper.map_facts_to_structure(llm_content)
 
             # Optimize the LLM content
