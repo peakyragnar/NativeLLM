@@ -48,6 +48,16 @@ class NormalizedFinancialMapper:
             self.logger.warning("No facts extracted, returning original content")
             return content
 
+        # Debug: Check if we have balance sheet facts
+        balance_sheet_facts = [f for f in facts if self._determine_statement_type(f.get('concept', ''), {}) == 'Balance_Sheet']
+        self.logger.warning(f"Found {len(balance_sheet_facts)} balance sheet facts")
+
+        # Validate and complete balance sheet
+        self._validate_and_complete_balance_sheet(balance_sheet_facts)
+
+        # Debug: Check if balance sheet facts were updated
+        self.logger.warning(f"After validation, have {len(balance_sheet_facts)} balance sheet facts")
+
         # Generate normalized financial statements
         financial_statements = self._generate_normalized_financial_statements(facts)
         self.logger.info(f"Generated normalized financial statements of length {len(financial_statements)}")
