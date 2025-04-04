@@ -316,11 +316,16 @@ class NormalizedFinancialMapper:
             equity = None
             minority_interests = None
             total_liabilities_and_equity = None
+            context_label = ""
 
             # Find the key components
             for fact in facts:
                 concept = fact.get('concept', '')
                 value_str = fact.get('value', '0').replace('$', '').replace(',', '')
+
+                # Get context label if available
+                if not context_label and 'context_label' in fact:
+                    context_label = fact.get('context_label', '')
 
                 try:
                     value = float(value_str)
@@ -387,6 +392,93 @@ class NormalizedFinancialMapper:
 
                 if not is_valid:
                     self.logger.warning(f"Balance sheet validation failed for context {context_ref}: {error_message}")
+
+            # Ensure all balance sheet components are included in the normalized format
+            # This is critical for ensuring the balance sheet is complete in the output file
+            normalized_data_added = False
+
+            # Check if we have all the necessary components
+            if assets is not None:
+                # Find existing normalized data entries for this context
+                normalized_entries = [f for f in balance_sheet_facts if f.get('statement_type') == 'Balance Sheet'
+                                    and f.get('context_ref') == context_ref]
+
+                # Check if we need to add normalized entries
+                assets_entry = next((f for f in normalized_entries if f.get('concept') == 'Assets'), None)
+                liabilities_entry = next((f for f in normalized_entries if f.get('concept') == 'Liabilities'), None)
+                equity_entry = next((f for f in normalized_entries if f.get('concept') == 'Stockholders Equity'), None)
+                minority_entry = next((f for f in normalized_entries if f.get('concept') == 'Minority Interest'), None)
+                total_entry = next((f for f in normalized_entries if f.get('concept') == 'Liabilities And Stockholders Equity'), None)
+
+                # If any component is missing, add all of them to ensure consistency
+                if not assets_entry or not liabilities_entry or not equity_entry or not total_entry:
+                    # Remove any existing entries to avoid duplication
+                    balance_sheet_facts[:] = [f for f in balance_sheet_facts if not (f.get('statement_type') == 'Balance Sheet'
+                                                                                and f.get('context_ref') == context_ref
+                                                                                and f.get('concept') in ['Assets', 'Liabilities',
+                                                                                                        'Stockholders Equity',
+                                                                                                        'Minority Interest',
+                                                                                                        'Liabilities And Stockholders Equity'])]
+
+                    # Add assets
+                    balance_sheet_facts.append({
+                        'statement_type': 'Balance Sheet',
+                        'concept': 'Assets',
+                        'value': f"${assets:,.0f}",
+                        'context_ref': context_ref,
+                        'context_label': context_label,
+                        'unit': 'USD'
+                    })
+
+                    # Add liabilities if available
+                    if liabilities is not None:
+                        balance_sheet_facts.append({
+                            'statement_type': 'Balance Sheet',
+                            'concept': 'Liabilities',
+                            'value': f"${liabilities:,.0f}",
+                            'context_ref': context_ref,
+                            'context_label': context_label,
+                            'unit': 'USD'
+                        })
+
+                    # Add equity if available
+                    if equity is not None:
+                        balance_sheet_facts.append({
+                            'statement_type': 'Balance Sheet',
+                            'concept': 'Stockholders Equity',
+                            'value': f"${equity:,.0f}",
+                            'context_ref': context_ref,
+                            'context_label': context_label,
+                            'unit': 'USD'
+                        })
+
+                    # Add minority interest if available
+                    if minority_interests is not None and minority_interests > 0:
+                        balance_sheet_facts.append({
+                            'statement_type': 'Balance Sheet',
+                            'concept': 'Minority Interest',
+                            'value': f"${minority_interests:,.0f}",
+                            'context_ref': context_ref,
+                            'context_label': context_label,
+                            'unit': 'USD'
+                        })
+
+                    # Add total liabilities and equity if available
+                    if total_liabilities_and_equity is not None:
+                        balance_sheet_facts.append({
+                            'statement_type': 'Balance Sheet',
+                            'concept': 'Liabilities And Stockholders Equity',
+                            'value': f"${total_liabilities_and_equity:,.0f}",
+                            'context_ref': context_ref,
+                            'context_label': context_label,
+                            'unit': 'USD'
+                        })
+
+                    normalized_data_added = True
+                    self.logger.info(f"Added normalized balance sheet data for context {context_ref}")
+
+            if normalized_data_added:
+                self.logger.info(f"Completed balance sheet for context {context_ref}")
 
     def _insert_financial_statements(self, content: str, financial_statements: str) -> str:
         """
