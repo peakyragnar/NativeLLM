@@ -1,0 +1,6292 @@
+[
+  {
+    "name": "dei:AmendmentFlag",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "false",
+    "tag_name": "ix:nonnumeric",
+    "concept": "AmendmentFlag"
+  },
+  {
+    "name": "dei:DocumentFiscalYearFocus",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "2024",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DocumentFiscalYearFocus"
+  },
+  {
+    "name": "dei:DocumentFiscalPeriodFocus",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Q1",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DocumentFiscalPeriodFocus"
+  },
+  {
+    "name": "dei:EntityCentralIndexKey",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "0000320193",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityCentralIndexKey"
+  },
+  {
+    "name": "dei:CurrentFiscalYearEndDate",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "--09-28",
+    "tag_name": "ix:nonnumeric",
+    "concept": "CurrentFiscalYearEndDate"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1",
+    "contextRef": "c-47",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "P1Y",
+    "tag_name": "ix:nonnumeric",
+    "concept": "RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1",
+    "contextRef": "c-48",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "P1Y",
+    "tag_name": "ix:nonnumeric",
+    "concept": "RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1",
+    "contextRef": "c-49",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "P1Y",
+    "tag_name": "ix:nonnumeric",
+    "concept": "RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1",
+    "contextRef": "c-50",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "",
+    "tag_name": "ix:nonnumeric",
+    "concept": "RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionPeriod1"
+  },
+  {
+    "name": "us-gaap:HedgedAssetStatementOfFinancialPositionExtensibleEnumeration",
+    "contextRef": "c-17",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "http://fasb.org/us-gaap/2023#MarketableSecuritiesCurrent http://fasb.org/us-gaap/2023#MarketableSecuritiesNoncurrent",
+    "tag_name": "ix:nonnumeric",
+    "concept": "HedgedAssetStatementOfFinancialPositionExtensibleEnumeration"
+  },
+  {
+    "name": "us-gaap:HedgedAssetStatementOfFinancialPositionExtensibleEnumeration",
+    "contextRef": "c-18",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "http://fasb.org/us-gaap/2023#MarketableSecuritiesCurrent http://fasb.org/us-gaap/2023#MarketableSecuritiesNoncurrent",
+    "tag_name": "ix:nonnumeric",
+    "concept": "HedgedAssetStatementOfFinancialPositionExtensibleEnumeration"
+  },
+  {
+    "name": "us-gaap:HedgedLiabilityStatementOfFinancialPositionExtensibleEnumeration",
+    "contextRef": "c-17",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "http://fasb.org/us-gaap/2023#LongTermDebtCurrent http://fasb.org/us-gaap/2023#LongTermDebtNoncurrent",
+    "tag_name": "ix:nonnumeric",
+    "concept": "HedgedLiabilityStatementOfFinancialPositionExtensibleEnumeration"
+  },
+  {
+    "name": "us-gaap:HedgedLiabilityStatementOfFinancialPositionExtensibleEnumeration",
+    "contextRef": "c-18",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "http://fasb.org/us-gaap/2023#LongTermDebtCurrent http://fasb.org/us-gaap/2023#LongTermDebtNoncurrent",
+    "tag_name": "ix:nonnumeric",
+    "concept": "HedgedLiabilityStatementOfFinancialPositionExtensibleEnumeration"
+  },
+  {
+    "name": "ecd:TrdArrDuration",
+    "contextRef": "c-116",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "P416D",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrDuration"
+  },
+  {
+    "name": "ecd:TrdArrDuration",
+    "contextRef": "c-117",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "P340D",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrDuration"
+  },
+  {
+    "name": "dei:DocumentType",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "10-Q",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DocumentType"
+  },
+  {
+    "name": "dei:DocumentQuarterlyReport",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2612",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DocumentQuarterlyReport"
+  },
+  {
+    "name": "dei:DocumentPeriodEndDate",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:date-monthname-day-year-en",
+    "value": "December\u00a030, 2023",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DocumentPeriodEndDate"
+  },
+  {
+    "name": "dei:DocumentTransitionReport",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "\u2610",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DocumentTransitionReport"
+  },
+  {
+    "name": "dei:EntityFileNumber",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "001-36743",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityFileNumber"
+  },
+  {
+    "name": "dei:EntityRegistrantName",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Apple Inc.",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityRegistrantName"
+  },
+  {
+    "name": "dei:EntityIncorporationStateCountryCode",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:stateprovnameen",
+    "value": "California",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityIncorporationStateCountryCode"
+  },
+  {
+    "name": "dei:EntityTaxIdentificationNumber",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "94-2404110",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityTaxIdentificationNumber"
+  },
+  {
+    "name": "dei:EntityAddressAddressLine1",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "One Apple Park Way",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityAddressAddressLine1"
+  },
+  {
+    "name": "dei:EntityAddressCityOrTown",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Cupertino",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityAddressCityOrTown"
+  },
+  {
+    "name": "dei:EntityAddressStateOrProvince",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:stateprovnameen",
+    "value": "California",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityAddressStateOrProvince"
+  },
+  {
+    "name": "dei:EntityAddressPostalZipCode",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "95014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityAddressPostalZipCode"
+  },
+  {
+    "name": "dei:CityAreaCode",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "408",
+    "tag_name": "ix:nonnumeric",
+    "concept": "CityAreaCode"
+  },
+  {
+    "name": "dei:LocalPhoneNumber",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "996-1010",
+    "tag_name": "ix:nonnumeric",
+    "concept": "LocalPhoneNumber"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-2",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Common Stock, $0.00001 par value per share",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:TradingSymbol",
+    "contextRef": "c-2",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "AAPL",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TradingSymbol"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-2",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-3",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "0.000% Notes due 2025",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-3",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-3",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-4",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "0.875% Notes due 2025",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-4",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-4",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-5",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "1.625% Notes due 2026",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-5",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-5",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-6",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "2.000% Notes due 2027",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-6",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-6",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-7",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "1.375% Notes due 2029",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-7",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-7",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-8",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "3.050% Notes due 2029",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-8",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-8",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-9",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "0.500% Notes due 2031",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-9",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-9",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:Security12bTitle",
+    "contextRef": "c-10",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "3.600% Notes due 2042",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Security12bTitle"
+  },
+  {
+    "name": "dei:NoTradingSymbolFlag",
+    "contextRef": "c-10",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "\u2014",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NoTradingSymbolFlag"
+  },
+  {
+    "name": "dei:SecurityExchangeName",
+    "contextRef": "c-10",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:exchnameen",
+    "value": "The Nasdaq Stock Market LLC",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SecurityExchangeName"
+  },
+  {
+    "name": "dei:EntityCurrentReportingStatus",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Yes",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityCurrentReportingStatus"
+  },
+  {
+    "name": "dei:EntityInteractiveDataCurrent",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Yes",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityInteractiveDataCurrent"
+  },
+  {
+    "name": "dei:EntityFilerCategory",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:entityfilercategoryen",
+    "value": "Large accelerated filer",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityFilerCategory"
+  },
+  {
+    "name": "dei:EntitySmallBusiness",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "\u2610",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntitySmallBusiness"
+  },
+  {
+    "name": "dei:EntityEmergingGrowthCompany",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "\u2610",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityEmergingGrowthCompany"
+  },
+  {
+    "name": "dei:EntityShellCompany",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "\u2610",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EntityShellCompany"
+  },
+  {
+    "name": "dei:EntityCommonStockSharesOutstanding",
+    "contextRef": "c-11",
+    "unitRef": "shares",
+    "scale": "0",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,441,881,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "EntityCommonStockSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-12",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "96,458",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-13",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "96,388",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-14",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "23,117",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-15",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,766",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "119,575",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "117,154",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:CostOfGoodsAndServicesSold",
+    "contextRef": "c-12",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "58,440",
+    "tag_name": "ix:nonfraction",
+    "concept": "CostOfGoodsAndServicesSold"
+  },
+  {
+    "name": "us-gaap:CostOfGoodsAndServicesSold",
+    "contextRef": "c-13",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "60,765",
+    "tag_name": "ix:nonfraction",
+    "concept": "CostOfGoodsAndServicesSold"
+  },
+  {
+    "name": "us-gaap:CostOfGoodsAndServicesSold",
+    "contextRef": "c-14",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,280",
+    "tag_name": "ix:nonfraction",
+    "concept": "CostOfGoodsAndServicesSold"
+  },
+  {
+    "name": "us-gaap:CostOfGoodsAndServicesSold",
+    "contextRef": "c-15",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,057",
+    "tag_name": "ix:nonfraction",
+    "concept": "CostOfGoodsAndServicesSold"
+  },
+  {
+    "name": "us-gaap:CostOfGoodsAndServicesSold",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "64,720",
+    "tag_name": "ix:nonfraction",
+    "concept": "CostOfGoodsAndServicesSold"
+  },
+  {
+    "name": "us-gaap:CostOfGoodsAndServicesSold",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "66,822",
+    "tag_name": "ix:nonfraction",
+    "concept": "CostOfGoodsAndServicesSold"
+  },
+  {
+    "name": "us-gaap:GrossProfit",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "54,855",
+    "tag_name": "ix:nonfraction",
+    "concept": "GrossProfit"
+  },
+  {
+    "name": "us-gaap:GrossProfit",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,332",
+    "tag_name": "ix:nonfraction",
+    "concept": "GrossProfit"
+  },
+  {
+    "name": "us-gaap:ResearchAndDevelopmentExpense",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,696",
+    "tag_name": "ix:nonfraction",
+    "concept": "ResearchAndDevelopmentExpense"
+  },
+  {
+    "name": "us-gaap:ResearchAndDevelopmentExpense",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,709",
+    "tag_name": "ix:nonfraction",
+    "concept": "ResearchAndDevelopmentExpense"
+  },
+  {
+    "name": "us-gaap:SellingGeneralAndAdministrativeExpense",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,786",
+    "tag_name": "ix:nonfraction",
+    "concept": "SellingGeneralAndAdministrativeExpense"
+  },
+  {
+    "name": "us-gaap:SellingGeneralAndAdministrativeExpense",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,607",
+    "tag_name": "ix:nonfraction",
+    "concept": "SellingGeneralAndAdministrativeExpense"
+  },
+  {
+    "name": "us-gaap:OperatingExpenses",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "14,482",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingExpenses"
+  },
+  {
+    "name": "us-gaap:OperatingExpenses",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "14,316",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingExpenses"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "40,373",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "36,016",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:NonoperatingIncomeExpense",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "50",
+    "tag_name": "ix:nonfraction",
+    "concept": "NonoperatingIncomeExpense"
+  },
+  {
+    "name": "us-gaap:NonoperatingIncomeExpense",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "393",
+    "tag_name": "ix:nonfraction",
+    "concept": "NonoperatingIncomeExpense"
+  },
+  {
+    "name": "us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "40,323",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+  },
+  {
+    "name": "us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "35,623",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+  },
+  {
+    "name": "us-gaap:IncomeTaxExpenseBenefit",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,407",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncomeTaxExpenseBenefit"
+  },
+  {
+    "name": "us-gaap:IncomeTaxExpenseBenefit",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,625",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncomeTaxExpenseBenefit"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "33,916",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,998",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareBasic",
+    "contextRef": "c-1",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "2.19",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareBasic"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareBasic",
+    "contextRef": "c-16",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "1.89",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareBasic"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareDiluted",
+    "contextRef": "c-1",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "2.18",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareDiluted"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareDiluted",
+    "contextRef": "c-16",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "1.88",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareDiluted"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfSharesOutstandingBasic",
+    "contextRef": "c-1",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,509,763",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfSharesOutstandingBasic"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfSharesOutstandingBasic",
+    "contextRef": "c-16",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,892,723",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfSharesOutstandingBasic"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding",
+    "contextRef": "c-1",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,576,641",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfDilutedSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding",
+    "contextRef": "c-16",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,955,718",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfDilutedSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "33,916",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,998",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "308",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "14",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax"
+  },
+  {
+    "name": "aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "531",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax"
+  },
+  {
+    "name": "aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "988",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax"
+  },
+  {
+    "name": "aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "823",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax"
+  },
+  {
+    "name": "aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,766",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax"
+  },
+  {
+    "name": "aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,354",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax"
+  },
+  {
+    "name": "aapl:OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,754",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,045",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "900",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "75",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "65",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,120",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "965",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,074",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,803",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent"
+  },
+  {
+    "name": "us-gaap:ComprehensiveIncomeNetOfTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "35,990",
+    "tag_name": "ix:nonfraction",
+    "concept": "ComprehensiveIncomeNetOfTax"
+  },
+  {
+    "name": "us-gaap:ComprehensiveIncomeNetOfTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "28,195",
+    "tag_name": "ix:nonfraction",
+    "concept": "ComprehensiveIncomeNetOfTax"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "40,760",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,965",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "32,340",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "31,590",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:AccountsReceivableNetCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "23,194",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccountsReceivableNetCurrent"
+  },
+  {
+    "name": "us-gaap:AccountsReceivableNetCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,508",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccountsReceivableNetCurrent"
+  },
+  {
+    "name": "us-gaap:NontradeReceivablesCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "26,908",
+    "tag_name": "ix:nonfraction",
+    "concept": "NontradeReceivablesCurrent"
+  },
+  {
+    "name": "us-gaap:NontradeReceivablesCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "31,477",
+    "tag_name": "ix:nonfraction",
+    "concept": "NontradeReceivablesCurrent"
+  },
+  {
+    "name": "us-gaap:InventoryNet",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,511",
+    "tag_name": "ix:nonfraction",
+    "concept": "InventoryNet"
+  },
+  {
+    "name": "us-gaap:InventoryNet",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,331",
+    "tag_name": "ix:nonfraction",
+    "concept": "InventoryNet"
+  },
+  {
+    "name": "us-gaap:OtherAssetsCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "13,979",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherAssetsCurrent"
+  },
+  {
+    "name": "us-gaap:OtherAssetsCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "14,695",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherAssetsCurrent"
+  },
+  {
+    "name": "us-gaap:AssetsCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "143,692",
+    "tag_name": "ix:nonfraction",
+    "concept": "AssetsCurrent"
+  },
+  {
+    "name": "us-gaap:AssetsCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "143,566",
+    "tag_name": "ix:nonfraction",
+    "concept": "AssetsCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "99,475",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "100,544",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentNet",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "43,666",
+    "tag_name": "ix:nonfraction",
+    "concept": "PropertyPlantAndEquipmentNet"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentNet",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "43,715",
+    "tag_name": "ix:nonfraction",
+    "concept": "PropertyPlantAndEquipmentNet"
+  },
+  {
+    "name": "us-gaap:OtherAssetsNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "66,681",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherAssetsNoncurrent"
+  },
+  {
+    "name": "us-gaap:OtherAssetsNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "64,758",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherAssetsNoncurrent"
+  },
+  {
+    "name": "us-gaap:AssetsNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "209,822",
+    "tag_name": "ix:nonfraction",
+    "concept": "AssetsNoncurrent"
+  },
+  {
+    "name": "us-gaap:AssetsNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "209,017",
+    "tag_name": "ix:nonfraction",
+    "concept": "AssetsNoncurrent"
+  },
+  {
+    "name": "us-gaap:Assets",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "353,514",
+    "tag_name": "ix:nonfraction",
+    "concept": "Assets"
+  },
+  {
+    "name": "us-gaap:Assets",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "352,583",
+    "tag_name": "ix:nonfraction",
+    "concept": "Assets"
+  },
+  {
+    "name": "us-gaap:AccountsPayableCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "58,146",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccountsPayableCurrent"
+  },
+  {
+    "name": "us-gaap:AccountsPayableCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "62,611",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccountsPayableCurrent"
+  },
+  {
+    "name": "us-gaap:OtherLiabilitiesCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "54,611",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherLiabilitiesCurrent"
+  },
+  {
+    "name": "us-gaap:OtherLiabilitiesCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "58,829",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherLiabilitiesCurrent"
+  },
+  {
+    "name": "us-gaap:ContractWithCustomerLiabilityCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,264",
+    "tag_name": "ix:nonfraction",
+    "concept": "ContractWithCustomerLiabilityCurrent"
+  },
+  {
+    "name": "us-gaap:ContractWithCustomerLiabilityCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,061",
+    "tag_name": "ix:nonfraction",
+    "concept": "ContractWithCustomerLiabilityCurrent"
+  },
+  {
+    "name": "us-gaap:CommercialPaper",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,998",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommercialPaper"
+  },
+  {
+    "name": "us-gaap:CommercialPaper",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,985",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommercialPaper"
+  },
+  {
+    "name": "us-gaap:LongTermDebtCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "10,954",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebtCurrent"
+  },
+  {
+    "name": "us-gaap:LongTermDebtCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,822",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebtCurrent"
+  },
+  {
+    "name": "us-gaap:LiabilitiesCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "133,973",
+    "tag_name": "ix:nonfraction",
+    "concept": "LiabilitiesCurrent"
+  },
+  {
+    "name": "us-gaap:LiabilitiesCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "145,308",
+    "tag_name": "ix:nonfraction",
+    "concept": "LiabilitiesCurrent"
+  },
+  {
+    "name": "us-gaap:LongTermDebtNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "95,088",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebtNoncurrent"
+  },
+  {
+    "name": "us-gaap:LongTermDebtNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "95,281",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebtNoncurrent"
+  },
+  {
+    "name": "us-gaap:OtherLiabilitiesNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,353",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherLiabilitiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:OtherLiabilitiesNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "49,848",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherLiabilitiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:LiabilitiesNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "145,441",
+    "tag_name": "ix:nonfraction",
+    "concept": "LiabilitiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:LiabilitiesNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "145,129",
+    "tag_name": "ix:nonfraction",
+    "concept": "LiabilitiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:Liabilities",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "279,414",
+    "tag_name": "ix:nonfraction",
+    "concept": "Liabilities"
+  },
+  {
+    "name": "us-gaap:Liabilities",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "290,437",
+    "tag_name": "ix:nonfraction",
+    "concept": "Liabilities"
+  },
+  {
+    "name": "us-gaap:CommitmentsAndContingencies",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": null,
+    "format": null,
+    "value": "",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommitmentsAndContingencies"
+  },
+  {
+    "name": "us-gaap:CommitmentsAndContingencies",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": null,
+    "format": null,
+    "value": "",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommitmentsAndContingencies"
+  },
+  {
+    "name": "us-gaap:CommonStockParOrStatedValuePerShare",
+    "contextRef": "c-17",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "0.00001",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockParOrStatedValuePerShare"
+  },
+  {
+    "name": "us-gaap:CommonStockParOrStatedValuePerShare",
+    "contextRef": "c-18",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "0.00001",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockParOrStatedValuePerShare"
+  },
+  {
+    "name": "us-gaap:CommonStockSharesAuthorized",
+    "contextRef": "c-17",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,400,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockSharesAuthorized"
+  },
+  {
+    "name": "us-gaap:CommonStockSharesAuthorized",
+    "contextRef": "c-18",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,400,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockSharesAuthorized"
+  },
+  {
+    "name": "us-gaap:CommonStockSharesIssued",
+    "contextRef": "c-17",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,460,223",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockSharesIssued"
+  },
+  {
+    "name": "us-gaap:CommonStockSharesOutstanding",
+    "contextRef": "c-17",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,460,223",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:CommonStockSharesIssued",
+    "contextRef": "c-18",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,550,061",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockSharesIssued"
+  },
+  {
+    "name": "us-gaap:CommonStockSharesOutstanding",
+    "contextRef": "c-18",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,550,061",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:CommonStocksIncludingAdditionalPaidInCapital",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "75,236",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStocksIncludingAdditionalPaidInCapital"
+  },
+  {
+    "name": "us-gaap:CommonStocksIncludingAdditionalPaidInCapital",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "73,812",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStocksIncludingAdditionalPaidInCapital"
+  },
+  {
+    "name": "us-gaap:RetainedEarningsAccumulatedDeficit",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,242",
+    "tag_name": "ix:nonfraction",
+    "concept": "RetainedEarningsAccumulatedDeficit"
+  },
+  {
+    "name": "us-gaap:RetainedEarningsAccumulatedDeficit",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "214",
+    "tag_name": "ix:nonfraction",
+    "concept": "RetainedEarningsAccumulatedDeficit"
+  },
+  {
+    "name": "us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,378",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccumulatedOtherComprehensiveIncomeLossNetOfTax"
+  },
+  {
+    "name": "us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,452",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccumulatedOtherComprehensiveIncomeLossNetOfTax"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "74,100",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "62,146",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:LiabilitiesAndStockholdersEquity",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "353,514",
+    "tag_name": "ix:nonfraction",
+    "concept": "LiabilitiesAndStockholdersEquity"
+  },
+  {
+    "name": "us-gaap:LiabilitiesAndStockholdersEquity",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "352,583",
+    "tag_name": "ix:nonfraction",
+    "concept": "LiabilitiesAndStockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "62,146",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-19",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,672",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-20",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "73,812",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-21",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "64,849",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation",
+    "contextRef": "c-22",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,660",
+    "tag_name": "ix:nonfraction",
+    "concept": "AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation",
+    "contextRef": "c-23",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,434",
+    "tag_name": "ix:nonfraction",
+    "concept": "AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue",
+    "contextRef": "c-22",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,084",
+    "tag_name": "ix:nonfraction",
+    "concept": "AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue"
+  },
+  {
+    "name": "us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue",
+    "contextRef": "c-23",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,984",
+    "tag_name": "ix:nonfraction",
+    "concept": "AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-24",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "75,236",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-25",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "66,399",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-26",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "214",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-27",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,068",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-28",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "33,916",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-29",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,998",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:Dividends",
+    "contextRef": "c-28",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,774",
+    "tag_name": "ix:nonfraction",
+    "concept": "Dividends"
+  },
+  {
+    "name": "us-gaap:Dividends",
+    "contextRef": "c-29",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,712",
+    "tag_name": "ix:nonfraction",
+    "concept": "Dividends"
+  },
+  {
+    "name": "us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation",
+    "contextRef": "c-28",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,018",
+    "tag_name": "ix:nonfraction",
+    "concept": "AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation",
+    "contextRef": "c-29",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "978",
+    "tag_name": "ix:nonfraction",
+    "concept": "AdjustmentsRelatedToTaxWithholdingForShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:StockRepurchasedAndRetiredDuringPeriodValue",
+    "contextRef": "c-28",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,668",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockRepurchasedAndRetiredDuringPeriodValue"
+  },
+  {
+    "name": "us-gaap:StockRepurchasedAndRetiredDuringPeriodValue",
+    "contextRef": "c-29",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockRepurchasedAndRetiredDuringPeriodValue"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-30",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,242",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-31",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,240",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-32",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,452",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-33",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,109",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent",
+    "contextRef": "c-34",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,074",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent"
+  },
+  {
+    "name": "us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent",
+    "contextRef": "c-35",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,803",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-36",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,378",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-37",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "12,912",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "74,100",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:StockholdersEquity",
+    "contextRef": "c-38",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "56,727",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockholdersEquity"
+  },
+  {
+    "name": "us-gaap:CommonStockDividendsPerShareDeclared",
+    "contextRef": "c-1",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "0.24",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockDividendsPerShareDeclared"
+  },
+  {
+    "name": "us-gaap:CommonStockDividendsPerShareDeclared",
+    "contextRef": "c-16",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "0.23",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommonStockDividendsPerShareDeclared"
+  },
+  {
+    "name": "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "30,737",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+  },
+  {
+    "name": "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+    "contextRef": "c-19",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "24,977",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "33,916",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,998",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:DepreciationDepletionAndAmortization",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,848",
+    "tag_name": "ix:nonfraction",
+    "concept": "DepreciationDepletionAndAmortization"
+  },
+  {
+    "name": "us-gaap:DepreciationDepletionAndAmortization",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,916",
+    "tag_name": "ix:nonfraction",
+    "concept": "DepreciationDepletionAndAmortization"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensation",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,997",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensation",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,905",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:OtherNoncashIncomeExpense",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "989",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherNoncashIncomeExpense"
+  },
+  {
+    "name": "us-gaap:OtherNoncashIncomeExpense",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "317",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherNoncashIncomeExpense"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInAccountsReceivable",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,555",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInAccountsReceivable"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInAccountsReceivable",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,275",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInAccountsReceivable"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInOtherReceivables",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,569",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInOtherReceivables"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInOtherReceivables",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,320",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInOtherReceivables"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInInventories",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "137",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInInventories"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInInventories",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,807",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInInventories"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInOtherOperatingAssets",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,457",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInOtherOperatingAssets"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInOtherOperatingAssets",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,099",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInOtherOperatingAssets"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInAccountsPayable",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,542",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInAccountsPayable"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInAccountsPayable",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,075",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInAccountsPayable"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInOtherOperatingLiabilities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,865",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInOtherOperatingLiabilities"
+  },
+  {
+    "name": "us-gaap:IncreaseDecreaseInOtherOperatingLiabilities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,889",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncreaseDecreaseInOtherOperatingLiabilities"
+  },
+  {
+    "name": "us-gaap:NetCashProvidedByUsedInOperatingActivities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "39,895",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetCashProvidedByUsedInOperatingActivities"
+  },
+  {
+    "name": "us-gaap:NetCashProvidedByUsedInOperatingActivities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "34,005",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetCashProvidedByUsedInOperatingActivities"
+  },
+  {
+    "name": "us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,780",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsToAcquireAvailableForSaleSecuritiesDebt"
+  },
+  {
+    "name": "us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,153",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsToAcquireAvailableForSaleSecuritiesDebt"
+  },
+  {
+    "name": "us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "13,046",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities"
+  },
+  {
+    "name": "us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,127",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities"
+  },
+  {
+    "name": "us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,337",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromSaleOfAvailableForSaleSecuritiesDebt"
+  },
+  {
+    "name": "us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "509",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromSaleOfAvailableForSaleSecuritiesDebt"
+  },
+  {
+    "name": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,392",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsToAcquirePropertyPlantAndEquipment"
+  },
+  {
+    "name": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,787",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsToAcquirePropertyPlantAndEquipment"
+  },
+  {
+    "name": "us-gaap:PaymentsForProceedsFromOtherInvestingActivities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "284",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsForProceedsFromOtherInvestingActivities"
+  },
+  {
+    "name": "us-gaap:PaymentsForProceedsFromOtherInvestingActivities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "141",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsForProceedsFromOtherInvestingActivities"
+  },
+  {
+    "name": "us-gaap:NetCashProvidedByUsedInInvestingActivities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,927",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetCashProvidedByUsedInInvestingActivities"
+  },
+  {
+    "name": "us-gaap:NetCashProvidedByUsedInInvestingActivities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,445",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetCashProvidedByUsedInInvestingActivities"
+  },
+  {
+    "name": "us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,591",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsRelatedToTaxWithholdingForShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,316",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsRelatedToTaxWithholdingForShareBasedCompensation"
+  },
+  {
+    "name": "us-gaap:PaymentsOfDividends",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,825",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsOfDividends"
+  },
+  {
+    "name": "us-gaap:PaymentsOfDividends",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,768",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsOfDividends"
+  },
+  {
+    "name": "us-gaap:PaymentsForRepurchaseOfCommonStock",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,139",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsForRepurchaseOfCommonStock"
+  },
+  {
+    "name": "us-gaap:PaymentsForRepurchaseOfCommonStock",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,475",
+    "tag_name": "ix:nonfraction",
+    "concept": "PaymentsForRepurchaseOfCommonStock"
+  },
+  {
+    "name": "us-gaap:RepaymentsOfLongTermDebt",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "RepaymentsOfLongTermDebt"
+  },
+  {
+    "name": "us-gaap:RepaymentsOfLongTermDebt",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,401",
+    "tag_name": "ix:nonfraction",
+    "concept": "RepaymentsOfLongTermDebt"
+  },
+  {
+    "name": "us-gaap:ProceedsFromRepaymentsOfCommercialPaper",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,984",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromRepaymentsOfCommercialPaper"
+  },
+  {
+    "name": "us-gaap:ProceedsFromRepaymentsOfCommercialPaper",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,214",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromRepaymentsOfCommercialPaper"
+  },
+  {
+    "name": "us-gaap:ProceedsFromPaymentsForOtherFinancingActivities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "46",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromPaymentsForOtherFinancingActivities"
+  },
+  {
+    "name": "us-gaap:ProceedsFromPaymentsForOtherFinancingActivities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "389",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromPaymentsForOtherFinancingActivities"
+  },
+  {
+    "name": "us-gaap:NetCashProvidedByUsedInFinancingActivities",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "30,585",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetCashProvidedByUsedInFinancingActivities"
+  },
+  {
+    "name": "us-gaap:NetCashProvidedByUsedInFinancingActivities",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "35,563",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetCashProvidedByUsedInFinancingActivities"
+  },
+  {
+    "name": "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,237",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect"
+  },
+  {
+    "name": "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,003",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect"
+  },
+  {
+    "name": "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "41,974",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+  },
+  {
+    "name": "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+    "contextRef": "c-38",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "21,974",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+  },
+  {
+    "name": "us-gaap:IncomeTaxesPaidNet",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,255",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncomeTaxesPaidNet"
+  },
+  {
+    "name": "us-gaap:IncomeTaxesPaidNet",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "828",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncomeTaxesPaidNet"
+  },
+  {
+    "name": "us-gaap:BasisOfPresentationAndSignificantAccountingPoliciesTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Summary of Significant Accounting Policies",
+    "tag_name": "ix:nonnumeric",
+    "concept": "BasisOfPresentationAndSignificantAccountingPoliciesTextBlock"
+  },
+  {
+    "name": "us-gaap:BasisOfAccountingPolicyPolicyTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Basis of Presentation and PreparationThe condensed consolidated financial statements include the accounts of Apple Inc. and its wholly owned subsidiaries (collectively \u201cApple\u201d or the \u201cCompany\u201d). In the opinion of the Company\u2019s management, the condensed consolidated financial statements reflect all adjustments, which are normal and recurring in nature, necessary for fair financial statement presentation. The preparation of these condensed consolidated financial statements and accompanying notes in conformity with U.S. generally accepted accounting principles (\u201cGAAP\u201d) requires the use of management estimates. Certain prior period amounts in the condensed consolidated financial statements and accompanying notes have been reclassified to conform to the current period\u2019s presentation. These condensed consolidated financial statements and accompanying notes should be read in conjunction with the Company\u2019s annual consolidated financial statements and accompanying notes included in its Annual Report on Form 10-K for the fiscal year ended September\u00a030, 2023 (the \u201c2023 Form 10-K\u201d).",
+    "tag_name": "ix:nonnumeric",
+    "concept": "BasisOfAccountingPolicyPolicyTextBlock"
+  },
+  {
+    "name": "us-gaap:FiscalPeriod",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The Company\u2019s fiscal year is the 52- or 53-week period that ends on the last Saturday of September. An additional week is included in the first fiscal quarter every five or six years to realign the Company\u2019s fiscal quarters with calendar quarters, which occurred in the first fiscal quarter of 2023. The Company\u2019s fiscal years 2024 and 2023 span 52 and 53 weeks, respectively. Unless otherwise stated, references to particular years, quarters, months and periods refer to the Company\u2019s fiscal years ended in September and the associated quarters, months and periods of those fiscal years.",
+    "tag_name": "ix:nonnumeric",
+    "concept": "FiscalPeriod"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Revenue",
+    "tag_name": "ix:nonnumeric",
+    "concept": "RevenueFromContractWithCustomerTextBlock"
+  },
+  {
+    "name": "us-gaap:DisaggregationOfRevenueTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Net sales disaggregated by significant products and services for the three months ended December 30, 2023 and December\u00a031, 2022 were as follows (in millions):Three Months EndedDecember 30,2023December 31,2022iPhone\u00ae$69,702$65,775Mac\u00ae7,7807,735iPad\u00ae7,0239,396Wearables, Home and Accessories11,95313,482Services23,11720,766Total net sales$119,575$117,154",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DisaggregationOfRevenueTableTextBlock"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-39",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "69,702",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-40",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "65,775",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-41",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,780",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-42",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,735",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-43",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,023",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-44",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,396",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-45",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,953",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-46",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "13,482",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-14",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "23,117",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-15",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,766",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "119,575",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "117,154",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:ContractWithCustomerLiabilityRevenueRecognized",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "3.5",
+    "tag_name": "ix:nonfraction",
+    "concept": "ContractWithCustomerLiabilityRevenueRecognized"
+  },
+  {
+    "name": "us-gaap:ContractWithCustomerLiabilityRevenueRecognized",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "3.4",
+    "tag_name": "ix:nonfraction",
+    "concept": "ContractWithCustomerLiabilityRevenueRecognized"
+  },
+  {
+    "name": "us-gaap:ContractWithCustomerLiability",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "12.5",
+    "tag_name": "ix:nonfraction",
+    "concept": "ContractWithCustomerLiability"
+  },
+  {
+    "name": "us-gaap:ContractWithCustomerLiability",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "12.1",
+    "tag_name": "ix:nonfraction",
+    "concept": "ContractWithCustomerLiability"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationPercentage",
+    "contextRef": "c-47",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "66",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueRemainingPerformanceObligationPercentage"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationPercentage",
+    "contextRef": "c-48",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "26",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueRemainingPerformanceObligationPercentage"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationPercentage",
+    "contextRef": "c-49",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "7",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueRemainingPerformanceObligationPercentage"
+  },
+  {
+    "name": "us-gaap:RevenueRemainingPerformanceObligationPercentage",
+    "contextRef": "c-50",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "1",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueRemainingPerformanceObligationPercentage"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Earnings Per Share",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EarningsPerShareTextBlock"
+  },
+  {
+    "name": "us-gaap:ScheduleOfEarningsPerShareBasicAndDilutedTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following table shows the computation of basic and diluted earnings per share for the three months ended December 30, 2023 and December 31, 2022 (net income in millions and shares in thousands):Three Months EndedDecember 30,2023December 31,2022Numerator:Net income$33,916$29,998Denominator:Weighted-average basic shares outstanding15,509,76315,892,723Effect of dilutive share-based awards66,87862,995Weighted-average diluted shares15,576,64115,955,718Basic earnings per share$2.19$1.89Diluted earnings per share$2.18$1.88",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfEarningsPerShareBasicAndDilutedTableTextBlock"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "33,916",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:NetIncomeLoss",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,998",
+    "tag_name": "ix:nonfraction",
+    "concept": "NetIncomeLoss"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfSharesOutstandingBasic",
+    "contextRef": "c-1",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,509,763",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfSharesOutstandingBasic"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfSharesOutstandingBasic",
+    "contextRef": "c-16",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,892,723",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfSharesOutstandingBasic"
+  },
+  {
+    "name": "us-gaap:IncrementalCommonSharesAttributableToShareBasedPaymentArrangements",
+    "contextRef": "c-1",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "66,878",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncrementalCommonSharesAttributableToShareBasedPaymentArrangements"
+  },
+  {
+    "name": "us-gaap:IncrementalCommonSharesAttributableToShareBasedPaymentArrangements",
+    "contextRef": "c-16",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "62,995",
+    "tag_name": "ix:nonfraction",
+    "concept": "IncrementalCommonSharesAttributableToShareBasedPaymentArrangements"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding",
+    "contextRef": "c-1",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,576,641",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfDilutedSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding",
+    "contextRef": "c-16",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,955,718",
+    "tag_name": "ix:nonfraction",
+    "concept": "WeightedAverageNumberOfDilutedSharesOutstanding"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareBasic",
+    "contextRef": "c-1",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "2.19",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareBasic"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareBasic",
+    "contextRef": "c-16",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "1.89",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareBasic"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareDiluted",
+    "contextRef": "c-1",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "2.18",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareDiluted"
+  },
+  {
+    "name": "us-gaap:EarningsPerShareDiluted",
+    "contextRef": "c-16",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "1.88",
+    "tag_name": "ix:nonfraction",
+    "concept": "EarningsPerShareDiluted"
+  },
+  {
+    "name": "us-gaap:AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount",
+    "contextRef": "c-51",
+    "unitRef": "shares",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "89",
+    "tag_name": "ix:nonfraction",
+    "concept": "AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount"
+  },
+  {
+    "name": "us-gaap:FinancialInstrumentsDisclosureTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Financial Instruments",
+    "tag_name": "ix:nonnumeric",
+    "concept": "FinancialInstrumentsDisclosureTextBlock"
+  },
+  {
+    "name": "us-gaap:ScheduleOfCashCashEquivalentsAndShortTermInvestmentsTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following tables show the Company\u2019s cash, cash equivalents and marketable securities by significant investment category as of December\u00a030, 2023 and September\u00a030, 2023 (in millions):December 30, 2023AdjustedCostUnrealizedGainsUnrealizedLossesFairValueCash andCashEquivalentsCurrentMarketableSecuritiesNon-CurrentMarketableSecuritiesCash$29,542$\u2014$\u2014$29,542$29,542$\u2014$\u2014Level 1:Money market funds2,000\u2014\u20142,0002,000\u2014\u2014Mutual funds44835(11)472\u2014472\u2014Subtotal2,44835(11)2,4722,000472\u2014Level 2(1):U.S. Treasury securities24,04112(920)23,1337,3034,85810,972U.S. agency securities5,791\u2014(448)5,343243985,002Non-U.S. government securities17,32654(675)16,705\u201411,1755,530Certificates of deposit and time deposits1,448\u2014\u20141,4481,119329\u2014Commercial paper1,361\u2014\u20141,361472889\u2014Corporate debt securities75,360112(3,964)71,5088113,90957,518Municipal securities562\u2014(14)548\u2014185363Mortgage- and asset-backed securities22,36953(1,907)20,515\u201442520,090Subtotal148,258231(7,928)140,5619,21831,86899,475Total(2)$180,248$266$(7,939)$172,575$40,760$32,340$99,475",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfCashCashEquivalentsAndShortTermInvestmentsTableTextBlock"
+  },
+  {
+    "name": "us-gaap:Cash",
+    "contextRef": "c-52",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,542",
+    "tag_name": "ix:nonfraction",
+    "concept": "Cash"
+  },
+  {
+    "name": "us-gaap:Cash",
+    "contextRef": "c-52",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,542",
+    "tag_name": "ix:nonfraction",
+    "concept": "Cash"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-52",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,542",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-52",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-52",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCost",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCost"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCurrentAndNoncurrent"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-53",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCost",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "448",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCost"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "35",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "11",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "472",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCurrentAndNoncurrent"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "472",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-54",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCost",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,448",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCost"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "35",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "11",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,472",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCurrentAndNoncurrent"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,000",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "472",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-55",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "24,041",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "12",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "920",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "23,133",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,303",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,858",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-56",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "10,972",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,791",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "448",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,343",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "243",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "98",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-57",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,002",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "17,326",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "54",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "675",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "16,705",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,175",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-58",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,530",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,448",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,448",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,119",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "329",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-59",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,361",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,361",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "472",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "889",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-60",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "75,360",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "112",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,964",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "71,508",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "81",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "13,909",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-61",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "57,518",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "562",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "14",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "548",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "185",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-62",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "363",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "22,369",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "53",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,907",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,515",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "425",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-63",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,090",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "148,258",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "231",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,928",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "140,561",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,218",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "31,868",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "99,475",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "aapl:CashCashEquivalentsAndMarketableSecuritiesCost",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "180,248",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsAndMarketableSecuritiesCost"
+  },
+  {
+    "name": "aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "266",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,939",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "aapl:CashCashEquivalentsAndMarketableSecurities",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "172,575",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsAndMarketableSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "40,760",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "32,340",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "99,475",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:Cash",
+    "contextRef": "c-65",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "28,359",
+    "tag_name": "ix:nonfraction",
+    "concept": "Cash"
+  },
+  {
+    "name": "us-gaap:Cash",
+    "contextRef": "c-65",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "28,359",
+    "tag_name": "ix:nonfraction",
+    "concept": "Cash"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-65",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "28,359",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-65",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-65",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCost",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "481",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCost"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "481",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCurrentAndNoncurrent"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "481",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-66",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCost",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "442",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCost"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "12",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "26",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "428",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCurrentAndNoncurrent"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "428",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-67",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCost",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "923",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCost"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "12",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "26",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFVNIAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:EquitySecuritiesFvNiCurrentAndNoncurrent",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "909",
+    "tag_name": "ix:nonfraction",
+    "concept": "EquitySecuritiesFvNiCurrentAndNoncurrent"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "481",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "428",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-68",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,406",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,292",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "18,114",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "35",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,468",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-69",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "12,611",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,736",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "600",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,136",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "36",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "271",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-70",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,829",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "17,533",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "6",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,048",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "16,491",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,332",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-71",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,159",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,354",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,354",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,034",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "320",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-72",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "608",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "608",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "608",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-73",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "76,840",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "6",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,956",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "70,890",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "20",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "12,627",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-74",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "58,243",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "628",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "26",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "602",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "192",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-75",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "410",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "22,365",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "6",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,735",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,636",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "344",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-76",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,292",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAmortizedCostBasis",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "144,470",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAmortizedCostBasis"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "18",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,657",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleDebtSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtSecurities",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "132,831",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,125",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "31,162",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "100,544",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "aapl:CashCashEquivalentsAndMarketableSecuritiesCost",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "173,752",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsAndMarketableSecuritiesCost"
+  },
+  {
+    "name": "aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedGainBeforeTax",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": null,
+    "value": "30",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedGainBeforeTax"
+  },
+  {
+    "name": "aapl:CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedLossBeforeTax",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "11,683",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashEquivalentsAndMarketableSecuritiesAccumulatedGrossUnrealizedLossBeforeTax"
+  },
+  {
+    "name": "aapl:CashCashEquivalentsAndMarketableSecurities",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "162,099",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashCashEquivalentsAndMarketableSecurities"
+  },
+  {
+    "name": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "29,965",
+    "tag_name": "ix:nonfraction",
+    "concept": "CashAndCashEquivalentsAtCarryingValue"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesCurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "31,590",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesCurrent"
+  },
+  {
+    "name": "us-gaap:MarketableSecuritiesNoncurrent",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "100,544",
+    "tag_name": "ix:nonfraction",
+    "concept": "MarketableSecuritiesNoncurrent"
+  },
+  {
+    "name": "us-gaap:FairValueMeasurementPolicyPolicyTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The valuation techniques used to measure the fair values of the Company\u2019s Level 2 financial instruments, which generally have counterparties with high credit ratings, are based on quoted market prices or model-driven valuations using significant inputs derived from or corroborated by observable market data.",
+    "tag_name": "ix:nonnumeric",
+    "concept": "FairValueMeasurementPolicyPolicyTextBlock"
+  },
+  {
+    "name": "us-gaap:DebtSecuritiesAvailableForSaleRestricted",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "13.9",
+    "tag_name": "ix:nonfraction",
+    "concept": "DebtSecuritiesAvailableForSaleRestricted"
+  },
+  {
+    "name": "us-gaap:DebtSecuritiesAvailableForSaleRestricted",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "13.8",
+    "tag_name": "ix:nonfraction",
+    "concept": "DebtSecuritiesAvailableForSaleRestricted"
+  },
+  {
+    "name": "us-gaap:InvestmentsClassifiedByContractualMaturityDateTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following table shows the fair value of the Company\u2019s non-current marketable debt securities, by contractual maturity, as of December\u00a030, 2023 (in millions):Due after 1 year through 5 years$72,994Due after 5 years through 10 years9,368Due after 10 years17,113Total fair value$99,475",
+    "tag_name": "ix:nonnumeric",
+    "concept": "InvestmentsClassifiedByContractualMaturityDateTableTextBlock"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtMaturitiesRollingYearTwoThroughFiveFairValue",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "72,994",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtMaturitiesRollingYearTwoThroughFiveFairValue"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtMaturitiesRollingYearSixThroughTenFairValue",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,368",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtMaturitiesRollingYearSixThroughTenFairValue"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtMaturitiesRollingAfterYearTenFairValue",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "17,113",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtMaturitiesRollingAfterYearTenFairValue"
+  },
+  {
+    "name": "us-gaap:AvailableForSaleSecuritiesDebtMaturitiesSingleMaturityDate",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "99,475",
+    "tag_name": "ix:nonfraction",
+    "concept": "AvailableForSaleSecuritiesDebtMaturitiesSingleMaturityDate"
+  },
+  {
+    "name": "us-gaap:MaximumLengthOfTimeForeignCurrencyCashFlowHedge",
+    "contextRef": "c-78",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:durmonth",
+    "value": "12",
+    "tag_name": "ix:nonnumeric",
+    "concept": "MaximumLengthOfTimeForeignCurrencyCashFlowHedge"
+  },
+  {
+    "name": "us-gaap:MaximumLengthOfTimeForeignCurrencyCashFlowHedge",
+    "contextRef": "c-79",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:duryear",
+    "value": "19",
+    "tag_name": "ix:nonnumeric",
+    "concept": "MaximumLengthOfTimeForeignCurrencyCashFlowHedge"
+  },
+  {
+    "name": "us-gaap:ScheduleOfNotionalAmountsOfOutstandingDerivativePositionsTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The notional amounts of the Company\u2019s outstanding derivative instruments as of December\u00a030, 2023 and September\u00a030, 2023 were as follows (in millions):December 30,2023September 30,2023Derivative instruments designated as accounting hedges:Foreign exchange contracts$66,735$74,730Interest rate contracts$19,375$19,375Derivative instruments not designated as accounting hedges:Foreign exchange contracts$102,108$104,777",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfNotionalAmountsOfOutstandingDerivativePositionsTableTextBlock"
+  },
+  {
+    "name": "us-gaap:DerivativeNotionalAmount",
+    "contextRef": "c-80",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "66,735",
+    "tag_name": "ix:nonfraction",
+    "concept": "DerivativeNotionalAmount"
+  },
+  {
+    "name": "us-gaap:DerivativeNotionalAmount",
+    "contextRef": "c-81",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "74,730",
+    "tag_name": "ix:nonfraction",
+    "concept": "DerivativeNotionalAmount"
+  },
+  {
+    "name": "us-gaap:DerivativeNotionalAmount",
+    "contextRef": "c-82",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,375",
+    "tag_name": "ix:nonfraction",
+    "concept": "DerivativeNotionalAmount"
+  },
+  {
+    "name": "us-gaap:DerivativeNotionalAmount",
+    "contextRef": "c-83",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "19,375",
+    "tag_name": "ix:nonfraction",
+    "concept": "DerivativeNotionalAmount"
+  },
+  {
+    "name": "us-gaap:DerivativeNotionalAmount",
+    "contextRef": "c-84",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "102,108",
+    "tag_name": "ix:nonfraction",
+    "concept": "DerivativeNotionalAmount"
+  },
+  {
+    "name": "us-gaap:DerivativeNotionalAmount",
+    "contextRef": "c-85",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "104,777",
+    "tag_name": "ix:nonfraction",
+    "concept": "DerivativeNotionalAmount"
+  },
+  {
+    "name": "us-gaap:ScheduleOfFairValueHedgingInstrumentsStatementsOfFinancialPerformanceAndFinancialPositionLocationTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The carrying amounts of the Company\u2019s hedged items in fair value hedges as of December\u00a030, 2023 and September\u00a030, 2023 were as follows (in millions):December 30,2023September 30,2023Hedged assets/(liabilities):Current and non-current marketable securities$15,102$14,433Current and non-current term debt$(18,661)$(18,247)",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfFairValueHedgingInstrumentsStatementsOfFinancialPerformanceAndFinancialPositionLocationTableTextBlock"
+  },
+  {
+    "name": "us-gaap:HedgedAssetFairValueHedge",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "15,102",
+    "tag_name": "ix:nonfraction",
+    "concept": "HedgedAssetFairValueHedge"
+  },
+  {
+    "name": "us-gaap:HedgedAssetFairValueHedge",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "14,433",
+    "tag_name": "ix:nonfraction",
+    "concept": "HedgedAssetFairValueHedge"
+  },
+  {
+    "name": "us-gaap:HedgedLiabilityFairValueHedge",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "18,661",
+    "tag_name": "ix:nonfraction",
+    "concept": "HedgedLiabilityFairValueHedge"
+  },
+  {
+    "name": "us-gaap:HedgedLiabilityFairValueHedge",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "18,247",
+    "tag_name": "ix:nonfraction",
+    "concept": "HedgedLiabilityFairValueHedge"
+  },
+  {
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "contextRef": "c-86",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "34",
+    "tag_name": "ix:nonfraction",
+    "concept": "ConcentrationRiskPercentage1"
+  },
+  {
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "contextRef": "c-87",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "41",
+    "tag_name": "ix:nonfraction",
+    "concept": "ConcentrationRiskPercentage1"
+  },
+  {
+    "name": "aapl:NumberOfSignificantVendors",
+    "contextRef": "c-88",
+    "unitRef": "vendor",
+    "scale": "0",
+    "format": "ixt-sec:numwordsen",
+    "value": "two",
+    "tag_name": "ix:nonfraction",
+    "concept": "NumberOfSignificantVendors"
+  },
+  {
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "contextRef": "c-89",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "50",
+    "tag_name": "ix:nonfraction",
+    "concept": "ConcentrationRiskPercentage1"
+  },
+  {
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "contextRef": "c-90",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "20",
+    "tag_name": "ix:nonfraction",
+    "concept": "ConcentrationRiskPercentage1"
+  },
+  {
+    "name": "aapl:NumberOfSignificantVendors",
+    "contextRef": "c-91",
+    "unitRef": "vendor",
+    "scale": "0",
+    "format": "ixt-sec:numwordsen",
+    "value": "two",
+    "tag_name": "ix:nonfraction",
+    "concept": "NumberOfSignificantVendors"
+  },
+  {
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "contextRef": "c-92",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "48",
+    "tag_name": "ix:nonfraction",
+    "concept": "ConcentrationRiskPercentage1"
+  },
+  {
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "contextRef": "c-93",
+    "unitRef": "number",
+    "scale": "-2",
+    "format": null,
+    "value": "23",
+    "tag_name": "ix:nonfraction",
+    "concept": "ConcentrationRiskPercentage1"
+  },
+  {
+    "name": "us-gaap:AdditionalFinancialInformationDisclosureTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Condensed Consolidated Financial Statement Details",
+    "tag_name": "ix:nonnumeric",
+    "concept": "AdditionalFinancialInformationDisclosureTextBlock"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following table shows the Company\u2019s condensed consolidated financial statement details as of December\u00a030, 2023 and September\u00a030, 2023 (in millions):Property, Plant and Equipment, NetDecember 30,2023September 30,2023Gross property, plant and equipment$116,176$114,599Accumulated depreciation(72,510)(70,884)Total property, plant and equipment, net$43,666$43,715",
+    "tag_name": "ix:nonnumeric",
+    "concept": "PropertyPlantAndEquipmentTextBlock"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentGross",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "116,176",
+    "tag_name": "ix:nonfraction",
+    "concept": "PropertyPlantAndEquipmentGross"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentGross",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "114,599",
+    "tag_name": "ix:nonfraction",
+    "concept": "PropertyPlantAndEquipmentGross"
+  },
+  {
+    "name": "us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "72,510",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment"
+  },
+  {
+    "name": "us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "70,884",
+    "tag_name": "ix:nonfraction",
+    "concept": "AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentNet",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "43,666",
+    "tag_name": "ix:nonfraction",
+    "concept": "PropertyPlantAndEquipmentNet"
+  },
+  {
+    "name": "us-gaap:PropertyPlantAndEquipmentNet",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "43,715",
+    "tag_name": "ix:nonfraction",
+    "concept": "PropertyPlantAndEquipmentNet"
+  },
+  {
+    "name": "us-gaap:DebtDisclosureTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Debt",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DebtDisclosureTextBlock"
+  },
+  {
+    "name": "us-gaap:CommercialPaper",
+    "contextRef": "c-94",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "2.0",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommercialPaper"
+  },
+  {
+    "name": "us-gaap:CommercialPaper",
+    "contextRef": "c-95",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "6.0",
+    "tag_name": "ix:nonfraction",
+    "concept": "CommercialPaper"
+  },
+  {
+    "name": "aapl:CommercialPaperCashFlowSummaryTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following table provides a summary of cash flows associated with the issuance and maturities of commercial paper for the three months ended December\u00a030, 2023 and December\u00a031, 2022 (in millions):",
+    "tag_name": "ix:nonnumeric",
+    "concept": "CommercialPaperCashFlowSummaryTableTextBlock"
+  },
+  {
+    "name": "us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,984",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess"
+  },
+  {
+    "name": "us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "5,569",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess"
+  },
+  {
+    "name": "us-gaap:RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:fixed-zero",
+    "value": "\u2014",
+    "tag_name": "ix:nonfraction",
+    "concept": "RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths"
+  },
+  {
+    "name": "us-gaap:RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,645",
+    "tag_name": "ix:nonfraction",
+    "concept": "RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths"
+  },
+  {
+    "name": "us-gaap:ProceedsFromRepaymentsOfCommercialPaper",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,984",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromRepaymentsOfCommercialPaper"
+  },
+  {
+    "name": "us-gaap:ProceedsFromRepaymentsOfCommercialPaper",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,214",
+    "tag_name": "ix:nonfraction",
+    "concept": "ProceedsFromRepaymentsOfCommercialPaper"
+  },
+  {
+    "name": "us-gaap:LongTermDebt",
+    "contextRef": "c-17",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "106.0",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebt"
+  },
+  {
+    "name": "us-gaap:LongTermDebt",
+    "contextRef": "c-18",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "105.1",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebt"
+  },
+  {
+    "name": "us-gaap:LongTermDebtFairValue",
+    "contextRef": "c-64",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "96.7",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebtFairValue"
+  },
+  {
+    "name": "us-gaap:LongTermDebtFairValue",
+    "contextRef": "c-77",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "90.8",
+    "tag_name": "ix:nonfraction",
+    "concept": "LongTermDebtFairValue"
+  },
+  {
+    "name": "us-gaap:StockholdersEquityNoteDisclosureTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Shareholders\u2019 Equity",
+    "tag_name": "ix:nonnumeric",
+    "concept": "StockholdersEquityNoteDisclosureTextBlock"
+  },
+  {
+    "name": "us-gaap:StockRepurchasedAndRetiredDuringPeriodShares",
+    "contextRef": "c-1",
+    "unitRef": "shares",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "118",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockRepurchasedAndRetiredDuringPeriodShares"
+  },
+  {
+    "name": "us-gaap:StockRepurchasedAndRetiredDuringPeriodValue",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "20.5",
+    "tag_name": "ix:nonfraction",
+    "concept": "StockRepurchasedAndRetiredDuringPeriodValue"
+  },
+  {
+    "name": "us-gaap:DisclosureOfCompensationRelatedCostsShareBasedPaymentsTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Share-Based Compensation",
+    "tag_name": "ix:nonnumeric",
+    "concept": "DisclosureOfCompensationRelatedCostsShareBasedPaymentsTextBlock"
+  },
+  {
+    "name": "us-gaap:ScheduleOfNonvestedRestrictedStockUnitsActivityTableTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "A summary of the Company\u2019s RSU activity and related information for the three months ended December\u00a030, 2023 is as follows:Number ofRSUs(in thousands)Weighted-AverageGrant Date FairValue Per RSUAggregateFair Value(in millions)Balance as of September 30, 2023180,247$135.91RSUs granted74,241$171.58RSUs vested(42,490)$110.75RSUs canceled(3,026)$109.05Balance as of December 30, 2023208,972$154.09$40,233",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfNonvestedRestrictedStockUnitsActivityTableTextBlock"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber",
+    "contextRef": "c-96",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "180,247",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue",
+    "contextRef": "c-96",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "135.91",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriod",
+    "contextRef": "c-97",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "74,241",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriod"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriodWeightedAverageGrantDateFairValue",
+    "contextRef": "c-97",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "171.58",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriodWeightedAverageGrantDateFairValue"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriod",
+    "contextRef": "c-97",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "42,490",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriod"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodWeightedAverageGrantDateFairValue",
+    "contextRef": "c-97",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "110.75",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodWeightedAverageGrantDateFairValue"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsForfeitedInPeriod",
+    "contextRef": "c-97",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,026",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsForfeitedInPeriod"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsForfeituresWeightedAverageGrantDateFairValue",
+    "contextRef": "c-97",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "109.05",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsForfeituresWeightedAverageGrantDateFairValue"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber",
+    "contextRef": "c-98",
+    "unitRef": "shares",
+    "scale": "3",
+    "format": "ixt:num-dot-decimal",
+    "value": "208,972",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue",
+    "contextRef": "c-98",
+    "unitRef": "usdPerShare",
+    "scale": "0",
+    "format": null,
+    "value": "154.09",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedWeightedAverageGrantDateFairValue"
+  },
+  {
+    "name": "us-gaap:SharebasedCompensationArrangementBySharebasedPaymentAwardEquityInstrumentsOtherThanOptionsAggregateIntrinsicValueNonvested",
+    "contextRef": "c-98",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "40,233",
+    "tag_name": "ix:nonfraction",
+    "concept": "SharebasedCompensationArrangementBySharebasedPaymentAwardEquityInstrumentsOtherThanOptionsAggregateIntrinsicValueNonvested"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue",
+    "contextRef": "c-97",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "7.7",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue"
+  },
+  {
+    "name": "us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue",
+    "contextRef": "c-99",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "6.8",
+    "tag_name": "ix:nonfraction",
+    "concept": "ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue"
+  },
+  {
+    "name": "us-gaap:ScheduleOfEmployeeServiceShareBasedCompensationAllocationOfRecognizedPeriodCostsTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following table shows share-based compensation expense and the related income tax benefit included in the Condensed Consolidated Statements of Operations for the three months ended December 30, 2023 and December 31, 2022 (in millions):Three Months EndedDecember 30,2023December 31,2022Share-based compensation expense$2,997$2,905Income tax benefit related to share-based compensation expense$(1,235)$(1,178)",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfEmployeeServiceShareBasedCompensationAllocationOfRecognizedPeriodCostsTextBlock"
+  },
+  {
+    "name": "us-gaap:AllocatedShareBasedCompensationExpense",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,997",
+    "tag_name": "ix:nonfraction",
+    "concept": "AllocatedShareBasedCompensationExpense"
+  },
+  {
+    "name": "us-gaap:AllocatedShareBasedCompensationExpense",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,905",
+    "tag_name": "ix:nonfraction",
+    "concept": "AllocatedShareBasedCompensationExpense"
+  },
+  {
+    "name": "us-gaap:EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,235",
+    "tag_name": "ix:nonfraction",
+    "concept": "EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense"
+  },
+  {
+    "name": "us-gaap:EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,178",
+    "tag_name": "ix:nonfraction",
+    "concept": "EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense"
+  },
+  {
+    "name": "us-gaap:EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognized",
+    "contextRef": "c-98",
+    "unitRef": "usd",
+    "scale": "9",
+    "format": "ixt:num-dot-decimal",
+    "value": "27.4",
+    "tag_name": "ix:nonfraction",
+    "concept": "EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognized"
+  },
+  {
+    "name": "us-gaap:EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognizedPeriodForRecognition1",
+    "contextRef": "c-97",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt-sec:duryear",
+    "value": "2.9",
+    "tag_name": "ix:nonnumeric",
+    "concept": "EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognizedPeriodForRecognition1"
+  },
+  {
+    "name": "us-gaap:LossContingencyDisclosures",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Contingencies",
+    "tag_name": "ix:nonnumeric",
+    "concept": "LossContingencyDisclosures"
+  },
+  {
+    "name": "us-gaap:SegmentReportingDisclosureTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Segment Information and Geographic Data",
+    "tag_name": "ix:nonnumeric",
+    "concept": "SegmentReportingDisclosureTextBlock"
+  },
+  {
+    "name": "us-gaap:ScheduleOfSegmentReportingInformationBySegmentTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "The following table shows information by reportable segment for the three months ended December 30, 2023 and December 31, 2022 (in millions):Three Months EndedDecember 30,2023December 31,2022Americas:Net sales$50,430$49,278Operating income$20,357$17,864Europe:Net sales$30,397$27,681Operating income$12,711$10,017Greater China:Net sales$20,819$23,905Operating income$8,622$10,437Japan:Net sales$7,767$6,755Operating income$3,819$3,236Rest of Asia Pacific:Net sales$10,162$9,535Operating income$4,579$3,851",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ScheduleOfSegmentReportingInformationBySegmentTextBlock"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-100",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,430",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-101",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "49,278",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-100",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,357",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-101",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "17,864",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-102",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "30,397",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-103",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "27,681",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-102",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "12,711",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-103",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "10,017",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-104",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "20,819",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-105",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "23,905",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-104",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "8,622",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-105",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "10,437",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-106",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,767",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-107",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "6,755",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-106",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,819",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-107",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,236",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-108",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "10,162",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "contextRef": "c-109",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "9,535",
+    "tag_name": "ix:nonfraction",
+    "concept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-108",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "4,579",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-109",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "3,851",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:ReconciliationOfOperatingProfitLossFromSegmentsToConsolidatedTextBlock",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "A reconciliation of the Company\u2019s segment operating income to the Condensed Consolidated Statements of Operations for the three months ended December 30, 2023 and December 31, 2022 is as follows (in millions):Three Months EndedDecember 30,2023December 31,2022Segment operating income$50,088$45,405Research and development expense(7,696)(7,709)Other corporate expenses, net(2,019)(1,680)Total operating income$40,373$36,016",
+    "tag_name": "ix:nonnumeric",
+    "concept": "ReconciliationOfOperatingProfitLossFromSegmentsToConsolidatedTextBlock"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-110",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "50,088",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-111",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "45,405",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:ResearchAndDevelopmentExpense",
+    "contextRef": "c-112",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,696",
+    "tag_name": "ix:nonfraction",
+    "concept": "ResearchAndDevelopmentExpense"
+  },
+  {
+    "name": "us-gaap:ResearchAndDevelopmentExpense",
+    "contextRef": "c-113",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "7,709",
+    "tag_name": "ix:nonfraction",
+    "concept": "ResearchAndDevelopmentExpense"
+  },
+  {
+    "name": "us-gaap:OtherGeneralAndAdministrativeExpense",
+    "contextRef": "c-114",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "2,019",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherGeneralAndAdministrativeExpense"
+  },
+  {
+    "name": "us-gaap:OtherGeneralAndAdministrativeExpense",
+    "contextRef": "c-115",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "1,680",
+    "tag_name": "ix:nonfraction",
+    "concept": "OtherGeneralAndAdministrativeExpense"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-1",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "40,373",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "us-gaap:OperatingIncomeLoss",
+    "contextRef": "c-16",
+    "unitRef": "usd",
+    "scale": "6",
+    "format": "ixt:num-dot-decimal",
+    "value": "36,016",
+    "tag_name": "ix:nonfraction",
+    "concept": "OperatingIncomeLoss"
+  },
+  {
+    "name": "ecd:MtrlTermsOfTrdArrTextBlock",
+    "contextRef": "c-117",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "OnNovember 11, 2023andNovember 27, 2023, respectively,Luca Maestri, the Company\u2019sSenior Vice President and Chief Financial Officer, andKatherine L. Adams, the Company\u2019sSenior Vice President and General Counsel, eachenteredinto a trading plan intended to satisfy the affirmative defense conditions of Rule 10b5-1(c) under the Exchange Act. The plans provide for the sale of all shares vested during the duration of the plans pursuant to certain equity awards granted to Mr. Maestri and Ms. Adams, respectively, excluding any shares withheld by the Company to satisfy income tax withholding and remittance obligations. Mr. Maestri\u2019s plan willexpireon December 31, 2024, and Ms. Adams\u2019s plan will expire on November 1, 2024, subject to early termination for certain specified events set forth in the plans.",
+    "tag_name": "ix:nonnumeric",
+    "concept": "MtrlTermsOfTrdArrTextBlock"
+  },
+  {
+    "name": "ecd:MtrlTermsOfTrdArrTextBlock",
+    "contextRef": "c-116",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "OnNovember 11, 2023andNovember 27, 2023, respectively,Luca Maestri, the Company\u2019sSenior Vice President and Chief Financial Officer, andKatherine L. Adams, the Company\u2019sSenior Vice President and General Counsel, eachenteredinto a trading plan intended to satisfy the affirmative defense conditions of Rule 10b5-1(c) under the Exchange Act. The plans provide for the sale of all shares vested during the duration of the plans pursuant to certain equity awards granted to Mr. Maestri and Ms. Adams, respectively, excluding any shares withheld by the Company to satisfy income tax withholding and remittance obligations. Mr. Maestri\u2019s plan willexpireon December 31, 2024, and Ms. Adams\u2019s plan will expire on November 1, 2024, subject to early termination for certain specified events set forth in the plans.",
+    "tag_name": "ix:nonnumeric",
+    "concept": "MtrlTermsOfTrdArrTextBlock"
+  },
+  {
+    "name": "ecd:TrdArrAdoptionDate",
+    "contextRef": "c-116",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "November 11, 2023",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrAdoptionDate"
+  },
+  {
+    "name": "ecd:TrdArrAdoptionDate",
+    "contextRef": "c-117",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "November 27, 2023",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrAdoptionDate"
+  },
+  {
+    "name": "ecd:TrdArrIndName",
+    "contextRef": "c-116",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Luca Maestri",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrIndName"
+  },
+  {
+    "name": "ecd:TrdArrIndTitle",
+    "contextRef": "c-116",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Senior Vice President and Chief Financial Officer",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrIndTitle"
+  },
+  {
+    "name": "ecd:TrdArrIndName",
+    "contextRef": "c-117",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Katherine L. Adams",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrIndName"
+  },
+  {
+    "name": "ecd:TrdArrIndTitle",
+    "contextRef": "c-117",
+    "unitRef": null,
+    "scale": null,
+    "format": null,
+    "value": "Senior Vice President and General Counsel",
+    "tag_name": "ix:nonnumeric",
+    "concept": "TrdArrIndTitle"
+  },
+  {
+    "name": "ecd:Rule10b51ArrAdoptedFlag",
+    "contextRef": "c-116",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "entered",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Rule10b51ArrAdoptedFlag"
+  },
+  {
+    "name": "ecd:Rule10b51ArrAdoptedFlag",
+    "contextRef": "c-117",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-true",
+    "value": "entered",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Rule10b51ArrAdoptedFlag"
+  },
+  {
+    "name": "ecd:NonRule10b51ArrAdoptedFlag",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "entered",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NonRule10b51ArrAdoptedFlag"
+  },
+  {
+    "name": "ecd:Rule10b51ArrTrmntdFlag",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "expire",
+    "tag_name": "ix:nonnumeric",
+    "concept": "Rule10b51ArrTrmntdFlag"
+  },
+  {
+    "name": "ecd:NonRule10b51ArrTrmntdFlag",
+    "contextRef": "c-1",
+    "unitRef": null,
+    "scale": null,
+    "format": "ixt:fixed-false",
+    "value": "expire",
+    "tag_name": "ix:nonnumeric",
+    "concept": "NonRule10b51ArrTrmntdFlag"
+  }
+]

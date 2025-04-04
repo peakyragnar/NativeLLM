@@ -12,10 +12,10 @@
   "period_end_date": "2021-12-31",
   "period_end_date_raw": "2021-12-31",
   "period_end_date_validated": true,
-  "period_end_date_validation_timestamp": "2025-04-02T08:42:25.891447",
+  "period_end_date_validation_timestamp": "2025-04-04T13:56:16.259368",
   "data_integrity": {
     "period_end_date_validated": true,
-    "validation_timestamp": "2025-04-02T08:42:25.891456",
+    "validation_timestamp": "2025-04-04T13:56:16.259372",
     "validation_source": "downloader.py:extract_validation",
     "raw_value": "2021-12-31",
     "normalized_value": "2021-12-31"

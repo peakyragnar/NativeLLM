@@ -12,6 +12,14 @@
   "period_end_date": "2024-06-29",
   "period_end_date_raw": "2024-06-29",
   "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-04T14:02:49.235346",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-04T14:02:49.235360",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2024-06-29",
+    "normalized_value": "2024-06-29"
+  },
   "index_url": "/Archives/edgar/data/320193/000032019324000081/0000320193-24-000081-index.htm",
   "fiscal_year": "2024",
   "fiscal_period": "Q3",

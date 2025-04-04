@@ -12,7 +12,17 @@
   "period_end_date": "2025-01-26",
   "period_end_date_raw": "2025-01-26",
   "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-04T13:40:42.019295",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-04T13:40:42.019304",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2025-01-26",
+    "normalized_value": "2025-01-26"
+  },
   "index_url": "/Archives/edgar/data/1045810/000104581025000023/0001045810-25-000023-index.htm",
+  "fiscal_year": "2025",
+  "fiscal_period": "annual",
   "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
   "primary_doc_name": "nvda-20250126.htm",
   "ixbrl_url": "/ix?doc=/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"

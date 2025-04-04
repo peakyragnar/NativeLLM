@@ -12,7 +12,17 @@
   "period_end_date": "2024-12-31",
   "period_end_date_raw": "2024-12-31",
   "period_end_date_validated": true,
+  "period_end_date_validation_timestamp": "2025-04-04T18:35:13.311473",
+  "data_integrity": {
+    "period_end_date_validated": true,
+    "validation_timestamp": "2025-04-04T18:35:13.311479",
+    "validation_source": "downloader.py:extract_validation",
+    "raw_value": "2024-12-31",
+    "normalized_value": "2024-12-31"
+  },
   "index_url": "/Archives/edgar/data/1318605/000162828025003063/0001628280-25-003063-index.htm",
+  "fiscal_year": "2024",
+  "fiscal_period": "annual",
   "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828025003063/tsla-20241231.htm",
   "primary_doc_name": "tsla-20241231.htm",
   "ixbrl_url": "/ix?doc=/Archives/edgar/data/1318605/000162828025003063/tsla-20241231.htm"
