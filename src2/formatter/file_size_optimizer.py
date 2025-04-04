@@ -8,8 +8,6 @@ while maintaining data integrity.
 import re
 import logging
 import hashlib
-from typing import Dict, List, Set, Tuple, Any
-from collections import defaultdict
 
 class FileSizeOptimizer:
     """
@@ -96,11 +94,19 @@ class FileSizeOptimizer:
             label_match = re.search(rf'{re.escape(orig_ref)} \(([^)]+)\)', content)
             label = label_match.group(1) if label_match else ""
 
-            # Add to the dictionary
+            # Add basic context type information
+            context_type = "INSTANT" if "_I" in orig_ref else "DURATION"
+
+            # Extract label from the content if available
+            # This is safer than trying to parse dates from the context reference
             context_dict_section += f"{compact_ref} | @CODE: {orig_ref}\n"
             if label:
                 context_dict_section += f"     @LABEL: {label}\n"
+            context_dict_section += f"     @TYPE: {context_type}\n"
             context_dict_section += "\n"
+
+            # We've already added the context information above
+            # No need to add it again
 
         # Replace all context references in the content
         for orig_ref, compact_ref in self.context_mapping.items():
