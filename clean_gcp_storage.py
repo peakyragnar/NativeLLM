@@ -25,29 +25,11 @@ FIRESTORE_DB = "nativellm"
 
 # Check for credentials
 if "GOOGLE_APPLICATION_CREDENTIALS" not in os.environ:
-    # Try to find credentials file
-    potential_paths = [
-        "/Users/michael/NativeLLM/nativellmfilings-e149eb3298de.json",
-        "/Users/michael/nativellmfilings-e149eb3298de.json",
-        "/Users/michael/Downloads/nativellmfilings-e149eb3298de.json",
-        os.path.expanduser("~/nativellmfilings-e149eb3298de.json"),
-        os.path.expanduser("~/Downloads/nativellmfilings-e149eb3298de.json")
-    ]
-
-    credentials_found = False
-    for path in potential_paths:
-        if os.path.exists(path):
-            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
-            logging.info(f"Set GCP credentials from {path}")
-            credentials_found = True
-            break
-
-    if not credentials_found:
-        logging.error("GCP credentials not found. Please set GOOGLE_APPLICATION_CREDENTIALS environment variable.")
-        logging.error("You can also place the credentials file in one of these locations:")
-        for path in potential_paths:
-            logging.error(f"  - {path}")
-        sys.exit(1)
+    print("\nGCP credentials not found in environment. Please set GOOGLE_APPLICATION_CREDENTIALS.")
+    print("Example: export GOOGLE_APPLICATION_CREDENTIALS=/path/to/nativellmfilings-e149eb3298de.json")
+    print("\nYou need to obtain the credentials file from the project owner.")
+    print("This file contains sensitive information and is not stored in the Git repository.")
+    sys.exit(1)
 
 def list_ticker_files(ticker=None, dry_run=True):
     """
