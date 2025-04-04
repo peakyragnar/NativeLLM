@@ -13,6 +13,8 @@ from .normalize_value import normalize_value, safe_parse_decimals
 from .context_extractor import extract_contexts_from_html, map_contexts_to_periods
 from .context_format_handler import extract_period_info
 from .financial_statement_organizer import organize_financial_statements
+from .normalized_financial_mapper import NormalizedFinancialMapper
+from .file_size_optimizer import FileSizeOptimizer
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -2594,14 +2596,36 @@ class LLMFormatter:
             # Ensure directory exists
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
+            # Get original size for comparison
+            original_size = len(llm_content.encode('utf-8'))
+            logging.info(f"Original content size: {original_size / 1024:.2f} KB")
+
+            # Add normalized financial statements
+            logging.info(f"Adding normalized financial statements to {output_path}")
+            normalized_mapper = NormalizedFinancialMapper()
+            llm_content = normalized_mapper.map_facts_to_financial_statements(llm_content)
+
+            # Optimize file size
+            logging.info(f"Optimizing file size for {output_path}")
+            optimizer = FileSizeOptimizer()
+            optimized_content = optimizer.optimize(llm_content)
+
+            # Calculate size reduction
+            optimized_size = len(optimized_content.encode('utf-8'))
+            size_reduction = (original_size - optimized_size) / original_size * 100
+            logging.info(f"Optimized content size: {optimized_size / 1024:.2f} KB (reduced by {size_reduction:.2f}%)")
+
             # Save file
             with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(llm_content)
+                f.write(optimized_content)
 
             return {
                 "success": True,
                 "path": output_path,
-                "size": os.path.getsize(output_path)
+                "size": os.path.getsize(output_path),
+                "original_size": original_size,
+                "optimized_size": optimized_size,
+                "size_reduction_percent": size_reduction
             }
         except Exception as e:
             logging.error(f"Error saving LLM format: {str(e)}")
