@@ -8,9 +8,10 @@ which is more efficient and reduces file size while maintaining all data.
 import re
 import logging
 import json
-from typing import Dict, List, Any, Set
+from typing import Dict, List, Any, Set, Optional, Tuple
 from collections import defaultdict
 from .financial_validator import FinancialValidator
+from .xbrl_hierarchy import XBRLHierarchyExtractor
 
 class NormalizedFinancialMapper:
     """
@@ -24,6 +25,7 @@ class NormalizedFinancialMapper:
         """Initialize the normalized financial mapper."""
         self.logger = logging.getLogger(__name__)
         self.validator = FinancialValidator()
+        self.hierarchy_extractor = XBRLHierarchyExtractor()
 
     def map_facts_to_financial_statements(self, content: str) -> str:
         """
@@ -48,18 +50,23 @@ class NormalizedFinancialMapper:
             self.logger.warning("No facts extracted, returning original content")
             return content
 
+        # Extract XBRL hierarchy from @CONCEPT sections
+        raw_facts = self._extract_raw_facts_from_concepts(content)
+        hierarchy = self.hierarchy_extractor.extract_hierarchy(raw_facts)
+        self.logger.info(f"Extracted hierarchy with {len(hierarchy['top_level']['Balance_Sheet'])} top-level balance sheet concepts")
+
         # Debug: Check if we have balance sheet facts
         balance_sheet_facts = [f for f in facts if self._determine_statement_type(f.get('concept', ''), {}) == 'Balance_Sheet']
         self.logger.warning(f"Found {len(balance_sheet_facts)} balance sheet facts")
 
-        # Validate and complete balance sheet
-        self._validate_and_complete_balance_sheet(balance_sheet_facts)
+        # Validate and complete balance sheet using hierarchy
+        self._validate_and_complete_balance_sheet_with_hierarchy(balance_sheet_facts, hierarchy)
 
         # Debug: Check if balance sheet facts were updated
         self.logger.warning(f"After validation, have {len(balance_sheet_facts)} balance sheet facts")
 
-        # Generate normalized financial statements
-        financial_statements = self._generate_normalized_financial_statements(facts)
+        # Generate normalized financial statements with hierarchy
+        financial_statements = self._generate_normalized_financial_statements_with_hierarchy(facts, hierarchy)
         self.logger.info(f"Generated normalized financial statements of length {len(financial_statements)}")
 
         if not financial_statements:
@@ -201,6 +208,111 @@ class NormalizedFinancialMapper:
 
         return facts
 
+    def _generate_normalized_financial_statements_with_hierarchy(self, facts: List[Dict[str, Any]], hierarchy: Dict[str, Any]) -> str:
+        """
+        Generate normalized financial statements from facts using hierarchy information.
+
+        Args:
+            facts: List of facts
+            hierarchy: The XBRL hierarchy information
+
+        Returns:
+            Normalized financial statements section
+        """
+        # Statement types
+        statement_types = [
+            "Balance_Sheet",
+            "Income_Statement",
+            "Cash_Flow_Statement",
+            "Statement_Of_Equity"
+        ]
+
+        # Statement titles
+        statement_titles = {
+            "Balance_Sheet": "Consolidated Balance Sheets",
+            "Income_Statement": "Consolidated Statements of Income",
+            "Cash_Flow_Statement": "Consolidated Statements of Cash Flows",
+            "Statement_Of_Equity": "Consolidated Statements of Stockholders' Equity"
+        }
+
+        # Group facts by statement type and level
+        facts_by_statement = {}
+        for statement_type in statement_types:
+            facts_by_statement[statement_type] = {
+                0: [],  # Top-level concepts
+                1: [],  # Direct children of top-level concepts
+                2: []   # Other concepts
+            }
+
+        # Categorize facts by statement type and level
+        for fact in facts:
+            concept = fact.get('concept', '')
+
+            # Skip non-financial concepts
+            if not any(concept.startswith(prefix) for prefix in ['us-gaap:', 'ifrs-full:', 'gaap:', 'ifrs:']):
+                continue
+
+            # Determine statement type and level based on hierarchy
+            statement_type, level = self.hierarchy_extractor.get_concept_level(concept, hierarchy)
+
+            # If statement type is unknown, determine it based on concept name
+            if statement_type == "Unknown":
+                statement_type = self._determine_statement_type(concept, {})
+
+            # Add fact to the appropriate category
+            if statement_type in facts_by_statement:
+                # Ensure level is valid
+                if level not in facts_by_statement[statement_type]:
+                    level = 2  # Default to level 2 (other concepts)
+
+                facts_by_statement[statement_type][level].append(fact)
+
+        # Generate normalized financial statements
+        financial_statements = "\n\n@NORMALIZED_FINANCIAL_STATEMENTS"
+
+        # Add header row for the normalized format
+        financial_statements += "\n\n@NORMALIZED_FORMAT: Statement|Concept|Value|Context|Context_Label"
+
+        # Add facts for each statement type
+        for statement_type in statement_types:
+            if any(facts_by_statement[statement_type][level] for level in [0, 1, 2]):
+                financial_statements += f"\n\n@STATEMENT: {statement_type}"
+
+                # Add top-level concepts first (level 0)
+                for fact in facts_by_statement[statement_type][0]:
+                    concept = fact.get('concept', '').split(':')[-1]
+                    value = fact.get('value', '')
+                    unit = fact.get('unit', '')
+                    context_ref = fact.get('context_ref', '')
+                    context_label = fact.get('context_label', '')
+
+                    # Add fact in normalized format
+                    financial_statements += f"\n{statement_type}|{concept}|{value}|{context_ref}|{context_label}"
+
+                # Add direct children of top-level concepts (level 1)
+                for fact in facts_by_statement[statement_type][1]:
+                    concept = fact.get('concept', '').split(':')[-1]
+                    value = fact.get('value', '')
+                    unit = fact.get('unit', '')
+                    context_ref = fact.get('context_ref', '')
+                    context_label = fact.get('context_label', '')
+
+                    # Add fact in normalized format
+                    financial_statements += f"\n{statement_type}|{concept}|{value}|{context_ref}|{context_label}"
+
+                # Add other concepts (level 2)
+                for fact in facts_by_statement[statement_type][2]:
+                    concept = fact.get('concept', '').split(':')[-1]
+                    value = fact.get('value', '')
+                    unit = fact.get('unit', '')
+                    context_ref = fact.get('context_ref', '')
+                    context_label = fact.get('context_label', '')
+
+                    # Add fact in normalized format
+                    financial_statements += f"\n{statement_type}|{concept}|{value}|{context_ref}|{context_label}"
+
+        return financial_statements
+
     def _generate_normalized_financial_statements(self, facts: List[Dict[str, Any]]) -> str:
         """
         Generate normalized financial statements from facts.
@@ -304,6 +416,146 @@ class NormalizedFinancialMapper:
 
         # Default to Balance Sheet if not determined
         return "Balance_Sheet"
+
+    def _extract_raw_facts_from_concepts(self, content: str) -> List[Dict[str, Any]]:
+        """
+        Extract raw facts from @CONCEPT sections for hierarchy extraction.
+
+        Args:
+            content: The content of the file
+
+        Returns:
+            List of raw facts
+        """
+        raw_facts = []
+
+        # Extract @CONCEPT blocks
+        concept_blocks = re.finditer(r'@CONCEPT: ([^\n]+)\n@VALUE: ([^\n]+)\n@UNIT_REF: ([^\n]+)\n@CONTEXT_REF: ([^\n|]+)(?:\|@CONTEXT: ([^\n]+))?\n@DATE_TYPE: ([^\n]+)(?:\n@(?:DATE|START_DATE): ([^\n]+))?(?:\n@END_DATE: ([^\n]+))?', content)
+
+        for match in concept_blocks:
+            concept = match.group(1)
+            value = match.group(2)
+            context_ref = match.group(4)
+
+            # Add to raw facts list for hierarchy extraction
+            raw_facts.append({
+                'name': concept,
+                'value': value,
+                'contextRef': context_ref
+            })
+
+        self.logger.info(f"Extracted {len(raw_facts)} raw facts from @CONCEPT sections")
+        return raw_facts
+
+    def _validate_and_complete_balance_sheet_with_hierarchy(self, balance_sheet_facts: List[Dict[str, Any]], hierarchy: Dict[str, Any]) -> None:
+        """
+        Validate and complete the balance sheet facts using hierarchy information.
+
+        Args:
+            balance_sheet_facts: List of balance sheet facts
+            hierarchy: The XBRL hierarchy information
+        """
+        # Group facts by context reference
+        facts_by_context = defaultdict(list)
+        for fact in balance_sheet_facts:
+            context_ref = fact.get('context_ref', '')
+            facts_by_context[context_ref].append(fact)
+
+        # Process each context separately
+        for context_ref, facts in facts_by_context.items():
+            # Extract key balance sheet components
+            assets = None
+            liabilities = None
+            equity = None
+            minority_interests = None
+            total_liabilities_and_equity = None
+            context_label = ""
+
+            # Find the key components
+            for fact in facts:
+                concept = fact.get('concept', '')
+                value_str = fact.get('value', '0').replace('$', '').replace(',', '')
+
+                # Get context label if available
+                if not context_label and 'context_label' in fact:
+                    context_label = fact.get('context_label', '')
+
+                try:
+                    value = float(value_str)
+                except ValueError:
+                    continue
+
+                # Check if this is a top-level concept based on hierarchy
+                statement_type, level = self.hierarchy_extractor.get_concept_level(concept, hierarchy)
+
+                # Only use top-level concepts (level 0) for balance sheet validation
+                if statement_type == "Balance_Sheet" and level == 0:
+                    # Check for assets
+                    if 'us-gaap:Assets' in concept:
+                        assets = value
+
+                    # Check for liabilities
+                    elif 'us-gaap:Liabilities' in concept:
+                        liabilities = value
+
+                    # Check for equity
+                    elif 'us-gaap:StockholdersEquity' in concept:
+                        equity = value
+
+                    # Check for minority interests
+                    elif 'us-gaap:MinorityInterest' in concept or 'us-gaap:RedeemableNoncontrollingInterest' in concept:
+                        minority_interests = value
+
+                    # Check for total liabilities and equity
+                    elif 'us-gaap:LiabilitiesAndStockholdersEquity' in concept:
+                        total_liabilities_and_equity = value
+
+            # If we have assets and total liabilities and equity, but missing components, try to calculate them
+            if assets is not None and total_liabilities_and_equity is not None:
+                # If assets and total liabilities and equity don't match, log a warning
+                if abs(assets - total_liabilities_and_equity) > 0.01 * max(assets, total_liabilities_and_equity):
+                    self.logger.warning(f"Balance sheet doesn't balance for context {context_ref}: "
+                                       f"Assets ({assets}) != Total Liabilities and Equity ({total_liabilities_and_equity})")
+
+                # If we're missing liabilities but have equity, calculate liabilities
+                if liabilities is None and equity is not None:
+                    minority_interests = minority_interests or 0
+                    liabilities = total_liabilities_and_equity - equity - minority_interests
+                    facts.append({
+                        'concept': 'us-gaap:Liabilities',
+                        'value': f"${liabilities:,.0f}",
+                        'context_ref': context_ref,
+                        'unit': 'USD',
+                        'statement_type': 'Balance_Sheet',
+                        'level': 0,  # Top-level concept
+                        'context_label': context_label
+                    })
+                    self.logger.info(f"Added calculated liabilities ({liabilities}) for context {context_ref}")
+
+                # If we're missing equity but have liabilities, calculate equity
+                elif equity is None and liabilities is not None:
+                    minority_interests = minority_interests or 0
+                    equity = total_liabilities_and_equity - liabilities - minority_interests
+                    facts.append({
+                        'concept': 'us-gaap:StockholdersEquity',
+                        'value': f"${equity:,.0f}",
+                        'context_ref': context_ref,
+                        'unit': 'USD',
+                        'statement_type': 'Balance_Sheet',
+                        'level': 0,  # Top-level concept
+                        'context_label': context_label
+                    })
+                    self.logger.info(f"Added calculated equity ({equity}) for context {context_ref}")
+
+            # Validate the balance sheet
+            if assets is not None and liabilities is not None and equity is not None:
+                minority_interests = minority_interests or 0
+                is_valid, error_message = self.validator.validate_balance_sheet(
+                    assets, liabilities, equity, minority_interests
+                )
+
+                if not is_valid:
+                    self.logger.warning(f"Balance sheet validation failed for context {context_ref}: {error_message}")
 
     def _validate_and_complete_balance_sheet(self, balance_sheet_facts: List[Dict[str, Any]]) -> None:
         """
