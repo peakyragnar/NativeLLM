@@ -1317,8 +1317,9 @@ class SECFilingPipeline:
             llm_result = {"success": False}
 
             try:
-                # Import LLM formatter
+                # Import LLM formatter and financial validator
                 from src2.formatter.llm_formatter import llm_formatter
+                from src2.formatter.financial_validator import FinancialValidator
 
                 # Check for XBRL data in the filing
                 xbrl_path = None
@@ -1469,10 +1470,27 @@ class SECFilingPipeline:
                     # Save LLM format
                     save_result = llm_formatter.save_llm_format(llm_content, metadata, str(llm_path))
 
+                    # Verify balance sheet integrity
+                    if save_result.get("success", False):
+                        financial_validator = FinancialValidator()
+                        balance_sheet_verification = financial_validator.verify_balance_sheet_integrity(str(llm_path))
+
+                        # Check if any balance sheets are invalid
+                        invalid_periods = []
+                        for period, data in balance_sheet_verification.items():
+                            if not data.get("is_valid", True):
+                                invalid_periods.append(period)
+                                logging.warning(f"Balance sheet validation failed for {period}: {data.get('error_message')}")
+                    else:
+                        balance_sheet_verification = {}
+                        invalid_periods = []
+
                     llm_result = {
                         "success": save_result.get("success", False),
                         "file_size": save_result.get("size", 0),
-                        "path": save_result.get("path", "")
+                        "path": save_result.get("path", ""),
+                        "balance_sheet_verification": balance_sheet_verification,
+                        "invalid_balance_sheet_periods": invalid_periods
                     }
                 else:
                     llm_result = {
