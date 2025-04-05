@@ -370,8 +370,20 @@ class SECExtractor:
             with open(html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
 
-            # Use lxml-xml parser for XML documents to avoid warnings
-            soup = BeautifulSoup(html_content, 'lxml-xml')
+            # Try different parsers to handle various document formats
+            try:
+                # First try with lxml-xml for XML documents
+                soup = BeautifulSoup(html_content, 'lxml-xml')
+
+                # Check if we found any XBRL tags
+                if not soup.find_all(['ix:nonnumeric', 'ix:nonfraction']):
+                    # If not, try with lxml for HTML documents
+                    soup = BeautifulSoup(html_content, 'lxml')
+                    logging.info("Switched to lxml parser for HTML documents")
+            except Exception as parser_error:
+                # Fallback to lxml parser
+                logging.warning(f"Error with lxml-xml parser: {parser_error}. Falling back to lxml.")
+                soup = BeautifulSoup(html_content, 'lxml')
 
             # Find all relevant iXBRL tags
             ix_tags = soup.find_all(['ix:nonnumeric', 'ix:nonfraction'])

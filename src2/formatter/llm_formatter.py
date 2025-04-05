@@ -994,81 +994,88 @@ class LLMFormatter:
         output.append("@FACTS_SECTION")
         output.append("")
 
-        # Add facts organized by context
-        for context_ref, facts_list in facts_by_context.items():
-            if facts_list:
-                output.append(f"@CONTEXT: {context_ref}")
+        # Check if we have any facts to add
+        if parsed_xbrl.get("facts", []):
+            # Add facts organized by context
+            for context_ref, facts_list in facts_by_context.items():
+                if facts_list:
+                    output.append(f"@CONTEXT: {context_ref}")
 
-                # Group facts by prefix
-                facts_by_prefix = {}
-                for fact in facts_list:
-                    concept = fact.get("concept", "")
-                    prefix = concept.split(":")[0] if ":" in concept else ""
-
-                    if prefix not in facts_by_prefix:
-                        facts_by_prefix[prefix] = []
-                    facts_by_prefix[prefix].append(fact)
-
-                # Add facts for each prefix
-                for prefix, prefix_facts in facts_by_prefix.items():
-                    if prefix:
-                        output.append(f"@PREFIX: {prefix}")
-
-                    # Add facts
-                    for fact in prefix_facts:
+                    # Group facts by prefix
+                    facts_by_prefix = {}
+                    for fact in facts_list:
                         concept = fact.get("concept", "")
-                        value = fact.get("value", "")
-                        unit = fact.get("unit_ref", "")
+                        prefix = concept.split(":")[0] if ":" in concept else ""
 
-                        # Remove prefix from concept if it matches the current prefix
-                        if prefix and concept.startswith(f"{prefix}:"):
-                            concept = concept.split(":", 1)[1]
+                        if prefix not in facts_by_prefix:
+                            facts_by_prefix[prefix] = []
+                        facts_by_prefix[prefix].append(fact)
 
-                        # Add fact
-                        if unit:
-                            output.append(f"{concept}|{value}|{unit}")
-                        else:
-                            output.append(f"{concept}|{value}")
+                    # Add facts for each prefix
+                    for prefix, prefix_facts in facts_by_prefix.items():
+                        if prefix:
+                            output.append(f"@PREFIX: {prefix}")
 
-        # Also add individual facts as concept blocks for hierarchy extraction
-        output.append("")
-        output.append("@CONCEPT_BLOCKS")
-        output.append("")
+                        # Add facts
+                        for fact in prefix_facts:
+                            concept = fact.get("concept", "")
+                            value = fact.get("value", "")
+                            unit = fact.get("unit_ref", "")
 
-        # Add concept blocks for each fact
-        for fact in parsed_xbrl.get("facts", []):
-            concept = fact.get("concept", "")
-            value = fact.get("value", "")
-            unit_ref = fact.get("unit_ref", "")
-            context_ref = fact.get("context_ref", "")
+                            # Remove prefix from concept if it matches the current prefix
+                            if prefix and concept.startswith(f"{prefix}:"):
+                                concept = concept.split(":", 1)[1]
 
-            # Get context information
-            context = parsed_xbrl.get("contexts", {}).get(context_ref, {})
-            period = context.get("period", {})
+                            # Add fact
+                            if unit:
+                                output.append(f"{concept}|{value}|{unit}")
+                            else:
+                                output.append(f"{concept}|{value}")
 
-            # Determine date type and dates
-            if "instant" in period:
-                date_type = "INSTANT"
-                date = period.get("instant", "")
-                output.append(f"@CONCEPT: {concept}")
-                output.append(f"@VALUE: {value}")
-                output.append(f"@UNIT_REF: {unit_ref}")
-                output.append(f"@CONTEXT_REF: {context_ref}")
-                output.append(f"@DATE_TYPE: {date_type}")
-                output.append(f"@DATE: {date}")
-                output.append("")
-            elif "startDate" in period and "endDate" in period:
-                date_type = "DURATION"
-                start_date = period.get("startDate", "")
-                end_date = period.get("endDate", "")
-                output.append(f"@CONCEPT: {concept}")
-                output.append(f"@VALUE: {value}")
-                output.append(f"@UNIT_REF: {unit_ref}")
-                output.append(f"@CONTEXT_REF: {context_ref}")
-                output.append(f"@DATE_TYPE: {date_type}")
-                output.append(f"@START_DATE: {start_date}")
-                output.append(f"@END_DATE: {end_date}")
-                output.append("")
+            # Also add individual facts as concept blocks for hierarchy extraction
+            output.append("")
+            output.append("@CONCEPT_BLOCKS")
+            output.append("")
+
+            # Add concept blocks for each fact
+            for fact in parsed_xbrl.get("facts", []):
+                concept = fact.get("concept", "")
+                value = fact.get("value", "")
+                unit_ref = fact.get("unit_ref", "")
+                context_ref = fact.get("context_ref", "")
+
+                # Get context information
+                context = parsed_xbrl.get("contexts", {}).get(context_ref, {})
+                period = context.get("period", {})
+
+                # Determine date type and dates
+                if "instant" in period:
+                    date_type = "INSTANT"
+                    date = period.get("instant", "")
+                    output.append(f"@CONCEPT: {concept}")
+                    output.append(f"@VALUE: {value}")
+                    output.append(f"@UNIT_REF: {unit_ref}")
+                    output.append(f"@CONTEXT_REF: {context_ref}")
+                    output.append(f"@DATE_TYPE: {date_type}")
+                    output.append(f"@DATE: {date}")
+                    output.append("")
+                elif "startDate" in period and "endDate" in period:
+                    date_type = "DURATION"
+                    start_date = period.get("startDate", "")
+                    end_date = period.get("endDate", "")
+                    output.append(f"@CONCEPT: {concept}")
+                    output.append(f"@VALUE: {value}")
+                    output.append(f"@UNIT_REF: {unit_ref}")
+                    output.append(f"@CONTEXT_REF: {context_ref}")
+                    output.append(f"@DATE_TYPE: {date_type}")
+                    output.append(f"@START_DATE: {start_date}")
+                    output.append(f"@END_DATE: {end_date}")
+                    output.append("")
+        else:
+            # No facts to add, just add a placeholder
+            output.append("@CONTEXT_REFERENCE_GUIDE")
+            output.append("This section provides a consolidated reference for all time periods used in this document.")
+            output.append("")
 
         # Add individual facts organized by section
         output.append("")
