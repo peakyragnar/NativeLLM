@@ -371,7 +371,7 @@ class SECExtractor:
                 html_content = f.read()
 
             # Use lxml-xml parser for XML documents to avoid warnings
-            soup = BeautifulSoup(html_content, 'lxml-xml', features='xml')
+            soup = BeautifulSoup(html_content, 'lxml-xml')
 
             # Find all relevant iXBRL tags
             ix_tags = soup.find_all(['ix:nonnumeric', 'ix:nonfraction'])
