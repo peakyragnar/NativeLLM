@@ -23,12 +23,26 @@ logging.basicConfig(
 GCS_BUCKET_NAME = "native-llm-filings"
 FIRESTORE_DB = "nativellm"
 
-# Check for credentials
-if "GOOGLE_APPLICATION_CREDENTIALS" not in os.environ:
-    print("\nGCP credentials not found in environment. Please set GOOGLE_APPLICATION_CREDENTIALS.")
-    print("Example: export GOOGLE_APPLICATION_CREDENTIALS=/path/to/nativellmfilings-e149eb3298de.json")
-    print("\nYou need to obtain the credentials file from the project owner.")
-    print("This file contains sensitive information and is not stored in the Git repository.")
+# Try to authenticate with Google Cloud
+try:
+    # First, try to import the Google Cloud libraries
+    from google.cloud import storage, firestore
+
+    # Try to create a client to test authentication
+    try:
+        storage_client = storage.Client()
+        logging.info("Successfully authenticated with Google Cloud")
+    except Exception as auth_error:
+        print("\nFailed to authenticate with Google Cloud. Error: {}".format(str(auth_error)))
+        print("\nTo authenticate with Google Cloud, you can:")
+        print("1. Run 'gcloud auth application-default login' to authenticate via web browser")
+        print("2. Or set GOOGLE_APPLICATION_CREDENTIALS environment variable to a service account key file")
+        print("\nFor more information, visit: https://cloud.google.com/docs/authentication/getting-started")
+        sys.exit(1)
+
+except ImportError:
+    print("\nGoogle Cloud libraries not installed. Please install them with:")
+    print("pip install google-cloud-storage google-cloud-firestore")
     sys.exit(1)
 
 def list_ticker_files(ticker=None, dry_run=True):
