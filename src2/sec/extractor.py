@@ -18,15 +18,15 @@ from bs4 import BeautifulSoup
 class SECExtractor:
     """
     SEC filing text extractor for rendered iXBRL documents.
-    
+
     This class provides methods to extract structured text content
     from SEC filings, including section identification and formatting.
     """
-    
+
     def __init__(self, output_dir=None):
         """
         Initialize the SEC filing extractor.
-        
+
         Args:
             output_dir: Directory to save extracted text files
         """
@@ -36,34 +36,34 @@ class SECExtractor:
             os.makedirs(self.output_dir, exist_ok=True)
         else:
             self.output_dir = None
-        
+
         logging.info(f"Initialized SEC extractor with output dir: {self.output_dir}")
-    
+
     def extract_document_sections(self, html_content):
         """
         Extract document sections from HTML content.
-        
+
         Args:
             html_content: HTML content of rendered document
-            
+
         Returns:
             Dictionary of document sections
         """
         sections = {}
-        
+
         try:
             # Parse HTML
             soup = BeautifulSoup(html_content, 'html.parser')
-            
+
             # Remove script and style elements
             for script in soup(["script", "style"]):
                 script.extract()
-            
+
             # Extract document title
             title = soup.find('title')
             if title:
                 sections['title'] = title.get_text().strip()
-            
+
             # Look for common 10-K/10-Q section patterns
             item_patterns = [
                 # 10-K items
@@ -87,19 +87,19 @@ class SECExtractor:
                 {'pattern': r'Item\s+13\.?\s*Certain\s+Relationships', 'key': 'ITEM_13_RELATIONSHIPS'},
                 {'pattern': r'Item\s+14\.?\s*Principal\s+Accountant\s+Fees', 'key': 'ITEM_14_ACCOUNTANT_FEES'},
                 {'pattern': r'Item\s+15\.?\s*Exhibits', 'key': 'ITEM_15_EXHIBITS'},
-                
+
                 # 10-Q items
                 {'pattern': r'Item\s+1\.?\s*Financial\s+Statements', 'key': 'ITEM_1_FINANCIAL_STATEMENTS'},
                 {'pattern': r'Item\s+2\.?\s*Management.*Discussion', 'key': 'ITEM_2_MD_AND_A'},
                 {'pattern': r'Item\s+3\.?\s*Quantitative\s+and\s+Qualitative', 'key': 'ITEM_3_MARKET_RISK'},
                 {'pattern': r'Item\s+4\.?\s*Controls\s+and\s+Procedures', 'key': 'ITEM_4_CONTROLS'},
-                
+
                 # Parts
                 {'pattern': r'Part\s+I', 'key': 'PART_I'},
                 {'pattern': r'Part\s+II', 'key': 'PART_II'},
                 {'pattern': r'Part\s+III', 'key': 'PART_III'},
                 {'pattern': r'Part\s+IV', 'key': 'PART_IV'},
-                
+
                 # Financial statement sections
                 {'pattern': r'Consolidated\s+Balance\s+Sheets?', 'key': 'BALANCE_SHEETS'},
                 {'pattern': r'Consolidated\s+Statements?\s+of\s+Operations', 'key': 'INCOME_STATEMENTS'},
@@ -107,7 +107,7 @@ class SECExtractor:
                 {'pattern': r'Consolidated\s+Statements?\s+of\s+Stockholders\'\s+Equity', 'key': 'EQUITY_STATEMENTS'},
                 {'pattern': r'Notes\s+to\s+.*Financial\s+Statements', 'key': 'NOTES_TO_FINANCIAL_STATEMENTS'}
             ]
-            
+
             # Find all headings
             headings = []
             for tag in ['h1', 'h2', 'h3', 'h4', 'strong', 'b', 'p', 'div']:
@@ -119,7 +119,7 @@ class SECExtractor:
                             'text': text,
                             'element': element
                         })
-            
+
             # Match headings to section patterns
             for heading in headings:
                 heading_text = heading['text']
@@ -130,7 +130,7 @@ class SECExtractor:
                             'element': heading['element']
                         }
                         break
-            
+
             # Sort sections by their appearance in the document
             sorted_sections = {}
             for key, info in sections.items():
@@ -141,57 +141,57 @@ class SECExtractor:
                         'heading': info['heading'],
                         'position': position
                     }
-            
+
             # Add document statistics
             sections['stats'] = {
                 'word_count': len(soup.get_text().split()),
                 'section_count': len(sorted_sections),
                 'html_size': len(html_content)
             }
-            
+
             logging.info(f"Extracted {len(sorted_sections)} document sections")
             return sections
-            
+
         except Exception as e:
             logging.error(f"Error extracting document sections: {str(e)}")
             return {'error': str(e)}
-    
+
     def extract_text_with_sections(self, html_content):
         """
         Extract text with section markers from HTML content.
-        
+
         Args:
             html_content: HTML content of rendered document
-            
+
         Returns:
             Extracted text with section markers
         """
         try:
             # Parse HTML
             soup = BeautifulSoup(html_content, 'html.parser')
-            
+
             # Remove script and style elements
             for script in soup(["script", "style"]):
                 script.extract()
-            
+
             # Extract document sections
             sections = self.extract_document_sections(html_content)
-            
+
             # Get basic text
             text = soup.get_text()
-            
+
             # Clean up whitespace
             text = re.sub(r'\n+', '\n', text)  # Remove multiple newlines
             text = re.sub(r'\s+', ' ', text)   # Replace multiple spaces with single space
-            
+
             # Format with section markers
             formatted_text = []
-            
+
             # Add document title
             if 'title' in sections:
                 formatted_text.append(f"@DOCUMENT: {sections['title']}")
                 formatted_text.append("")
-            
+
             # Extract text by section using element positions
             sorted_sections = {}
             for key, info in sections.items():
@@ -202,40 +202,40 @@ class SECExtractor:
                         'heading': info['heading'],
                         'position': position
                     }
-            
+
             # Sort sections by position
             sorted_sections = dict(sorted(sorted_sections.items(), key=lambda x: x[1]['position']))
-            
+
             # Add section guide
             formatted_text.append("@SECTION_GUIDE")
             for key, info in sorted_sections.items():
                 formatted_text.append(f"  {key}: {info['heading']}")
             formatted_text.append("")
-            
+
             # Get full text (cleaned)
             full_text = soup.get_text()
             lines = (line.strip() for line in full_text.splitlines())
             chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
             full_text = '\n'.join(chunk for chunk in chunks if chunk)
-            
+
             # Add full text
             formatted_text.append(full_text)
-            
+
             return '\n'.join(formatted_text)
-            
+
         except Exception as e:
             logging.error(f"Error extracting text with sections: {str(e)}")
             return f"ERROR: {str(e)}"
-    
+
     def process_filing(self, html_path, metadata=None, return_content=True):
         """
         Process an SEC filing and extract text with sections.
-        
+
         Args:
             html_path: Path to HTML file
             metadata: Optional filing metadata
             return_content: Always True to return content (parameter kept for backward compatibility)
-            
+
         Returns:
             Dictionary with processing results
         """
@@ -243,13 +243,13 @@ class SECExtractor:
             # Read HTML file
             with open(html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
-            
+
             # Extract sections for use by the LLM formatter
             document_sections = self.extract_document_sections(html_content)
-            
+
             # Extract text with sections
             extracted_text = self.extract_text_with_sections(html_content)
-            
+
             # Add metadata header if provided
             if metadata:
                 metadata_header = []
@@ -261,29 +261,29 @@ class SECExtractor:
                 metadata_header.append(f"@EXTRACTION_DATE: {time.strftime('%Y-%m-%d %H:%M:%S')}")
                 metadata_header.append(f"@SOURCE_URL: {metadata.get('source_url', 'UNKNOWN')}")
                 metadata_header.append("")
-                
+
                 extracted_text = '\n'.join(metadata_header) + '\n' + extracted_text
-            
+
             # Estimate the content size without writing to file
             file_size = len(extracted_text.encode('utf-8'))
             logging.info(f"Extracted content size: {file_size} bytes")
-            
+
             # Prepare narrative sections for LLM formatter
             processed_sections = {}
-            
+
             # Extract text for each section
             soup = BeautifulSoup(html_content, 'html.parser')
             raw_text = soup.get_text()
-            
+
             # Process sections that have elements with text content
             for key, info in document_sections.items():
                 if key not in ('title', 'stats') and 'element' in info:
                     # Get the element for this section
                     section_element = info['element']
-                    
+
                     # Extract text from this element and siblings until next section
                     section_text = ""
-                    
+
                     try:
                         # Get the section text
                         next_sibling = section_element.next_sibling
@@ -295,11 +295,11 @@ class SECExtractor:
                                     section_text += sibling_text + "\n\n"
                             # Move to next sibling
                             next_sibling = next_sibling.next_sibling
-                            
+
                             # Stop at next section header
                             if hasattr(next_sibling, 'name') and next_sibling.name in ['h1', 'h2', 'h3', 'h4'] and len(next_sibling.get_text().strip()) > 5:
                                 break
-                    
+
                         # Add section to processed sections
                         if section_text:
                             processed_sections[key] = {
@@ -309,11 +309,11 @@ class SECExtractor:
                             logging.info(f"Extracted section text for {key} ({len(section_text)} chars)")
                     except Exception as e:
                         logging.warning(f"Error extracting text for section {key}: {str(e)}")
-            
+
             # If we couldn't extract sections properly, try to get some key sections from the raw text
             if len(processed_sections) < 2:
                 logging.info("Using fallback method to extract narrative sections from raw text")
-                
+
                 # Define commonly used section titles and patterns
                 section_patterns = {
                     "ITEM_1_BUSINESS": r"(?:ITEM|Item)\s+1\.?\s*Business(.*?)(?:ITEM|Item)\s+1A",
@@ -321,7 +321,7 @@ class SECExtractor:
                     "ITEM_7_MD_AND_A": r"(?:ITEM|Item)\s+7\.?\s*Management.*Discussion(.*?)(?:ITEM|Item)\s+7A",
                     "ITEM_2_MD_AND_A": r"(?:ITEM|Item)\s+2\.?\s*Management.*Discussion(.*?)(?:ITEM|Item)\s+3"
                 }
-                
+
                 for section_id, pattern in section_patterns.items():
                     match = re.search(pattern, raw_text, re.DOTALL | re.IGNORECASE)
                     if match and match.group(1):
@@ -333,12 +333,12 @@ class SECExtractor:
                                 "text": section_text
                             }
                             logging.info(f"Extracted fallback section {section_id} ({len(section_text)} chars)")
-            
+
             # Log sections found
             logging.info(f"Extracted {len(processed_sections)} document sections with text content")
             for section_id in processed_sections:
                 logging.info(f"  - {section_id}: {len(processed_sections[section_id]['text'])} chars")
-            
+
             return {
                 'success': True,
                 'file_size': file_size,
@@ -346,7 +346,7 @@ class SECExtractor:
                 'word_count': len(extracted_text.split()),
                 'document_sections': processed_sections  # Add sections for LLM formatter
             }
-            
+
         except Exception as e:
             logging.error(f"Error processing filing: {str(e)}")
             return {
@@ -370,7 +370,8 @@ class SECExtractor:
             with open(html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
 
-            soup = BeautifulSoup(html_content, 'lxml') # Use lxml for better performance if available
+            # Use lxml-xml parser for XML documents to avoid warnings
+            soup = BeautifulSoup(html_content, 'lxml-xml', features='xml')
 
             # Find all relevant iXBRL tags
             ix_tags = soup.find_all(['ix:nonnumeric', 'ix:nonfraction'])
@@ -437,33 +438,33 @@ class SECExtractor:
 # Example usage
 if __name__ == "__main__":
     import argparse
-    
+
     # Configure logging
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
-    
+
     # Parse arguments
     parser = argparse.ArgumentParser(description="Extract text from SEC filings")
     parser.add_argument("input_file", help="Path to HTML file to process")
     parser.add_argument("--output", help="Output text file path")
     parser.add_argument("--metadata", help="Path to JSON file with filing metadata")
-    
+
     args = parser.parse_args()
-    
+
     # Load metadata if provided
     metadata = None
     if args.metadata and os.path.exists(args.metadata):
         with open(args.metadata, 'r') as f:
             metadata = json.load(f)
-    
+
     # Create extractor
     extractor = SECExtractor()
-    
+
     # Process filing
     result = extractor.process_filing(args.input_file, args.output, metadata)
-    
+
     # Print result
     if result['success']:
         print(f"\nProcessing complete!")
