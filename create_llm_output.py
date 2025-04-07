@@ -219,13 +219,55 @@ def create_output_text(financial_statements, mappings_by_role, calculation_mappi
     contexts_by_fact_count = sorted([(ctx, len(facts)) for ctx, facts in facts_by_context.items()],
                                    key=lambda x: x[1], reverse=True)
 
-    # Find balance sheet contexts (those with 'I' followed by 8 digits, indicating instant/point-in-time)
-    balance_sheet_contexts = [ctx for ctx, _ in contexts_by_fact_count
-                             if 'I20' in ctx and len(facts_by_context[ctx]) > 10]
+    # Find contexts for each financial statement type based on their content
+    # This approach works across different context ID formats (NVDA, AAPL, MSFT, TSLA)
+    balance_sheet_contexts = []
+    income_stmt_contexts = []
+    cash_flow_contexts = []
 
-    # Find income statement contexts (those with 'D' followed by 8 digits, indicating duration/period)
-    income_stmt_contexts = [ctx for ctx, _ in contexts_by_fact_count
-                           if 'D20' in ctx and '-20' in ctx and len(facts_by_context[ctx]) > 10]
+    # Balance sheet indicator concepts
+    balance_sheet_indicators = ['Assets', 'Liabilities', 'Equity', 'StockholdersEquity']
+
+    # Income statement indicator concepts
+    income_stmt_indicators = ['Revenue', 'Income', 'Expense', 'Earnings', 'EarningsPerShare', 'NetIncomeLoss']
+
+    # Cash flow statement indicator concepts
+    cash_flow_indicators = ['CashFlow', 'NetCashProvidedByUsedIn', 'CashAndCashEquivalentsPeriodIncreaseDecrease']
+
+    # Examine each context with a significant number of facts
+    for ctx, count in contexts_by_fact_count:
+        if count < 10:  # Skip contexts with very few facts
+            continue
+
+        # Check for balance sheet facts
+        has_balance_sheet_facts = False
+        for fact in facts_by_context[ctx]:
+            name = fact.get('name', '')
+            if any(indicator in name for indicator in balance_sheet_indicators):
+                has_balance_sheet_facts = True
+                break
+        if has_balance_sheet_facts:
+            balance_sheet_contexts.append(ctx)
+
+        # Check for income statement facts
+        has_income_stmt_facts = False
+        for fact in facts_by_context[ctx]:
+            name = fact.get('name', '')
+            if any(indicator in name for indicator in income_stmt_indicators):
+                has_income_stmt_facts = True
+                break
+        if has_income_stmt_facts:
+            income_stmt_contexts.append(ctx)
+
+        # Check for cash flow statement facts
+        has_cash_flow_facts = False
+        for fact in facts_by_context[ctx]:
+            name = fact.get('name', '')
+            if any(indicator in name for indicator in cash_flow_indicators):
+                has_cash_flow_facts = True
+                break
+        if has_cash_flow_facts:
+            cash_flow_contexts.append(ctx)
 
     # Process balance sheet contexts first
     if balance_sheet_contexts:
@@ -246,8 +288,13 @@ def create_output_text(financial_statements, mappings_by_role, calculation_mappi
                 balance_sheet_concepts.add(mapping.get('parent', ''))
                 balance_sheet_concepts.add(mapping.get('child', ''))
 
-        # Add context information
-        output.append(f"  CONTEXT: {context} (As of {context[-8:]})")  # Extract date from context
+        # Format context display based on format
+        if '_I' in context:
+            # NVDA-style context with date
+            output.append(f"  CONTEXT: {context} (As of {context[-8:] if len(context) > 8 else context})")
+        else:
+            # AAPL/MSFT/TSLA-style context
+            output.append(f"  CONTEXT: {context}")
 
         # Find facts for these concepts
         balance_sheet_facts = []
@@ -298,7 +345,13 @@ def create_output_text(financial_statements, mappings_by_role, calculation_mappi
         facts = facts_by_context[context]
 
         output.append("INCOME_STATEMENT_FACTS:")
-        output.append(f"  CONTEXT: {context} (Period {context[-17:]})")  # Extract date range from context
+        # Format context display based on format
+        if '_D' in context or '-' in context:
+            # NVDA-style context with date range
+            output.append(f"  CONTEXT: {context} (Period {context[-17:] if len(context) > 17 else context})")
+        else:
+            # AAPL/MSFT/TSLA-style context
+            output.append(f"  CONTEXT: {context}")
 
         # Find income statement concepts
         income_stmt_concepts = set()
@@ -340,14 +393,23 @@ def create_output_text(financial_statements, mappings_by_role, calculation_mappi
 
         output.append("")
 
-    # Process cash flow statement contexts (same as income statement)
-    if income_stmt_contexts:
+    # Process cash flow statement contexts
+    if cash_flow_contexts:
+        # Sort by date (newest first)
+        cash_flow_contexts.sort(reverse=True)
+
         # Take the most recent context
-        context = income_stmt_contexts[0]
+        context = cash_flow_contexts[0]
         facts = facts_by_context[context]
 
         output.append("CASH_FLOW_STATEMENT_FACTS:")
-        output.append(f"  CONTEXT: {context} (Period {context[-17:]})")  # Extract date range from context
+        # Format context display based on format
+        if '_D' in context or '-' in context:
+            # NVDA-style context with date range
+            output.append(f"  CONTEXT: {context} (Period {context[-17:] if len(context) > 17 else context})")
+        else:
+            # AAPL/MSFT/TSLA-style context
+            output.append(f"  CONTEXT: {context}")
 
         # Find cash flow statement concepts
         cash_flow_concepts = set()
