@@ -467,123 +467,8 @@ class XBRLHierarchyTester:
             for link in label_links:
                 self._process_label_link(link)
 
-            # Process presentation arcs directly
-            presentation_arcs = linkbase.find_all('link:presentationArc')
-            if not presentation_arcs:
-                presentation_arcs = linkbase.find_all(re.compile(r'.*:presentationArc'))
-
-            if presentation_arcs:
-                logging.info(f"Found {len(presentation_arcs)} direct presentation arcs")
-                for arc in presentation_arcs:
-                    from_attr = arc.get('xlink:from')
-                    to_attr = arc.get('xlink:to')
-                    order = arc.get('order')
-                    role = None
-
-                    # Try to find parent link for role
-                    parent = arc.find_parent(['link:presentationLink', re.compile(r'.*:presentationLink')])
-                    if parent:
-                        role = parent.get('xlink:role')
-
-                    if from_attr and to_attr:
-                        # Look for locators in the same linkbase
-                        from_loc = None
-                        to_loc = None
-
-                        # Find all loc elements in the linkbase
-                        loc_elements = linkbase.find_all(['link:loc', 'loc'])
-
-                        # Find matching locators
-                        for loc in loc_elements:
-                            if loc.get('xlink:label') == from_attr:
-                                from_loc = loc
-                            elif loc.get('xlink:label') == to_attr:
-                                to_loc = loc
-
-                        if from_loc and to_loc:
-                            from_href = from_loc.get('xlink:href')
-                            to_href = to_loc.get('xlink:href')
-
-                            # Extract concept names from hrefs
-                            from_concept = self._extract_concept_from_href(from_href)
-                            to_concept = self._extract_concept_from_href(to_href)
-
-                            if from_concept and to_concept:
-                                self.presentation_links.append({
-                                    'role': role,
-                                    'from': from_concept,
-                                    'to': to_concept,
-                                    'order': order
-                                })
-                        else:
-                            # If we can't find locators, try to use the labels directly
-                            # This is a fallback for non-standard XBRL
-                            if from_attr in self.concepts and to_attr in self.concepts:
-                                self.presentation_links.append({
-                                    'role': role,
-                                    'from': from_attr,
-                                    'to': to_attr,
-                                    'order': order
-                                })
-
-            # Process calculation arcs directly
-            calculation_arcs = linkbase.find_all('link:calculationArc')
-            if not calculation_arcs:
-                calculation_arcs = linkbase.find_all(re.compile(r'.*:calculationArc'))
-
-            if calculation_arcs:
-                logging.info(f"Found {len(calculation_arcs)} direct calculation arcs")
-                for arc in calculation_arcs:
-                    from_attr = arc.get('xlink:from')
-                    to_attr = arc.get('xlink:to')
-                    weight = arc.get('weight')
-                    role = None
-
-                    # Try to find parent link for role
-                    parent = arc.find_parent(['link:calculationLink', re.compile(r'.*:calculationLink')])
-                    if parent:
-                        role = parent.get('xlink:role')
-
-                    if from_attr and to_attr:
-                        # Look for locators in the same linkbase
-                        from_loc = None
-                        to_loc = None
-
-                        # Find all loc elements in the linkbase
-                        loc_elements = linkbase.find_all(['link:loc', 'loc'])
-
-                        # Find matching locators
-                        for loc in loc_elements:
-                            if loc.get('xlink:label') == from_attr:
-                                from_loc = loc
-                            elif loc.get('xlink:label') == to_attr:
-                                to_loc = loc
-
-                        if from_loc and to_loc:
-                            from_href = from_loc.get('xlink:href')
-                            to_href = to_loc.get('xlink:href')
-
-                            # Extract concept names from hrefs
-                            from_concept = self._extract_concept_from_href(from_href)
-                            to_concept = self._extract_concept_from_href(to_href)
-
-                            if from_concept and to_concept:
-                                self.calculation_links.append({
-                                    'role': role,
-                                    'from': from_concept,
-                                    'to': to_concept,
-                                    'weight': weight
-                                })
-                        else:
-                            # If we can't find locators, try to use the labels directly
-                            # This is a fallback for non-standard XBRL
-                            if from_attr in self.concepts and to_attr in self.concepts:
-                                self.calculation_links.append({
-                                    'role': role,
-                                    'from': from_attr,
-                                    'to': to_attr,
-                                    'weight': weight
-                                })
+            # Process arcs directly using enhanced methods
+            self._process_embedded_arcs(linkbase)
 
     def _process_linkbase_file(self, linkbase_ref):
         """
@@ -868,9 +753,260 @@ class XBRLHierarchyTester:
 
                                         self.labels[concept][label_role] = label_text
 
+    def _process_embedded_arcs(self, linkbase):
+        """
+        Process arcs directly from embedded linkbases using enhanced methods.
+
+        Args:
+            linkbase: BeautifulSoup object for linkbase
+        """
+        # Process presentation arcs
+        self._process_embedded_presentation_arcs(linkbase)
+
+        # Process calculation arcs
+        self._process_embedded_calculation_arcs(linkbase)
+
+        # Process definition arcs
+        self._process_embedded_definition_arcs(linkbase)
+
+    def _process_embedded_presentation_arcs(self, linkbase):
+        """
+        Process presentation arcs from embedded linkbases.
+
+        Args:
+            linkbase: BeautifulSoup object for linkbase
+        """
+        # Find all presentation arcs
+        presentation_arcs = linkbase.find_all('link:presentationArc')
+        if not presentation_arcs:
+            presentation_arcs = linkbase.find_all(re.compile(r'.*:presentationArc'))
+
+        if not presentation_arcs:
+            return
+
+        logging.info(f"Found {len(presentation_arcs)} direct presentation arcs")
+
+        # Group arcs by role
+        arcs_by_role = {}
+        for arc in presentation_arcs:
+            # Find parent link for role
+            parent = arc.find_parent(['link:presentationLink', re.compile(r'.*:presentationLink')])
+            role = parent.get('xlink:role') if parent else None
+
+            if role not in arcs_by_role:
+                arcs_by_role[role] = []
+
+            arcs_by_role[role].append(arc)
+
+        # Process each role group
+        for role, arcs in arcs_by_role.items():
+            # Build a map of labels to concepts
+            label_to_concept = {}
+
+            # Find all locators in the linkbase
+            loc_elements = linkbase.find_all(['link:loc', 'loc'])
+
+            # Build a map of labels to concepts from locators
+            for loc in loc_elements:
+                label = loc.get('xlink:label')
+                href = loc.get('xlink:href')
+
+                if label and href:
+                    concept = self._extract_concept_from_href(href)
+                    if concept:
+                        label_to_concept[label] = concept
+
+            # Process each arc
+            for arc in arcs:
+                from_attr = arc.get('xlink:from') or arc.get('from')
+                to_attr = arc.get('xlink:to') or arc.get('to')
+                order = arc.get('order')
+
+                # APPROACH 1: Standard locator resolution
+                from_concept = label_to_concept.get(from_attr)
+                to_concept = label_to_concept.get(to_attr)
+
+                # APPROACH 2: Direct concept references
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_direct_concepts(from_attr, to_attr)
+
+                # APPROACH 3: ID-based references
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_id_references(from_attr, to_attr, linkbase)
+
+                # APPROACH 4: Namespace-aware matching
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_namespace_concepts(from_attr, to_attr)
+
+                if from_concept and to_concept:
+                    self.presentation_links.append({
+                        'role': role,
+                        'from': from_concept,
+                        'to': to_concept,
+                        'order': order
+                    })
+
+        # If we still don't have any presentation links, try pattern matching
+        if not self.presentation_links:
+            self._apply_pattern_matching()
+
+    def _process_embedded_calculation_arcs(self, linkbase):
+        """
+        Process calculation arcs from embedded linkbases.
+
+        Args:
+            linkbase: BeautifulSoup object for linkbase
+        """
+        # Find all calculation arcs
+        calculation_arcs = linkbase.find_all('link:calculationArc')
+        if not calculation_arcs:
+            calculation_arcs = linkbase.find_all(re.compile(r'.*:calculationArc'))
+
+        if not calculation_arcs:
+            return
+
+        logging.info(f"Found {len(calculation_arcs)} direct calculation arcs")
+
+        # Group arcs by role
+        arcs_by_role = {}
+        for arc in calculation_arcs:
+            # Find parent link for role
+            parent = arc.find_parent(['link:calculationLink', re.compile(r'.*:calculationLink')])
+            role = parent.get('xlink:role') if parent else None
+
+            if role not in arcs_by_role:
+                arcs_by_role[role] = []
+
+            arcs_by_role[role].append(arc)
+
+        # Process each role group
+        for role, arcs in arcs_by_role.items():
+            # Build a map of labels to concepts
+            label_to_concept = {}
+
+            # Find all locators in the linkbase
+            loc_elements = linkbase.find_all(['link:loc', 'loc'])
+
+            # Build a map of labels to concepts from locators
+            for loc in loc_elements:
+                label = loc.get('xlink:label')
+                href = loc.get('xlink:href')
+
+                if label and href:
+                    concept = self._extract_concept_from_href(href)
+                    if concept:
+                        label_to_concept[label] = concept
+
+            # Process each arc
+            for arc in arcs:
+                from_attr = arc.get('xlink:from') or arc.get('from')
+                to_attr = arc.get('xlink:to') or arc.get('to')
+                weight = arc.get('weight')
+
+                # APPROACH 1: Standard locator resolution
+                from_concept = label_to_concept.get(from_attr)
+                to_concept = label_to_concept.get(to_attr)
+
+                # APPROACH 2: Direct concept references
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_direct_concepts(from_attr, to_attr)
+
+                # APPROACH 3: ID-based references
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_id_references(from_attr, to_attr, linkbase)
+
+                # APPROACH 4: Namespace-aware matching
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_namespace_concepts(from_attr, to_attr)
+
+                if from_concept and to_concept:
+                    self.calculation_links.append({
+                        'role': role,
+                        'from': from_concept,
+                        'to': to_concept,
+                        'weight': weight
+                    })
+
+    def _process_embedded_definition_arcs(self, linkbase):
+        """
+        Process definition arcs from embedded linkbases.
+
+        Args:
+            linkbase: BeautifulSoup object for linkbase
+        """
+        # Find all definition arcs
+        definition_arcs = linkbase.find_all('link:definitionArc')
+        if not definition_arcs:
+            definition_arcs = linkbase.find_all(re.compile(r'.*:definitionArc'))
+
+        if not definition_arcs:
+            return
+
+        logging.info(f"Found {len(definition_arcs)} direct definition arcs")
+
+        # Group arcs by role
+        arcs_by_role = {}
+        for arc in definition_arcs:
+            # Find parent link for role
+            parent = arc.find_parent(['link:definitionLink', re.compile(r'.*:definitionLink')])
+            role = parent.get('xlink:role') if parent else None
+
+            if role not in arcs_by_role:
+                arcs_by_role[role] = []
+
+            arcs_by_role[role].append(arc)
+
+        # Process each role group
+        for role, arcs in arcs_by_role.items():
+            # Build a map of labels to concepts
+            label_to_concept = {}
+
+            # Find all locators in the linkbase
+            loc_elements = linkbase.find_all(['link:loc', 'loc'])
+
+            # Build a map of labels to concepts from locators
+            for loc in loc_elements:
+                label = loc.get('xlink:label')
+                href = loc.get('xlink:href')
+
+                if label and href:
+                    concept = self._extract_concept_from_href(href)
+                    if concept:
+                        label_to_concept[label] = concept
+
+            # Process each arc
+            for arc in arcs:
+                from_attr = arc.get('xlink:from') or arc.get('from')
+                to_attr = arc.get('xlink:to') or arc.get('to')
+                arcrole = arc.get('xlink:arcrole') or arc.get('arcrole')
+
+                # APPROACH 1: Standard locator resolution
+                from_concept = label_to_concept.get(from_attr)
+                to_concept = label_to_concept.get(to_attr)
+
+                # APPROACH 2: Direct concept references
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_direct_concepts(from_attr, to_attr)
+
+                # APPROACH 3: ID-based references
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_id_references(from_attr, to_attr, linkbase)
+
+                # APPROACH 4: Namespace-aware matching
+                if not from_concept or not to_concept:
+                    from_concept, to_concept = self._resolve_namespace_concepts(from_attr, to_attr)
+
+                if from_concept and to_concept:
+                    self.definition_links.append({
+                        'role': role,
+                        'from': from_concept,
+                        'to': to_concept,
+                        'arcrole': arcrole
+                    })
+
     def _extract_concept_from_href(self, href):
         """
-        Extract concept name from href attribute.
+        Extract concept name from href attribute with enhanced namespace handling.
 
         Args:
             href: The href attribute value
@@ -897,10 +1033,199 @@ class XBRLHierarchyTester:
         # Common patterns: _ConceptName_id, ConceptName, etc.
         parts = fragment.split('_')
         for part in parts:
+            # Check for exact match
             if part in self.concepts:
                 return part
 
+            # Check for namespace variations
+            for concept in self.concepts:
+                concept_name = concept.split(':')[-1] if ':' in concept else concept
+                if part == concept_name:
+                    return concept
+
+        # Try removing namespace prefixes
+        for concept in self.concepts:
+            concept_name = concept.split(':')[-1] if ':' in concept else concept
+            if fragment.endswith(concept_name):
+                return concept
+
         return None
+
+    def _resolve_direct_concepts(self, from_attr, to_attr):
+        """
+        Resolve concepts directly from attributes without using locators.
+
+        Args:
+            from_attr: The from attribute value
+            to_attr: The to attribute value
+
+        Returns:
+            Tuple of (from_concept, to_concept)
+        """
+        from_concept = to_concept = None
+
+        # Check if the attributes are directly concept names
+        if from_attr in self.concepts:
+            from_concept = from_attr
+
+        if to_attr in self.concepts:
+            to_concept = to_attr
+
+        # Try with namespace prefixes
+        if not from_concept:
+            for concept in self.concepts:
+                concept_name = concept.split(':')[-1] if ':' in concept else concept
+                attr_name = from_attr.split(':')[-1] if ':' in from_attr else from_attr
+                if concept_name == attr_name:
+                    from_concept = concept
+                    break
+
+        if not to_concept:
+            for concept in self.concepts:
+                concept_name = concept.split(':')[-1] if ':' in concept else concept
+                attr_name = to_attr.split(':')[-1] if ':' in to_attr else to_attr
+                if concept_name == attr_name:
+                    to_concept = concept
+                    break
+
+        return from_concept, to_concept
+
+    def _resolve_id_references(self, from_attr, to_attr, linkbase):
+        """
+        Resolve concepts using ID references.
+
+        Args:
+            from_attr: The from attribute value
+            to_attr: The to attribute value
+            linkbase: The linkbase element
+
+        Returns:
+            Tuple of (from_concept, to_concept)
+        """
+        from_concept = to_concept = None
+
+        # Try to find elements with matching IDs
+        from_element = linkbase.find(id=from_attr)
+        to_element = linkbase.find(id=to_attr)
+
+        if from_element:
+            from_name = from_element.get('name')
+            if from_name in self.concepts:
+                from_concept = from_name
+            else:
+                # Try to match by name without namespace
+                for concept in self.concepts:
+                    concept_name = concept.split(':')[-1] if ':' in concept else concept
+                    if from_name == concept_name:
+                        from_concept = concept
+                        break
+
+        if to_element:
+            to_name = to_element.get('name')
+            if to_name in self.concepts:
+                to_concept = to_name
+            else:
+                # Try to match by name without namespace
+                for concept in self.concepts:
+                    concept_name = concept.split(':')[-1] if ':' in concept else concept
+                    if to_name == concept_name:
+                        to_concept = concept
+                        break
+
+        return from_concept, to_concept
+
+    def _resolve_namespace_concepts(self, from_attr, to_attr):
+        """
+        Resolve concepts using namespace-aware matching.
+
+        Args:
+            from_attr: The from attribute value
+            to_attr: The to attribute value
+
+        Returns:
+            Tuple of (from_concept, to_concept)
+        """
+        from_concept = to_concept = None
+
+        # Try to match by removing namespaces
+        from_name = from_attr.split(':')[-1] if ':' in from_attr else from_attr
+        to_name = to_attr.split(':')[-1] if ':' in to_attr else to_attr
+
+        # Check all concepts for matching names
+        for concept in self.concepts:
+            concept_name = concept.split(':')[-1] if ':' in concept else concept
+
+            # Match from_concept
+            if not from_concept and concept_name == from_name:
+                from_concept = concept
+
+            # Match to_concept
+            if not to_concept and concept_name == to_name:
+                to_concept = concept
+
+            # Break if both found
+            if from_concept and to_concept:
+                break
+
+        return from_concept, to_concept
+
+    def _apply_pattern_matching(self):
+        """
+        Apply pattern matching to identify relationships when other methods fail.
+        """
+        if self.presentation_links:
+            return
+
+        logging.info("No presentation links found, applying pattern matching")
+
+        # Common patterns for financial statements
+        patterns = [
+            # Assets patterns
+            ("Assets", ["AssetsCurrent", "AssetsNoncurrent"]),
+            ("AssetsCurrent", ["CashAndCashEquivalents", "ShortTermInvestments", "AccountsReceivable", "Inventory"]),
+            ("AssetsNoncurrent", ["PropertyPlantAndEquipment", "Goodwill", "IntangibleAssets"]),
+
+            # Liabilities patterns
+            ("Liabilities", ["LiabilitiesCurrent", "LiabilitiesNoncurrent"]),
+            ("LiabilitiesCurrent", ["AccountsPayable", "AccruedLiabilities", "CustomerDeposits", "DeferredRevenue"]),
+            ("LiabilitiesNoncurrent", ["LongTermDebt", "DeferredTaxLiabilities", "LeaseLiability"]),
+
+            # Equity patterns
+            ("StockholdersEquity", ["CommonStock", "AdditionalPaidInCapital", "RetainedEarnings", "AccumulatedOtherComprehensiveIncome"]),
+
+            # Income statement patterns
+            ("Revenues", ["RevenueFromContractWithCustomer", "InterestIncome", "OtherIncome"]),
+            ("CostsAndExpenses", ["CostOfGoodsAndServicesSold", "ResearchAndDevelopmentExpense", "SellingGeneralAndAdministrativeExpense"])
+        ]
+
+        # Get all concept names without namespace prefixes
+        concept_names = {}
+        for c in self.concepts:
+            name = c.split(':')[-1] if ':' in c else c
+            concept_names[name] = c
+
+        # Apply patterns
+        for parent_suffix, child_suffixes in patterns:
+            # Find parent concepts
+            parent_concepts = []
+            for name, full_name in concept_names.items():
+                if name.endswith(parent_suffix):
+                    parent_concepts.append(full_name)
+
+            # For each parent, find children
+            for parent in parent_concepts:
+                for child_suffix in child_suffixes:
+                    for name, full_name in concept_names.items():
+                        if name.endswith(child_suffix) and full_name != parent:
+                            # Create a relationship
+                            self.presentation_links.append({
+                                'role': 'http://www.xbrl.org/2003/role/presentationLink',
+                                'from': parent,
+                                'to': full_name,
+                                'order': '1'
+                            })
+
+        logging.info(f"Added {len(self.presentation_links)} presentation links via pattern matching")
 
     def _build_hierarchy(self):
         """Build hierarchical relationships from extracted links."""
