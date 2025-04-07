@@ -15,6 +15,7 @@ from .context_format_handler import extract_period_info
 from .financial_statement_organizer import organize_financial_statements
 from .normalized_financial_mapper import NormalizedFinancialMapper
 from .file_size_optimizer import FileSizeOptimizer
+from .xbrl_mapping_integration import xbrl_mapping_integration
 
 def safe_parse_decimals(decimals):
     '''Safely parse decimals value, handling 'INF' special case'''
@@ -99,6 +100,19 @@ class LLMFormatter:
         """
         if "error" in parsed_xbrl:
             return f"ERROR: {parsed_xbrl['error']}"
+
+        # Integrate XBRL mapping
+        try:
+            # Use our XBRL mapping integration to enhance the parsed XBRL data
+            parsed_xbrl = xbrl_mapping_integration.integrate_xbrl_mapping(parsed_xbrl, filing_metadata)
+
+            # If we have LLM-friendly output from our XBRL mapping integration, use it
+            if "llm_friendly_output" in parsed_xbrl:
+                logging.info("Using LLM-friendly output from XBRL mapping integration")
+                return parsed_xbrl["llm_friendly_output"]
+        except Exception as e:
+            logging.error(f"Error integrating XBRL mapping: {str(e)}")
+            # Continue with standard processing if XBRL mapping integration fails
 
         # Define priority sections at the very beginning to ensure it's available throughout the method
         # Include all possible 10-K and 10-Q sections

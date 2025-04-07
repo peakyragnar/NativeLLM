@@ -364,9 +364,43 @@ class SECExtractor:
         Returns:
             List of XBRL facts (dictionaries)
         """
-        xbrl_facts = []
         try:
             logging.info(f"Extracting inline XBRL from main document: {html_path}")
+
+            # Use our new XBRL facts extractor
+            from src2.xbrl.xbrl_facts_extractor import extract_facts_from_html
+
+            # Determine the output path for the raw XBRL JSON
+            html_file_path = Path(html_path)
+            output_json_path = html_file_path.parent / "_xbrl_raw.json"
+
+            # Extract facts and save to JSON file
+            xbrl_facts = extract_facts_from_html(html_path, output_json_path)
+
+            logging.info(f"Extracted {len(xbrl_facts)} inline XBRL facts and saved to {output_json_path}")
+
+            return xbrl_facts
+
+        except ImportError:
+            logging.warning("XBRL facts extractor module not found. Falling back to legacy extraction.")
+            return self._legacy_extract_inline_xbrl(html_path)
+        except Exception as e:
+            logging.error(f"Error extracting inline XBRL: {str(e)}")
+            return []
+
+    def _legacy_extract_inline_xbrl(self, html_path):
+        """
+        Legacy method to extract inline XBRL data from an HTML document.
+
+        Args:
+            html_path: Path to the HTML file
+
+        Returns:
+            List of XBRL facts (dictionaries)
+        """
+        xbrl_facts = []
+        try:
+            logging.info(f"Using legacy method to extract inline XBRL from: {html_path}")
             with open(html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
 
