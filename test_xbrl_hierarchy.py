@@ -21,7 +21,7 @@ from urllib.parse import urljoin, urlparse
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
@@ -535,20 +535,57 @@ class XBRLHierarchyTester:
         if not arcs:
             arcs = link.find_all(re.compile(r'.*:presentationArc'))
 
+        # Find all locators in this link
+        loc_elements = link.find_all(['link:loc', 'loc'])
+
+        # Build a map of labels to hrefs
+        label_to_href = {}
+        for loc in loc_elements:
+            label = loc.get('xlink:label')
+            href = loc.get('xlink:href') or loc.get('href')
+            if label and href:
+                label_to_href[label] = href
+
+        logging.debug(f"Processing presentation link with role: {role}")
+        logging.debug(f"Found {len(loc_elements)} locators and {len(arcs)} arcs")
+
         for arc in arcs:
             from_attr = arc.get('xlink:from') or arc.get('from')
             to_attr = arc.get('xlink:to') or arc.get('to')
             order = arc.get('order')
 
             if from_attr and to_attr:
-                # Look up the actual concept names
-                from_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': from_attr})
-                to_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': to_attr})
+                # APPROACH 1: Direct label lookup
+                from_href = label_to_href.get(from_attr)
+                to_href = label_to_href.get(to_attr)
 
-                if from_loc and to_loc:
-                    from_href = from_loc.get('xlink:href') or from_loc.get('href')
-                    to_href = to_loc.get('xlink:href') or to_loc.get('href')
+                # APPROACH 2: Handle UUID-based labels
+                if not from_href:
+                    # Try to find a label that matches the base part (before UUID)
+                    base_from = from_attr.split('_')[0] if '_' in from_attr else from_attr
+                    for label, href in label_to_href.items():
+                        if label.startswith(f"{base_from}_"):
+                            from_href = href
+                            break
 
+                if not to_href:
+                    # Try to find a label that matches the base part (before UUID)
+                    base_to = to_attr.split('_')[0] if '_' in to_attr else to_attr
+                    for label, href in label_to_href.items():
+                        if label.startswith(f"{base_to}_"):
+                            to_href = href
+                            break
+
+                # APPROACH 3: Traditional locator lookup
+                if not from_href or not to_href:
+                    from_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': from_attr})
+                    to_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': to_attr})
+
+                    if from_loc and to_loc:
+                        from_href = from_loc.get('xlink:href') or from_loc.get('href')
+                        to_href = to_loc.get('xlink:href') or to_loc.get('href')
+
+                if from_href and to_href:
                     # Extract concept names from hrefs
                     from_concept = self._extract_concept_from_href(from_href)
                     to_concept = self._extract_concept_from_href(to_href)
@@ -560,6 +597,7 @@ class XBRLHierarchyTester:
                             'to': to_concept,
                             'order': order
                         })
+                        logging.debug(f"Added presentation link: {from_concept} -> {to_concept}")
 
     def _process_calculation_linkbase(self, linkbase_soup):
         """
@@ -592,20 +630,57 @@ class XBRLHierarchyTester:
         if not arcs:
             arcs = link.find_all(re.compile(r'.*:calculationArc'))
 
+        # Find all locators in this link
+        loc_elements = link.find_all(['link:loc', 'loc'])
+
+        # Build a map of labels to hrefs
+        label_to_href = {}
+        for loc in loc_elements:
+            label = loc.get('xlink:label')
+            href = loc.get('xlink:href') or loc.get('href')
+            if label and href:
+                label_to_href[label] = href
+
+        logging.debug(f"Processing calculation link with role: {role}")
+        logging.debug(f"Found {len(loc_elements)} locators and {len(arcs)} arcs")
+
         for arc in arcs:
             from_attr = arc.get('xlink:from') or arc.get('from')
             to_attr = arc.get('xlink:to') or arc.get('to')
             weight = arc.get('weight')
 
             if from_attr and to_attr:
-                # Look up the actual concept names
-                from_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': from_attr})
-                to_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': to_attr})
+                # APPROACH 1: Direct label lookup
+                from_href = label_to_href.get(from_attr)
+                to_href = label_to_href.get(to_attr)
 
-                if from_loc and to_loc:
-                    from_href = from_loc.get('xlink:href') or from_loc.get('href')
-                    to_href = to_loc.get('xlink:href') or to_loc.get('href')
+                # APPROACH 2: Handle UUID-based labels
+                if not from_href:
+                    # Try to find a label that matches the base part (before UUID)
+                    base_from = from_attr.split('_')[0] if '_' in from_attr else from_attr
+                    for label, href in label_to_href.items():
+                        if label.startswith(f"{base_from}_"):
+                            from_href = href
+                            break
 
+                if not to_href:
+                    # Try to find a label that matches the base part (before UUID)
+                    base_to = to_attr.split('_')[0] if '_' in to_attr else to_attr
+                    for label, href in label_to_href.items():
+                        if label.startswith(f"{base_to}_"):
+                            to_href = href
+                            break
+
+                # APPROACH 3: Traditional locator lookup
+                if not from_href or not to_href:
+                    from_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': from_attr})
+                    to_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': to_attr})
+
+                    if from_loc and to_loc:
+                        from_href = from_loc.get('xlink:href') or from_loc.get('href')
+                        to_href = to_loc.get('xlink:href') or to_loc.get('href')
+
+                if from_href and to_href:
                     # Extract concept names from hrefs
                     from_concept = self._extract_concept_from_href(from_href)
                     to_concept = self._extract_concept_from_href(to_href)
@@ -617,6 +692,7 @@ class XBRLHierarchyTester:
                             'to': to_concept,
                             'weight': weight
                         })
+                        logging.debug(f"Added calculation link: {from_concept} -> {to_concept} (weight: {weight})")
 
     def _process_definition_linkbase(self, linkbase_soup):
         """
@@ -649,20 +725,57 @@ class XBRLHierarchyTester:
         if not arcs:
             arcs = link.find_all(re.compile(r'.*:definitionArc'))
 
+        # Find all locators in this link
+        loc_elements = link.find_all(['link:loc', 'loc'])
+
+        # Build a map of labels to hrefs
+        label_to_href = {}
+        for loc in loc_elements:
+            label = loc.get('xlink:label')
+            href = loc.get('xlink:href') or loc.get('href')
+            if label and href:
+                label_to_href[label] = href
+
+        logging.debug(f"Processing definition link with role: {role}")
+        logging.debug(f"Found {len(loc_elements)} locators and {len(arcs)} arcs")
+
         for arc in arcs:
             from_attr = arc.get('xlink:from') or arc.get('from')
             to_attr = arc.get('xlink:to') or arc.get('to')
             arcrole = arc.get('xlink:arcrole') or arc.get('arcrole')
 
             if from_attr and to_attr:
-                # Look up the actual concept names
-                from_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': from_attr})
-                to_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': to_attr})
+                # APPROACH 1: Direct label lookup
+                from_href = label_to_href.get(from_attr)
+                to_href = label_to_href.get(to_attr)
 
-                if from_loc and to_loc:
-                    from_href = from_loc.get('xlink:href') or from_loc.get('href')
-                    to_href = to_loc.get('xlink:href') or to_loc.get('href')
+                # APPROACH 2: Handle UUID-based labels
+                if not from_href:
+                    # Try to find a label that matches the base part (before UUID)
+                    base_from = from_attr.split('_')[0] if '_' in from_attr else from_attr
+                    for label, href in label_to_href.items():
+                        if label.startswith(f"{base_from}_"):
+                            from_href = href
+                            break
 
+                if not to_href:
+                    # Try to find a label that matches the base part (before UUID)
+                    base_to = to_attr.split('_')[0] if '_' in to_attr else to_attr
+                    for label, href in label_to_href.items():
+                        if label.startswith(f"{base_to}_"):
+                            to_href = href
+                            break
+
+                # APPROACH 3: Traditional locator lookup
+                if not from_href or not to_href:
+                    from_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': from_attr})
+                    to_loc = link.find(['link:loc', 'loc'], attrs={'xlink:label': to_attr})
+
+                    if from_loc and to_loc:
+                        from_href = from_loc.get('xlink:href') or from_loc.get('href')
+                        to_href = to_loc.get('xlink:href') or to_loc.get('href')
+
+                if from_href and to_href:
                     # Extract concept names from hrefs
                     from_concept = self._extract_concept_from_href(from_href)
                     to_concept = self._extract_concept_from_href(to_href)
@@ -674,6 +787,7 @@ class XBRLHierarchyTester:
                             'to': to_concept,
                             'arcrole': arcrole
                         })
+                        logging.debug(f"Added definition link: {from_concept} -> {to_concept} (arcrole: {arcrole})")
 
     def _process_label_linkbase(self, linkbase_soup):
         """
@@ -1021,6 +1135,18 @@ class XBRLHierarchyTester:
         # Extract the fragment identifier
         fragment = href.split('#')[-1]
 
+        # Handle standard namespace prefixes
+        if fragment.startswith('us-gaap_') or fragment.startswith('dei_') or fragment.startswith('ifrs-full_'):
+            # Check if this exact concept exists in our concepts
+            if fragment in self.concepts:
+                return fragment
+
+            # Try to find a matching concept without the namespace prefix
+            concept_name = fragment.split('_', 1)[1] if '_' in fragment else fragment
+            for name in self.concepts:
+                if name.endswith(concept_name):
+                    return name
+
         # Check if it's a direct concept reference
         if fragment in self.concepts:
             return fragment
@@ -1049,6 +1175,13 @@ class XBRLHierarchyTester:
             concept_name = concept.split(':')[-1] if ':' in concept else concept
             if fragment.endswith(concept_name):
                 return concept
+
+            # Handle NVDA's specific format
+            if fragment.endswith(f"_{concept_name}"):
+                return concept
+
+        # Log unresolved concepts for debugging
+        logging.debug(f"Could not resolve concept from href: {href}")
 
         return None
 
@@ -1335,8 +1468,22 @@ class XBRLHierarchyTester:
         Returns:
             The statement type
         """
+        if not role:
+            return "Unknown"
+
         role_lower = role.lower()
 
+        # Handle NVDA's specific role URIs
+        if 'nvidia.com/role/consolidatedbalancesheet' in role_lower:
+            return "Balance_Sheet"
+        elif 'nvidia.com/role/consolidatedstatementsofincome' in role_lower:
+            return "Income_Statement"
+        elif 'nvidia.com/role/consolidatedstatementsofcashflows' in role_lower:
+            return "Cash_Flow_Statement"
+        elif 'nvidia.com/role/consolidatedstatementsofstockholdersequity' in role_lower:
+            return "Statement_Of_Equity"
+
+        # Handle standard role URI patterns
         if any(term in role_lower for term in ["balance", "financial position", "statement of financial position"]):
             return "Balance_Sheet"
         elif any(term in role_lower for term in ["income", "operations", "profit", "loss", "comprehensive income"]):
@@ -1346,6 +1493,8 @@ class XBRLHierarchyTester:
         elif any(term in role_lower for term in ["equity", "stockholder", "shareholder", "changes in equity"]):
             return "Statement_Of_Equity"
         else:
+            # Log unrecognized roles for debugging
+            logging.debug(f"Unrecognized role URI: {role}")
             return "Unknown"
 
     def _determine_statement_type_from_concept(self, concept):
