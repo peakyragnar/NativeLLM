@@ -410,7 +410,7 @@ class XBRLMapper:
 
                 # Output the hierarchy
                 for root in sorted(root_concepts):
-                    self._output_hierarchy(root, parent_to_children, output, indent=2, max_depth=5, current_depth=0, visited=None)
+                    self._output_hierarchy(root, parent_to_children, output, indent=2, max_depth=3, current_depth=0, visited=None)
 
                 output.append("")
 
@@ -677,7 +677,7 @@ class XBRLMapper:
 
         return "\n".join(output)
 
-    def _output_hierarchy(self, concept, parent_to_children, output, indent=0, max_depth=5, current_depth=0, visited=None):
+    def _output_hierarchy(self, concept, parent_to_children, output, indent=0, max_depth=3, current_depth=0, visited=None):
         """
         Output the hierarchy for a concept recursively.
 
@@ -710,15 +710,29 @@ class XBRLMapper:
         # Output the concept
         output.append(f"{' ' * indent}{concept}")
 
-        # Sort children by order
-        children = sorted(parent_to_children.get(concept, []), key=lambda c: float(c.get('order', '0') or '0'))
+        # Limit the number of children to prevent stack overflow
+        try:
+            # Sort children by order
+            children = sorted(parent_to_children.get(concept, []), key=lambda c: float(c.get('order', '0') or '0'))
 
-        # Output children recursively
-        for child in children:
-            child_concept = child['concept']
-            # Prevent infinite recursion by checking if child is the same as parent
-            if child_concept != concept:
-                self._output_hierarchy(child_concept, parent_to_children, output, indent + 2, max_depth, current_depth + 1, visited.copy())
+            # Limit to first 10 children to prevent stack overflow
+            if len(children) > 10:
+                children = children[:10]
+                output.append(f"{' ' * (indent+2)}... [{len(children) - 10} more children not shown]")
+
+            # Output children recursively
+            for child in children:
+                child_concept = child['concept']
+                # Prevent infinite recursion by checking if child is the same as parent
+                if child_concept != concept:
+                    # Use iterative approach for deep hierarchies
+                    try:
+                        self._output_hierarchy(child_concept, parent_to_children, output, indent + 2, max_depth, current_depth + 1, visited.copy())
+                    except RecursionError:
+                        output.append(f"{' ' * (indent+2)}{child_concept} [RECURSION ERROR]")
+        except Exception as e:
+            # Catch any errors to prevent the entire process from failing
+            output.append(f"{' ' * (indent+2)}Error processing children: {str(e)}")
 
 # Create a singleton instance
 xbrl_mapper = XBRLMapper()

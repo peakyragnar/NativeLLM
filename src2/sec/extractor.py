@@ -367,6 +367,13 @@ class SECExtractor:
         try:
             logging.info(f"Extracting inline XBRL from main document: {html_path}")
 
+            # Add the parent directory to sys.path to ensure imports work
+            import sys
+            from pathlib import Path
+            parent_dir = str(Path(__file__).resolve().parent.parent.parent)
+            if parent_dir not in sys.path:
+                sys.path.insert(0, parent_dir)
+
             # Use our new XBRL facts extractor
             from src2.xbrl.xbrl_facts_extractor import extract_facts_from_html
 
