@@ -559,19 +559,31 @@ class XBRLHierarchyTester:
                 from_href = label_to_href.get(from_attr)
                 to_href = label_to_href.get(to_attr)
 
-                # APPROACH 2: Handle UUID-based labels
-                if not from_href:
+                # APPROACH 2: Handle UUID-based labels (with loop protection)
+                if not from_href and '_' in from_attr:
                     # Try to find a label that matches the base part (before UUID)
-                    base_from = from_attr.split('_')[0] if '_' in from_attr else from_attr
+                    base_from = from_attr.split('_')[0]
+                    # Limit search to avoid infinite loops
+                    search_count = 0
                     for label, href in label_to_href.items():
+                        search_count += 1
+                        if search_count > 1000:  # Safety limit
+                            logging.warning(f"Search limit reached for {from_attr}")
+                            break
                         if label.startswith(f"{base_from}_"):
                             from_href = href
                             break
 
-                if not to_href:
+                if not to_href and '_' in to_attr:
                     # Try to find a label that matches the base part (before UUID)
-                    base_to = to_attr.split('_')[0] if '_' in to_attr else to_attr
+                    base_to = to_attr.split('_')[0]
+                    # Limit search to avoid infinite loops
+                    search_count = 0
                     for label, href in label_to_href.items():
+                        search_count += 1
+                        if search_count > 1000:  # Safety limit
+                            logging.warning(f"Search limit reached for {to_attr}")
+                            break
                         if label.startswith(f"{base_to}_"):
                             to_href = href
                             break
@@ -654,19 +666,31 @@ class XBRLHierarchyTester:
                 from_href = label_to_href.get(from_attr)
                 to_href = label_to_href.get(to_attr)
 
-                # APPROACH 2: Handle UUID-based labels
-                if not from_href:
+                # APPROACH 2: Handle UUID-based labels (with loop protection)
+                if not from_href and '_' in from_attr:
                     # Try to find a label that matches the base part (before UUID)
-                    base_from = from_attr.split('_')[0] if '_' in from_attr else from_attr
+                    base_from = from_attr.split('_')[0]
+                    # Limit search to avoid infinite loops
+                    search_count = 0
                     for label, href in label_to_href.items():
+                        search_count += 1
+                        if search_count > 1000:  # Safety limit
+                            logging.warning(f"Search limit reached for {from_attr}")
+                            break
                         if label.startswith(f"{base_from}_"):
                             from_href = href
                             break
 
-                if not to_href:
+                if not to_href and '_' in to_attr:
                     # Try to find a label that matches the base part (before UUID)
-                    base_to = to_attr.split('_')[0] if '_' in to_attr else to_attr
+                    base_to = to_attr.split('_')[0]
+                    # Limit search to avoid infinite loops
+                    search_count = 0
                     for label, href in label_to_href.items():
+                        search_count += 1
+                        if search_count > 1000:  # Safety limit
+                            logging.warning(f"Search limit reached for {to_attr}")
+                            break
                         if label.startswith(f"{base_to}_"):
                             to_href = href
                             break
@@ -749,19 +773,31 @@ class XBRLHierarchyTester:
                 from_href = label_to_href.get(from_attr)
                 to_href = label_to_href.get(to_attr)
 
-                # APPROACH 2: Handle UUID-based labels
-                if not from_href:
+                # APPROACH 2: Handle UUID-based labels (with loop protection)
+                if not from_href and '_' in from_attr:
                     # Try to find a label that matches the base part (before UUID)
-                    base_from = from_attr.split('_')[0] if '_' in from_attr else from_attr
+                    base_from = from_attr.split('_')[0]
+                    # Limit search to avoid infinite loops
+                    search_count = 0
                     for label, href in label_to_href.items():
+                        search_count += 1
+                        if search_count > 1000:  # Safety limit
+                            logging.warning(f"Search limit reached for {from_attr}")
+                            break
                         if label.startswith(f"{base_from}_"):
                             from_href = href
                             break
 
-                if not to_href:
+                if not to_href and '_' in to_attr:
                     # Try to find a label that matches the base part (before UUID)
-                    base_to = to_attr.split('_')[0] if '_' in to_attr else to_attr
+                    base_to = to_attr.split('_')[0]
+                    # Limit search to avoid infinite loops
+                    search_count = 0
                     for label, href in label_to_href.items():
+                        search_count += 1
+                        if search_count > 1000:  # Safety limit
+                            logging.warning(f"Search limit reached for {to_attr}")
+                            break
                         if label.startswith(f"{base_to}_"):
                             to_href = href
                             break
@@ -1586,6 +1622,7 @@ def main():
     parser = argparse.ArgumentParser(description="Test XBRL hierarchy extraction")
     parser.add_argument("--html", required=True, help="Path to HTML file with inline XBRL")
     parser.add_argument("--output", help="Output file path (default: hierarchy_output.json)")
+    parser.add_argument("--timeout", type=int, default=300, help="Timeout in seconds (default: 300)")
 
     args = parser.parse_args()
 
@@ -1597,44 +1634,67 @@ def main():
     # Determine output file path
     output_path = args.output or "hierarchy_output.json"
 
-    # Extract hierarchy
-    tester = XBRLHierarchyTester()
-    hierarchy = tester.extract_hierarchy_from_html(args.html)
+    # Set a timeout to prevent infinite loops
+    import signal
 
-    # Save output
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(hierarchy, f, indent=2)
+    def timeout_handler(signum, frame):
+        logging.error(f"Extraction timed out after {args.timeout} seconds")
+        raise TimeoutError(f"Extraction timed out after {args.timeout} seconds")
 
-    logging.info(f"Hierarchy saved to {output_path}")
+    # Set the timeout
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(args.timeout)
 
-    # Print summary
-    print("\nXBRL Hierarchy Summary:")
-    print(f"  Concepts: {len(hierarchy['concepts'])}")
-    print(f"  Presentation Relationships: {sum(len(children) for children in hierarchy['presentation_hierarchy'].values())}")
-    print(f"  Calculation Relationships: {sum(len(children) for children in hierarchy['calculation_hierarchy'].values())}")
-    print(f"  Definition Relationships: {sum(len(children) for children in hierarchy['definition_hierarchy'].values())}")
-    print(f"  Labels: {len(hierarchy['labels'])}")
-    print(f"  Facts: {len(hierarchy['facts'])}")
+    try:
+        # Extract hierarchy
+        tester = XBRLHierarchyTester()
+        hierarchy = tester.extract_hierarchy_from_html(args.html)
 
-    # Print sample hierarchy
-    print("\nSample Presentation Hierarchy:")
-    for i, (parent, children) in enumerate(hierarchy['presentation_hierarchy'].items()):
-        if i >= 3:  # Limit to first 3 parents
-            break
+        # Save output
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(hierarchy, f, indent=2)
 
-        parent_label = hierarchy['labels'].get(parent, {}).get('http://www.xbrl.org/2003/role/label', parent)
-        print(f"  {parent_label} ({parent}):")
+        logging.info(f"Hierarchy saved to {output_path}")
 
-        for j, child_info in enumerate(children):
-            if j >= 5:  # Limit to first 5 children per parent
-                print(f"    ... and {len(children) - 5} more")
+        # Print summary
+        print("\nXBRL Hierarchy Summary:")
+        print(f"  Concepts: {len(hierarchy['concepts'])}")
+        print(f"  Presentation Relationships: {sum(len(children) for children in hierarchy['presentation_hierarchy'].values())}")
+        print(f"  Calculation Relationships: {sum(len(children) for children in hierarchy['calculation_hierarchy'].values())}")
+        print(f"  Definition Relationships: {sum(len(children) for children in hierarchy['definition_hierarchy'].values())}")
+        print(f"  Labels: {len(hierarchy['labels'])}")
+        print(f"  Facts: {len(hierarchy['facts'])}")
+
+        # Print sample hierarchy
+        print("\nSample Presentation Hierarchy:")
+        for i, (parent, children) in enumerate(hierarchy['presentation_hierarchy'].items()):
+            if i >= 3:  # Limit to first 3 parents
                 break
 
-            child = child_info['child']
-            child_label = hierarchy['labels'].get(child, {}).get('http://www.xbrl.org/2003/role/label', child)
-            print(f"    - {child_label} ({child})")
+            parent_label = hierarchy['labels'].get(parent, {}).get('http://www.xbrl.org/2003/role/label', parent)
+            print(f"  {parent_label} ({parent}):")
 
-    return 0
+            for j, child_info in enumerate(children):
+                if j >= 5:  # Limit to first 5 children per parent
+                    print(f"    ... and {len(children) - 5} more")
+                    break
+
+                child = child_info['child']
+                child_label = hierarchy['labels'].get(child, {}).get('http://www.xbrl.org/2003/role/label', child)
+                print(f"    - {child_label} ({child})")
+
+        # Cancel the timeout
+        signal.alarm(0)
+        return 0
+    except TimeoutError as e:
+        logging.error(str(e))
+        return 1
+    except Exception as e:
+        logging.error(f"Error extracting hierarchy: {str(e)}")
+        return 1
+    finally:
+        # Cancel the timeout in case of any exception
+        signal.alarm(0)
 
 if __name__ == "__main__":
     sys.exit(main())
