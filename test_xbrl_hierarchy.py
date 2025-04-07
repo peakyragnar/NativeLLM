@@ -559,34 +559,21 @@ class XBRLHierarchyTester:
                 from_href = label_to_href.get(from_attr)
                 to_href = label_to_href.get(to_attr)
 
-                # APPROACH 2: Handle UUID-based labels (with loop protection)
-                if not from_href and '_' in from_attr:
-                    # Try to find a label that matches the base part (before UUID)
-                    base_from = from_attr.split('_')[0]
-                    # Limit search to avoid infinite loops
-                    search_count = 0
-                    for label, href in label_to_href.items():
-                        search_count += 1
-                        if search_count > 1000:  # Safety limit
-                            logging.warning(f"Search limit reached for {from_attr}")
-                            break
-                        if label.startswith(f"{base_from}_"):
-                            from_href = href
-                            break
-
-                if not to_href and '_' in to_attr:
-                    # Try to find a label that matches the base part (before UUID)
-                    base_to = to_attr.split('_')[0]
-                    # Limit search to avoid infinite loops
-                    search_count = 0
-                    for label, href in label_to_href.items():
-                        search_count += 1
-                        if search_count > 1000:  # Safety limit
-                            logging.warning(f"Search limit reached for {to_attr}")
-                            break
-                        if label.startswith(f"{base_to}_"):
-                            to_href = href
-                            break
+                # APPROACH 2: Disabled UUID-based label handling to prevent infinite loops
+                # Uncomment if needed and fixed
+                # if not from_href and '_' in from_attr:
+                #     base_from = from_attr.split('_')[0]
+                #     for label, href in label_to_href.items():
+                #         if label.startswith(f"{base_from}_"):
+                #             from_href = href
+                #             break
+                #
+                # if not to_href and '_' in to_attr:
+                #     base_to = to_attr.split('_')[0]
+                #     for label, href in label_to_href.items():
+                #         if label.startswith(f"{base_to}_"):
+                #             to_href = href
+                #             break
 
                 # APPROACH 3: Traditional locator lookup
                 if not from_href or not to_href:
@@ -666,34 +653,21 @@ class XBRLHierarchyTester:
                 from_href = label_to_href.get(from_attr)
                 to_href = label_to_href.get(to_attr)
 
-                # APPROACH 2: Handle UUID-based labels (with loop protection)
-                if not from_href and '_' in from_attr:
-                    # Try to find a label that matches the base part (before UUID)
-                    base_from = from_attr.split('_')[0]
-                    # Limit search to avoid infinite loops
-                    search_count = 0
-                    for label, href in label_to_href.items():
-                        search_count += 1
-                        if search_count > 1000:  # Safety limit
-                            logging.warning(f"Search limit reached for {from_attr}")
-                            break
-                        if label.startswith(f"{base_from}_"):
-                            from_href = href
-                            break
-
-                if not to_href and '_' in to_attr:
-                    # Try to find a label that matches the base part (before UUID)
-                    base_to = to_attr.split('_')[0]
-                    # Limit search to avoid infinite loops
-                    search_count = 0
-                    for label, href in label_to_href.items():
-                        search_count += 1
-                        if search_count > 1000:  # Safety limit
-                            logging.warning(f"Search limit reached for {to_attr}")
-                            break
-                        if label.startswith(f"{base_to}_"):
-                            to_href = href
-                            break
+                # APPROACH 2: Disabled UUID-based label handling to prevent infinite loops
+                # Uncomment if needed and fixed
+                # if not from_href and '_' in from_attr:
+                #     base_from = from_attr.split('_')[0]
+                #     for label, href in label_to_href.items():
+                #         if label.startswith(f"{base_from}_"):
+                #             from_href = href
+                #             break
+                #
+                # if not to_href and '_' in to_attr:
+                #     base_to = to_attr.split('_')[0]
+                #     for label, href in label_to_href.items():
+                #         if label.startswith(f"{base_to}_"):
+                #             to_href = href
+                #             break
 
                 # APPROACH 3: Traditional locator lookup
                 if not from_href or not to_href:
@@ -773,34 +747,21 @@ class XBRLHierarchyTester:
                 from_href = label_to_href.get(from_attr)
                 to_href = label_to_href.get(to_attr)
 
-                # APPROACH 2: Handle UUID-based labels (with loop protection)
-                if not from_href and '_' in from_attr:
-                    # Try to find a label that matches the base part (before UUID)
-                    base_from = from_attr.split('_')[0]
-                    # Limit search to avoid infinite loops
-                    search_count = 0
-                    for label, href in label_to_href.items():
-                        search_count += 1
-                        if search_count > 1000:  # Safety limit
-                            logging.warning(f"Search limit reached for {from_attr}")
-                            break
-                        if label.startswith(f"{base_from}_"):
-                            from_href = href
-                            break
-
-                if not to_href and '_' in to_attr:
-                    # Try to find a label that matches the base part (before UUID)
-                    base_to = to_attr.split('_')[0]
-                    # Limit search to avoid infinite loops
-                    search_count = 0
-                    for label, href in label_to_href.items():
-                        search_count += 1
-                        if search_count > 1000:  # Safety limit
-                            logging.warning(f"Search limit reached for {to_attr}")
-                            break
-                        if label.startswith(f"{base_to}_"):
-                            to_href = href
-                            break
+                # APPROACH 2: Disabled UUID-based label handling to prevent infinite loops
+                # Uncomment if needed and fixed
+                # if not from_href and '_' in from_attr:
+                #     base_from = from_attr.split('_')[0]
+                #     for label, href in label_to_href.items():
+                #         if label.startswith(f"{base_from}_"):
+                #             from_href = href
+                #             break
+                #
+                # if not to_href and '_' in to_attr:
+                #     base_to = to_attr.split('_')[0]
+                #     for label, href in label_to_href.items():
+                #         if label.startswith(f"{base_to}_"):
+                #             to_href = href
+                #             break
 
                 # APPROACH 3: Traditional locator lookup
                 if not from_href or not to_href:
