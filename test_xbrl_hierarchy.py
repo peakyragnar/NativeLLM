@@ -847,7 +847,8 @@ class XBRLHierarchyTester:
                     })
 
         # If we still don't have any presentation links, try pattern matching
-        if not self.presentation_links:
+        if len(self.presentation_links) == 0:
+            logging.info("No presentation links found, applying pattern matching")
             self._apply_pattern_matching()
 
     def _process_embedded_calculation_arcs(self, linkbase):
@@ -1173,10 +1174,6 @@ class XBRLHierarchyTester:
         """
         Apply pattern matching to identify relationships when other methods fail.
         """
-        if self.presentation_links:
-            return
-
-        logging.info("No presentation links found, applying pattern matching")
 
         # Common patterns for financial statements
         patterns = [
@@ -1229,6 +1226,11 @@ class XBRLHierarchyTester:
 
     def _build_hierarchy(self):
         """Build hierarchical relationships from extracted links."""
+        # If we don't have any presentation links, try pattern matching
+        if len(self.presentation_links) == 0:
+            logging.info("No presentation links found before building hierarchy, applying pattern matching")
+            self._apply_pattern_matching()
+
         # Process presentation links
         for link in self.presentation_links:
             parent = link['from']
