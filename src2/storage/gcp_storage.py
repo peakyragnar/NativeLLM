@@ -72,20 +72,32 @@ class GCPStorage:
             self.storage_client = storage.Client(project=project_id)
             self.bucket = self.storage_client.bucket(bucket_name)
 
-            # Initialize Firestore - try both with and without database name
+            # Initialize Firestore - try multiple configurations
             try:
-                # First try with default database
-                self.firestore_client = firestore.Client()
-                logging.info("Firestore client initialized with default database")
+                # First try with project ID and default database
+                self.firestore_client = firestore.Client(project=project_id)
+                logging.info(f"Firestore client initialized with project ID {project_id} and default database")
             except Exception as e:
-                logging.warning(f"Firestore initialization with default database failed: {str(e)}")
+                logging.warning(f"Firestore initialization with project ID and default database failed: {str(e)}")
                 try:
-                    # Then try with 'nativellm' database
-                    self.firestore_client = firestore.Client(database='nativellm')
-                    logging.info("Firestore client initialized with database 'nativellm'")
+                    # Then try with just default database (no project ID)
+                    self.firestore_client = firestore.Client()
+                    logging.info("Firestore client initialized with default database")
                 except Exception as e2:
-                    logging.warning(f"Firestore initialization with 'nativellm' database failed: {str(e2)}")
-                    self.firestore_client = None
+                    logging.warning(f"Firestore initialization with default database failed: {str(e2)}")
+                    try:
+                        # Then try with 'nativellm' database
+                        self.firestore_client = firestore.Client(project=project_id, database='nativellm')
+                        logging.info(f"Firestore client initialized with project ID {project_id} and database 'nativellm'")
+                    except Exception as e3:
+                        logging.warning(f"Firestore initialization with project ID and 'nativellm' database failed: {str(e3)}")
+                        try:
+                            # Last attempt with just 'nativellm' database (no project ID)
+                            self.firestore_client = firestore.Client(database='nativellm')
+                            logging.info("Firestore client initialized with database 'nativellm'")
+                        except Exception as e4:
+                            logging.warning(f"All Firestore initialization attempts failed: {str(e4)}")
+                            self.firestore_client = None
 
             logging.info(f"Initialized GCP storage with bucket: {bucket_name}")
         except ImportError:
@@ -437,7 +449,13 @@ class GCPStorage:
 
             # Check if document already exists
             filing_ref = self.firestore_client.collection("filings").document(document_id)
-            doc = filing_ref.get()
+            existing_doc = filing_ref.get()
+
+            # Log whether the document already exists
+            if existing_doc.exists:
+                logging.info(f"Document already exists in Firestore with ID: {document_id}")
+            else:
+                logging.info(f"Creating new document in Firestore with ID: {document_id}")
 
             # Create document data
             doc_data = {
@@ -620,28 +638,46 @@ class GCPStorage:
             token_count_source = doc_data.get('llm_token_count_source', 'none')
 
             # Add document to Firestore (overwrite if exists)
-            filing_ref.set(doc_data)
-
-            # Verify the document was saved correctly
             try:
-                # Read back from Firestore to verify all data was saved
-                saved_doc = filing_ref.get().to_dict()
+                # Log the document data for debugging
+                logging.info(f"Attempting to save document to Firestore with ID: {document_id}")
+                logging.info(f"Document data keys: {list(doc_data.keys())}")
 
-                # Verify token counts were saved
-                if has_token_counts:
-                    if 'llm_token_count' in doc_data and 'llm_token_count' in saved_doc:
-                        logging.info(f"✅ Verified llm_token_count in Firestore: {saved_doc.get('llm_token_count'):,} tokens (source: {token_count_source})")
-                    elif 'llm_token_count' in doc_data:
-                        logging.warning(f"⚠️ llm_token_count was set but not saved to Firestore")
+                # Set the document with explicit error handling
+                filing_ref.set(doc_data)
+                logging.info(f"✅ Successfully saved document to Firestore with ID: {document_id}")
 
-                    if 'text_token_count' in doc_data and 'text_token_count' in saved_doc:
-                        logging.info(f"✅ Verified text_token_count in Firestore: {saved_doc.get('text_token_count'):,} tokens")
-                    elif 'text_token_count' in doc_data:
-                        logging.warning(f"⚠️ text_token_count was set but not saved to Firestore")
-                else:
-                    logging.warning(f"⚠️ No token counts were set for this document")
-            except Exception as verify_error:
-                logging.warning(f"Could not verify Firestore document: {str(verify_error)}")
+                # Verify the document was saved correctly
+                try:
+                    # Read back from Firestore to verify all data was saved
+                    saved_doc = filing_ref.get().to_dict()
+
+                    if saved_doc:
+                        logging.info(f"✅ Successfully retrieved document from Firestore with ID: {document_id}")
+                        logging.info(f"Retrieved document keys: {list(saved_doc.keys())}")
+
+                        # Verify token counts were saved
+                        if has_token_counts:
+                            if 'llm_token_count' in doc_data and 'llm_token_count' in saved_doc:
+                                logging.info(f"✅ Verified llm_token_count in Firestore: {saved_doc.get('llm_token_count'):,} tokens (source: {token_count_source})")
+                            elif 'llm_token_count' in doc_data:
+                                logging.warning(f"⚠️ llm_token_count was set but not saved to Firestore")
+
+                            if 'text_token_count' in doc_data and 'text_token_count' in saved_doc:
+                                logging.info(f"✅ Verified text_token_count in Firestore: {saved_doc.get('text_token_count'):,} tokens")
+                            elif 'text_token_count' in doc_data:
+                                logging.warning(f"⚠️ text_token_count was set but not saved to Firestore")
+                        else:
+                            logging.warning(f"⚠️ No token counts were set for this document")
+                    else:
+                        logging.error(f"❌ Document was saved but retrieval returned None or empty document")
+                except Exception as verify_error:
+                    logging.error(f"❌ Could not verify Firestore document: {str(verify_error)}")
+            except Exception as save_error:
+                logging.error(f"❌ Failed to save document to Firestore: {str(save_error)}")
+                # Try to get more detailed error information
+                if hasattr(save_error, '__dict__'):
+                    logging.error(f"Error details: {save_error.__dict__}")
 
             logging.info(f"Added metadata to Firestore for {document_id}")
 
