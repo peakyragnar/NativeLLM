@@ -400,6 +400,12 @@ class BatchSECPipeline:
                         # Update calendar_months to only include the expected period end month
                         calendar_months = [period_end_month]
 
+                        # Special case for NVIDIA FY2023 Q1 - include both April and May
+                        if ticker == "NVDA" and fiscal_year == 2023 and q == 1:
+                            if period_end_month == 4:  # April
+                                calendar_months = [4, 5]  # Include both April and May
+                                logging.info(f"SPECIAL HANDLING: For NVIDIA FY2023 Q1, including both April and May as valid period end months")
+
                         logging.info(f"Mapped {ticker} FY{fiscal_year} Q{q} to calendar year {calendar_year}, months {calendar_months}")
                     else:
                         # Fallback to using fiscal year directly
@@ -1120,15 +1126,23 @@ class BatchSECPipeline:
                             end_date = datetime.datetime.strptime(period_end, '%Y-%m-%d')
 
                             # Check if the period end date matches expected month and year
-                            # NVIDIA-specific handling for FY2022 Q1 and Q2 (May instead of April, August instead of July)
+                            # NVIDIA-specific handling for FY2022 and FY2023 Q1/Q2 (May instead of April, August instead of July)
                             nvidia_match = False
-                            if ticker == "NVDA" and year == 2022:
-                                if quarter == 1 and end_date.year == 2021 and end_date.month == 5:
-                                    nvidia_match = True
-                                    logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q1 with May date: {period_end}")
-                                elif quarter == 2 and end_date.year == 2021 and end_date.month == 8:
-                                    nvidia_match = True
-                                    logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q2 with August date: {period_end}")
+                            if ticker == "NVDA":
+                                if year == 2022:
+                                    if quarter == 1 and end_date.year == 2021 and end_date.month == 5:
+                                        nvidia_match = True
+                                        logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q1 with May date: {period_end}")
+                                    elif quarter == 2 and end_date.year == 2021 and end_date.month == 8:
+                                        nvidia_match = True
+                                        logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q2 with August date: {period_end}")
+                                elif year == 2023:
+                                    if quarter == 1 and end_date.year == 2022 and end_date.month == 5:
+                                        nvidia_match = True
+                                        logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2023 Q1 with May date: {period_end}")
+                                    elif quarter == 2 and end_date.year == 2022 and end_date.month == 7:
+                                        nvidia_match = True
+                                        logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2023 Q2 with July date: {period_end}")
 
                             if end_date.year == calendar_year and end_date.month in calendar_months or nvidia_match:
                                 target_filing = filing
