@@ -72,24 +72,29 @@ class GCPStorage:
             self.storage_client = storage.Client(project=project_id)
             self.bucket = self.storage_client.bucket(bucket_name)
 
-            # Initialize Firestore with a simpler approach
+            # Initialize Firestore with the nativellm database
             try:
-                # Use the same project ID as the storage client
-                self.firestore_client = firestore.Client(project=project_id)
-                logging.info(f"Firestore client initialized with project ID {project_id}")
+                # Use the nativellm database which exists in the project
+                self.firestore_client = firestore.Client(project=project_id, database='nativellm')
+                logging.info(f"Firestore client initialized with project ID {project_id} and database 'nativellm'")
 
                 # Test the connection by listing collections
                 try:
                     collections = list(self.firestore_client.collections())
-                    logging.info(f"Successfully connected to Firestore. Found {len(collections)} collections.")
+                    logging.info(f"Successfully connected to Firestore database 'nativellm'. Found {len(collections)} collections.")
                 except Exception as test_error:
                     logging.warning(f"Firestore connection test failed: {str(test_error)}")
-                    logging.warning("You may need to create the Firestore database using create_firestore_db.py")
+                    logging.warning("The 'nativellm' database exists but there might be permission issues.")
                     # Don't set client to None - it might still work for writes
             except Exception as e:
-                logging.warning(f"Firestore initialization failed: {str(e)}")
-                logging.warning("You may need to create the Firestore database using create_firestore_db.py")
-                self.firestore_client = None
+                logging.warning(f"Firestore initialization with 'nativellm' database failed: {str(e)}")
+                try:
+                    # Fall back to default database as a last resort
+                    self.firestore_client = firestore.Client(project=project_id)
+                    logging.info(f"Firestore client initialized with project ID {project_id} and default database")
+                except Exception as e2:
+                    logging.warning(f"All Firestore initialization attempts failed: {str(e2)}")
+                    self.firestore_client = None
 
             logging.info(f"Initialized GCP storage with bucket: {bucket_name}")
         except ImportError:
@@ -215,6 +220,8 @@ class GCPStorage:
         Returns:
             Dict with result
         """
+        # Import datetime here to avoid reference errors
+        import datetime
         if not self.is_firestore_enabled():
             logging.warning("Firestore is not enabled")
             return {
