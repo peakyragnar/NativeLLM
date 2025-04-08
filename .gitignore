@@ -29,3 +29,34 @@ nativellmfilings-*.json
 
 # Backup files
 *.bak
+
+# Processed SEC files
+sec_processed/
+
+# Temporary/intermediate files
+*_cal_mappings.json
+*_mappings.json
+*_facts.json
+*_hierarchy_*.json
+hierarchy_output.json
+hierarchy_test_results/
+xbrl_cache/
+
+# XML/XSD files
+*.xml
+*.xsd
+
+# Archives
+*.zip
+
+# Temporary directories
+msft_xbrl/
+
+# Individual test outputs
+*_llm.txt
+
+# XBRL raw data
+*_xbrl_raw.json
+
+# Test data files
+TSLA_10-K_2024_xbrl_structure.json
