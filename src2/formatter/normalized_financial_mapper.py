@@ -27,12 +27,14 @@ class NormalizedFinancialMapper:
         self.validator = FinancialValidator()
         self.hierarchy_extractor = XBRLHierarchyExtractor()
 
-    def map_facts_to_financial_statements(self, content: str) -> str:
+    def map_facts_to_financial_statements(self, content: str, max_depth: Optional[int] = None, max_children: Optional[int] = None) -> str:
         """
         Map facts to financial statements in a normalized format.
 
         Args:
             content: The content of the file
+            max_depth: Maximum recursion depth for complex operations
+            max_children: Maximum number of children to process per node
 
         Returns:
             The content with added normalized financial statements
@@ -52,7 +54,7 @@ class NormalizedFinancialMapper:
 
         # Extract XBRL hierarchy from @CONCEPT sections
         raw_facts = self._extract_raw_facts_from_concepts(content)
-        hierarchy = self.hierarchy_extractor.extract_hierarchy(raw_facts)
+        hierarchy = self.hierarchy_extractor.extract_hierarchy(raw_facts, max_depth=max_depth, max_children=max_children)
         self.logger.info(f"Extracted hierarchy with {len(hierarchy['top_level']['Balance_Sheet'])} top-level balance sheet concepts")
 
         # Debug: Check if we have balance sheet facts

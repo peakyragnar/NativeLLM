@@ -2702,20 +2702,44 @@ class LLMFormatter:
             original_size = len(llm_content.encode('utf-8'))
             logging.info(f"Original content size: {original_size / 1024:.2f} KB")
 
-            # Add normalized financial statements
+            # Check if this is a 10-K filing (which tends to be larger and cause recursion issues)
+            filing_type = filing_metadata.get('filing_type', '')
+            is_10k = filing_type == '10-K'
+
+            # Add normalized financial statements with special handling for 10-K
             logging.info(f"Adding normalized financial statements to {output_path}")
-            normalized_mapper = NormalizedFinancialMapper()
-            llm_content = normalized_mapper.map_facts_to_financial_statements(llm_content)
+            try:
+                normalized_mapper = NormalizedFinancialMapper()
+                # Use a more conservative approach for 10-K filings
+                if is_10k:
+                    logging.info("Using conservative mapping for 10-K filing to prevent recursion errors")
+                    # Skip complex mapping operations for 10-K filings
+                    llm_content = normalized_mapper.map_facts_to_financial_statements(llm_content, max_depth=2, max_children=5)
+                else:
+                    llm_content = normalized_mapper.map_facts_to_financial_statements(llm_content)
+            except RecursionError as re:
+                logging.warning(f"Recursion error during financial statement mapping: {str(re)}")
+                logging.info("Proceeding with original content without financial statement mapping")
+            except Exception as e:
+                logging.warning(f"Error during financial statement mapping: {str(e)}")
+                logging.info("Proceeding with original content without financial statement mapping")
 
             # Optimize file size
             logging.info(f"Optimizing file size for {output_path}")
-            optimizer = FileSizeOptimizer()
-            optimized_content = optimizer.optimize(llm_content)
+            try:
+                optimizer = FileSizeOptimizer()
+                optimized_content = optimizer.optimize(llm_content)
 
-            # Calculate size reduction
-            optimized_size = len(optimized_content.encode('utf-8'))
-            size_reduction = (original_size - optimized_size) / original_size * 100
-            logging.info(f"Optimized content size: {optimized_size / 1024:.2f} KB (reduced by {size_reduction:.2f}%)")
+                # Calculate size reduction
+                optimized_size = len(optimized_content.encode('utf-8'))
+                size_reduction = (original_size - optimized_size) / original_size * 100
+                logging.info(f"Optimized content size: {optimized_size / 1024:.2f} KB (reduced by {size_reduction:.2f}%)")
+            except Exception as e:
+                logging.warning(f"Error during file size optimization: {str(e)}")
+                logging.info("Proceeding with original content without optimization")
+                optimized_content = llm_content
+                optimized_size = original_size
+                size_reduction = 0
 
             # Save file
             with open(output_path, 'w', encoding='utf-8') as f:

@@ -15,22 +15,22 @@ def estimate_tokens(text_content):
     - For English text dominated by alphanumeric characters: ~4.0 chars per token
     - For JSON/structured data with many special chars: ~2.5 chars per token
     - For numeric heavy financial tables: ~3.0 chars per token
-    
+
     Args:
         text_content: The text content to estimate
-        
+
     Returns:
         Estimated token count with improved accuracy
     """
     if not text_content:
         return 0
-        
+
     # Check if this is likely a structured file with special characters
     special_chars_ratio = sum(1 for c in text_content if not c.isalnum() and not c.isspace()) / max(1, len(text_content))
-    
+
     # Default ratio for normal text
     chars_per_token = 4.0
-    
+
     # Adjust based on content characteristics
     if '@' in text_content and '|' in text_content and special_chars_ratio > 0.1:
         # This is likely our LLM format with many special characters
@@ -41,10 +41,10 @@ def estimate_tokens(text_content):
     elif len([c for c in text_content[:1000] if c.isdigit()]) > 300:
         # Numeric-heavy content like financial tables
         chars_per_token = 3.0
-        
+
     # Apply the estimate
     estimated_tokens = int(len(text_content) / chars_per_token)
-    
+
     # Add a small buffer for safety (Claude, OpenAI and other tokenizers vary slightly)
     return int(estimated_tokens * 1.05)
 
@@ -52,11 +52,11 @@ class GCPStorage:
     """
     Upload files to Google Cloud Storage
     """
-    
+
     def __init__(self, bucket_name, project_id=None):
         """
         Initialize GCP storage
-        
+
         Args:
             bucket_name: GCS bucket name
             project_id: GCP project ID (optional)
@@ -65,59 +65,66 @@ class GCPStorage:
         self.project_id = project_id
         self.storage_client = None
         self.firestore_client = None
-        
+
         # Load GCP libraries
         try:
             from google.cloud import storage, firestore
             self.storage_client = storage.Client(project=project_id)
             self.bucket = self.storage_client.bucket(bucket_name)
-            
-            # Initialize Firestore with the specific database name 'nativellm'
+
+            # Initialize Firestore - try both with and without database name
             try:
-                self.firestore_client = firestore.Client(database='nativellm')
-                logging.info("Firestore client initialized with database 'nativellm'")
+                # First try with default database
+                self.firestore_client = firestore.Client()
+                logging.info("Firestore client initialized with default database")
             except Exception as e:
-                logging.warning(f"Firestore initialization failed: {str(e)}")
-                self.firestore_client = None
-                
+                logging.warning(f"Firestore initialization with default database failed: {str(e)}")
+                try:
+                    # Then try with 'nativellm' database
+                    self.firestore_client = firestore.Client(database='nativellm')
+                    logging.info("Firestore client initialized with database 'nativellm'")
+                except Exception as e2:
+                    logging.warning(f"Firestore initialization with 'nativellm' database failed: {str(e2)}")
+                    self.firestore_client = None
+
             logging.info(f"Initialized GCP storage with bucket: {bucket_name}")
         except ImportError:
             logging.warning("Google Cloud libraries not found. Cloud storage disabled.")
         except Exception as e:
             logging.error(f"Error initializing GCP storage: {str(e)}")
-    
+
     def is_enabled(self):
         """
         Check if GCP storage is enabled
-        
+
         Returns:
             True if enabled, False otherwise
         """
         return self.storage_client is not None
-    
+
     def is_firestore_enabled(self):
         """
         Check if Firestore is enabled
-        
+
         Returns:
             True if enabled, False otherwise
         """
         return self.firestore_client is not None
-        
+
     def check_files_exist(self, paths):
         """
         Check if files exist in GCS
-        
+
         Args:
             paths: List of GCS paths to check
-            
+
         Returns:
             Dict mapping paths to existence status (True/False)
         """
         if not self.is_enabled():
             logging.warning("GCP storage is not enabled")
             return {path: False for path in paths}
-        
+
         try:
             result = {}
             for path in paths:
@@ -127,16 +134,16 @@ class GCPStorage:
         except Exception as e:
             logging.error(f"Error checking file existence: {str(e)}")
             return {path: False for path in paths}
-    
+
     def upload_file(self, local_file_path, gcs_path, force=False):
         """
         Upload a file to GCS
-        
+
         Args:
             local_file_path: Path to local file
             gcs_path: Path in GCS bucket
             force: Whether to upload even if the file already exists in GCS
-            
+
         Returns:
             Dict with upload result
         """
@@ -147,7 +154,7 @@ class GCPStorage:
                 "error": "GCP storage not enabled",
                 "local_path": local_file_path
             }
-        
+
         try:
             # Check if file already exists in GCS
             if not force:
@@ -161,19 +168,19 @@ class GCPStorage:
                         "already_exists": True,
                         "size": os.path.getsize(local_file_path)
                     }
-            
+
             # Create blob
             blob = self.bucket.blob(gcs_path)
-            
+
             # Upload file
             with open(local_file_path, 'rb') as f:
                 blob.upload_from_file(f)
-            
+
             if force:
                 logging.info(f"Force uploaded {local_file_path} to gs://{self.bucket_name}/{gcs_path}")
             else:
                 logging.info(f"Uploaded {local_file_path} to gs://{self.bucket_name}/{gcs_path}")
-            
+
             return {
                 "success": True,
                 "local_path": local_file_path,
@@ -188,11 +195,11 @@ class GCPStorage:
                 "error": str(e),
                 "local_path": local_file_path
             }
-    
+
     def add_filing_metadata(self, filing_metadata, **kwargs):
         """
         Add filing metadata to Firestore
-        
+
         Args:
             filing_metadata: Filing metadata
             **kwargs: Additional metadata fields, which may include:
@@ -200,7 +207,7 @@ class GCPStorage:
                 - llm_path: Path to LLM file in GCS
                 - text_size: Size of text file
                 - llm_size: Size of LLM file
-            
+
         Returns:
             Dict with result
         """
@@ -210,7 +217,7 @@ class GCPStorage:
                 "success": False,
                 "error": "Firestore not enabled"
             }
-        
+
         try:
             # Extract metadata
             ticker = filing_metadata.get("ticker")
@@ -218,14 +225,14 @@ class GCPStorage:
             filing_type = filing_metadata.get("filing_type")
             filing_date = filing_metadata.get("filing_date")
             period_end_date = filing_metadata.get("period_end_date")
-            
+
             # SINGLE SOURCE OF TRUTH:
             # Always use company_fiscal.py for all fiscal period determinations
             try:
                 # Import the fiscal data contracts and registry
                 from src2.sec.fiscal.fiscal_data import FiscalPeriodInfo, FiscalDataError, validate_period_end_date
                 from src2.sec.fiscal.company_fiscal import fiscal_registry
-                
+
                 # Create data integrity metadata section for complete audit trail
                 filing_metadata["data_integrity"] = {
                     "validation_source": "gcp_storage.py:fiscal_determination",
@@ -241,14 +248,14 @@ class GCPStorage:
                     filing_metadata["data_integrity"]["status"] = "failed"
                     filing_metadata["fiscal_error"] = error_msg
                     raise FiscalDataError(error_msg)
-                    
+
                 if not period_end_date:
                     error_msg = "Missing period_end_date - cannot determine fiscal period"
                     logging.error(f"DATA INTEGRITY ERROR: {error_msg}")
                     filing_metadata["data_integrity"]["error"] = error_msg
                     filing_metadata["data_integrity"]["status"] = "failed"
                     filing_metadata["fiscal_error"] = error_msg
-                    
+
                     # INSTEAD OF FAILING, USE FALLBACKS
                     # 1. Check if fiscal_year and fiscal_period are already in filing_metadata
                     if "fiscal_year" in filing_metadata and "fiscal_period" in filing_metadata:
@@ -267,7 +274,7 @@ class GCPStorage:
                                 fiscal_year = filing_metadata["filing_date"].split("-")[0]
                             else:
                                 fiscal_year = str(datetime.datetime.now().year)
-                            
+
                             logging.warning(f"Using fallback fiscal_year={fiscal_year} and fiscal_period={fiscal_period} for 10-K")
                             filing_metadata["data_integrity"]["fallback_used"] = "10K_defaults"
                         # For 10-Q, use Q? placeholder but try to get year
@@ -278,15 +285,15 @@ class GCPStorage:
                                 fiscal_year = filing_metadata["filing_date"].split("-")[0]
                             else:
                                 fiscal_year = str(datetime.datetime.now().year)
-                                
+
                             logging.warning(f"Using fallback fiscal_year={fiscal_year} and fiscal_period={fiscal_period} for 10-Q")
                             filing_metadata["data_integrity"]["fallback_used"] = "10Q_defaults"
-                        
+
                     # Add the fallback values to filing_metadata for use downstream
                     filing_metadata["fiscal_year"] = fiscal_year
                     filing_metadata["fiscal_period"] = fiscal_period
                     filing_metadata["using_fallback_values"] = True
-                
+
                 # Get fiscal information directly from THE SINGLE SOURCE OF TRUTH
                 # But skip this step if we're already using fallback values (no period_end_date)
                 if not period_end_date or getattr(filing_metadata, "using_fallback_values", False):
@@ -305,23 +312,23 @@ class GCPStorage:
                     fiscal_info = fiscal_registry.determine_fiscal_period(
                         ticker, period_end_date, filing_type
                     )
-                
+
                 # Add all fiscal registry result fields to data integrity metadata
                 filing_metadata["data_integrity"].update(fiscal_info)
-                
+
                 # Extract key fiscal information for Firestore document
                 fiscal_year = fiscal_info.get("fiscal_year")
                 fiscal_period = fiscal_info.get("fiscal_period")
-                
+
                 # Check if fiscal period determination was successful
                 if not fiscal_year or not fiscal_period:
                     error_msg = fiscal_info.get("error", "Unknown error in fiscal period determination")
                     logging.error(f"DATA INTEGRITY ERROR: {error_msg}")
-                    
+
                     # Add error to metadata
                     filing_metadata["fiscal_error"] = error_msg
                     filing_metadata["data_integrity"]["status"] = "failed"
-                    
+
                     # STRICT POLICY: Fail rather than use incorrect data that could lead to data integrity issues
                     if filing_type == "10-K":
                         # Only safe fallback: For 10-K we always know it's "annual"
@@ -338,20 +345,20 @@ class GCPStorage:
                     logging.info(f"DATA INTEGRITY SUCCESS: {ticker}, period_end_date={period_end_date} -> " +
                                  f"Year={fiscal_year}, Period={fiscal_period}")
                     filing_metadata["data_integrity"]["status"] = "success"
-                
+
                 # Extract period_end_date that was actually used (normalized)
                 if fiscal_info.get("validated_date"):
                     filing_metadata["period_end_date_normalized"] = fiscal_info.get("validated_date")
-                
+
                 # Add data integrity and source metadata to filing metadata
                 filing_metadata["fiscal_source"] = "company_fiscal_registry"
                 filing_metadata["period_end_date_used"] = period_end_date
-                
+
             except ImportError as e:
                 # Critical error - the registry module is missing
                 error_msg = f"Fiscal registry not available: {str(e)}"
                 logging.error(f"SYSTEM ERROR: {error_msg}")
-                
+
                 # Record error in metadata
                 filing_metadata["fiscal_error"] = error_msg
                 filing_metadata["data_integrity"] = {
@@ -359,24 +366,24 @@ class GCPStorage:
                     "error": error_msg,
                     "timestamp": datetime.datetime.now().isoformat()
                 }
-                
+
                 # Minimal fallbacks for system errors only
                 if filing_type == "10-K":
                     fiscal_period = "annual"
                 else:
                     fiscal_period = "Q?"
-                    
+
                 if period_end_date:
                     import re
                     year_match = re.search(r'(\d{4})', period_end_date)
                     if year_match:
                         fiscal_year = year_match.group(1)
-                
+
             except Exception as e:
                 # Unexpected error
                 error_msg = f"Unexpected error in fiscal period determination: {str(e)}"
                 logging.error(f"SYSTEM ERROR: {error_msg}")
-                
+
                 # Record error in metadata
                 filing_metadata["fiscal_error"] = error_msg
                 filing_metadata["data_integrity"] = {
@@ -384,19 +391,19 @@ class GCPStorage:
                     "error": error_msg,
                     "timestamp": datetime.datetime.now().isoformat()
                 }
-                
+
                 # Minimal fallbacks for system errors only
                 if filing_type == "10-K":
                     fiscal_period = "annual"
                 else:
                     fiscal_period = "Q?"
-                    
+
                 if period_end_date:
                     import re
                     year_match = re.search(r'(\d{4})', period_end_date)
                     if year_match:
                         fiscal_year = year_match.group(1)
-            
+
             # Create document ID using fiscal year and fiscal period for quarterly filings
             # The document ID should match the GCS path format for consistency
             if fiscal_year:
@@ -416,10 +423,10 @@ class GCPStorage:
                     year_match = re.search(r'(\d{4})', period_end_date)
                     if year_match:
                         year = year_match.group(1)
-                
+
                 if not year:
                     year = datetime.datetime.now().strftime("%Y")
-                
+
                 # For 10-Q filings, try to include quarter in document ID even in fallback mode
                 if filing_type == "10-Q" and fiscal_period:
                     document_id = f"{ticker}_{filing_type}_{year}_{fiscal_period}"
@@ -427,11 +434,11 @@ class GCPStorage:
                 else:
                     document_id = f"{ticker}_{filing_type}_{year}"
                     logging.info(f"Using fallback year {year} for document ID: {document_id}")
-            
+
             # Check if document already exists
             filing_ref = self.firestore_client.collection("filings").document(document_id)
             doc = filing_ref.get()
-            
+
             # Create document data
             doc_data = {
                 'company_ticker': ticker,
@@ -454,28 +461,28 @@ class GCPStorage:
                 'fiscal_source': 'company_fiscal_registry',
                 'fiscal_integrity_verified': True
             }
-            
+
             # Add LLM file metadata if provided
             if 'llm_path' in kwargs:
                 llm_path = kwargs.get('llm_path')
                 doc_data['llm_file_path'] = llm_path
                 doc_data['llm_file_size'] = kwargs.get('llm_size', 0)
                 doc_data['has_llm_format'] = True
-                
+
                 # Estimate token count for LLM file - IMPROVED ALGORITHM
                 try:
                     # Define all possible locations where the file might be
                     potential_llm_paths = []
-                    
+
                     # 1. If a local_llm_path is directly provided in kwargs, use it first
                     local_llm_path = kwargs.get('local_llm_path')
                     if local_llm_path:
                         potential_llm_paths.append(local_llm_path)
-                    
+
                     # 2. If we're given a non-GCS path that might be local, check it
                     if llm_path and not llm_path.startswith('gs://'):
                         potential_llm_paths.append(llm_path)
-                    
+
                     # 3. Check common directory structures based on ticker and filing info
                     # Structure: /sec_processed/TICKER/TICKER_FILING-TYPE_YEAR_llm.txt
                     if fiscal_year and fiscal_period and filing_type == "10-Q":
@@ -483,20 +490,20 @@ class GCPStorage:
                         potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"))
                         # Try subdirectory pattern too
                         potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}_{fiscal_period}", f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_llm.txt"))
-                    
+
                     # Annual filing path (no quarter)
                     if fiscal_year:
                         potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"))
                         # Try subdirectory pattern too
                         potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}", f"{ticker}_{filing_type}_{fiscal_year}_llm.txt"))
-                    
+
                     # 4. Try simple structure with no year/quarter (legacy format)
                     potential_llm_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_llm.txt"))
-                    
+
                     # Try all potential paths until we find an existing file
                     llm_content = None
                     found_path = None
-                    
+
                     for path in potential_llm_paths:
                         if os.path.exists(path) and os.path.isfile(path):
                             logging.info(f"Found LLM file for token counting at: {path}")
@@ -507,7 +514,7 @@ class GCPStorage:
                                 break
                             except Exception as inner_e:
                                 logging.warning(f"Failed to read file {path}: {str(inner_e)}")
-                    
+
                     # Process the content if we found it
                     if llm_content:
                         llm_token_count = estimate_tokens(llm_content)
@@ -534,23 +541,23 @@ class GCPStorage:
                         logging.info(f"Using file size to roughly estimate token count (fallback): {estimated_tokens:,}")
             else:
                 doc_data['has_llm_format'] = False
-                
+
             # Estimate token count for text file if available - IMPROVED ALGORITHM
             text_path = kwargs.get('text_path')
             if text_path:
                 try:
                     # Define all possible locations where the file might be
                     potential_text_paths = []
-                    
+
                     # 1. If a local_text_path is directly provided in kwargs, use it first
                     local_text_path = kwargs.get('local_text_path')
                     if local_text_path:
                         potential_text_paths.append(local_text_path)
-                    
+
                     # 2. If we're given a non-GCS path that might be local, check it
                     if text_path and not text_path.startswith('gs://'):
                         potential_text_paths.append(text_path)
-                    
+
                     # 3. Check common directory structures based on ticker and filing info
                     # Structure: /sec_processed/TICKER/TICKER_FILING-TYPE_YEAR_text.txt
                     if fiscal_year and fiscal_period and filing_type == "10-Q":
@@ -558,20 +565,20 @@ class GCPStorage:
                         potential_text_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"))
                         # Try subdirectory pattern too
                         potential_text_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}_{fiscal_period}", f"{ticker}_{filing_type}_{fiscal_year}_{fiscal_period}_text.txt"))
-                    
+
                     # Annual filing path (no quarter)
                     if fiscal_year:
                         potential_text_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_{fiscal_year}_text.txt"))
                         # Try subdirectory pattern too
                         potential_text_paths.append(os.path.join('sec_processed', ticker, f"{filing_type}_{fiscal_year}", f"{ticker}_{filing_type}_{fiscal_year}_text.txt"))
-                    
+
                     # 4. Try simple structure with no year/quarter (legacy format)
                     potential_text_paths.append(os.path.join('sec_processed', ticker, f"{ticker}_{filing_type}_text.txt"))
-                    
+
                     # Try all potential paths until we find an existing file
                     text_content = None
                     found_path = None
-                    
+
                     for path in potential_text_paths:
                         if os.path.exists(path) and os.path.isfile(path):
                             logging.info(f"Found text file for token counting at: {path}")
@@ -582,7 +589,7 @@ class GCPStorage:
                                 break
                             except Exception as inner_e:
                                 logging.warning(f"Failed to read file {path}: {str(inner_e)}")
-                    
+
                     # Process the content if we found it
                     if text_content:
                         text_token_count = estimate_tokens(text_content)
@@ -607,26 +614,26 @@ class GCPStorage:
                         doc_data['text_token_count'] = estimated_tokens
                         doc_data['text_token_count_source'] = 'estimated_from_file_size_fallback'
                         logging.info(f"Using file size to roughly estimate text token count (fallback): {estimated_tokens:,}")
-            
+
             # Track whether we have token counts
             has_token_counts = 'llm_token_count' in doc_data or 'text_token_count' in doc_data
             token_count_source = doc_data.get('llm_token_count_source', 'none')
-            
+
             # Add document to Firestore (overwrite if exists)
             filing_ref.set(doc_data)
-            
+
             # Verify the document was saved correctly
             try:
                 # Read back from Firestore to verify all data was saved
                 saved_doc = filing_ref.get().to_dict()
-                
+
                 # Verify token counts were saved
                 if has_token_counts:
                     if 'llm_token_count' in doc_data and 'llm_token_count' in saved_doc:
                         logging.info(f"✅ Verified llm_token_count in Firestore: {saved_doc.get('llm_token_count'):,} tokens (source: {token_count_source})")
                     elif 'llm_token_count' in doc_data:
                         logging.warning(f"⚠️ llm_token_count was set but not saved to Firestore")
-                    
+
                     if 'text_token_count' in doc_data and 'text_token_count' in saved_doc:
                         logging.info(f"✅ Verified text_token_count in Firestore: {saved_doc.get('text_token_count'):,} tokens")
                     elif 'text_token_count' in doc_data:
@@ -635,9 +642,9 @@ class GCPStorage:
                     logging.warning(f"⚠️ No token counts were set for this document")
             except Exception as verify_error:
                 logging.warning(f"Could not verify Firestore document: {str(verify_error)}")
-            
+
             logging.info(f"Added metadata to Firestore for {document_id}")
-            
+
             return {
                 "success": True,
                 "document_id": document_id,
@@ -649,14 +656,14 @@ class GCPStorage:
                 "success": False,
                 "error": str(e)
             }
-    
+
     def delete_file(self, gcs_path):
         """
         Delete a file from GCS
-        
+
         Args:
             gcs_path: Path in GCS bucket
-            
+
         Returns:
             Dict with deletion result
         """
@@ -667,11 +674,11 @@ class GCPStorage:
                 "error": "GCP storage not enabled",
                 "gcs_path": gcs_path
             }
-        
+
         try:
             # Create blob
             blob = self.bucket.blob(gcs_path)
-            
+
             # Check if it exists
             if not blob.exists():
                 logging.warning(f"File does not exist in GCS: {gcs_path}")
@@ -680,12 +687,12 @@ class GCPStorage:
                     "error": "File does not exist",
                     "gcs_path": gcs_path
                 }
-            
+
             # Delete the blob
             blob.delete()
-            
+
             logging.info(f"Deleted file from GCS: {gcs_path}")
-            
+
             return {
                 "success": True,
                 "gcs_path": gcs_path
@@ -702,11 +709,11 @@ class GCPStorage:
 def create_gcp_storage(bucket_name, project_id=None):
     """
     Create a GCP storage instance
-    
+
     Args:
         bucket_name: GCS bucket name
         project_id: GCP project ID (optional)
-        
+
     Returns:
         GCPStorage instance
     """

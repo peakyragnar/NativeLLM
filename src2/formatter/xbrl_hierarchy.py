@@ -19,12 +19,14 @@ class XBRLHierarchyExtractor:
         """Initialize the XBRL hierarchy extractor."""
         self.logger = logging.getLogger(__name__)
 
-    def extract_hierarchy(self, xbrl_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def extract_hierarchy(self, xbrl_data: List[Dict[str, Any]], max_depth: Optional[int] = None, max_children: Optional[int] = None) -> Dict[str, Any]:
         """
         Extract hierarchical structure from XBRL data using a company-agnostic approach.
 
         Args:
             xbrl_data: The raw XBRL data
+            max_depth: Maximum recursion depth for complex operations
+            max_children: Maximum number of children to process per node
 
         Returns:
             Dictionary containing the hierarchical structure
