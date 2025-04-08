@@ -72,32 +72,24 @@ class GCPStorage:
             self.storage_client = storage.Client(project=project_id)
             self.bucket = self.storage_client.bucket(bucket_name)
 
-            # Initialize Firestore - try multiple configurations
+            # Initialize Firestore with a simpler approach
             try:
-                # First try with project ID and default database
+                # Use the same project ID as the storage client
                 self.firestore_client = firestore.Client(project=project_id)
-                logging.info(f"Firestore client initialized with project ID {project_id} and default database")
-            except Exception as e:
-                logging.warning(f"Firestore initialization with project ID and default database failed: {str(e)}")
+                logging.info(f"Firestore client initialized with project ID {project_id}")
+
+                # Test the connection by listing collections
                 try:
-                    # Then try with just default database (no project ID)
-                    self.firestore_client = firestore.Client()
-                    logging.info("Firestore client initialized with default database")
-                except Exception as e2:
-                    logging.warning(f"Firestore initialization with default database failed: {str(e2)}")
-                    try:
-                        # Then try with 'nativellm' database
-                        self.firestore_client = firestore.Client(project=project_id, database='nativellm')
-                        logging.info(f"Firestore client initialized with project ID {project_id} and database 'nativellm'")
-                    except Exception as e3:
-                        logging.warning(f"Firestore initialization with project ID and 'nativellm' database failed: {str(e3)}")
-                        try:
-                            # Last attempt with just 'nativellm' database (no project ID)
-                            self.firestore_client = firestore.Client(database='nativellm')
-                            logging.info("Firestore client initialized with database 'nativellm'")
-                        except Exception as e4:
-                            logging.warning(f"All Firestore initialization attempts failed: {str(e4)}")
-                            self.firestore_client = None
+                    collections = list(self.firestore_client.collections())
+                    logging.info(f"Successfully connected to Firestore. Found {len(collections)} collections.")
+                except Exception as test_error:
+                    logging.warning(f"Firestore connection test failed: {str(test_error)}")
+                    logging.warning("You may need to create the Firestore database using create_firestore_db.py")
+                    # Don't set client to None - it might still work for writes
+            except Exception as e:
+                logging.warning(f"Firestore initialization failed: {str(e)}")
+                logging.warning("You may need to create the Firestore database using create_firestore_db.py")
+                self.firestore_client = None
 
             logging.info(f"Initialized GCP storage with bucket: {bucket_name}")
         except ImportError:
@@ -643,9 +635,43 @@ class GCPStorage:
                 logging.info(f"Attempting to save document to Firestore with ID: {document_id}")
                 logging.info(f"Document data keys: {list(doc_data.keys())}")
 
+                # Check if Firestore client is initialized
+                if not self.firestore_client:
+                    logging.error(f"❌ Cannot save to Firestore: client not initialized")
+                    logging.error("Run create_firestore_db.py to create the Firestore database")
+                    return {
+                        "success": False,
+                        "error": "Firestore client not initialized",
+                        "document_id": document_id
+                    }
+
                 # Set the document with explicit error handling
-                filing_ref.set(doc_data)
-                logging.info(f"✅ Successfully saved document to Firestore with ID: {document_id}")
+                try:
+                    # Convert datetime objects to Firestore timestamps
+                    from google.cloud.firestore import SERVER_TIMESTAMP
+                    import datetime
+
+                    # Process document data to handle datetime objects
+                    processed_data = {}
+                    for key, value in doc_data.items():
+                        if isinstance(value, datetime.datetime):
+                            processed_data[key] = SERVER_TIMESTAMP
+                        else:
+                            processed_data[key] = value
+
+                    # Set the document
+                    filing_ref.set(processed_data)
+                    logging.info(f"✅ Successfully saved document to Firestore with ID: {document_id}")
+                except Exception as set_error:
+                    logging.error(f"❌ Failed to set document in Firestore: {str(set_error)}")
+                    if "FAILED_PRECONDITION" in str(set_error):
+                        logging.error("This error often means the Firestore database doesn't exist")
+                        logging.error("Run create_firestore_db.py to create the Firestore database")
+                    return {
+                        "success": False,
+                        "error": str(set_error),
+                        "document_id": document_id
+                    }
 
                 # Verify the document was saved correctly
                 try:
@@ -669,18 +695,40 @@ class GCPStorage:
                                 logging.warning(f"⚠️ text_token_count was set but not saved to Firestore")
                         else:
                             logging.warning(f"⚠️ No token counts were set for this document")
+
+                        return {
+                            "success": True,
+                            "document_id": document_id,
+                            "has_token_counts": has_token_counts
+                        }
                     else:
                         logging.error(f"❌ Document was saved but retrieval returned None or empty document")
+                        return {
+                            "success": False,
+                            "error": "Document saved but retrieval failed",
+                            "document_id": document_id
+                        }
                 except Exception as verify_error:
                     logging.error(f"❌ Could not verify Firestore document: {str(verify_error)}")
+                    return {
+                        "success": False,
+                        "error": str(verify_error),
+                        "document_id": document_id
+                    }
             except Exception as save_error:
                 logging.error(f"❌ Failed to save document to Firestore: {str(save_error)}")
                 # Try to get more detailed error information
                 if hasattr(save_error, '__dict__'):
                     logging.error(f"Error details: {save_error.__dict__}")
+                return {
+                    "success": False,
+                    "error": str(save_error),
+                    "document_id": document_id
+                }
 
-            logging.info(f"Added metadata to Firestore for {document_id}")
-
+            # This code is unreachable due to the return statements in the try blocks above
+            # It's kept as a fallback in case the code structure changes in the future
+            logging.info(f"Added metadata to Firestore for {document_id} (fallback return path)")
             return {
                 "success": True,
                 "document_id": document_id,
