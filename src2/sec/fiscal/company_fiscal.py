@@ -184,8 +184,10 @@ class FiscalCalendarRegistry:
 
                 # Fiscal Year 2023 (Oct 2022 - Sep 2023)
                 "2022-12-31": {"fiscal_year": "2023", "fiscal_period": "Q1"},
-                "2023-04-01": {"fiscal_year": "2023", "fiscal_period": "Q2"},
-                "2023-07-01": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-03-25": {"fiscal_year": "2023", "fiscal_period": "Q2"},
+                "2023-04-01": {"fiscal_year": "2023", "fiscal_period": "Q2"},  # Alternative date format
+                "2023-06-24": {"fiscal_year": "2023", "fiscal_period": "Q3"},
+                "2023-07-01": {"fiscal_year": "2023", "fiscal_period": "Q3"},  # Alternative date format
                 "2023-09-30": {"fiscal_year": "2023", "fiscal_period": "annual"},
 
                 # Fiscal Year 2024 (Oct 2023 - Sep 2024)

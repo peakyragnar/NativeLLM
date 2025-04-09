@@ -2010,14 +2010,40 @@ class BatchSECPipeline:
                                     nvidia_match = True
                                     logging.info(f"SPECIAL HANDLING: Found NVIDIA FY2022 Q2 with August date: {period_end}")
 
-                            if end_date.year == calendar_year and end_date.month in calendar_months or nvidia_match:
-                                target_filing = filing
-                                logging.info(f"Found target filing for {ticker} FY{year} Q{quarter}: {period_end}")
-                                break
+                            # Exact match: year and month match exactly
+                            exact_match = end_date.year == calendar_year and end_date.month in calendar_months
+
+                            # Flexible match: year matches and month is within ±1 month of expected
+                            flexible_match = False
+                            if end_date.year == calendar_year:
+                                for expected_month in calendar_months:
+                                    if abs(end_date.month - expected_month) <= 1 or (end_date.month == 1 and expected_month == 12) or (end_date.month == 12 and expected_month == 1):
+                                        flexible_match = True
+                                        break
+
+                            # Special case for fiscal year boundaries
+                            boundary_match = False
+                            if (end_date.year == calendar_year + 1 and end_date.month == 1 and 12 in calendar_months) or \
+                               (end_date.year == calendar_year - 1 and end_date.month == 12 and 1 in calendar_months):
+                                boundary_match = True
+
+                            if exact_match or flexible_match or boundary_match or nvidia_match:
+                                # If we already have a target filing, prefer the exact match
+                                if not target_filing or exact_match:
+                                    target_filing = filing
+                                    match_type = "exact" if exact_match else "flexible" if flexible_match else "boundary" if boundary_match else "nvidia_special"
+                                    logging.info(f"Found target filing ({match_type} match) for {ticker} FY{year} Q{quarter}: {period_end}")
+                                    if exact_match:  # If it's an exact match, we can break
+                                        break
                             else:
                                 # Additional detailed logging to understand what we found vs. what we expected
                                 logging.info(f"Filing with date {period_end} (year={end_date.year}, month={end_date.month}) " +
                                            f"doesn't match expected year {calendar_year}, month {expected_period_month}")
+
+                                # Store as a fallback if we don't find a better match
+                                if not target_filing and end_date.year == calendar_year:
+                                    logging.info(f"Storing as potential fallback (same year): {period_end}")
+                                    target_filing = filing
                         except (ValueError, TypeError) as e:
                             logging.warning(f"Error parsing period end date '{period_end}': {e}")
                             continue
