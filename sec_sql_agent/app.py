@@ -17,6 +17,10 @@ import psycopg2
 import plotly.express as px
 from openai import OpenAI
 from anthropic import Anthropic
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(

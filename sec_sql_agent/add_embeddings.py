@@ -14,6 +14,10 @@ import pandas as pd
 import psycopg2
 from psycopg2.extras import execute_values
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -58,14 +62,14 @@ def add_vector_column():
     conn = get_connection()
     try:
         cursor = conn.cursor()
-        
+
         # Check if the column exists
         cursor.execute("""
-        SELECT column_name 
-        FROM information_schema.columns 
+        SELECT column_name
+        FROM information_schema.columns
         WHERE table_name = 'text_blocks' AND column_name = 'content_embedding'
         """)
-        
+
         if cursor.fetchone() is None:
             # Column doesn't exist, so add it
             cursor.execute("ALTER TABLE text_blocks ADD COLUMN content_embedding vector(1536)")
@@ -83,18 +87,18 @@ def create_vector_index():
     conn = get_connection()
     try:
         cursor = conn.cursor()
-        
+
         # Check if the index exists
         cursor.execute("""
-        SELECT indexname 
-        FROM pg_indexes 
+        SELECT indexname
+        FROM pg_indexes
         WHERE tablename = 'text_blocks' AND indexname = 'text_blocks_embedding_idx'
         """)
-        
+
         if cursor.fetchone() is None:
             # Index doesn't exist, so create it
             cursor.execute("""
-            CREATE INDEX text_blocks_embedding_idx ON text_blocks 
+            CREATE INDEX text_blocks_embedding_idx ON text_blocks
             USING ivfflat (content_embedding vector_cosine_ops)
             """)
             conn.commit()
@@ -109,16 +113,16 @@ def create_vector_index():
 def get_openai_embeddings(texts: List[str], model="text-embedding-3-small") -> List[List[float]]:
     """Get embeddings from OpenAI."""
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-    
+
     # Process in batches if needed
     if isinstance(texts, str):
         texts = [texts]
-    
+
     response = client.embeddings.create(
         model=model,
         input=texts
     )
-    
+
     return [item.embedding for item in response.data]
 
 def get_text_blocks_without_embeddings(limit=100):
@@ -126,13 +130,13 @@ def get_text_blocks_without_embeddings(limit=100):
     conn = get_connection()
     try:
         query = """
-        SELECT id, content 
-        FROM text_blocks 
-        WHERE content IS NOT NULL 
-        AND (content_embedding IS NULL OR content_embedding = '{}')
+        SELECT id, content
+        FROM text_blocks
+        WHERE content IS NOT NULL
+        AND content_embedding IS NULL
         LIMIT %s
         """
-        
+
         df = pd.read_sql_query(query, conn, params=(limit,))
         return df
     finally:
@@ -142,17 +146,17 @@ def update_embeddings(batch_size=10):
     """Update embeddings for text blocks in batches."""
     # Get text blocks without embeddings
     df = get_text_blocks_without_embeddings(batch_size)
-    
+
     if len(df) == 0:
         logger.info("No text blocks to update")
         return 0
-    
+
     logger.info(f"Updating embeddings for {len(df)} text blocks")
-    
+
     # Generate embeddings
     texts = df['content'].tolist()
     embeddings = get_openai_embeddings(texts)
-    
+
     # Update the database
     conn = get_connection()
     try:
@@ -163,11 +167,11 @@ def update_embeddings(batch_size=10):
                 "UPDATE text_blocks SET content_embedding = %s WHERE id = %s",
                 (embedding_array, row_id)
             )
-        
+
         conn.commit()
         logger.info(f"Updated embeddings for {len(df)} text blocks")
         return len(df)
-    
+
     except Exception as e:
         logger.error(f"Error updating embeddings: {e}")
         return 0
@@ -180,29 +184,30 @@ def main():
     parser.add_argument('--setup', action='store_true', help='Set up the vector extension and column')
     parser.add_argument('--batch-size', type=int, default=10, help='Batch size for updating embeddings')
     parser.add_argument('--max-batches', type=int, default=10, help='Maximum number of batches to process')
-    
+
     args = parser.parse_args()
-    
+
     # Check if OpenAI API key is set
     if not os.environ.get("OPENAI_API_KEY"):
         logger.error("OPENAI_API_KEY environment variable not set")
         return 1
-    
+
     # Set up the vector extension and column if requested
     if args.setup:
         setup_vector_extension()
         add_vector_column()
         create_vector_index()
-    
+        return 0
+
     # Update embeddings in batches
     total_updated = 0
     for i in range(args.max_batches):
         updated = update_embeddings(args.batch_size)
         total_updated += updated
-        
+
         if updated == 0:
             break
-    
+
     logger.info(f"Total text blocks updated: {total_updated}")
     return 0
 

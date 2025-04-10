@@ -27,6 +27,10 @@ nativellmfilings-*.json
 *credentials*.json
 *service-account*.json
 
+# Environment variables and API keys
+.env
+.env.*
+
 # Backup files
 *.bak
 

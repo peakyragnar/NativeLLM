@@ -16,6 +16,10 @@ from pathlib import Path
 import psycopg2
 import pandas as pd
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
