@@ -125,27 +125,37 @@ def get_openai_embeddings(texts: List[str], model="text-embedding-3-small") -> L
 
     return [item.embedding for item in response.data]
 
-def get_text_blocks_without_embeddings(limit=100):
+def get_text_blocks_without_embeddings(limit=100, ticker=None):
     """Get text blocks that don't have embeddings."""
     conn = get_connection()
     try:
-        query = """
-        SELECT id, content
-        FROM text_blocks
-        WHERE content IS NOT NULL
-        AND content_embedding IS NULL
-        LIMIT %s
-        """
-
-        df = pd.read_sql_query(query, conn, params=(limit,))
+        if ticker:
+            query = """
+            SELECT id, content
+            FROM text_blocks
+            WHERE content IS NOT NULL
+            AND content_embedding IS NULL
+            AND ticker = %s
+            LIMIT %s
+            """
+            df = pd.read_sql_query(query, conn, params=(ticker, limit))
+        else:
+            query = """
+            SELECT id, content
+            FROM text_blocks
+            WHERE content IS NOT NULL
+            AND content_embedding IS NULL
+            LIMIT %s
+            """
+            df = pd.read_sql_query(query, conn, params=(limit,))
         return df
     finally:
         conn.close()
 
-def update_embeddings(batch_size=10):
+def update_embeddings(batch_size=10, ticker=None):
     """Update embeddings for text blocks in batches."""
     # Get text blocks without embeddings
-    df = get_text_blocks_without_embeddings(batch_size)
+    df = get_text_blocks_without_embeddings(batch_size, ticker)
 
     if len(df) == 0:
         logger.info("No text blocks to update")
@@ -184,6 +194,7 @@ def main():
     parser.add_argument('--setup', action='store_true', help='Set up the vector extension and column')
     parser.add_argument('--batch-size', type=int, default=10, help='Batch size for updating embeddings')
     parser.add_argument('--max-batches', type=int, default=10, help='Maximum number of batches to process')
+    parser.add_argument('--ticker', type=str, help='Process only text blocks for a specific ticker (e.g., NVDA)')
 
     args = parser.parse_args()
 
@@ -201,14 +212,17 @@ def main():
 
     # Update embeddings in batches
     total_updated = 0
-    for i in range(args.max_batches):
-        updated = update_embeddings(args.batch_size)
+    for _ in range(args.max_batches):
+        updated = update_embeddings(args.batch_size, args.ticker)
         total_updated += updated
 
         if updated == 0:
             break
 
-    logger.info(f"Total text blocks updated: {total_updated}")
+    if args.ticker:
+        logger.info(f"Total text blocks updated for {args.ticker}: {total_updated}")
+    else:
+        logger.info(f"Total text blocks updated: {total_updated}")
     return 0
 
 if __name__ == '__main__':
