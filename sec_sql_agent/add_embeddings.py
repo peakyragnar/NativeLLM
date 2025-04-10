@@ -110,20 +110,32 @@ def create_vector_index():
     finally:
         conn.close()
 
-def get_openai_embeddings(texts: List[str], model="text-embedding-ada-002") -> List[List[float]]:
+def get_openai_embeddings(texts: List[str], model="text-embedding-3-small") -> List[List[float]]:
     """Get embeddings from OpenAI."""
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    api_key = os.environ.get("OPENAI_API_KEY")
+    logger.info(f"Using model: {model}")
+    logger.info(f"API key starts with: {api_key[:10]}...")
+
+    client = OpenAI(api_key=api_key)
 
     # Process in batches if needed
     if isinstance(texts, str):
         texts = [texts]
 
-    response = client.embeddings.create(
-        model=model,
-        input=texts
-    )
-
-    return [item.embedding for item in response.data]
+    try:
+        response = client.embeddings.create(
+            model=model,
+            input=texts
+        )
+        return [item.embedding for item in response.data]
+    except Exception as e:
+        logger.error(f"Error getting embeddings: {e}")
+        # Fall back to ada-002 if 3-small fails
+        if model == "text-embedding-3-small":
+            logger.info("Falling back to text-embedding-ada-002")
+            return get_openai_embeddings(texts, model="text-embedding-ada-002")
+        else:
+            raise
 
 def get_text_blocks_without_embeddings(limit=100, ticker=None):
     """Get text blocks that don't have embeddings."""
