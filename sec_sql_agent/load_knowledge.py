@@ -79,7 +79,7 @@ def setup_knowledge_table():
     finally:
         conn.close()
 
-def get_openai_embeddings(texts, model="text-embedding-3-small"):
+def get_openai_embeddings(texts, model="text-embedding-ada-002"):
     """Get embeddings from OpenAI."""
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 

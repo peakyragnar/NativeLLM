@@ -110,7 +110,7 @@ def create_vector_index():
     finally:
         conn.close()
 
-def get_openai_embeddings(texts: List[str], model="text-embedding-3-small") -> List[List[float]]:
+def get_openai_embeddings(texts: List[str], model="text-embedding-ada-002") -> List[List[float]]:
     """Get embeddings from OpenAI."""
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
