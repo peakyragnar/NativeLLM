@@ -173,6 +173,13 @@ def update_embeddings(batch_size=10, ticker=None):
         logger.info("No text blocks to update")
         return 0
 
+    # Filter out rows with empty content
+    df = df[df['content'].notna() & (df['content'].str.len() > 0)]
+
+    if len(df) == 0:
+        logger.info("No text blocks with content to update")
+        return 0
+
     logger.info(f"Updating embeddings for {len(df)} text blocks")
 
     # Generate embeddings
