@@ -1,0 +1,67 @@
+{
+  "table_name": "text_blocks",
+  "description": "Contains textual content from SEC filings, including management discussions, risk factors, and other narrative sections.",
+  "columns": [
+    {
+      "name": "id",
+      "type": "SERIAL",
+      "description": "Unique identifier for each text block"
+    },
+    {
+      "name": "ticker",
+      "type": "VARCHAR(10)",
+      "description": "Company stock ticker symbol (e.g., NVDA, AAPL, TSLA)"
+    },
+    {
+      "name": "filing_type",
+      "type": "VARCHAR(10)",
+      "description": "Type of SEC filing (e.g., 10-K, 10-Q)"
+    },
+    {
+      "name": "fiscal_year",
+      "type": "INTEGER",
+      "description": "Fiscal year of the filing"
+    },
+    {
+      "name": "fiscal_period",
+      "type": "VARCHAR(10)",
+      "description": "Fiscal period (e.g., annual, Q1, Q2, Q3)"
+    },
+    {
+      "name": "filing_date",
+      "type": "DATE",
+      "description": "Date when the filing was submitted to the SEC"
+    },
+    {
+      "name": "block_id",
+      "type": "VARCHAR(50)",
+      "description": "Identifier for the text block (e.g., tb-1)"
+    },
+    {
+      "name": "title",
+      "type": "TEXT",
+      "description": "Title or heading of the text block"
+    },
+    {
+      "name": "content",
+      "type": "TEXT",
+      "description": "Full text content of the block"
+    },
+    {
+      "name": "content_embedding",
+      "type": "vector(1536)",
+      "description": "Vector embedding of the content for semantic search"
+    }
+  ],
+  "table_rules": [
+    "Use LIKE or ILIKE for simple text pattern matching",
+    "For semantic search, use vector similarity with the content_embedding column",
+    "When joining with financial_data, join on ticker, filing_type, fiscal_year, and fiscal_period",
+    "For full-text search, use to_tsvector and to_tsquery with the content column"
+  ],
+  "column_rules": {
+    "content": "Contains the full text, which can be very long",
+    "title": "Often contains a summary or heading that describes the content",
+    "content_embedding": "Use for semantic similarity search with vector operations"
+  }
+}

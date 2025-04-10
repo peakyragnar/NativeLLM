@@ -1,0 +1,12 @@
+# Requirements for SEC Filings SQL Agent
+anthropic>=0.8.1
+streamlit>=1.31.0
+psycopg2-binary>=2.9.9
+pandas>=2.1.0
+pgvector>=0.2.4
+sqlalchemy>=2.0.25
+python-dotenv>=1.0.0
+openai>=1.12.0
+matplotlib>=3.8.2
+plotly>=5.18.0
+numpy>=1.26.0

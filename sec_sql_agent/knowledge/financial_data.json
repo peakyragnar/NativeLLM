@@ -1,0 +1,129 @@
+{
+  "table_name": "financial_data",
+  "description": "Contains financial metrics from SEC filings, including balance sheet, income statement, and cash flow data.",
+  "columns": [
+    {
+      "name": "id",
+      "type": "SERIAL",
+      "description": "Unique identifier for each financial data point"
+    },
+    {
+      "name": "ticker",
+      "type": "VARCHAR(10)",
+      "description": "Company stock ticker symbol (e.g., NVDA, AAPL, TSLA)"
+    },
+    {
+      "name": "company_name",
+      "type": "TEXT",
+      "description": "Full name of the company"
+    },
+    {
+      "name": "filing_type",
+      "type": "VARCHAR(10)",
+      "description": "Type of SEC filing (e.g., 10-K, 10-Q)"
+    },
+    {
+      "name": "fiscal_year",
+      "type": "INTEGER",
+      "description": "Fiscal year of the filing"
+    },
+    {
+      "name": "fiscal_period",
+      "type": "VARCHAR(10)",
+      "description": "Fiscal period (e.g., annual, Q1, Q2, Q3)"
+    },
+    {
+      "name": "filing_date",
+      "type": "DATE",
+      "description": "Date when the filing was submitted to the SEC"
+    },
+    {
+      "name": "accession_number",
+      "type": "VARCHAR(50)",
+      "description": "SEC accession number for the filing"
+    },
+    {
+      "name": "statement_type",
+      "type": "VARCHAR(50)",
+      "description": "Type of financial statement (e.g., Balance Sheet, Income Statement, Cash Flow Statement)"
+    },
+    {
+      "name": "concept",
+      "type": "TEXT",
+      "description": "Financial concept or line item (e.g., Revenue, Assets, Net Income)"
+    },
+    {
+      "name": "value_text",
+      "type": "TEXT",
+      "description": "Text representation of the value, preserving original formatting (e.g., '$1,234')"
+    },
+    {
+      "name": "value_numeric",
+      "type": "DECIMAL(30,2)",
+      "description": "Numeric representation of the value for calculations"
+    },
+    {
+      "name": "unit",
+      "type": "VARCHAR(20)",
+      "description": "Unit of measurement (e.g., usd, shares)"
+    },
+    {
+      "name": "context_id",
+      "type": "VARCHAR(100)",
+      "description": "XBRL context identifier (e.g., c-21, c-22)"
+    },
+    {
+      "name": "context_label",
+      "type": "TEXT",
+      "description": "Human-readable context label (e.g., 'As of 2023-09-30', 'Period from 2023-01-01 to 2023-09-30')"
+    },
+    {
+      "name": "date_type",
+      "type": "VARCHAR(20)",
+      "description": "Type of date context (INSTANT or DURATION)"
+    },
+    {
+      "name": "as_of_date",
+      "type": "DATE",
+      "description": "Point-in-time date for INSTANT contexts"
+    },
+    {
+      "name": "period_start_date",
+      "type": "DATE",
+      "description": "Start date for DURATION contexts"
+    },
+    {
+      "name": "period_end_date",
+      "type": "DATE",
+      "description": "End date for all contexts (either the INSTANT date or the end of DURATION)"
+    },
+    {
+      "name": "taxonomy_prefix",
+      "type": "VARCHAR(50)",
+      "description": "XBRL taxonomy prefix (e.g., us-gaap, dei)"
+    },
+    {
+      "name": "is_normalized",
+      "type": "BOOLEAN",
+      "description": "Whether this data point is from the normalized financial data section"
+    }
+  ],
+  "table_rules": [
+    "Always use period_end_date for time-based analysis rather than fiscal_year/fiscal_period",
+    "For financial metrics, use SUM() or AVG() as appropriate",
+    "When comparing companies, join on ticker",
+    "Handle NULL values appropriately in financial data",
+    "For revenue analysis, use concept = 'Revenues' or concept = 'Revenue' depending on the company",
+    "For NVIDIA, use concept = 'Revenues' (with an 's')",
+    "For quarterly analysis, filter by fiscal_period = 'Q1', 'Q2', or 'Q3'",
+    "For annual analysis, filter by fiscal_period = 'annual'",
+    "For time series analysis, ORDER BY period_end_date"
+  ],
+  "column_rules": {
+    "value_numeric": "Use for calculations, aggregations, and comparisons",
+    "value_text": "Use for display purposes only, not for calculations",
+    "concept": "Different companies may use slightly different concept names for the same financial metric",
+    "period_end_date": "Preferred column for date filtering and ordering",
+    "statement_type": "Filter by 'Balance Sheet', 'Income Statement', or 'Cash Flow Statement' to get specific financial statements"
+  }
+}

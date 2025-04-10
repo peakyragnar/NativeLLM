@@ -1,0 +1,54 @@
+{
+  "table_name": "companies",
+  "description": "Contains basic information about companies with SEC filings in the database.",
+  "columns": [
+    {
+      "name": "ticker",
+      "type": "VARCHAR(10)",
+      "description": "Company stock ticker symbol (e.g., NVDA, AAPL, TSLA)"
+    },
+    {
+      "name": "name",
+      "type": "VARCHAR(255)",
+      "description": "Full name of the company"
+    },
+    {
+      "name": "cik",
+      "type": "VARCHAR(20)",
+      "description": "SEC Central Index Key (CIK) identifier"
+    },
+    {
+      "name": "sic_code",
+      "type": "VARCHAR(10)",
+      "description": "Standard Industrial Classification (SIC) code"
+    },
+    {
+      "name": "sic_description",
+      "type": "TEXT",
+      "description": "Description of the SIC code"
+    },
+    {
+      "name": "fiscal_year_end",
+      "type": "DATE",
+      "description": "Date of the company's fiscal year end"
+    },
+    {
+      "name": "created_at",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "description": "Timestamp when the company record was created"
+    },
+    {
+      "name": "updated_at",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "description": "Timestamp when the company record was last updated"
+    }
+  ],
+  "table_rules": [
+    "Use ticker as the primary key for joining with other tables",
+    "When displaying company information, join with this table to get the full company name"
+  ],
+  "column_rules": {
+    "ticker": "Primary key for the table, used for joining with other tables",
+    "name": "Use for display purposes to show the full company name"
+  }
+}
