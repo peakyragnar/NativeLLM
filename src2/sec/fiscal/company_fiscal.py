@@ -94,9 +94,14 @@ class FiscalCalendarRegistry:
 
     # Pre-defined company fiscal calendars with explicit mappings
     COMPANY_CALENDARS = {
-        # NVIDIA (NVDA) - Full fiscal years 2021-2025
+        # NVIDIA (NVDA) - Full fiscal years 2020-2025
         "NVDA": {
             "period_end_dates": {
+                # Fiscal Year 2020 (Feb 2019 - Jan 2020)
+                "2019-04-28": {"fiscal_year": "2020", "fiscal_period": "Q1"},
+                "2019-07-28": {"fiscal_year": "2020", "fiscal_period": "Q2"},
+                "2019-10-27": {"fiscal_year": "2020", "fiscal_period": "Q3"},
+                "2020-01-26": {"fiscal_year": "2020", "fiscal_period": "annual"},
                 # Fiscal Year 2021 (Feb 2020 - Jan 2021)
                 "2020-04-26": {"fiscal_year": "2021", "fiscal_period": "Q1"},
                 "2020-07-26": {"fiscal_year": "2021", "fiscal_period": "Q2"},
